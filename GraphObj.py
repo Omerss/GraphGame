@@ -1,8 +1,9 @@
 
 
-class GraphObject():
+class GraphObject:
 
     nodeList = []
 
-    def __init__(self):
+    def __init__(self,configFile):
         pass
+
