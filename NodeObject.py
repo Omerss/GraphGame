@@ -13,10 +13,12 @@ class NodeObject():
 
 
 
-class neighbor():
+class Neighbor():
     nodeid = -1
     angle = -1
     dist = -1
+
+
     def __init__(self,newID,newAngle,newDist):
         nodeid = newID
         angle = newAngle
