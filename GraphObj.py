@@ -15,7 +15,7 @@ class GraphObject:
         size = size
 
     def create_graph(self):
-        
+
         random.seed()
         location = (random.randint(0,self.size["x"]),random.randint(0,self.size["y"]))
         location2 = (random.randint(0, self.size["x"]), random.randint(0, self.size["y"]))
