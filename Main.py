@@ -11,9 +11,6 @@ def main():
     starting_graph = GraphObject()
 
 
-
-
-
 if __name__ == "__main__":
     main()
 
