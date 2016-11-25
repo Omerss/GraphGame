@@ -26,7 +26,7 @@ def creatRandGraph (numberOfNodes,lineColor, circlesSize, lowLimitOfGraph, highL
 
         color = getColor()
 
-        newGraph.addNode (i, xRandom,yRandom, circlesSize, color, "circle",circlesSize)
+        newGraph.addNode (xRandom,yRandom, color, NodeObject.Shape.Circle,circlesSize)
 
     connectGraph(newGraph)
     return newGraph, lineColor, lineWidth
