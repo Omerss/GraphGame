@@ -7,7 +7,8 @@ class NodeObject:
     shape = ""
     location = {'x': 0, 'y': 0}
     size = 0
-    neighbors = []
+    neighbors = ()
+    possible_connections = ()
 
     def __init__(self, serial, location, size, colour=Colours.Black, shape=Shape.Circle):
         self.serial_num = serial
@@ -28,7 +29,15 @@ class NodeObject:
         return dist
 
     def connect_to_node(self, other_node):
-        self.neighbors.append(other_node.serial)
+        if other_node.serial in self.possible_connections and self.serial in other_node.possible_connections:
+            # Connect nodes
+            self.neighbors.__add__(other_node.serial)
+            other_node.neighbors.__add__(self.serial)
+
+            # Removes from future possible connections
+            self.possible_connections.remove(other_node.serial)
+            other_node.possible_connections.remove(self.serial)
+
 
     def distance_from_line(self, node_1, node_2):
         """
@@ -52,8 +61,6 @@ class NodeObject:
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
-    def __init__(self):
-        pass
 
 class Colours:
     Black, Red, Green, Blue = range(4)
