@@ -1,7 +1,7 @@
 import math
 
 
-class NodeObject():
+class NodeObject:
     serial_num = -1
     colour = ""
     shape = ""
@@ -52,6 +52,8 @@ class NodeObject():
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
+    def __init__(self):
+        pass
 
 class Colours:
     Black, Red, Green, Blue = range(4)
