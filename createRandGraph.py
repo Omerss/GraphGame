@@ -79,7 +79,7 @@ def drawLine (xNode0,yNode0,xNode,yNode):
     Line(points=[xNode0, yNode0 ,xNode, yNode])
 
 def getColor ():
-    return "black"
+    return "green"
 
 
 def doTheRightColor (color):
@@ -103,7 +103,8 @@ def connectGraph (graph,maxConnections,minNodeConnections):
                     print "error"
                     break
                 nodeIndex = graph.get_best_connection(graph.node_list[i])
-                connect_to_node (graph.#find by index)
+                graph.connect_nodes (graph.node_list[i],graph.get_node_by_serial(nodeIndex))#find by index)
+
 
     return graph
 
