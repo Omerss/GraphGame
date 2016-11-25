@@ -103,8 +103,11 @@ def connectGraph (graph,maxConnections,minNodeConnections):
                     print "error"
                     break
                 nodeIndex = graph.get_best_connection(graph.node_list[i])
-                graph.connect_nodes (graph.node_list[i],graph.get_node_by_serial(nodeIndex))#find by index)
-
+                try:
+                    graph.connect_nodes (graph.node_list[i],graph.get_node_by_serial(nodeIndex))#find by index)
+                except Exception as err:
+                    print err
+                    pass
 
     return graph
 
@@ -117,6 +120,6 @@ def checkCollisions(xRandom,yRandom,graph,circlesSize,lineWidth,extraSpace):
 
 def checkCollision (xRandom,yRandom,xNode,yNode,circlesSize,lineWidth,extraSpace):
     dis = math.sqrt(math.pow((xRandom - xNode, 2) + math.pow((yRandom - yNode, 2))))
-    if (dis < (lineWidth + circlesSize) * 2):
+    if (dis < (lineWidth + circlesSize+ extraSpace) * 2):
         return 1
     return 0
