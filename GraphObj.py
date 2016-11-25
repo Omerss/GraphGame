@@ -18,19 +18,12 @@ class GraphObject():
 
     def create_graph(self):
 
-        random.seed()
-        location = (random.randint(0,self.size["x"]),random.randint(0,self.size["y"]))
-        location2 = (random.randint(0, self.size["x"]), random.randint(0, self.size["y"]))
-        node = NodeObject(location,1)
-        node2 = NodeObject(location2, 1)
-
         for i in range(self.config["GeneralParams"]["NodeCount"]):
             self.nodeList.append(NodeObject())
 
     def add_node(self, x_loc, y_loc, node_colour=NodeObject.Colours.Black, node_shape=NodeObject.Shape.Circle,
                  node_size=1):
         """
-
         :param x_loc: The x location of the node
         :param y_loc: The y location of the node
         :param node_colour: Colour of the node
@@ -90,16 +83,43 @@ class GraphObject():
 
     def is_node_far_enough(self, main_node, node_1, node_2):
         """
-        :param main_node:
-        :param p1:
-        :param p2:
-        :return:
+        Checks is the distance between main node and the line between node_1 and node_2
+        :param main_node: The node not connected to other nodes
+        :param node_1:
+        :param node_2:
+        :return: True if the distance between main_node and the possible line between node_1 and node_2 is large enough
         """
         distance = main_node.distance_from_line(node_1, node_2)
         if distance >= main_node.size + self.extra_distance:
             return True
         else:
             return False
+
+    def connect_nodes(self, node1_serial, node2_serial, allow_overflow=False):
+        """
+        Connects both nodes, remove each from the list of  possible neighbors of the other and adds to the list of
+        neighbors.
+        :param allow_overflow: If node can have more than max connections
+        :return: True if nodes were connected,
+        Raise exception if problem accrued
+        """
+        node1 = self.get_node_by_serial(node1_serial)
+        node2 = self.get_node_by_serial(node2_serial)
+        if (len(node1.neighbors) >= self.max_neighbors or len(node2.neighbors) >= self.max_neighbors)\
+                and not allow_overflow:
+            raise Exception("One of the nodes has too many neighbors")
+        if node1_serial in node2.possible_neighbors and node2_serial in node1.possible_connections:
+            # Connect nodes
+            node1.neighbors.__add__(node2_serial)
+            node2.neighbors.__add__(node1.serial)
+
+            # Removes from future possible connections
+            node1.possible_neighbors.remove(node2.serial)
+            node2.possible_neighbors.remove(node1.serial)
+            return True
+        else:
+            raise Exception("Connection between the two nodes is not possible")
+
 
     def get_serial(self, location):
         return hash(location)

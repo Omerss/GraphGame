@@ -8,7 +8,7 @@ class NodeObject:
     location = {'x': 0, 'y': 0}
     size = 0
     neighbors = ()
-    possible_connections = ()
+    possible_neighbors = ()
 
     def __init__(self, serial, location, size, colour=Colours.Black, shape=Shape.Circle):
         self.serial_num = serial
@@ -25,19 +25,8 @@ class NodeObject:
             return -1
         x = math.fabs(other_node.location['x'] - self.location['x'])
         y = math.fabs(other_node.location['y'] - self.location['y'])
-        dist = math.sqrt(x ^ 2 + y ^ 2)
+        dist = math.sqrt(x ** 2 + y ** 2)
         return dist
-
-    def connect_to_node(self, other_node):
-        if other_node.serial in self.possible_connections and self.serial in other_node.possible_connections:
-            # Connect nodes
-            self.neighbors.__add__(other_node.serial)
-            other_node.neighbors.__add__(self.serial)
-
-            # Removes from future possible connections
-            self.possible_connections.remove(other_node.serial)
-            other_node.possible_connections.remove(self.serial)
-
 
     def distance_from_line(self, node_1, node_2):
         """
@@ -56,7 +45,7 @@ class NodeObject:
                             - dist_part2
                             + node_1.location['y'] * node_2.location['x']
                             - node_2.location['y'] * node_1.location['x'])
-        if math.sqrt(y_part**2 + x_part**2) == 0:
+        if math.sqrt(y_part ** 2 + x_part ** 2) == 0:
             raise Exception ("Point-1 and Point-2 are the same!")
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
