@@ -1,16 +1,17 @@
 import math
+from Enums import Colours, Shapes
 
 
 class NodeObject:
     serial_num = -1
-    colour = ""
-    shape = ""
+    colour = Colours.black
+    shape = Shapes.circle
     location = {'x': 0, 'y': 0}
     size = 0
     neighbors = ()
     possible_neighbors = ()
 
-    def __init__(self, serial, location, size, colour=Colours.Black, shape=Shape.Circle):
+    def __init__(self, serial, location, size, colour=Colours.black, shape=Shapes.circle):
         self.serial_num = serial
         self.location = location
         self.size = size
@@ -41,19 +42,12 @@ class NodeObject:
 
         dist_part1 = y_part * self.location['x']
         dist_part2 = x_part * self.location['y']
-        distance = math.abs(dist_part1
-                            - dist_part2
-                            + node_1.location['y'] * node_2.location['x']
-                            - node_2.location['y'] * node_1.location['x'])
+        distance = math.fabs(dist_part1
+                             - dist_part2
+                             + node_1.location['y'] * node_2.location['x']
+                             - node_2.location['y'] * node_1.location['x'])
         if math.sqrt(y_part ** 2 + x_part ** 2) == 0:
             raise Exception ("Point-1 and Point-2 are the same!")
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
-
-class Colours:
-    Black, Red, Green, Blue = range(4)
-
-
-class Shape:
-    Circle = range(1)

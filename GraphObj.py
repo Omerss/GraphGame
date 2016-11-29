@@ -2,9 +2,10 @@ from random import random
 
 import Utils
 from NodeObject import NodeObject
+from Enums import Colours, Shapes
 
 
-class GraphObject():
+class GraphObject:
     node_list = []
     size = {}
     extra_distance = 1
@@ -21,7 +22,7 @@ class GraphObject():
         for i in range(self.config["GeneralParams"]["NodeCount"]):
             self.nodeList.append(NodeObject())
 
-    def add_node(self, x_loc, y_loc, node_colour=NodeObject.Colours.Black, node_shape=NodeObject.Shape.Circle,
+    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle,
                  node_size=1):
         """
         :param x_loc: The x location of the node

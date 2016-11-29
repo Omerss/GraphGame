@@ -1,6 +1,3 @@
-
-
-
 import random
 import math
 from random import random

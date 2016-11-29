@@ -25,8 +25,8 @@ class TestNode(unittest.TestCase):
         close_distance = node_close.distance_from_line(node1, node2)
 
         # Assert
-        assert far_distance + max_error < far_result or far_distance - max_error > far_result
-        assert close_distance + max_error < close_result or close_distance - max_error > close_result
+        assert far_distance < far_result + max_error or far_distance > far_result - max_error
+        assert close_distance < close_result + max_error or close_distance > close_result - max_error
 
 if __name__ == '__main__':
     unittest.main()
