@@ -39,6 +39,7 @@ class SampleApp(App):
         lay = myLayout()
         return lay
 
+
 if __name__ == "__main__":
     SampleApp().run()
 
