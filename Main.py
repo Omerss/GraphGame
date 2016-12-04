@@ -3,7 +3,7 @@ kivy.require('1.9.1')
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Ellipse
@@ -62,14 +62,14 @@ class myLayout(FloatLayout):
     def __init__(self, **kwargs):
         super(myLayout, self).__init__(**kwargs)
         with self.canvas:
-            Color(1,0,0)
+            Color(1, 0, 0)
             circles.append(GraphNode())
-            Color(0,1,0)
+            Color(0, 1, 0)
             circles.append(GraphNode())
-            Color(0,0,1)
+            Color(0, 0, 1)
             circles.append(GraphNode())
-        layout = BoxLayout(orientation='vertical',size_hint=(0.1, 1), padding=10, spacing=20)
-        button1 = Button(background_normal='button1.png')
+        layout = GridLayout(cols=1,col_default_width=100, col_force_default=True)
+        button1 = Button(background_normal='button1.jpg')
         button1.bind(on_press=callback1)
         button2 = Button(background_normal='button2.jpg')
         button2.bind(on_press=callback2)
