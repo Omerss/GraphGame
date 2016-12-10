@@ -8,8 +8,8 @@ class NodeObject:
     shape = Shapes.circle
     location = {'x': 0, 'y': 0}
     size = 0
-    neighbors = ()
-    possible_neighbors = ()
+    neighbors = set()
+    possible_neighbors = set()
 
     def __init__(self, serial, location, size, colour=Colours.black, shape=Shapes.circle):
         self.serial_num = serial
@@ -17,6 +17,8 @@ class NodeObject:
         self.size = size
         self.colour = colour
         self.shape = shape
+        self.neighbors = set()
+        self.possible_neighbors = set()
 
     def get_num_neighbors(self):
         return len(self.neighbors)
