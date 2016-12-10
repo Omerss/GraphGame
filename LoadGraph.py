@@ -4,8 +4,7 @@ from Enums import Colours, Shapes
 from GraphObj import GraphObject
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 import xml.etree.cElementTree as E
-
-
+import Enums
 def load_graph(file_name):
 
     tree = E.parse(file_name)
@@ -22,9 +21,9 @@ def load_graph(file_name):
     i=0
     #while we find more nodes in the tree we continue to store them in the list
     while (node_list.find("node_serial_num_{}".format(i))!= None):
-        node_serial_num=node_list.find("node_serial_num_{}".format(i))
-        node_colour=node_list.find("node_colour_{}".format(i))
-        node_shape=node_list.find("node_shape_{}".format(i))
+        node_serial_num=intern(node_list.find("node_serial_num_{}".format(i)))
+        node_colour=from_name_to_color(node_list.find("node_colour_{}".format(i)))
+        node_shape=from_name_to_shape(node_list.find("node_shape_{}".format(i)))
         node_location=node_list.find("node_location_{}".format(i))
         node_size=node_list.find("node_size_{}".format(i))
         node_neighbors=node_list.find("node_neighbors_{}".format(i))
@@ -36,3 +35,19 @@ def load_graph(file_name):
         i=i+1
 
     return new_graph
+
+def from_name_to_color(name):
+    if (name == "black"):
+        return Enums.Colours.black
+    if (name == "red"):
+        return Enums.Colours.red
+    if (name == "green"):
+        return Enums.Colours.green
+    if (name == "blue"):
+        return Enums.Colours.blue
+    if (name == "white"):
+        return Enums.Colours.white
+
+def from_name_to_shape(name):
+    if (name == "Circle"):
+        return Enums.Shapes.circle
