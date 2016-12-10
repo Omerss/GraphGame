@@ -1,5 +1,3 @@
-from random import random
-
 import Utils
 from NodeObject import NodeObject
 from Enums import Colours, Shapes
@@ -9,6 +7,9 @@ class GraphObject:
     node_list = []
     size = {"max_x": 1000, "max_y": 1000}
     line_colour = Colours.white
+    node_count = 10
+    max_neighbors = 5
+    extra_distance = 25
 
     def __init__(self, config_file=None):
         if config_file:
@@ -18,12 +19,13 @@ class GraphObject:
             self.node_count = self.config.getint("GeneralParams", "NodeCount")
             self.max_neighbors = self.config.getint('NodeData', 'MaxNeighbors')
             self.extra_distance = self.config.getint('NodeData', 'ExtraDistance')
+            self.node_list = []
 
     def create_graph(self):
         for i in range(self.node_count):
             self.nodeList.append(NodeObject())
 
-    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle, node_size=1):
+    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle, node_size=50):
         """
         :param x_loc: The x location of the node
         :param y_loc: The y location of the node
@@ -32,9 +34,9 @@ class GraphObject:
         :param node_size: Size of the node (int value)
         :return: the new node
         """
-        assert self.size["max_x"] > x_loc + node_size and 0 < x_loc - node_size, \
+        assert self.size["max_x"] >= x_loc + node_size and 0 <= x_loc - node_size, \
             "Error! Coordinate of node is out of bound: {}".format(x_loc)
-        assert self.size["max_y"] > y_loc + node_size and 0 < y_loc - node_size, \
+        assert self.size["max_y"] >= y_loc + node_size and 0 <= y_loc - node_size, \
             "Error! Coordinate of node is out of bound: {}".format(y_loc)
 
         location = {'x': x_loc, 'y': y_loc}
@@ -50,15 +52,17 @@ class GraphObject:
         :param allow_overflow: should nodes that have their maximum amount of connections be inserted to the list
         :return: A list of node.serial of possible connections
         """
-        node_list = ()
+
         print "Getting possible connections for node '{}'".format(node_serial)
         main_node = self.get_node_by_serial(node_serial)
-        print "Node '{}' has '{}' neighbors".format(main_node.serial, main_node.neighbors)
+        print "Node '{}' has '{}' neighbors".format(main_node.serial_num, len(main_node.neighbors))
         if len(main_node.neighbors) < self.max_neighbors or allow_overflow:
             for node_to_connect in self.node_list:
                 # Node is not the main one
-                if node_to_connect != main_node and node_to_connect.serial not in main_node.possible_neighbors:
-                    print "Node '{}' has '{}' neighbors".format(node_to_connect.serial, node_to_connect.neighbors)
+                if node_to_connect != main_node and\
+                   node_to_connect.serial_num not in main_node.possible_neighbors and\
+                   node_to_connect.serial_num not in main_node.neighbors:
+                    print "Node '{}' has '{}' neighbors".format(node_to_connect.serial_num, node_to_connect.neighbors)
                     if len(node_to_connect.neighbors) < self.max_neighbors or allow_overflow:
                         # Enumerate over all other nodes. check if any node is the the line of sight
                         # between node_to_connect and main_node
@@ -71,13 +75,12 @@ class GraphObject:
                                     break
                         if line_doesnt_cross:
                             print "No obstacle between node {} and node {}. Adding node to list"\
-                                .format(main_node.serial, node_to_connect.serial)
+                                .format(main_node.serial_num, node_to_connect.serial_num)
                             # Line between Main and node_to_connect does't cut any nodes
-                            node_list.__add__(node_to_connect.serial)
-                            node_to_connect.possible_neighbors.__add__(main_node.serial)
-            main_node.possible_connections = node_list
-            print "Node '{}' has these possible neighbors: {}".format()
-            return node_list
+                            main_node.possible_neighbors.add(node_to_connect.serial_num)
+                            node_to_connect.possible_neighbors.add(main_node.serial_num)
+        print "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors)
+        return main_node.possible_neighbors
 
     def get_best_connection(self, node, allow_overflow=False):
         """
@@ -88,17 +91,17 @@ class GraphObject:
         """
         # Possibilities = shortest connection, nax number of connections
         # TODO - Make an actual check for best connection
-        node_id = node.possible_connections.pop()
+        node_id = node.possible_neighbors.pop()
 
-        node.possible_connections.add(node_id)
+        node.possible_neighbors.add(node_id)
         return node_id
 
     def get_node_by_serial(self, serial):
         result = None
         for node in self.node_list:
             if node.serial_num == serial:
-                result = node
-        return result
+                return node
+        raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.node_list))
 
     def is_node_far_enough(self, main_node, node_1, node_2):
         """
@@ -112,14 +115,14 @@ class GraphObject:
         """
         distance = main_node.distance_from_line(node_1, node_2)
         print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}."\
-            .format(main_node.serial, node_1.serial, node_2.serial, distance)
+            .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
         if distance >= main_node.size + self.extra_distance:
             return True
         else:
             print "Distance is too small. Node crossed the line of sight of the other nodes."
             return False
 
-    def connect_nodes(self, node1_serial, node2_serial, allow_overflow=False):
+    def connect_nodes(self, node1, node2, allow_overflow=False):
         """
         Connects both nodes, remove each from the list of  possible neighbors of the other and adds to the list of
         neighbors.
@@ -127,20 +130,17 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        node1 = self.get_node_by_serial(node1_serial)
-        node2 = self.get_node_by_serial(node2_serial)
         if (len(node1.neighbors) >= self.max_neighbors or
             len(node2.neighbors) >= self.max_neighbors)\
                 and not allow_overflow:
                 raise Exception("One of the nodes has too many neighbors")
-        if node1_serial in node2.possible_neighbors and node2_serial in node1.possible_connections:
+        if node1.serial_num in node2.possible_neighbors and node2.serial_num in node1.possible_neighbors:
             # Connect nodes
-            node1.neighbors.__add__(node2_serial)
-            node2.neighbors.__add__(node1.serial)
-
+            node1.neighbors.add(node2.serial_num)
+            node2.neighbors.add(node1.serial_num)
             # Removes from future possible connections
-            node1.possible_neighbors.remove(node2.serial)
-            node2.possible_neighbors.remove(node1.serial)
+            node1.possible_neighbors.remove(node2.serial_num)
+            node2.possible_neighbors.remove(node1.serial_num)
             return True
         else:
             raise Exception("Connection between the two nodes is not possible")

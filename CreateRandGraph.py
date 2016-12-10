@@ -46,7 +46,7 @@ def connect_graph(graph, max_connections, min_connections):
         if max_possible_connections > 0:
             # Determine how many connections the specific node will have
             connections = random.randint(min_connections, max_possible_connections)
-            print "Connecting node to {} nodes".format(connections)
+            print "Connecting node '{}' to {} nodes".format(node.serial_num, connections)
             for i in range(connections):
                 possible_node = graph.get_best_connection(node)
                 graph.connect_nodes(node, graph.get_node_by_serial(possible_node))
