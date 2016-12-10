@@ -9,7 +9,7 @@ import random
 import math
 from random import random
 
-import Utils
+#import Utils
 from NodeObject import NodeObject
 from GraphObj import GraphObject
 
@@ -26,7 +26,7 @@ def creatRandGraph (numberOfNodes,lineColor, circlesSize, lowLimitOfGraph, highL
 
         color = getColor()
 
-        newGraph.addNode (xRandom,yRandom, color, NodeObject.Shape.Circle,circlesSize)
+        newGraph.addNode (xRandom,yRandom, color, "circle",circlesSize)
 
     connectGraph(newGraph)
     return newGraph, lineColor, lineWidth
@@ -36,7 +36,8 @@ class LoginScreen(GridLayout):
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
         with self.canvas:
-            graph,lineColor, lineWidth = creatRandGraph(numberOfNodes,lineColor, circlesSize, lowLimitOfGraph, highLimitOfGraph,lineWidth, extraSpace,maxConnections,minNodeConnections)
+            #graph,lineColor, lineWidth = creatRandGraph(numberOfNodes,lineColor, circlesSize, lowLimitOfGraph, highLimitOfGraph,lineWidth, extraSpace,maxConnections,minNodeConnections)
+            graph,lineColor, lineWidth = creatRandGraph(100,"green", 1, 0, 5000,1, 1,50,1)
 
             for i in range(0, len(graph.node_list)):
                 # paint the color
