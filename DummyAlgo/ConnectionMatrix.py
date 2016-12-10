@@ -2,12 +2,15 @@ import math
 import numpy as np
 
 from NodeObject import NodeObject
+from Enums import Colours, Shapes
+
+MIN_VALUE = 0.0001
+MAX_VALUE = 1
 
 
 class ConnectionMatrix:
-    min_value = 0.0001
-    max_value = 1
-    # probability_matrix is a dict object containing a dictionary for each other node
+
+    # probability_matrix is a dictionary object containing a dictionary for each other node
     probability_matrix = {}
 
     def __init__(self, num_of_nodes):
@@ -21,7 +24,8 @@ class ConnectionMatrix:
         :param node_1\ node_2: The two nodes that have their relationship updated
         :param new_probability: a number between 0 and 1
         """
-        assert (1 > new_probability > 0, "Error! new probability has impossible value: {}".format(new_probability))
+        assert (MAX_VALUE > new_probability > MIN_VALUE, "Error! new probability has impossible value: {}"
+                .format(new_probability))
         self.add_node_to_matrix(node_1)
         self.add_node_to_matrix(node_2)
         self.probability_matrix[node_1][node_2] = new_probability
@@ -36,3 +40,5 @@ class ConnectionMatrix:
         if node_serial not in self.probability_matrix.keys():
             self.probability_matrix[node_serial] = {}
         return self.probability_matrix[node_serial]
+
+

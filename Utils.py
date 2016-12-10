@@ -8,7 +8,7 @@ def read_config_file(path):
     config.read(path)
 
     # assert config file
-    pass
+    return config
 
 
 def max_nodes_per_size(size):

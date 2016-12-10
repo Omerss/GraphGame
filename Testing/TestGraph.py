@@ -5,16 +5,16 @@ from GraphObj import GraphObject
 import math
 from random import random
 
-class TestNode(unittest.TestCase):
 
+class TestNode(unittest.TestCase):
 
     def test_create_graph(self):
         # Arrange , # Act
-        newGraph = GraphObject()
+        new_graph = GraphObject()
         # Assert
-        assert (newGraph.node_list == [])
-        assert (newGraph.extra_distance == 1)
-        assert (newGraph.max_neighbors == 4)
+        assert (new_graph.node_list == [])
+        assert (new_graph.extra_distance == 1)
+        assert (new_graph.max_neighbors == 4)
 
     def test_add_node(self):
         # Arrange
