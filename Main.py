@@ -1,6 +1,4 @@
 import kivy
-kivy.require('1.9.1')
-
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
@@ -9,12 +7,15 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Ellipse
 from kivy.uix.widget import Widget
 from random import randint,random
+kivy.require('1.9.1')
 
 circles = []
+
 
 class GraphNode(Widget):
     x_coor = 0
     y_coor = 0
+
     def __init__(self, **kwargs):
         super(GraphNode, self).__init__(**kwargs)
         self.bind(pos=self.redraw)
@@ -29,38 +30,44 @@ class GraphNode(Widget):
         with self.canvas:
             Ellipse(pos=self.pos, size=self.size)
 
-    def moveUp(self):
-        self.y_coor = self.y_coor + 10
-        self.pos = [self.x_coor,self.y_coor]
-
-    def moveDown(self):
-        self.y_coor = self.y_coor - 10
+    def move_up(self):
+        self.y_coor += 10
         self.pos = [self.x_coor, self.y_coor]
 
-    def moveLeft(self):
-        self.x_coor = self.x_coor - 10
+    def move_down(self):
+        self.y_coor -= 10
+        self.pos = [self.x_coor, self.y_coor]
+
+    def move_left(self):
+        self.x_coor -= 10
         self.pos = [self.x_coor,self.y_coor]
 
-    def moveRight(self):
-        self.x_coor = self.x_coor + 10
+    def move_right(self):
+        self.x_coor += 10
         self.pos = [self.x_coor,self.y_coor]
+
 
 def callback1(instance):
     for i in range(len(circles)):
         circles[i].moveUp()
+
 def callback2(instance):
     for i in range(len(circles)):
         circles[i].moveDown()
+
 def callback3(instance):
     for i in range(len(circles)):
         circles[i].moveLeft()
+
 def callback4(instance):
     for i in range(len(circles)):
         circles[i].moveRight()
 
-class myLayout(FloatLayout):
+
+class MyLayout(FloatLayout):
+
     def __init__(self, **kwargs):
-        super(myLayout, self).__init__(**kwargs)
+        super(MyLayout, self).__init__(**kwargs)
         with self.canvas:
             Color(1, 0, 0)
             circles.append(GraphNode())
@@ -86,7 +93,7 @@ class myLayout(FloatLayout):
 
 class SampleApp(App):
     def build(self):
-        lay = myLayout()
+        lay = MyLayout()
         return lay
 
 
