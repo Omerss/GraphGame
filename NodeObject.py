@@ -49,7 +49,7 @@ class NodeObject:
                              + node_1.location['y'] * node_2.location['x']
                              - node_2.location['y'] * node_1.location['x'])
         if math.sqrt(y_part ** 2 + x_part ** 2) == 0:
-            raise Exception ("Point-1 and Point-2 are the same!")
+            raise Exception("Point-1 and Point-2 are the same!")
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
