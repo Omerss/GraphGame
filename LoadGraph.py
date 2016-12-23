@@ -5,6 +5,7 @@ from GraphObj import GraphObject
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 import xml.etree.cElementTree as E
 import Enums
+import ast
 def load_graph(file_name):
 
     tree = E.parse(file_name)
@@ -12,22 +13,25 @@ def load_graph(file_name):
     graph_xml = root.find("graph_xml")
     node_list = graph_xml.find("node_list")
     new_graph = GraphObject()
-    new_graph.size= graph_xml.find("size").text
-    new_graph.extra_distance = graph_xml.find("extra_distance").text
-    new_graph.max_neighbors = graph_xml.find("max_neighbors").text
+    new_graph.size= ast.literal_eval(graph_xml.find("size").text)
+    new_graph.extra_distance = int(graph_xml.find("extra_distance").text)
+    new_graph.max_neighbors = int(graph_xml.find("max_neighbors").text)
+    new_graph.line_colour = from_name_to_color(graph_xml.find("line_colour").text) #fggfg
+    new_graph.node_count = int(graph_xml.find("node_count").text) #hhgh
+
 
     # get the node list from the tree
     graph_node_list = []
     i=0
     #while we find more nodes in the tree we continue to store them in the list
     while (node_list.find("node_serial_num_{}".format(i))!= None):
-        node_serial_num=intern(node_list.find("node_serial_num_{}".format(i)))
-        node_colour=from_name_to_color(node_list.find("node_colour_{}".format(i)))
-        node_shape=from_name_to_shape(node_list.find("node_shape_{}".format(i)))
-        node_location=node_list.find("node_location_{}".format(i))
-        node_size=node_list.find("node_size_{}".format(i))
-        node_neighbors=node_list.find("node_neighbors_{}".format(i))
-        possible_neighbors=node_list.find("possible_neighbors_{}".format(i))
+        node_serial_num=int(node_list.find("node_serial_num_{}".format(i)).text)
+        node_colour=from_name_to_color(node_list.find("node_colour_{}".format(i)).text)
+        node_shape=from_name_to_shape(node_list.find("node_shape_{}".format(i)).text)
+        node_location=ast.literal_eval(node_list.find("node_location_{}".format(i)).text)
+        node_size=int(node_list.find("node_size_{}".format(i)).text)
+        node_neighbors=set (eval(node_list.find("node_neighbors_{}".format(i)).text))
+        possible_neighbors=set (eval(node_list.find("possible_neighbors_{}".format(i)).text))
         new_node=NodeObject(node_serial_num, node_location, node_size, node_colour, node_shape)
         new_node.neighbors=node_neighbors
         new_node.possible_neighbors=possible_neighbors
