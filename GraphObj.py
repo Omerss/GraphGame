@@ -66,13 +66,13 @@ class GraphObject:
         main_node = self.get_node_by_serial(node_serial)
         # print "Node '{}' has '{}' neighbors".format(main_node.serial_num, len(main_node.neighbors))
         if len(main_node.neighbors) < self.max_neighbors or allow_overflow:
+            print "Working with Node '{}'.".format(node_serial)
             for node_to_connect in self.node_list:
                 # Node is not the main one
                 if node_to_connect != main_node and\
                    node_to_connect.serial_num not in main_node.possible_neighbors and\
                    node_to_connect.serial_num not in main_node.neighbors:
-                    print "working with Node '{}' has {} neighbors".format(node_to_connect.serial_num,
-                                                                                  len(node_to_connect.neighbors))
+                    # print "Checking Node '{}'.".format(node_to_connect.serial_num)
                     if len(node_to_connect.neighbors) < self.max_neighbors or allow_overflow:
                         # Enumerate over all other nodes. check if any node is the the line of sight
                         # between node_to_connect and main_node
@@ -101,10 +101,16 @@ class GraphObject:
         """
         # Possibilities = shortest connection, nax number of connections
         # TODO - Make an actual check for best connection
-        node_id = node.possible_neighbors.pop()
-
-        node.possible_neighbors.add(node_id)
-        return node_id
+        connection_count = 100
+        best_node = ""
+        # Getting node with minimal amount of connections
+        for check_serial in node.possible_neighbors:
+            check_node = self.get_node_by_serial(check_serial)
+            if len(check_node.neighbors) < connection_count:
+                best_node = check_node
+                connection_count = len(best_node.neighbors)
+        print "Choose node {0} with {1} connections".format(best_node.serial_num, connection_count)
+        return best_node.serial_num
 
     def get_node_by_serial(self, serial):
         result = None
@@ -124,12 +130,12 @@ class GraphObject:
         :return: True if the distance between main_node and the possible line between node_1 and node_2 is large enough
         """
         distance = main_node.distance_from_line(node_1, node_2)
-        print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}."\
-            .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
         if distance >= main_node.size/2 + self.extra_distance:
             return True
         else:
             # print "Distance is too small. Node crossed the line of sight of the other nodes."
+            # print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}." \
+            #     .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
             return False
 
     def connect_nodes(self, node1, node2, allow_overflow=False):
