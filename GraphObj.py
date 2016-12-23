@@ -5,13 +5,14 @@ from Enums import Colours, Shapes
 
 class GraphObject:
     node_list = []
+    connections = []
     size = {"max_x": 1000, "max_y": 1000}
     line_colour = Colours.white
     node_count = 10
     max_neighbors = 5
     extra_distance = 25
 
-    def __init__(self, config_file=None):
+    def __init__(self, config_file=None, **kwargs):
         if config_file:
             self.config = Utils.read_config_file(config_file)
             self.size = {"max_x": self.config.getint('GeneralParams', 'GraphSizeX'),
@@ -19,7 +20,15 @@ class GraphObject:
             self.node_count = self.config.getint("GeneralParams", "NodeCount")
             self.max_neighbors = self.config.getint('NodeData', 'MaxNeighbors')
             self.extra_distance = self.config.getint('NodeData', 'ExtraDistance')
-            self.node_list = []
+        else:
+            # Creating graph by parameters and not config
+            self.size = {"max_x": kwargs["max_x"],
+                         "max_y": kwargs["max_y"]}
+            self.node_count = kwargs["node_count"]
+            self.max_neighbors = kwargs["max_neighbors"]
+            self.extra_distance = kwargs["extra_distance"]
+        self.node_list = []
+        self.connections = []
 
     def create_graph(self):
         for i in range(self.node_count):
@@ -32,7 +41,7 @@ class GraphObject:
         :param node_colour: Colour of the node
         :param node_shape: Shape of the node
         :param node_size: Size of the node (int value)
-        :return: the new node
+        :return: the new node of type NodeObject
         """
         assert self.size["max_x"] >= x_loc + node_size and 0 <= x_loc - node_size, \
             "Error! Coordinate of node is out of bound: {}".format(x_loc)
@@ -142,9 +151,13 @@ class GraphObject:
             # Removes from future possible connections
             node1.possible_neighbors.remove(node2.serial_num)
             node2.possible_neighbors.remove(node1.serial_num)
+            self.connections.append((min(node1.serial_num, node2.serial_num), max(node1.serial_num, node2.serial_num)))
             return True
         else:
             raise Exception("Connection between the two nodes is not possible")
+
+    def get_connections(self):
+        return self.connections
 
     @staticmethod
     def get_serial(location):
