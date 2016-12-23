@@ -11,7 +11,7 @@ class NodeObject:
     neighbors = set()
     possible_neighbors = set()
 
-    def __init__(self, serial, location, size, colour=Colours.black, shape=Shapes.circle):
+    def __init__(self, serial, location, size, colour=Colours.green, shape=Shapes.circle):
         self.serial_num = serial
         self.location = location
         self.size = size

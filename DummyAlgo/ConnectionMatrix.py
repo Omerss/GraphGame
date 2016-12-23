@@ -9,9 +9,12 @@ MAX_VALUE = 1
 
 
 class ConnectionMatrix:
-
+    """
+    ConnectionMatrix hold all possible connection between all nodes.
+    """
     # probability_matrix is a dictionary object containing a dictionary for each other node
     probability_matrix = {}
+    node_list = []
 
     def __init__(self, num_of_nodes):
         self.node_list = []
@@ -24,7 +27,7 @@ class ConnectionMatrix:
         :param node_1\ node_2: The two nodes that have their relationship updated
         :param new_probability: a number between 0 and 1
         """
-        assert (MAX_VALUE > new_probability > MIN_VALUE, "Error! new probability has impossible value: {}"
+        assert (MAX_VALUE >= new_probability >= MIN_VALUE, "Error! new probability has impossible value: {}"
                 .format(new_probability))
         self.add_node_to_matrix(node_1)
         self.add_node_to_matrix(node_2)
