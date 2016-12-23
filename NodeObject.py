@@ -10,6 +10,7 @@ class NodeObject:
     size = 0
     neighbors = set()
     possible_neighbors = set()
+    real = True
 
     def __init__(self, serial, location, size, colour=Colours.green, shape=Shapes.circle):
         self.serial_num = serial
