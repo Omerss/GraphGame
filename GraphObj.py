@@ -71,21 +71,21 @@ class GraphObject:
                 if node_to_connect != main_node and\
                    node_to_connect.serial_num not in main_node.possible_neighbors and\
                    node_to_connect.serial_num not in main_node.neighbors:
-                    # print "working with node Node '{}' has '{}' neighbors".format(node_to_connect.serial_num,
-                    #                                                               len(node_to_connect.neighbors))
+                    print "working with Node '{}' has {} neighbors".format(node_to_connect.serial_num,
+                                                                                  len(node_to_connect.neighbors))
                     if len(node_to_connect.neighbors) < self.max_neighbors or allow_overflow:
                         # Enumerate over all other nodes. check if any node is the the line of sight
                         # between node_to_connect and main_node
                         line_doesnt_cross = True
-                        #print "Checking if other nodes possibly cross the view between the two nodes"
+                        # print "Checking if other nodes possibly cross the view between the two nodes"
                         for check_node in self.node_list:
                             if check_node != node_to_connect and check_node != main_node:
                                 if not self.is_node_far_enough(check_node, node_to_connect, main_node):
                                     line_doesnt_cross = False
                                     break
                         if line_doesnt_cross:
-                            # print "No obstacle between node {} and node {}. Adding node to list"\
-                            #     .format(main_node.serial_num, node_to_connect.serial_num)
+                            print "No obstacle between node {} and node {}. Adding node to list"\
+                                .format(main_node.serial_num, node_to_connect.serial_num)
                             # Line between Main and node_to_connect does't cut any nodes
                             main_node.possible_neighbors.add(node_to_connect.serial_num)
                             node_to_connect.possible_neighbors.add(main_node.serial_num)
@@ -124,9 +124,9 @@ class GraphObject:
         :return: True if the distance between main_node and the possible line between node_1 and node_2 is large enough
         """
         distance = main_node.distance_from_line(node_1, node_2)
-        # print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}."\
-        #     .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
-        if distance >= main_node.size + self.extra_distance:
+        print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}."\
+            .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
+        if distance >= main_node.size/2 + self.extra_distance:
             return True
         else:
             # print "Distance is too small. Node crossed the line of sight of the other nodes."
