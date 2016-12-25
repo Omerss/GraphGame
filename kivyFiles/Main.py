@@ -31,14 +31,21 @@ class GameLayout(FloatLayout):
         self.get_nodes()
         self.get_edges()
         self.get_buttons()
-        self.kivy_graph.move_random()
+        self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
+        """
+        :return: the coordinations of the center of the screen (not including the button area)
+        """
         x = (self.dim['max_x'] - self.dim['min_x'])/2 + self.button_width
         y = (self.dim['max_y'] - self.dim['min_y']) / 2
         return (x,y)
 
     def get_nodes(self):
+        """
+        for each NodeObject from the original graph (of type GraphObj) this function creates
+        an equivalent KivyNode and adds it to the kivy graph (of type KivyGraph)
+        """
         graph_nodes = self.original_graph.node_list
         with self.canvas:
             for node in graph_nodes:
@@ -48,6 +55,10 @@ class GameLayout(FloatLayout):
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self):
+        """
+        function creates a KivyEdge that represents the neighbors in the original graph (GraphObj), adds created edge to the
+        kivy graph (KivyGraph), and adds the nodes (KivyNodes) connected to the edge to each other's list of neighbors
+        """
         edges = self.original_graph.get_connections()
         with self.canvas:
             Color(1, 1, 1)
@@ -60,6 +71,11 @@ class GameLayout(FloatLayout):
                 node2.add_neighbor(node1)
 
     def get_buttons(self):
+        """
+        creates a GridLayout that would hold the buttons (GraphButtons) needed for the game. each button should be
+        initialized using a string representing an image to be displayed on the button and a function that will be
+        responsible for the button's functionality
+        """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
         button1 = GraphButton('button1.jpg',self.kivy_graph.move_random)
         button2 = GraphButton('button2.jpg',self.kivy_graph.move_down)
