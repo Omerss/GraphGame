@@ -68,7 +68,7 @@ class KivyGraph(Widget):
         x = randint(-100, 100)
         y = randint(-100, 100)
         for node in self.nodes:
-            node.move_graph(x, y)
+            node.move_by_amount(x, y)
         for edge in self.edges:
             edge.reset_edge()
 
@@ -87,7 +87,7 @@ class KivyGraph(Widget):
         delta_x = self.center_coor[0] - node.get_x()
         delta_y = self.center_coor[1] - node.get_y()
         for node in self.nodes:
-            node.move_graph(delta_x,delta_y)
+            node.move_by_amount(delta_x,delta_y)
         for edge in self.edges:
             edge.reset_edge()
 

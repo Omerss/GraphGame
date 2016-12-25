@@ -55,23 +55,42 @@ class KivyNode(Widget):
         self.x_coor += 10
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
-    def move_graph(self,delta_x,delta_y):
+    def move_by_amount(self,delta_x,delta_y):
+        """
+        :param delta_x: a distance to move the node's x_coor by
+        :param delta_y: a distance to move the node's y_coor by
+        """
         self.x_coor = self.x_coor + delta_x
         self.y_coor = self.y_coor + delta_y
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
-    def move_jump(self,newX,newY):
+    def jump_to_location(self,newX,newY):
+        """
+        sets self's location to (newX,newY)
+        :param newX: new value for node's x_coor
+        :param newY: new value for node's y_coor
+        """
         self.x_coor = newX
         self.y_coor = newY
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def get_neighbors(self):
+        """
+        :return: the list of neighbors associated with a given node
+        """
         return self.neighbors
 
     def get_amount_of_neighbors(self):
+        """
+        :return: the number of neighbors of a given node
+        """
         return len(self.neighbors)
 
     def get_distance_from_node(self,node):
+        """
+        :param node: KivyNode
+        :return: the distance between self and node
+        """
         if node is None:
             return -1
         x = math.fabs(node.x_coor - self.x_coor)
