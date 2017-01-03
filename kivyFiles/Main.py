@@ -6,10 +6,9 @@ from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from CreateRandGraph import create_rand_graph
-from GraphButton import GraphButton
+from GraphButton import uniButton, multiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
-from random import randint
 from kivy.graphics import Color
 from KivyNode import KivyNode
 
@@ -77,10 +76,10 @@ class GameLayout(FloatLayout):
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = GraphButton('button1.jpg',self.kivy_graph.move_random)
-        button2 = GraphButton('button2.jpg',self.kivy_graph.move_down)
-        button3 = GraphButton('button3.jpg',self.kivy_graph.move_right)
-        button4 = GraphButton('button4.jpg',self.kivy_graph.move_left)
+        button1 = uniButton('button1.jpg',self.kivy_graph.centralize_random_node)
+        button2 = multiButton('button2.jpg',[self.kivy_graph.move_down,self.kivy_graph.move_up,self.kivy_graph.jump])
+        button3 = uniButton('button3.jpg',self.kivy_graph.move_right)
+        button4 = uniButton('button4.jpg',self.kivy_graph.move_left)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
