@@ -9,6 +9,7 @@ class KivyGraph(Widget):
     center_coor = (0,0)
     nodes = []
     edges = []
+    center_node = None
 
     def __init__(self, center, **kwargs):
         super(KivyGraph, self).__init__(**kwargs)
@@ -81,9 +82,10 @@ class KivyGraph(Widget):
 
     def move_node_to_center(self, node):
         """
-        function moves the graph so that a given node's coordinates are now 'center_coor'
+        function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
         :param node: a node to be moved to the center of the screen
         """
+        self.center_node = node
         delta_x = self.center_coor[0] - node.get_x()
         delta_y = self.center_coor[1] - node.get_y()
         for node in self.nodes:
