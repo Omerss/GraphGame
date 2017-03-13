@@ -10,6 +10,7 @@ class KivyEdge(Widget):
     node2 = None
     line_width = 2
     line = None
+    colour = "white"
 
     def __init__(self, node1, node2,**kwargs):
         super(KivyEdge, self).__init__(**kwargs)

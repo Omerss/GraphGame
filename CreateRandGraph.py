@@ -43,8 +43,7 @@ def connect_graph(graph, max_connections, min_connections):
     # Connect nodes
     for node in graph.node_list:
         # makes sure we don't exceed the maximum connections allowed
-        max_possible_connections = min(max_connections, len(node.possible_neighbors) + len(node.neighbors)) \
-                                   - len(node.neighbors)
+        max_possible_connections = min(max_connections-1, len(node.possible_neighbors) + len(node.neighbors)) - len(node.neighbors)
         if max_possible_connections > 0:
             # Determine how many connections the specific node will have
             connections = random.randint(min_connections, max_possible_connections)
