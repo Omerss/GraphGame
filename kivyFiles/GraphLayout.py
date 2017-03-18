@@ -27,10 +27,10 @@ class GraphLayout(FloatLayout):
         self.kivy_graph = KivyGraph(self.center_screen)
         self.get_nodes()
         self.get_edges()
-        self.button1_func = self.kivy_graph.centralize_random_node
+        self.button1_func = [self.kivy_graph.centralize_random_node]
         self.button2_func = [self.kivy_graph.move_down,self.kivy_graph.move_up,self.kivy_graph.jump]
-        self.button3_func = self.kivy_graph.move_right
-        self.button4_func = self.kivy_graph.move_left
+        self.button3_func = [self.kivy_graph.move_right]
+        self.button4_func = [self.kivy_graph.move_left]
         self.get_buttons()
         self.kivy_graph.centralize_random_node()
 
@@ -78,10 +78,10 @@ class GraphLayout(FloatLayout):
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = uniButton('button1.jpg',self.button1_func)
+        button1 = multiButton('button1.jpg',self.button1_func)
         button2 = multiButton('button2.jpg',self.button2_func)
-        button3 = uniButton('button3.jpg',self.button3_func)
-        button4 = uniButton('button4.jpg',self.button4_func)
+        button3 = multiButton('button3.jpg',self.button3_func)
+        button4 = multiButton('button4.jpg',self.button4_func)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
