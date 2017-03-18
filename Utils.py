@@ -14,3 +14,4 @@ def read_config_file(path):
 def max_nodes_per_size(size):
     max_nodes = 0
     return max_nodes
+

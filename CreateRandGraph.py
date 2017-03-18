@@ -3,6 +3,7 @@ import math
 import random
 import logging
 
+import LineEquation
 import Utils
 from NodeObject import NodeObject
 from GraphObj import GraphObject
@@ -67,28 +68,22 @@ def check_cross(graph, serial1, serial2):
     for connection in graph.get_connections():
         new_equation = graph.create_equation(graph.get_node_by_serial(connection[0]),
                                              graph.get_node_by_serial(connection[1]))
-        col_point = get_equation_collision_point(line_equation, new_equation)
-        print(line_equation.edge1, line_equation.edge2, new_equation.edge1, new_equation.edge2, col_point[0])
-        if (line_equation.edge1 < col_point[0] < line_equation.edge2) or \
-                (line_equation.edge1 > col_point[0] > line_equation.edge2) or \
-                (new_equation.edge1 < col_point[0] < new_equation.edge2) or \
-                (new_equation.edge1 > col_point[0] > new_equation.edge2):
-            cross = True
+        print(line_equation.edge1, line_equation.edge2, new_equation.edge1, new_equation.edge2)
+        if LineEquation.check_collision_point(line_equation, new_equation):
+            return True
     return cross
 
 
-def get_equation_collision_point(eq1, eq2):
-    tmp_x = eq1.slope - eq2.slope
-    tmp_const = eq2.const - eq1.const
-    if tmp_x < 0:
-        tmp_x *= -1
-        tmp_const *= -1
-    point_x = tmp_const / tmp_x
-    point_y = point_x * eq1.slope + eq1.const
-    return point_x, point_y
-
-
 def check_collisions(x_location, y_location, graph, node_size, extra_space):
+    """
+
+    :param x_location:
+    :param y_location:
+    :param graph:
+    :param node_size:
+    :param extra_space:
+    :return:
+    """
     temp_node = NodeObject('0', {'x': x_location, 'y': y_location}, node_size)
     collision = False
     for node in graph.node_list:

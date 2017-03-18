@@ -16,7 +16,7 @@ class GraphObject:
     max_neighbors = 5
     extra_distance = 25
 
-    def __init__(self, config_file=None, **kwargs):
+    def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None, extra_distance=None):
         if config_file:
             self.config = Utils.read_config_file(config_file)
             self.size = {"max_x": self.config.getint('GeneralParams', 'GraphSizeX'),
@@ -26,11 +26,11 @@ class GraphObject:
             self.extra_distance = self.config.getint('NodeData', 'ExtraDistance')
         else:
             # Creating graph by parameters and not config
-            self.size = {"max_x": kwargs["max_x"],
-                         "max_y": kwargs["max_y"]}
-            self.node_count = kwargs["node_count"]
-            self.max_neighbors = kwargs["max_neighbors"]
-            self.extra_distance = kwargs["extra_distance"]
+            self.size = {"max_x": max_x,
+                         "max_y": max_y}
+            self.node_count = node_count
+            self.max_neighbors = max_neighbors
+            self.extra_distance = extra_distance
         self.node_list = []
         self.connections = []
 
@@ -53,7 +53,7 @@ class GraphObject:
             "Error! Coordinate of node is out of bound: {}".format(y_loc)
 
         location = {'x': x_loc, 'y': y_loc}
-        serial = self.get_serial(location)
+        serial = get_serial(location)
         new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape)
         self.node_list.append(new_node)
         return new_node
@@ -169,28 +169,12 @@ class GraphObject:
     def get_connections(self):
         return self.connections
 
-    @staticmethod
-    def create_equation(node1, node2):
-        if node1.location['x'] == node2.location['x']:
-            pass
-        else:
-            # y = m*x + b
-            location_equation = LineEquation()
-            location_equation.slope = (node1.location['y'] - node2.location['y'])/(node1.location['x'] - node2.location['x'])
-            location_equation.const = node1.location['y'] - location_equation.slope*node1.location['x'] #b
-            location_equation.edge1 = min(node1.location['x'], node2.location['x'])
-            location_equation.edge2 = max(node1.location['x'], node2.location['x'])
-            return location_equation
 
-    @staticmethod
-    def get_serial(location):
-        return hash(frozenset(location.items()))
+def get_serial(location):
+    return hash(frozenset(location.items()))
 
 
-class LineEquation:
-    def __init__(self):
-        self.slope = None
-        self.cont = None
-        self.edge1 = None
-        self.edge2 = None
+
+
+
 
