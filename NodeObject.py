@@ -41,8 +41,8 @@ class NodeObject(Point):
         :return: distance between self and the line between the two points
         """
         # See https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        y_part = node_2.y - node_1.y
-        x_part = node_2.x - node_1.x
+        y_part = math.fabs(node_2.y - node_1.y)
+        x_part = math.fabs(node_2.x - node_1.x)
 
         dist_part1 = y_part * self.x
         dist_part2 = x_part * self.y
