@@ -97,3 +97,6 @@ class KivyNode(Widget):
         y = math.fabs(node.y_coor - self.y_coor)
         dist = math.sqrt(x**2 + y**2)
         return dist
+
+    def print_node(self):
+        print "For node " + str(self.serial) + ", coordinates = ("+str(self.get_x())+","+str(self.get_y())+") "
