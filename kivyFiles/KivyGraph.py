@@ -62,6 +62,10 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
+    def print_graph_nodes(self):
+        for node in self.nodes:
+            node.print_node()
+
     def jump(self):
         """
         function moves the coordinates of all the nodes in the graph by a random difference
