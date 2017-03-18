@@ -1,5 +1,6 @@
 import collections
 import math
+import logging
 
 import Utils
 from NodeObject import NodeObject
@@ -69,7 +70,7 @@ class GraphObject:
         main_node = self.get_node_by_serial(node_serial)
         # print "Node '{}' has '{}' neighbors".format(main_node.serial_num, len(main_node.neighbors))
         if len(main_node.neighbors) < self.max_neighbors or allow_overflow:
-            print "Working with Node '{}'.".format(node_serial)
+            logging.debug("Working with Node '{}'.".format(node_serial))
             for node_to_connect in self.node_list:
                 # Node is not the main one
                 if node_to_connect != main_node and\
@@ -87,12 +88,12 @@ class GraphObject:
                                     line_doesnt_cross = False
                                     break
                         if line_doesnt_cross:
-                            print "No obstacle between node {} and node {}. Adding node to list"\
-                                .format(main_node.serial_num, node_to_connect.serial_num)
+                            logging.debug("No obstacle between node {} and node {}. Adding node to list"\
+                                .format(main_node.serial_num, node_to_connect.serial_num))
                             # Line between Main and node_to_connect does't cut any nodes
                             main_node.possible_neighbors.add(node_to_connect.serial_num)
                             node_to_connect.possible_neighbors.add(main_node.serial_num)
-        print "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors)
+        logging.debug("Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors))
         return main_node.possible_neighbors
 
     def get_best_connection(self, node, allow_overflow=False):
@@ -112,7 +113,7 @@ class GraphObject:
             if len(check_node.neighbors) < connection_count:
                 best_node = check_node
                 connection_count = len(best_node.neighbors)
-        print "Choose node {0} with {1} connections".format(best_node.serial_num, connection_count)
+        logging.debug("Choose node {0} with {1} connections".format(best_node.serial_num, connection_count))
         return best_node.serial_num
 
     def get_node_by_serial(self, serial):
