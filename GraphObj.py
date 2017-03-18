@@ -1,3 +1,6 @@
+import collections
+import math
+
 import Utils
 from NodeObject import NodeObject
 from Enums import Colours, Shapes
@@ -166,5 +169,27 @@ class GraphObject:
         return self.connections
 
     @staticmethod
+    def create_equation(node1, node2):
+        if node1.location['x'] == node2.location['x']:
+            pass
+        else:
+            # y = m*x + b
+            location_equation = LineEquation()
+            location_equation.slope = (node1.location['y'] - node2.location['y'])/(node1.location['x'] - node2.location['x'])
+            location_equation.const = node1.location['y'] - location_equation.slope*node1.location['x'] #b
+            location_equation.edge1 = min(node1.location['x'], node2.location['x'])
+            location_equation.edge2 = max(node1.location['x'], node2.location['x'])
+            return location_equation
+
+    @staticmethod
     def get_serial(location):
         return hash(frozenset(location.items()))
+
+
+class LineEquation:
+    def __init__(self):
+        self.slope = None
+        self.cont = None
+        self.edge1 = None
+        self.edge2 = None
+

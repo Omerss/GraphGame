@@ -3,6 +3,10 @@ from ProbabilityObjects import ProbabilityNode
 
 
 class ProbabilityGraph:
+    """
+    Holds the data for the AI of how the graph looks like. All action for manipulating the graph will be done
+    thorough this interface
+    """
     max_serial = 1
 
     def __init__(self, node_count):
