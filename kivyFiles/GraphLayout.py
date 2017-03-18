@@ -11,21 +11,26 @@ from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 
-class GameLayout(FloatLayout):
+class GraphLayout(FloatLayout):
     button_width = 100
     dim = {"min_x": button_width, "min_y": 0 ,"max_x": 800, "max_y": 600}
     original_graph = None
     kivy_graph = None
     center_screen = (0,0)
 
+
     def __init__(self, **kwargs):
-        super(GameLayout, self).__init__(**kwargs)
+        super(GraphLayout, self).__init__(**kwargs)
         kivy.core.window.Window.size = (self.dim['max_x'], self.dim['max_y'])
         self.original_graph = create_rand_graph("../config.ini")
         self.center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(self.center_screen)
         self.get_nodes()
         self.get_edges()
+        self.button1_func = self.kivy_graph.centralize_random_node
+        self.button2_func = [self.kivy_graph.move_down,self.kivy_graph.move_up,self.kivy_graph.jump]
+        self.button3_func = self.kivy_graph.move_right
+        self.button4_func = self.kivy_graph.move_left
         self.get_buttons()
         self.kivy_graph.centralize_random_node()
 
@@ -73,12 +78,13 @@ class GameLayout(FloatLayout):
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = uniButton('button1.jpg',self.kivy_graph.centralize_random_node)
-        button2 = multiButton('button2.jpg',[self.kivy_graph.move_down,self.kivy_graph.move_up,self.kivy_graph.jump])
-        button3 = uniButton('button3.jpg',self.kivy_graph.move_right)
-        button4 = uniButton('button4.jpg',self.kivy_graph.move_left)
+        button1 = uniButton('button1.jpg',self.button1_func)
+        button2 = multiButton('button2.jpg',self.button2_func)
+        button3 = uniButton('button3.jpg',self.button3_func)
+        button4 = uniButton('button4.jpg',self.button4_func)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
         layout.add_widget(button4)
         self.add_widget(layout)
+
