@@ -36,6 +36,12 @@ class KivyNode(Widget):
     def get_y(self):
         return self.y_coor
 
+    def get_colour(self):
+        return self.colour
+
+    def get_radius(self):
+        return self.size/2
+
     def add_neighbor(self,node):
         self.neighbors.append(node.serial)
 
