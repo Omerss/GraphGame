@@ -6,11 +6,19 @@ from kivy.app import App
 class GraphTabletGame(App):
 
     def build(self):
-        layout = GraphLayout()
-        return layout
+        self.layout = GraphLayout()
+
+        return self.layout
 
     def press_button(self,num):
-        pass
+        if(num == 1):
+            self.layout.button1_func()
+        elif (num == 2):
+            self.layout.button2_func()
+        elif (num == 3):
+            self.layout.button3_func()
+        elif (num == 4):
+            self.layout.button4_func()
 
     def read_data_from_window(self):
         pass
@@ -19,6 +27,9 @@ class GraphTabletGame(App):
 
 
 a = GraphTabletGame()
-a.run()
-while True:
-    time.sleep(5000)
+a.build()
+time.sleep(4)
+a.press_button(3)
+
+##while True:
+  ##  time.sleep(5000)
