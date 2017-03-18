@@ -37,6 +37,7 @@ class BasicGamer:
         self.add_view_to_db(graph_window)
 
     def get_best_button(self):
+        # use A* search algorithm
         return random.randint(1, 4)
 
 gamer = BasicGamer()

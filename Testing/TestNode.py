@@ -8,7 +8,7 @@ class TestNode(unittest.TestCase):
         node1 = NodeObject(serial=1, location={'x': 1, 'y': 3}, size=1)
         node2 = NodeObject(serial=2, location={'x': 5, 'y': 6}, size=1)
         actual_distance = 5
-        assert node1.distance_from_node(node2) == actual_distance
+        assert node1.distance(node2) == actual_distance
 
     def test_distance_from_line(self):
         # Arrange

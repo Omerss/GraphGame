@@ -17,7 +17,7 @@ class LineEquation:
 
         :param eq1: a LineEquation type
         :param eq2: a LineEquation type
-        :return: True if the coalition of the two line actually happens on the graph
+        :return: True if the collision of the two line actually happens on the graph
         """
         point = LineEquation.get_equation_collision_point(eq1, eq2)
         if (eq1.edge1 < point[0] < eq1.edge2) or \

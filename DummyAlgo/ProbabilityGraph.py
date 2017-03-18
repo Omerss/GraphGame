@@ -30,5 +30,12 @@ class ProbabilityGraph:
         vector = ProbabilityVector(x_coor, y_coor, rads)
         self.vector_list.append(vector)
 
-    def find_collitions(self):
-        return []
+    def find_collisions(self):
+        """
+        Goes through all vectors available and searches for possible interactions between them
+        :return: A list of all possible connections
+        """
+        collisions = []
+        for vector in self.vector_list:
+            pass
+        return collisions
