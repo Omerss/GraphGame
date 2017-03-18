@@ -1,4 +1,4 @@
-from KivyGraph import KivyGraph
+from kivyFiles.GraphTabletGame import GraphTabletGame
 from ConnectionMatrix import ConnectionMatrix
 from ProbabilityGraph import ProbabilityGraph
 
@@ -12,7 +12,7 @@ class BasicGamer:
         number_of_nodes = 20
         self.connection_matrix = ConnectionMatrix(number_of_nodes)
         self.known_graph = ProbabilityGraph(number_of_nodes)
-        self.graph_game = get_tablet_game()
+        self.tablet_game = GraphTabletGame()
 
     def get_number_of_known_nodes(self):
         return len(self.known_graph.node_list)
@@ -32,6 +32,5 @@ class BasicGamer:
 
 gamer = BasicGamer()
 
-turn = 0
-while turn < 10:
+for turn in range(10):
     gamer.do_move()
