@@ -113,7 +113,7 @@ def question_seven(graph_object):
     :return: the Name of the color of the nodes with minimum sum of links
     """
     dictionary = scan_nodes_colors(graph_object, 2)
-    min_value = -1
+    min_value = 9999999
     min_key = ''
     for key in dictionary:
         if dictionary.get(key) < min_value:
@@ -175,7 +175,7 @@ def question_eleven(graph_object, color_x, number=2):
     else:
         return False
 
-#
+#is there a node of color X with odd (flag =1)/ even (flag=0) number of links?
 def question_twelve(graph_object, color_x, flag):
     """
 
@@ -190,6 +190,83 @@ def question_twelve(graph_object, color_x, flag):
         return True
     else:
         return False
+# does all the color X nodes have odd (flag =1)/ even (flag=0) number of links?
+def question_thirteen(graph_object, color_x, flag):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param flag: flag: 1 or 0
+    :return:  if flag = 1, return true if all color_x nodes has odd number of links. if 0 otherwise.
+    """
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_node_with_odd_links,1, color_x,flag)
+    num = question_one(graph_object, color_x)
+    if number_of_nodes == num:
+        return True
+    else:
+        return False
+
+#does the sum of the links in all the nodes at color X is odd (flag =1)/ even (flag=0)?
+def question_fourteen(graph_object, color_x, flag):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param flag: flag: 1 or 0
+    :return:  if flag = 1, return true if the sum of all the links at the color_x nodes is odd. if 0 otherwise.
+       """
+    dictionary = scan_nodes_colors(graph_object, 2)
+    if dictionary.get(color_x['name']) %2 ==0:
+        if flag == 0:
+            return True
+        else:
+            return False
+    else:
+        if flag == 0:
+            return False
+        else:
+            return True
+
+
+# which color has the maximum number of nodes?
+def question_fifteen(graph_object):
+    """
+
+    :param graph_object: a valid graph object
+    :return: the Name of the color with the maximum number of nodes
+    """
+
+    dictionary = scan_nodes_colors(graph_object, 1)
+    max_value = -1
+    max_key = ''
+    for key in dictionary:
+        if dictionary.get(key) > max_value:
+            max_value = dictionary.get(key)
+            max_key = key
+
+    return max_key
+
+# which color has the maximum number of nodes?
+def question_sixteen(graph_object):
+    """
+
+    :param graph_object: a valid graph object
+    :return: the Name of the color with the maximum number of nodes
+    """
+
+    dictionary = scan_nodes_colors(graph_object, 1)
+    max_value = -1
+    max_key = ''
+    for key in dictionary:
+        if dictionary.get(key) > max_value:
+            max_value = dictionary.get(key)
+            max_key = key
+
+    return max_key
+
+
+
+
 
 
 #useful functions:
