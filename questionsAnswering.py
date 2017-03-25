@@ -50,7 +50,6 @@ def question_three(graph_object):
             max_value = dictionary.get(key)
             max_key = key
 
-
     return max_key
 
 
@@ -62,8 +61,34 @@ def question_four(graph_object):
     :param graph_object: a valid graph object
     :return: the color of the nodes with maximum sum of links
     """
+    dictionary = scan_nodes_colors(graph_object, 2)
+    max_value = -1
+    max_key = ''
+    for key in dictionary:
+        if dictionary.get(key) > max_value:
+            max_value = dictionary.get(key)
+            max_key = key
 
-return
+    return max_key
+
+
+
+# how many nodes of color X  do not have links to nodes of color Y?
+def question_five(graph_object, color_x, color_y):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param color_y: a valid color enum
+    :return: the number of nodes in graph_object of the color color_x that do not have links to nodes of color color_y
+    """
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1, color_x, color_y)
+
+    return number_of_nodes
+
+
+
+
 
 
 
@@ -153,4 +178,23 @@ def is_color_x_link_color_y(node_object, color_x, color_y):
             for node in node_object.neighbors:
                 if (node.colour == color_y):
                     return True
+    return False
+
+
+def is_color_x_unlink_color_y(node_object, color_x, color_y):
+    """
+
+    :param node_object: a valid node object
+    :param color_x: a valid color enum
+    :param color_y: a valid color enum
+    :return: true - if node_object of color color_x and link to a node of color color_y. else - false
+    """
+    if (node_object.serial is None):
+        return False
+    else:
+        if (node_object.colour == color_x):
+            for node in node_object.neighbors:
+                if (node.colour == color_y):
+                    return False
+            return True
     return False
