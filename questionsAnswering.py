@@ -1,6 +1,7 @@
 import GraphObj
 import NodeObject
 import Enums
+from Enums import Colours
 
 
 #questions functions:
@@ -39,10 +40,18 @@ def question_three(graph_object):
     """
 
     :param graph_object: a valid graph object
-    :return: the color of the node with the maximun links
+    :return: the Name of the color of the node with the maximun links
     """
+    dictionary = scan_nodes_colors(graph_object,3)
+    max_value = -1
+    max_key = ''
+    for key in dictionary:
+        if dictionary.get(key) > max_value:
+            max_value = dictionary.get(key)
+            max_key = key
 
-return
+
+    return max_key
 
 
 
@@ -65,7 +74,22 @@ def scan_nodes_colors(graph_object, flag):
     :param flag: 1- to return the number of nodes at each color. 2- to return the total number of links all the nodes at each color have. 3- to return the max number of links
     :return: if the flag is 1, then return dict contains the number of nodes at each color. if 2 then return dict contains total number of links all the nodes at each color have.
     """
-    return
+    dictionary = {'red':0, 'green':0, 'blue':0, 'white':0 }
+    for node in graph_object.node_list:
+        if (node.serial is None):
+            continue
+        else:
+            str_color = node.colour['name']
+            if flag == 1:
+                dictionary[str_color] = dictionary.get(str_color) +1
+            if flag == 2:
+                dictionary[str_color] = dictionary.get(str_color) + node.get_num_neighbors()
+            if flag == 3:
+                if dictionary.get(str_color)< node.get_num_neighbors():
+                    dictionary[str_color] =  node.get_num_neighbors()
+
+    return  dictionary
+
 
 
 # Scaning all the nodes in the GraphObject with given Boolean expression, and return the number of nodes that answer to that boolean expression.
