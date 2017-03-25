@@ -56,3 +56,5 @@ class NodeObject(Point):
         distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
+    def is_real(self):
+        return self.real

@@ -1,5 +1,7 @@
 from Point import Point
 
+LINES_ALWAYS_MEET = 'always'  # used when both line equations have the same slope + const
+
 
 class LineEquation:
     def __init__(self):
@@ -20,10 +22,26 @@ class LineEquation:
         :return: True if the collision of the two line actually happens on the graph
         """
         point = LineEquation.get_equation_collision_point(eq1, eq2)
-        if (eq1.edge1 < point[0] < eq1.edge2) or \
-                (eq1.edge1 > point[0] > eq1.edge2) or \
-                (eq2.edge1 < point[0] < eq2.edge2) or \
-                (eq2.edge1 > point[0] > eq2.edge2):
+        if point is None:
+            return False
+
+        if point == LINES_ALWAYS_MEET:
+            if LineEquation.point_in_between_edges([eq1.edge1], eq2) \
+                    or LineEquation.point_in_between_edges([eq1.edge2], eq2) \
+                    or LineEquation.point_in_between_edges([eq2.edge1], eq1) \
+                    or LineEquation.point_in_between_edges([eq2.edge2], eq1):
+                return True
+            else:
+                return False
+
+        if LineEquation.point_in_between_edges(point, eq1) or LineEquation.point_in_between_edges(point, eq2):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def point_in_between_edges(point, eq1):
+        if eq1.edge1 < point[0] < eq1.edge2 or eq1.edge1 > point[0] > eq1.edge2:
             return True
         else:
             return False
@@ -40,8 +58,8 @@ class LineEquation:
         else:
             # y = m*x + b
             location_equation = LineEquation()
-            location_equation.slope = (point1.y - point2.y)/(point1.x - point2.x)
-            location_equation.const = point1.y - location_equation.slope*point1.y #b
+            location_equation.slope = (point1.y - point2.y) / (point1.x - point2.x)
+            location_equation.const = point1.y - location_equation.slope * point1.y  # b
             location_equation.edge1 = min(point1.x, point2.x)
             location_equation.edge2 = max(point1.x, point2.x)
             return location_equation
@@ -54,14 +72,17 @@ class LineEquation:
         :param eq2: a LineEquation type
         :return: An absolute collision point in virtual space. This point might not exists if vectors are capped.
         """
-        tmp_x = eq1.slope - eq2.slope
-        tmp_const = eq2.const - eq1.const
-        if tmp_x < 0:
-            tmp_x *= -1
-            tmp_const *= -1
-        point_x = tmp_const / tmp_x
-        point_y = point_x * eq1.slope + eq1.const
-        return point_x, point_y
-
-
-
+        slope_variation = eq1.slope - eq2.slope
+        const_variation = eq2.const - eq1.const
+        if slope_variation == 0:
+            if const_variation == 0:
+                return LINES_ALWAYS_MEET
+            else:
+                return None
+        else:
+            if slope_variation < 0:
+                slope_variation *= -1
+                const_variation *= -1
+            point_x = const_variation / slope_variation
+            point_y = point_x * eq1.slope + eq1.const
+            return point_x, point_y
