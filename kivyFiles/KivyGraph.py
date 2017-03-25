@@ -7,13 +7,15 @@ from random import randint
 
 class KivyGraph(Widget):
     center_coor = (0,0)
-    nodes = []
-    edges = []
+    nodes = None
+    edges = None
     center_node = None
 
     def __init__(self, center, **kwargs):
         super(KivyGraph, self).__init__(**kwargs)
         self.center_coor = center
+        self.nodes = []
+        self.edges = []
 
     def add_node(self,node):
         """
