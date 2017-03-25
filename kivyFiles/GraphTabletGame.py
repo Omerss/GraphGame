@@ -1,4 +1,4 @@
-from GraphLayout import GraphLayout
+from KivyGraphTester import GameLayout
 from kivy.app import App
 from Point import Point
 from LineEquation import LineEquation
@@ -11,7 +11,7 @@ class GraphTabletGame(App):
     counter4 = 0
 
     def build(self):
-        self.layout = GraphLayout()
+        self.layout = GameLayout()
         self.real_graph = self.layout.original_graph
         return self.layout
 
@@ -58,8 +58,8 @@ class GraphTabletGame(App):
             node_x = node.get_x()
             node_y = node.get_y()
             node_r = node.get_radius()
-            if (node_x + node_r) > screen_edges['min_x'] or (node_x - node_r) < screen_edges['max_x'] or \
-               (node_y + node_r) > screen_edges['min_y'] or (node_y - node_r) < screen_edges['max_x']:
+            if (node_x + node_r) > screen_edges['min_x'] and (node_x - node_r) < screen_edges['max_x'] and \
+                    (node_y + node_r) > screen_edges['min_y'] and (node_y - node_r) < screen_edges['max_y']:
                 real_node = self.real_graph.get_node_by_serial(node.serial)
                 displayed_nodes.append(real_node)
         return displayed_nodes
@@ -86,12 +86,15 @@ class GraphTabletGame(App):
 
         displayed_edges = []
 
-        for edge in self.layout.kivy_graph.edges():
+        for edge in self.layout.kivy_graph.edges:
             if self.is_node_onscreen(edge.node1.serial, displayed_nodes):
                 if self.is_node_onscreen(edge.node2.serial, displayed_nodes):
                     first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
                     second_node = self.real_graph.get_node_by_serial(edge.node2.serial)
-                    curr_edge = (first_node,second_node)
+                    if edge.node1.get_x() < edge.node2.get_x():
+                        curr_edge = (first_node,second_node)
+                    else:
+                        curr_edge = (second_node, first_node)
                     displayed_edges.append(curr_edge)
                 else:
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
@@ -176,7 +179,9 @@ class GraphTabletGame(App):
 
         if second_node is None:
             raise Exception("Did not find two viable nodes for onscreen edge!")
-
-        curr_edge = (first_node, second_node)
+        if first_node.x < second_node.x:
+            curr_edge = (first_node, second_node)
+        else:
+            curr_edge = (second_node, first_node)
         return curr_edge
 
