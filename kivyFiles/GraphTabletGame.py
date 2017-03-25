@@ -5,6 +5,10 @@ from LineEquation import LineEquation
 from NodeObject import NodeObject
 
 class GraphTabletGame(App):
+    counter1 = 0
+    counter2 = 0
+    counter3 = 0
+    counter4 = 0
 
     def build(self):
         self.layout = GraphLayout()
@@ -13,13 +17,21 @@ class GraphTabletGame(App):
 
     def press_button(self,num):
         if(num == 1):
-            self.layout.button1_func
+            f = self.counter1 % len(self.layout.button1_func)
+            self.layout.button1_func[f]()
+            self.counter1 += 1
         elif (num == 2):
-            self.layout.button2_func
+            f = self.counter2 % len(self.layout.button2_func)
+            self.layout.button2_func[f]()
+            self.counter2 += 1
         elif (num == 3):
-            self.layout.button3_func
+            f = self.counter3 % len(self.layout.button3_func)
+            self.layout.button3_func[f]()
+            self.counter3 += 1
         elif (num == 4):
-            self.layout.button4_func
+            f = self.counter4 % len(self.layout.button4_func)
+            self.layout.button4_func[f]()
+            self.counter4 += 1
 
     def get_info_from_screen(self):
         '''
