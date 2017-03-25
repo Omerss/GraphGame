@@ -2,3 +2,5 @@ configparser
 ini
 numpy
 kivy
+unittest
+mock

@@ -1,6 +1,7 @@
 import collections
 import math
 import logging
+import os
 
 import Utils
 from NodeObject import NodeObject
@@ -18,6 +19,7 @@ class GraphObject:
 
     def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None, extra_distance=None):
         if config_file:
+            assert(os.path.exists(config_file))
             self.config = Utils.read_config_file(config_file)
             self.size = {"max_x": self.config.getint('GeneralParams', 'GraphSizeX'),
                          "max_y": self.config.getint('GeneralParams', 'GraphSizeY')}
@@ -38,8 +40,9 @@ class GraphObject:
         for i in range(self.node_count):
             self.nodeList.append(NodeObject())
 
-    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle, node_size=50):
+    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle, node_size=50, serial=None, real=True):
         """
+        :param serial: A specific serial for the node.
         :param x_loc: The x location of the node
         :param y_loc: The y location of the node
         :param node_colour: Colour of the node
@@ -53,8 +56,13 @@ class GraphObject:
             "Error! Coordinate of node is out of bound: {}".format(y_loc)
 
         location = {'x': x_loc, 'y': y_loc}
-        serial = get_serial(location)
-        new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape)
+        if serial is not None:
+            if self.get_node_by_serial(serial) is not None:
+                print("Error - Trying to add a node with an existing serial")
+                return None
+        else:
+            serial = get_serial(location)
+        new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape, real=real)
         self.node_list.append(new_node)
         return new_node
 
@@ -117,11 +125,11 @@ class GraphObject:
         return best_node.serial_num
 
     def get_node_by_serial(self, serial):
-        result = None
         for node in self.node_list:
             if node.serial_num == serial:
                 return node
-        raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.node_list))
+        return None
+        # raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.node_list))
 
     def is_node_far_enough(self, main_node, node_1, node_2):
         """

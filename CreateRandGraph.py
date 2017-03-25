@@ -87,7 +87,7 @@ def check_collisions(x_location, y_location, graph, node_size, extra_space):
     temp_node = NodeObject('0', {'x': x_location, 'y': y_location}, node_size)
     collision = False
     for node in graph.node_list:
-        if temp_node.distance_from_node(node) < node_size + node.size + extra_space * 2:
+        if temp_node.distance(node) < node_size + node.size + extra_space * 2:
             collision = True
     return collision
 

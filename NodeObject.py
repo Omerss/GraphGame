@@ -13,7 +13,7 @@ class NodeObject(Point):
     possible_neighbors = set()
     real = True
 
-    def __init__(self, serial, location, size, colour=Colours.green, shape=Shapes.circle):
+    def __init__(self, serial, location, size, colour=Colours.green, shape=Shapes.circle, real=True):
         """
 
         :param serial:
@@ -29,6 +29,7 @@ class NodeObject(Point):
         self.shape = shape
         self.neighbors = set()
         self.possible_neighbors = set()
+        self.real = real
 
     def get_num_neighbors(self):
         return len(self.neighbors)
