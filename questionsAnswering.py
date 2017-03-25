@@ -59,7 +59,7 @@ def question_four(graph_object):
     """
 
     :param graph_object: a valid graph object
-    :return: the color of the nodes with maximum sum of links
+    :return: the Name of the color of the nodes with maximum sum of links
     """
     dictionary = scan_nodes_colors(graph_object, 2)
     max_value = -1
@@ -87,10 +87,112 @@ def question_five(graph_object, color_x, color_y):
     return number_of_nodes
 
 
+# what is the color that contain the node with the minimum links in the graph?
+def question_six(graph_object):
+    """
+
+    :param graph_object: a valid graph object
+    :return: the Name of the color of the node with the minimum links
+    """
+    dictionary = scan_nodes_colors(graph_object,4)
+    min_value = 9999999
+    min_key = ''
+    for key in dictionary:
+        if dictionary.get(key) < min_value:
+            min_value = dictionary.get(key)
+            min_key = key
+
+    return min_key
+
+
+# what is the color that contain the minimum sum of links in the graph?
+def question_seven(graph_object):
+    """
+
+    :param graph_object: a valid graph object
+    :return: the Name of the color of the nodes with minimum sum of links
+    """
+    dictionary = scan_nodes_colors(graph_object, 2)
+    min_value = -1
+    min_key = ''
+    for key in dictionary:
+        if dictionary.get(key) < min_value:
+            min_value = dictionary.get(key)
+            min_key = key
+
+    return min_key
 
 
 
+# is there a nodes of color X that have a link to another node of color X?
+def question_eight(graph_object, color_x):
+    """
 
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :return: true - if there is nodes in graph_object of the color color_x that have links to another node of color color_x.
+    """
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_x)
+    if number_of_nodes>0:
+        return  True
+    else:
+        return False
+
+#question_nine - didnt understood...
+
+
+#does every node at color X have link to a node of color Y?
+def question_ten (graph_object, color_x, color_y):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param color_y: a valid color enum
+    :return: true - if all the nodes in graph_object of the color color_x  have links to a node of color color_y.
+    """
+    number_of_nodes_color_x= question_one(graph_object,color_x)
+    number_color_x_link_y = question_two(graph_object,color_x,color_y)
+    if (number_color_x_link_y==number_of_nodes_color_x):
+        return  True
+    else:
+        return False
+
+
+
+# is there a nodes of color X that have at least Number link to another node of color X?
+def question_eleven(graph_object, color_x, number=2):
+    """
+
+    :param graph_object:  a valid graph object
+    :param color_x: a valid color enum
+    :param number: a positive integer
+    :return:  true - if there is nodes in graph_object of the color color_x that have at least "number" of links to another nodes of color color_x.
+    """
+
+    number_of_node = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x,color_x,number)
+    if number_of_node > 0:
+        return True
+    else:
+        return False
+
+#
+def question_twelve(graph_object, color_x, flag):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param flag: 1 or 0
+    :return: if flag = 1, return true if there is a color_x node with odd number of links. if 0 otherwise.
+    """
+
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_node_with_odd_links,1, color_x,flag)
+    if number_of_nodes>0:
+        return True
+    else:
+        return False
+
+
+#useful functions:
 
 # going through the graph object and returning an dict of all the colors and the number of nodes at that color
 def scan_nodes_colors(graph_object, flag):
@@ -99,7 +201,7 @@ def scan_nodes_colors(graph_object, flag):
     :param flag: 1- to return the number of nodes at each color. 2- to return the total number of links all the nodes at each color have. 3- to return the max number of links
     :return: if the flag is 1, then return dict contains the number of nodes at each color. if 2 then return dict contains total number of links all the nodes at each color have.
     """
-    dictionary = {'red':0, 'green':0, 'blue':0, 'white':0 }
+    dictionary = {'red':None, 'green':None, 'blue':None, 'white':None }
     for node in graph_object.node_list:
         if (node.serial is None):
             continue
@@ -110,9 +212,11 @@ def scan_nodes_colors(graph_object, flag):
             if flag == 2:
                 dictionary[str_color] = dictionary.get(str_color) + node.get_num_neighbors()
             if flag == 3:
-                if dictionary.get(str_color)< node.get_num_neighbors():
+                if dictionary.get(str_color)< node.get_num_neighbors() or dictionary.get(str_color) is None:
                     dictionary[str_color] =  node.get_num_neighbors()
-
+            if flag == 4:
+                if dictionary.get(str_color)> node.get_num_neighbors() or dictionary.get(str_color) is None:
+                    dictionary[str_color] =  node.get_num_neighbors()
     return  dictionary
 
 
@@ -163,7 +267,7 @@ def is_nodes_of_color(node_object, color):
             return True
     return False
 
-def is_color_x_link_color_y(node_object, color_x, color_y):
+def is_color_x_link_color_y(node_object, color_x, color_y, num=1 ):
     """
 
     :param node_object: a valid node object
@@ -174,10 +278,13 @@ def is_color_x_link_color_y(node_object, color_x, color_y):
     if (node_object.serial is None):
         return False
     else:
+        tmp =0
         if (node_object.colour == color_x):
             for node in node_object.neighbors:
                 if (node.colour == color_y):
-                    return True
+                    tmp = tmp +1
+                    if (tmp >= num):
+                        return True
     return False
 
 
@@ -198,3 +305,24 @@ def is_color_x_unlink_color_y(node_object, color_x, color_y):
                     return False
             return True
     return False
+
+
+def is_node_with_odd_links (node_object, color_x, flag=1):
+    """
+
+    :param node_object: a valid node object
+    :param color_x:a valid color enum
+    :param flag: 1 or 0
+    :return: if flag = 1, return true if node_object have odd num of links.
+            if flag = 0, return true if node_object have even num of links.
+    """
+    if (node_object.serial is None):
+        return False
+    else:
+        if (flag == 1):
+            if (node_object.get_num_neighbors() %2 ==0):
+                return False
+        else:
+            if (node_object.get_num_neighbors() % 2 == 1):
+                return False
+    return True
