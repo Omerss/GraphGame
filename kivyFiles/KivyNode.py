@@ -11,7 +11,7 @@ class KivyNode(Widget):
     serial = -1
     node_size = 50
     colour = None
-    neighbors = []
+    neighbors = None
 
     def __init__(self, x_loc, y_loc, serial, colour,**kwargs):
         super(KivyNode, self).__init__(**kwargs)
@@ -30,6 +30,9 @@ class KivyNode(Widget):
         with self.canvas:
             Ellipse(pos=self.pos, size=self.size)
 
+    def __repr__(self):
+        return 'KivyNode({}, {})'.format(self.x_coor, self.y_coor)
+
     def get_x(self):
         return self.x_coor
 
@@ -40,25 +43,25 @@ class KivyNode(Widget):
         return self.colour
 
     def get_radius(self):
-        return self.size/2
+        return self.node_size/2
 
     def add_neighbor(self,node):
         self.neighbors.append(node.serial)
 
     def move_up(self):
-        self.y_coor += 10
+        self.y_coor += 40
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def move_down(self):
-        self.y_coor -= 10
+        self.y_coor -= 40
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def move_left(self):
-        self.x_coor -= 10
+        self.x_coor -= 40
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def move_right(self):
-        self.x_coor += 10
+        self.x_coor += 40
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def move_by_amount(self,delta_x,delta_y):
@@ -105,4 +108,4 @@ class KivyNode(Widget):
         return dist
 
     def print_node(self):
-        print "For node " + str(self.serial) + ", coordinates = ("+str(self.get_x())+","+str(self.get_y())+") "
+        print "For node " + str(self.serial) + ", coordinates = ("+str(self.get_x())+","+str(self.get_y())+"), color = " + self.colour
