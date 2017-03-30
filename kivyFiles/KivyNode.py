@@ -48,20 +48,20 @@ class KivyNode(Widget):
     def add_neighbor(self,node):
         self.neighbors.append(node.serial)
 
-    def move_up(self):
-        self.y_coor += 40
+    def move_y(self, amount = 40):
+        '''
+        moves the node's y coordinate by 'amount'
+        :param amount: optional. a distance to move the node's y_coor by
+        '''
+        self.y_coor += amount
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
-    def move_down(self):
-        self.y_coor -= 40
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
-
-    def move_left(self):
-        self.x_coor -= 40
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
-
-    def move_right(self):
-        self.x_coor += 40
+    def move_x(self, amount = 40):
+        '''
+        moves the node's x coordinate by 'amount'
+        :param amount: optional. a distance to move the node's x_coor by
+        '''
+        self.x_coor += amount
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
     def move_by_amount(self,delta_x,delta_y):
@@ -72,6 +72,17 @@ class KivyNode(Widget):
         self.x_coor = self.x_coor + delta_x
         self.y_coor = self.y_coor + delta_y
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+
+    def relative_move(self, x_change, y_change):
+        """
+        changes the node's x_coor and y_coor coordinates so that they are now
+        x_change*x_coor and y_change*y_coor respectively
+        :param x_change: the relative change to the node's x_coor
+        :param y_change: the relative change to the node's y_coor
+        """
+        self.x_coor = self.x_coor*x_change
+        self.y_coor = self.y_coor*y_change
+        self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
     def jump_to_location(self,newX,newY):
         """
