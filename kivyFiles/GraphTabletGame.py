@@ -76,8 +76,8 @@ class GraphTabletGame(App):
 
         screen_edges = self.layout.dim
         top_left = Point(screen_edges['min_x'], screen_edges['max_y'])
-        top_right = Point(screen_edges['max_x'], screen_edges['max_y'])
-        bottom_left = Point(screen_edges['min_x'], screen_edges['min_y'])
+        top_right = Point(screen_edges['max_x']+0.001, screen_edges['max_y'])
+        bottom_left = Point(screen_edges['min_x']+0.001, screen_edges['min_y'])
         bottom_right = Point(screen_edges['max_x'], screen_edges['min_y'])
         top = LineEquation.create_equation(top_left,top_right)
         bottom = LineEquation.create_equation(bottom_left, bottom_right)
@@ -87,6 +87,8 @@ class GraphTabletGame(App):
         displayed_edges = []
 
         for edge in self.layout.kivy_graph.edges:
+            curr_edge = None
+
             if self.is_node_onscreen(edge.node1.serial, displayed_nodes):
                 if self.is_node_onscreen(edge.node2.serial, displayed_nodes):
                     first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
@@ -95,22 +97,23 @@ class GraphTabletGame(App):
                         curr_edge = (first_node,second_node)
                     else:
                         curr_edge = (second_node, first_node)
-                    displayed_edges.append(curr_edge)
                 else:
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
-                    displayed_edges.append(curr_edge)
             elif self.is_node_onscreen(edge.node2.serial, displayed_nodes):
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2)
-                displayed_edges.append(curr_edge)
             else:
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None)
+
+            if curr_edge is not None:
                 displayed_edges.append(curr_edge)
+
 
         return displayed_edges
 
     def is_node_onscreen(self,serial,displayed_nodes):
         for node in displayed_nodes:
             if node.serial_num == serial:
+
                 return True
 
         return False
@@ -140,45 +143,48 @@ class GraphTabletGame(App):
         # check if edge collides with top border
         if LineEquation.check_collision_point(edge_equation, top):
             col_point = LineEquation.get_equation_collision_point(edge_equation, top)
-            if first_node is None:
-                second_node = NodeObject(None,{'x':col_point.x, 'y':col_point.y},None)
+            if first_node is not None:
+                second_node = NodeObject(None,{'x':col_point[0], 'y':col_point[1]},None)
                 second_node.real = False
             else:
-                first_node = NodeObject(None, {'x': col_point.x, 'y': col_point.y}, None)
+                first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 first_node.real = False
 
         # check if edge collides with bottom border
-        elif LineEquation.check_collision_point(edge_equation, bottom):
+        if LineEquation.check_collision_point(edge_equation, bottom):
             col_point = LineEquation.get_equation_collision_point(edge_equation, bottom)
-            if first_node is None:
-                second_node = NodeObject(None,{'x':col_point.x, 'y':col_point.y},None)
+            if first_node is not None:
+                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
                 second_node.real = False
             else:
-                first_node = NodeObject(None, {'x': col_point.x, 'y': col_point.y}, None)
+                first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 first_node.real = False
 
         # check if edge collides with left border
-        elif LineEquation.check_collision_point(edge_equation, left):
+        if LineEquation.check_collision_point(edge_equation, left):
             col_point = LineEquation.get_equation_collision_point(edge_equation, left)
-            if first_node is None:
-                second_node = NodeObject(None,{'x':col_point.x, 'y':col_point.y},None)
+            if first_node is not None:
+                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
                 second_node.real = False
             else:
-                first_node = NodeObject(None, {'x': col_point.x, 'y': col_point.y}, None)
+                first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 first_node.real = False
 
         # check if edge collides with right border
-        elif LineEquation.check_collision_point(edge_equation, right):
+        if LineEquation.check_collision_point(edge_equation, right):
             col_point = LineEquation.get_equation_collision_point(edge_equation, right)
-            if first_node is None:
-                second_node = NodeObject(None,{'x':col_point.x, 'y':col_point.y},None)
+            if first_node is not None:
+                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
                 second_node.real = False
             else:
-                first_node = NodeObject(None, {'x': col_point.x, 'y': col_point.y}, None)
+                first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 first_node.real = False
 
         if second_node is None:
-            raise Exception("Did not find two viable nodes for onscreen edge!")
+            if first_node is None:
+                return None
+            else:
+                raise Exception("Only One viable nodes for onscreen edge!")
         if first_node.x < second_node.x:
             curr_edge = (first_node, second_node)
         else:
