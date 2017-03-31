@@ -32,6 +32,8 @@ class testGraphTabletGame(unittest.TestCase):
         game.build()
         nodes = game.get_onscreen_nodes()
         print nodes
+        edges = game.get_onscreen_edges(nodes)
+        print edges
 
 if __name__ == '__main__':
     unittest.main()
