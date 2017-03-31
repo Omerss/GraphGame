@@ -14,8 +14,13 @@ class KivyEdge(Widget):
 
     def __init__(self, node1, node2,**kwargs):
         super(KivyEdge, self).__init__(**kwargs)
-        self.node1 = node1
-        self.node2 = node2
+        if node1.get_x() < node2.get_x():
+            self.node1 = node1
+            self.node2 = node2
+        else:
+            self.node1 = node2
+            self.node2 = node1
+
         with self.canvas:
             self.line=Line(points=[self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()], width=self.line_width)
 
