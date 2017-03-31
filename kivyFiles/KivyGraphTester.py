@@ -32,14 +32,14 @@ class GameLayout(FloatLayout):
         self.original_graph = self.get_GraphObj()
         # self.original_graph = create_rand_graph("../config.ini")
         self.center_screen = self.get_center_coor()
-        self.kivy_graph = KivyGraph(self.center_screen)
+        self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size)
         self.get_nodes()
         self.get_edges()
         self.button1_func = [self.kivy_graph.move_up]
         self.button2_func = [self.kivy_graph.move_down]
         self.button3_func = [self.kivy_graph.move_right]
         self.button4_func = [self.kivy_graph.move_left]
-        #self.get_buttons()
+        self.get_buttons()
         # self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
