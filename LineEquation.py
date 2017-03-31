@@ -34,7 +34,7 @@ class LineEquation:
             else:
                 return False
 
-        if LineEquation.point_in_between_edges(point, eq1) or LineEquation.point_in_between_edges(point, eq2):
+        if LineEquation.point_in_between_edges(point, eq1) and LineEquation.point_in_between_edges(point, eq2):
             return True
         else:
             return False
@@ -58,8 +58,8 @@ class LineEquation:
         else:
             # y = m*x + b
             location_equation = LineEquation()
-            location_equation.slope = (point1.y - point2.y) / (point1.x - point2.x)
-            location_equation.const = point1.y - location_equation.slope * point1.y  # b
+            location_equation.slope = float(point1.y - point2.y) / (point1.x - point2.x)
+            location_equation.const = point1.y - location_equation.slope * point1.x  # b
             location_equation.edge1 = min(point1.x, point2.x)
             location_equation.edge2 = max(point1.x, point2.x)
             return location_equation
