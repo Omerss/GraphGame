@@ -1,7 +1,7 @@
 
-from KivyEdge import *
-from KivyGraph import *
-from KivyNode import *
+from kivyFiles.KivyEdge import *
+from kivyFiles.KivyGraph import *
+from kivyFiles.KivyNode import *
 from NodeObject import NodeObject
 class KivyAPI:
     def __init__(self, kivy_graph,bottom_left, top_right, **kwargs):

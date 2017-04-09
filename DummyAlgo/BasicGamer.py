@@ -135,8 +135,10 @@ class BasicGamer:
             # case 1,2,3,4,7
             if right_edge[1].is_real():
                 # case 1,2,3
+                pass
             else:
                 # case 4,7
+                pass
         else:
             # case 5,6,8
             if right_edge[1].is_real():
@@ -151,7 +153,7 @@ class BasicGamer:
                     self.extra_edges.remove(right_edge)
                 else:
                     # case 6
-                    if
+                    pass
 
             else:
                 # case 8
