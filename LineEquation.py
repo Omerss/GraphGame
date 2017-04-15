@@ -41,7 +41,7 @@ class LineEquation:
 
     @staticmethod
     def point_in_between_edges(point, eq1):
-        if eq1.edge1 < point[0] < eq1.edge2 or eq1.edge1 > point[0] > eq1.edge2:
+        if eq1.edge1 <= point[0] <= eq1.edge2 or eq1.edge1 >= point[0] >= eq1.edge2:
             return True
         else:
             return False
@@ -52,7 +52,7 @@ class LineEquation:
         Creates a line equation give two points as edges
         :return:  A line LineEquation object
         """
-        assert (type(point1) == Point and type(point2) == Point)
+        assert isinstance(point1, Point) and isinstance(point2, Point)
         if point1.x == point2.x:
             pass
         else:
@@ -78,6 +78,7 @@ class LineEquation:
             if const_variation == 0:
                 return LINES_ALWAYS_MEET
             else:
+                # Lines are parallel
                 return None
         else:
             if slope_variation < 0:
