@@ -108,27 +108,27 @@ class TestGameDataHandling(unittest.TestCase):
 
         # Case 1 - One edge is connected to two real nodes. Other edge only connects to one real node and the other
         #  to a fake node
-        data_handler.connect_edges_advanced(edge_two_real_14, edge_left_real_13)
+        data_handler.connect_edges(edge_two_real_14, edge_left_real_13)
         mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
         self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
 
         # Case 2 - Both edges each connect to one real node and one fake node. Both real nodes are different
-        data_handler.connect_edges_advanced(edge_left_real_13, edge_right_real_24)
+        data_handler.connect_edges(edge_left_real_13, edge_right_real_24)
         mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
         self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
 
         # Case 3 - Both edges connect to the same real node. Both edge's other node is  different fake one
-        data_handler.connect_edges_advanced(edge_left_real_13, edge_left_real_12)
+        data_handler.connect_edges(edge_left_real_13, edge_left_real_12)
         mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
         self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
 
         # Case 4 - One edge is connected to a real node and to a fake node. Other edge connects to two fake nodes.
-        data_handler.connect_edges_advanced(edge_left_real_12, edge_two_unreal_23)
+        data_handler.connect_edges(edge_left_real_12, edge_two_unreal_23)
         mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
         self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
 
         # Case 5 - Both edge have two fake nodes.
-        data_handler.connect_edges_advanced(edge_two_unreal_13, edge_two_unreal_23)
+        data_handler.connect_edges(edge_two_unreal_13, edge_two_unreal_23)
         mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
         self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
 
