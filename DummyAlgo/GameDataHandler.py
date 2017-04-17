@@ -143,8 +143,10 @@ class GameDataHandler:
         :param edge_1, edge_2: An edge defined by a tuple of NodeObjects
         """
         # Cleaning all existing connection
-        self.extra_edges.remove(edge_1)
-        self.extra_edges.remove(edge_2)
+        if edge_1 in self.extra_edges:
+            self.extra_edges.remove(edge_1)
+        if edge_2 in self.extra_edges:
+            self.extra_edges.remove(edge_2)
 
         self.clean_connection(edge_1[0], edge_1[1])
         self.clean_connection(edge_1[1], edge_1[0])
@@ -158,9 +160,9 @@ class GameDataHandler:
         # connect the right nodes
         self.connect_nodes(node_1, node_2)
         if node_1.x < node_2.x:
-            self.extra_edges.append(node_1, node_2)
+            self.extra_edges.append((node_1, node_2))
         else:
-            self.extra_edges.append(node_2, node_1)
+            self.extra_edges.append((node_2, node_1))
 
     def connect_edges(self, edge_1, edge_2):
         """

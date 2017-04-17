@@ -14,6 +14,19 @@ MAX_VALUE = 1
 
 class TestGameDataHandling(unittest.TestCase):
 
+    def setUp(self):
+        self.node_1_real = NodeObject(serial=10, location={'x': 100, 'y': 100}, size=1, real=True)
+        self.node_1_unreal = NodeObject(serial=11, location={'x': 100, 'y': 100}, size=1, real=False)
+        self.node_2_real = NodeObject(serial=20, location={'x': 200, 'y': 200}, size=1, real=True)
+        self.node_2_unreal = NodeObject(serial=21, location={'x': 200, 'y': 200}, size=1, real=False)
+        self.node_3_real = NodeObject(serial=30, location={'x': 300, 'y': 300}, size=1, real=True)
+        self.node_3_unreal = NodeObject(serial=31, location={'x': 300, 'y': 300}, size=1, real=False)
+        self.node_4_real = NodeObject(serial=40, location={'x': 400, 'y': 400}, size=1, real=True)
+        self.node_4_unreal = NodeObject(serial=41, location={'x': 400, 'y': 400}, size=1, real=False)
+
+        self.node_list = [self.node_1_real, self.node_1_unreal, self.node_2_real, self.node_2_unreal, self.node_3_real,
+                          self.node_3_unreal, self.node_4_real, self.node_4_unreal]
+
     def test_get_furthest_nodes(self):
         # Assemble
         node_1 = NodeObject(serial=1, location={'x': 1, 'y': 1}, size=1, real=True)
@@ -68,6 +81,56 @@ class TestGameDataHandling(unittest.TestCase):
         self.assertTrue(res_hit)
         self.assertTrue(res_hit_same_point)
         self.assertTrue(res_same_edge)
+
+    @patch('DummyAlgo.GameDataHandler.GameDataHandler.connect_nodes')
+    @patch('DummyAlgo.GameDataHandler.GameDataHandler.clean_connection')
+    @patch('DummyAlgo.GameDataHandler.GraphObject.get_node_by_serial')
+    def test_connect_edges_advanced(self, mock_get_node_by_serial, mock_clean, mock_connect):
+
+        def mock_get_node(serial):
+            for node in self.node_list:
+                if node.serial_num == serial:
+                    return node
+            return None
+
+        # Assemble
+        mock_get_node_by_serial.side_effect = mock_get_node
+        data_handler = GameDataHandler(None)
+
+        edge_two_real_14 = (self.node_1_real, self.node_4_real)
+        edge_left_real_13 = (self.node_1_real, self.node_3_unreal)
+        edge_left_real_12 = (self.node_1_real, self.node_2_unreal)
+        edge_right_real_24 = (self.node_2_unreal, self.node_4_real)
+        edge_two_unreal_23 = (self.node_2_unreal, self.node_3_unreal)
+        edge_two_unreal_13 = (self.node_1_unreal, self.node_2_unreal)
+
+        # Act + Assert
+
+        # Case 1 - One edge is connected to two real nodes. Other edge only connects to one real node and the other
+        #  to a fake node
+        data_handler.connect_edges_advanced(edge_two_real_14, edge_left_real_13)
+        mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
+        self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
+
+        # Case 2 - Both edges each connect to one real node and one fake node. Both real nodes are different
+        data_handler.connect_edges_advanced(edge_left_real_13, edge_right_real_24)
+        mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
+        self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
+
+        # Case 3 - Both edges connect to the same real node. Both edge's other node is  different fake one
+        data_handler.connect_edges_advanced(edge_left_real_13, edge_left_real_12)
+        mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
+        self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
+
+        # Case 4 - One edge is connected to a real node and to a fake node. Other edge connects to two fake nodes.
+        data_handler.connect_edges_advanced(edge_left_real_12, edge_two_unreal_23)
+        mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
+        self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
+
+        # Case 5 - Both edge have two fake nodes.
+        data_handler.connect_edges_advanced(edge_two_unreal_13, edge_two_unreal_23)
+        mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
+        self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
 
     @patch('DummyAlgo.GameDataHandler.read_data_from_window')
     def test_data_collection(self, mock_reader):
