@@ -265,6 +265,40 @@ def question_sixteen(graph_object):
     return max_key
 
 
+# which color has the minimum number of nodes?
+def question_seventeen(graph_object):
+    """
+
+    :param graph_object: a valid graph object
+    :return: the Name of the color with the minimum number of nodes
+    """
+
+    dictionary = scan_nodes_colors(graph_object, 1)
+    min_value = 9999999
+    min_key = ''
+    for key in dictionary:
+        if dictionary.get(key) < min_value:
+            min_value = dictionary.get(key)
+            min_key = key
+
+    return min_key
+
+
+# is there more nodes of color X than nodes of color Y?
+def question_eighteen(graph_object,color_x, color_y):
+    """
+
+    :param graph_object: a valid graph object
+    :param color_x: a valid color enum
+    :param color_y: a valid color enum
+    :return: the 1 if there is more node of color color_x. 0 otherwise
+    """
+
+    dictionary = scan_nodes_colors(graph_object, 1)
+    if dictionary.get(color_x['name']) > dictionary.get(color_y['name']):
+        return True
+    else:
+        return False
 
 
 
@@ -309,24 +343,36 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
     :param flag: 1- to return the number of nodes answering the boolean expression. 2- to return the total number of links all the nodes of nodes answering the boolean expression have.
     :return: if the flag is 1, then return the number of nodes answering the boolean expression. if 2 then return the total number of links all the nodes answering the boolean expression. have.
     """
+    sum = 0
+    for node in graph_object.node_list:
+        if (node.serial is None):
+            continue
+        else:
 
-    return
+            if flag == 1:
+                if (boolean_expression(node, args)):
+                    sum= sum +1
+            if flag == 2:
+                if (boolean_expression(node, args)):
+                    sum = sum + node.get_num_neighbors()
 
-
-
-# Scaning all the nodes in the GraphObject with given Boolean expression, and asking does all the nodes answer to the Boolean expression
-
-def boolean_all_the_nodes_quetioning(graph_object, boolean_expression):
-    """
-
-    :param GraphObject: a valid graph object to be scanned
-    :param Boolean_expression: the  boolean expression that will be used for questioning while scaning the graph. the  boolean expression will be at the following format -
-    param - valid node object. return -  true/false.
-    :return: true - if all the nodes in GraphObject answer to the Boolean expression. flase else.
-    """
-    return
+    return sum
 
 
+#unused function
+#  Scaning all the nodes in the GraphObject with given Boolean expression, and asking does all the nodes answer to the Boolean expression
+#
+# def boolean_all_the_nodes_quetioning(graph_object, boolean_expression):
+#     """
+#
+#     :param GraphObject: a valid graph object to be scanned
+#     :param Boolean_expression: the  boolean expression that will be used for questioning while scaning the graph. the  boolean expression will be at the following format -
+#     param - valid node object. return -  true/false.
+#     :return: true - if all the nodes in GraphObject answer to the Boolean expression. flase else.
+#     """
+#     return
+#
+#
 
 #boolean expressions:
 
