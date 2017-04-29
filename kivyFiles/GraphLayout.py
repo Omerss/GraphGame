@@ -5,7 +5,7 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from CreateRandGraph import create_rand_graph
-from GraphButton import uniButton, multiButton
+from GraphButton import multiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
@@ -32,7 +32,7 @@ class GraphLayout(FloatLayout):
         self.button3_func = [self.kivy_graph.move_right]
         self.button4_func = [self.kivy_graph.move_left]
         self.get_buttons()
-        self.kivy_graph.centralize_random_node()
+        ##self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
         """
@@ -52,7 +52,8 @@ class GraphLayout(FloatLayout):
             for node in graph_nodes:
                 colour = node.colour
                 Color(colour['R'],colour['G'],colour['B'])
-                new_node = KivyNode(node.x,node.y,node.serial_num,colour['name'])
+                new_node = KivyNode(node.x, node.y, node.serial_num, colour['name'])
+                print node.size
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self):
@@ -89,6 +90,7 @@ class GraphLayout(FloatLayout):
         self.add_widget(layout)
 
     def fit_graph_to_screen(self):
-        self.kivy_graph.resize_graph(self.dim["max_x"],self.dim["max_y"])
+        self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
+        self.kivy_graph.move_right(110)
 
 
