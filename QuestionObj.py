@@ -2,12 +2,12 @@ import questionsAnswering
 from Enums import Colours
 
 class QuestionObject():
-    question_string
-    is_the_question_open
-    user_answer
-    question_number
+    question_string= ""
+    is_the_question_open = ""
+    user_answer = ""
+    question_number = ""
     list_of_possible_answers = None
-    args
+    args = []
     def __init__(self, questsion_string, question_number, *args):
         self.question_string = question_string
         self.quetion_number = question_number
