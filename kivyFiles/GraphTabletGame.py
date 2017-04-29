@@ -1,8 +1,9 @@
-from KivyGraphTester import GameLayout
+from GraphLayout import GraphLayout
 from kivy.app import App
 from Point import Point
 from LineEquation import LineEquation
 from NodeObject import NodeObject
+from CreateRandGraph import create_rand_graph
 
 class GraphTabletGame(App):
     counter1 = 0
@@ -10,9 +11,20 @@ class GraphTabletGame(App):
     counter3 = 0
     counter4 = 0
 
+    def __init__(self, graph, button_funcs, signal, button_width = 100, dim = {"max_x": 800, "max_y": 600}, **kwargs):
+        '''
+        graph
+        button functions - list of buttons and their functions
+        screen dimentions
+        button size/width
+        signal - to announce button press
+        '''
+        super(GraphTabletGame, self).__init__(**kwargs)
+        self.layout = GraphLayout(graph, button_funcs, signal, dim, button_width)
+        self.real_graph = graph
+
+
     def build(self):
-        self.layout = GameLayout()
-        self.real_graph = self.layout.original_graph
         return self.layout
 
     def press_button(self,num):
@@ -191,3 +203,6 @@ class GraphTabletGame(App):
             curr_edge = (second_node, first_node)
         return curr_edge
 
+if __name__ == "__main__":
+    game = GraphTabletGame(create_rand_graph("../config.ini"),None,None)
+    game.run()
