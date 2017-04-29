@@ -4,7 +4,6 @@ kivy.require('1.9.1')
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from CreateRandGraph import create_rand_graph
 from GraphButton import multiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
@@ -19,20 +18,19 @@ class GraphLayout(FloatLayout):
     center_screen = (0,0)
 
 
-    def __init__(self, **kwargs):
+    def __init__(self, graph, button_funcs, signal, dim, button_width, **kwargs):
         super(GraphLayout, self).__init__(**kwargs)
+        self.button_width = button_width
+        self.dim = {"min_x": button_width, "min_y": 0 ,"max_x": dim['max_x'], "max_y": dim['max_y']}
         kivy.core.window.Window.size = (self.dim['max_x'], self.dim['max_y'])
-        self.original_graph = create_rand_graph("../config.ini")
+        self.original_graph = graph
         self.center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size)
         self.get_nodes()
         self.get_edges()
-        self.button1_func = [self.fit_graph_to_screen]
-        self.button2_func = [self.kivy_graph.move_down,self.kivy_graph.move_up,self.kivy_graph.jump]
-        self.button3_func = [self.kivy_graph.move_right]
-        self.button4_func = [self.kivy_graph.move_left]
+        self.set_button_functions(button_funcs)
         self.get_buttons()
-        ##self.kivy_graph.centralize_random_node()
+        self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
         """
@@ -88,6 +86,12 @@ class GraphLayout(FloatLayout):
         layout.add_widget(button3)
         layout.add_widget(button4)
         self.add_widget(layout)
+
+    def set_button_functions(self, buttons):
+        self.button1_func = [self.kivy_graph.zoom_in,self.kivy_graph.zoom_out]
+        self.button2_func = [self.kivy_graph.move_down, self.kivy_graph.move_up, self.kivy_graph.jump]
+        self.button3_func = [self.kivy_graph.move_right]
+        self.button4_func = [self.kivy_graph.move_left]
 
     def fit_graph_to_screen(self):
         self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
