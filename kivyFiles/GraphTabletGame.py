@@ -1,9 +1,10 @@
+
 from GraphLayout import GraphLayout
 from kivy.app import App
-from Point import Point
-from LineEquation import LineEquation
-from NodeObject import NodeObject
-from CreateRandGraph import create_rand_graph
+from SupplementaryFiles.Point import Point
+from SupplementaryFiles.LineEquation import LineEquation
+from SupplementaryFiles.NodeObject import NodeObject
+from SupplementaryFiles.CreateRandGraph import create_rand_graph
 
 class GraphTabletGame(App):
     counter1 = 0

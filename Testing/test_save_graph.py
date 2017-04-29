@@ -1,13 +1,10 @@
-
 import unittest
-from NodeObject import NodeObject
-from GraphObj import GraphObject
-import math
-from random import random
-from SaveGraph import save_graph
-from LoadGraph import load_graph
-from Enums import Colours, Shapes
-from NodeObject import NodeObject
+
+from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.GraphObj import GraphObject
+from SupplementaryFiles.LoadGraph import load_graph
+from SupplementaryFiles.SaveGraph import save_graph
+
 
 class TestNode(unittest.TestCase):
 

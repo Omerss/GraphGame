@@ -3,8 +3,8 @@ import unittest
 
 import math
 
-from DummyAlgo.ProbabilityGraph import ProbabilityGraph
-from DummyAlgo.ProbabilityObjects import ProbabilityNode
+from GameData.ProbabilityGraph import ProbabilityGraph
+from GameData.ProbabilityObjects import ProbabilityNode
 
 
 class TestNode(unittest.TestCase):

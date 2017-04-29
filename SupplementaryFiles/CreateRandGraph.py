@@ -1,13 +1,11 @@
-import random
-import math
-import random
 import logging
+import random
 
 import LineEquation
 import Utils
-from NodeObject import NodeObject
-from GraphObj import GraphObject
 from Enums import Colours, Shapes
+from GraphObj import GraphObject
+from NodeObject import NodeObject
 
 
 def create_rand_graph(config_file):

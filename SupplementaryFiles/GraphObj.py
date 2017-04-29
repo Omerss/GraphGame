@@ -1,11 +1,9 @@
-import collections
-import math
 import logging
 import os
 
-import Utils
-from NodeObject import NodeObject
-from Enums import Colours, Shapes
+from SupplementaryFiles import Utils
+from SupplementaryFiles.Enums import Colours, Shapes
+from SupplementaryFiles.NodeObject import NodeObject
 
 
 class GraphObject:

@@ -1,8 +1,4 @@
-
-from kivyFiles.KivyEdge import *
-from kivyFiles.KivyGraph import *
-from kivyFiles.KivyNode import *
-from NodeObject import NodeObject
+from SupplementaryFiles.NodeObject import NodeObject
 class KivyAPI:
     def __init__(self, kivy_graph,bottom_left, top_right, **kwargs):
         self.kivy_graph = kivy_graph
@@ -90,8 +86,8 @@ class KivyAPI:
               and (kivy_node.y_coor < y_max)
               and (kivy_node.y_coor > y_min)):
 
-         # think what to do
-        return False
+            # think what to do
+            return False
 
 
     def create_imaginary_node(self,kivy_edge,node):
@@ -101,9 +97,11 @@ class KivyAPI:
         if (node.coor_x > self.x_max):
             if (edge_line_equation(self.x_max) > self.y_min
                 and (edge_line_equation(self.x_max) < self.y_max )):
-
+                pass
             else:
+                pass
         elif  (node.coor_x < self.x_min):
+            pass
 
 
     def calculate_location_on_screen (self, node):

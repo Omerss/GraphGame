@@ -10,6 +10,7 @@ from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 
+
 class GraphLayout(FloatLayout):
     button_width = 100
     dim = {"min_x": button_width, "min_y": 0 ,"max_x": 800, "max_y": 600}
@@ -17,8 +18,8 @@ class GraphLayout(FloatLayout):
     kivy_graph = None
     center_screen = (0,0)
 
-
     def __init__(self, graph, button_funcs, signal, dim, button_width, **kwargs):
+
         super(GraphLayout, self).__init__(**kwargs)
         self.button_width = button_width
         self.dim = {"min_x": button_width, "min_y": 0 ,"max_x": dim['max_x'], "max_y": dim['max_y']}

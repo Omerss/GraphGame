@@ -5,15 +5,14 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from CreateRandGraph import create_rand_graph
 from GraphButton import multiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 from random import randint
-from GraphObj import GraphObject
-from NodeObject import NodeObject
+from SupplementaryFiles.GraphObj import GraphObject
+from SupplementaryFiles.NodeObject import NodeObject
 
 Colours = [{'R':1,'G':0,'B':0,'name':"red"},{'R':0,'G':1,'B':0,'name':"green"},{'R':0,'G':0,'B':1,'name':"blue"},{'R':1,'G':0,'B':1,'name':"purple"},{'R':1,'G':1,'B':0,'name':"yellow"},{'R':0,'G':1,'B':1,'name':"light blue"}]
 
@@ -118,12 +117,10 @@ class GameLayout(FloatLayout):
                              (-670411082, 1860364738), (640916944, 1860364738)]
         return graph
 
+
 class GraphGameApp(App):
     def build(self):
         layout = GameLayout()
         print layout.original_graph.connections
         layout.kivy_graph.print_graph_nodes()
         return layout
-
-if __name__ == "__main__":
-    GraphGameApp().run()
