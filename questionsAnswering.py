@@ -138,11 +138,10 @@ def question_eight(graph_object, color_x):
     else:
         return False
 
-#question_nine - didnt understood...
 
 
 #does every node at color X have link to a node of color Y?
-def question_ten (graph_object, color_x, color_y):
+def question_nine (graph_object, color_x, color_y):
     """
 
     :param graph_object: a valid graph object
@@ -157,6 +156,21 @@ def question_ten (graph_object, color_x, color_y):
     else:
         return False
 
+    # is there more nodes of color X than nodes of color Y?
+def question_ten(graph_object, color_x, color_y):
+        """
+
+        :param graph_object: a valid graph object
+        :param color_x: a valid color enum
+        :param color_y: a valid color enum
+        :return: the 1 if there is more node of color color_x. 0 otherwise
+        """
+
+        dictionary = scan_nodes_colors(graph_object, 1)
+        if dictionary.get(color_x['name']) > dictionary.get(color_y['name']):
+            return True
+        else:
+            return False
 
 
 # is there a nodes of color X that have at least Number link to another node of color X?
@@ -228,23 +242,27 @@ def question_fourteen(graph_object, color_x, flag):
             return True
 
 
-# which color has the maximum number of nodes?
-def question_fifteen(graph_object):
+#does the number of nodes at color X is odd (flag =1)/ even (flag=0)?
+def question_fifteen(graph_object, color_x, flag):
     """
-
     :param graph_object: a valid graph object
-    :return: the Name of the color with the maximum number of nodes
+    :param color_x: a valid color enum
+    :param flag: flag: 1 or 0
+    :return:  if flag = 1, return true if the number of nodes at color X is odd. if 0 otherwise.
     """
 
     dictionary = scan_nodes_colors(graph_object, 1)
-    max_value = -1
-    max_key = ''
-    for key in dictionary:
-        if dictionary.get(key) > max_value:
-            max_value = dictionary.get(key)
-            max_key = key
+    if dictionary.get(color_x['name']) %2 ==0:
+        if flag == 0:
+            return True
+        else:
+            return False
+    else:
+        if flag == 0:
+            return False
+        else:
+            return True
 
-    return max_key
 
 # which color has the maximum number of nodes?
 def question_sixteen(graph_object):
@@ -282,23 +300,6 @@ def question_seventeen(graph_object):
             min_key = key
 
     return min_key
-
-
-# is there more nodes of color X than nodes of color Y?
-def question_eighteen(graph_object,color_x, color_y):
-    """
-
-    :param graph_object: a valid graph object
-    :param color_x: a valid color enum
-    :param color_y: a valid color enum
-    :return: the 1 if there is more node of color color_x. 0 otherwise
-    """
-
-    dictionary = scan_nodes_colors(graph_object, 1)
-    if dictionary.get(color_x['name']) > dictionary.get(color_y['name']):
-        return True
-    else:
-        return False
 
 
 
