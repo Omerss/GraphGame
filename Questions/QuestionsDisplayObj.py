@@ -1,5 +1,5 @@
 
-__all__ = ('QuestionDisplay')
+
 
 import QuestionObj
 from CheckBoxObj import CheckBox
@@ -26,11 +26,11 @@ class QuestionDisplay():
                 self.usersAnswers[i] = question.getAnswer
             i = i+1
         if (gotoAnswers):
-            #do stuff
+            pass
 
     def __init__ (self, questions):
         btn1 = Button(text='submit')
-        btn1.bind(on_press=callback)
+        btn1.bind(on_press=self.callback)
         self.questions= questions
         i =0
         for question in questions:
@@ -47,10 +47,8 @@ if __name__ == '__main__':
     from random import uniform
     from kivy.base import runTouchApp
     from kivy.uix.gridlayout import GridLayout
-
-    runTouchApp(x)
-
-
+    x = GridLayout
+    QuestionDisplay(x)
 
 
 def buildSubmissionButton ():
