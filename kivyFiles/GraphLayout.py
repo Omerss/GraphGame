@@ -12,7 +12,7 @@ from KivyNode import KivyNode
 
 class GraphLayout(FloatLayout):
     button_width = 100
-    dim = {"min_x": button_width, "min_y": 0 ,"max_x": 800, "max_y": 600}
+    ##dim = {"min_x": button_width, "min_y": 0 ,"max_x": 800, "max_y": 600}
     original_graph = None
     kivy_graph = None
     center_screen = (0,0)
@@ -25,12 +25,12 @@ class GraphLayout(FloatLayout):
         kivy.core.window.Window.size = (self.dim['max_x'], self.dim['max_y'])
         self.original_graph = graph
         self.center_screen = self.get_center_coor()
-        self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size)
+        self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size, self.dim)
         self.get_nodes()
         self.get_edges()
         self.set_button_functions(button_funcs)
         self.get_buttons()
-        self.kivy_graph.centralize_random_node()
+        ##self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
         """
