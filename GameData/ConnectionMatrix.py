@@ -1,8 +1,4 @@
-import math
-import numpy as np
-
-from NodeObject import NodeObject
-from Enums import Colours, Shapes
+from SupplementaryFiles.NodeObject import NodeObject
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1

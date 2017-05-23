@@ -3,3 +3,5 @@ ini
 numpy
 kivy
 mock
+pydispatch
+PyDispatcher

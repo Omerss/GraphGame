@@ -1,9 +1,3 @@
-import GraphObj
-import NodeObject
-import Enums
-from Enums import Colours
-
-
 #questions functions:
 
 

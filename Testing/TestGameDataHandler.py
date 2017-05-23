@@ -1,12 +1,11 @@
+import time
 import unittest
 
-import time
-from mock import MagicMock, Mock, patch
+from mock import patch
 
-from CreateRandGraph import create_rand_graph
-from GraphObj import GraphObject
-from NodeObject import NodeObject
-from DummyAlgo.GameDataHandler import GameDataHandler, read_data_from_window
+from GameDataHandler import GameDataHandler
+from SupplementaryFiles.CreateRandGraph import create_rand_graph
+from SupplementaryFiles.NodeObject import NodeObject
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1
@@ -43,8 +42,8 @@ class TestGameDataHandling(unittest.TestCase):
         self.assertIn(node_4.serial_num, res, "node with serial number {0} was not returned by function."
                                               " Got {1}".format(node_4.serial_num, res))
 
-    @patch('DummyAlgo.GameDataHandler.GraphObject.connect_nodes')
-    @patch('DummyAlgo.GameDataHandler.GraphObject.get_node_by_serial')
+    @patch('GameData.GameDataHandler.GraphObject.connect_nodes')
+    @patch('GameData.GameDataHandler.GraphObject.get_node_by_serial')
     def test_connect_nodes(self, mock_get_node_by_serial, mock_connect_nodes):
         # Assemble
         node_1 = NodeObject(serial=1, location={'x': 1, 'y': 1}, size=1, real=True)
@@ -82,9 +81,9 @@ class TestGameDataHandling(unittest.TestCase):
         self.assertTrue(res_hit_same_point)
         self.assertTrue(res_same_edge)
 
-    @patch('DummyAlgo.GameDataHandler.GameDataHandler.connect_nodes')
-    @patch('DummyAlgo.GameDataHandler.GameDataHandler.clean_connection')
-    @patch('DummyAlgo.GameDataHandler.GraphObject.get_node_by_serial')
+    @patch('GameData.GameDataHandler.GameDataHandler.connect_nodes')
+    @patch('GameData.GameDataHandler.GameDataHandler.clean_connection')
+    @patch('GameData.GameDataHandler.GraphObject.get_node_by_serial')
     def test_connect_edges_advanced(self, mock_get_node_by_serial, mock_clean, mock_connect):
 
         def mock_get_node(serial):
@@ -132,7 +131,7 @@ class TestGameDataHandling(unittest.TestCase):
         mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
         self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
 
-    @patch('DummyAlgo.GameDataHandler.read_data_from_window')
+    @patch('GameData.GameDataHandler.read_data_from_window')
     def test_data_collection(self, mock_reader):
         # WIP
         return

@@ -1,13 +1,11 @@
-import random
-import math
-import random
 import logging
+import random
 
 import LineEquation
 import Utils
-from NodeObject import NodeObject
-from GraphObj import GraphObject
 from Enums import Colours, Shapes
+from GraphObj import GraphObject
+from NodeObject import NodeObject
 
 
 def create_rand_graph(config_file):
@@ -32,7 +30,8 @@ def create_rand_graph(config_file):
                                     config.getint("NodeData", "NodeSize"),
                                     config.getint("NodeData", "ExtraDistance")):
                 break
-        new_graph.add_node(xRandom, yRandom, Colours.red, Shapes.circle, config.getint("NodeData", "NodeSize"))
+        randColor = random(Colours)
+        new_graph.add_node(xRandom, yRandom, randColor, Shapes.circle, config.getint("NodeData", "NodeSize"))
     connect_graph(new_graph, config.getint("NodeData", "MaxNeighbors"), config.getint("NodeData", "MinNeighbors"))
     return new_graph
 

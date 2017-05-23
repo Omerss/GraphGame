@@ -1,19 +1,18 @@
-import xml.sax
-from NodeObject import NodeObject
-from Enums import Colours, Shapes
-from GraphObj import GraphObject
-from xml.etree.ElementTree import Element, SubElement, Comment, tostring
-import xml.etree.cElementTree as E
-import Enums
 import ast
-def load_graph(file_name):
+import xml.etree.cElementTree as E
 
+import Enums
+from GraphObj import GraphObject
+from NodeObject import NodeObject
+
+
+def load_graph_from_file(file_name):
     tree = E.parse(file_name)
     root = tree.getroot()
     graph_xml = root.find("graph_xml")
     node_list = graph_xml.find("node_list")
     new_graph = GraphObject()
-    new_graph.size= ast.literal_eval(graph_xml.find("size").text)
+    new_graph.size = ast.literal_eval(graph_xml.find("size").text)
     new_graph.extra_distance = int(graph_xml.find("extra_distance").text)
     new_graph.max_neighbors = int(graph_xml.find("max_neighbors").text)
     new_graph.line_colour = from_name_to_color(graph_xml.find("line_colour").text) #fggfg
@@ -40,18 +39,21 @@ def load_graph(file_name):
 
     return new_graph
 
+
 def from_name_to_color(name):
-    if (name == "black"):
+    if name == "black":
         return Enums.Colours.black
-    if (name == "red"):
+    if name == "red":
         return Enums.Colours.red
-    if (name == "green"):
+    if name == "green":
         return Enums.Colours.green
-    if (name == "blue"):
+    if name == "blue":
         return Enums.Colours.blue
-    if (name == "white"):
+    if name == "white":
         return Enums.Colours.white
 
+
 def from_name_to_shape(name):
-    if (name == "Circle"):
+    if name == "Circle":
         return Enums.Shapes.circle
+

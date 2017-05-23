@@ -1,7 +1,8 @@
-import ConnectionMatrix
-from NodeObject import NodeObject
-from Enums import Colours, Shapes
 import math
+
+import ConnectionMatrix
+from SupplementaryFiles.Enums import Colours, Shapes
+from SupplementaryFiles.NodeObject import NodeObject
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1

@@ -1,9 +1,6 @@
-
 import unittest
-from NodeObject import NodeObject
-from GraphObj import GraphObject
-import math
-from random import random
+
+from SupplementaryFiles.GraphObj import GraphObject
 
 
 class TestNode(unittest.TestCase):

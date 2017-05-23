@@ -1,5 +1,5 @@
 import unittest
-from DummyAlgo.ProbabilityObjects import ProbabilityNode
+from GameData.ProbabilityObjects import ProbabilityNode
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1

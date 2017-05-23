@@ -1,7 +1,7 @@
 import math
 
-from Enums import Colours, Shapes
 from Point import Point
+from SupplementaryFiles.Enums import Colours, Shapes
 
 
 class NodeObject(Point):

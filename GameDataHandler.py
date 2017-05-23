@@ -1,36 +1,20 @@
-import random
-import time
 
-from GraphObj import GraphObject
-#from kivyFiles.GraphTabletGame import GraphTabletGame
-from LineEquation import LineEquation, LINES_ALWAYS_MEET
+
+from SupplementaryFiles.GraphObj import GraphObject
+from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
 
 """
-The basic AI that plays the game
+Handles all data return from the window. Constructs a new graph based on the supplied data.
 """
-
-edges = []
-nodes = []
-
-
-def read_data_from_window(tablet_game):
-    """
-    Gets data from the kivy game. Data = {'nodes': [NodeObject list]. 'edges':[(NodeObject, NodeObject)]}
-    In edges, if NodeObject has serial = None
-    :return:
-    """
-    node_list = []
-    return node_list
 
 
 class GameDataHandler:
     def __init__(self, config):
-        number_of_real_nodes = 20
+        # basic_config -
+        self.edges = []
+        self.nodes = []
         self.graph = GraphObject(config)
         self.extra_edges = []
-
-        #self.tablet_game = GraphTabletGame()
-        #self.tablet_game.build()
 
     def get_number_of_known_nodes(self):
         return len(self.known_graph.node_list)
@@ -60,10 +44,11 @@ class GameDataHandler:
             else:
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False)
 
-            node_0.possible_neighbors.add(node_1.serial_num)
-            node_1.possible_neighbors.add(node_0.serial_num)
+            if node_1.serial_num not in node_0.possible_neighbors:
+                node_0.possible_neighbors.add(node_1.serial_num)
+            if node_0.serial_num not in node_1.possible_neighbors:
+                node_1.possible_neighbors.add(node_0.serial_num)
             self.graph.connect_nodes(node_0, node_1, allow_overflow=True)
-
 
 
             # if not edge[0].is_real() and not edge[1].is_real():
@@ -98,6 +83,7 @@ class GameDataHandler:
 
             if edge not in self.extra_edges:
                 self.extra_edges.append(edge)
+        self.trim_data()
 
     def trim_data(self):
         """
@@ -164,18 +150,6 @@ class GameDataHandler:
         else:
             self.extra_edges.append((node_2, node_1))
 
-    def do_move(self):
-        btn_num = self.get_best_button()
-        self.tablet_game.press_button(btn_num)
-        print("Pressing button {0}".format(btn_num))
-        graph_window = read_data_from_window(self.tablet_game)
-        self.add_view_to_db(graph_window)
-        print(self.graph)
-
-    def get_best_button(self):
-        # use A* search algorithm
-        return random.randint(1, 4)
-
     def clean_connection(self, main_node, node_to_remove):
         """
         Removed all connection from main_node regarding node_to_remove
@@ -212,7 +186,7 @@ class GameDataHandler:
         :param args: a list of NodeObjects
         :return: The serial numbers of the two furthest nodes from each of other.
         """
-        from NodeObject import NodeObject
+        from SupplementaryFiles.NodeObject import NodeObject
         node_list = {}
         for node in args:
             if type(node) != NodeObject:

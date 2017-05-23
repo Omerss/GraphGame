@@ -1,5 +1,6 @@
 import unittest
-from NodeObject import NodeObject
+
+from SupplementaryFiles.NodeObject import NodeObject
 
 
 class TestNode(unittest.TestCase):
