@@ -5,22 +5,31 @@ from kivy.uix.button import Button
 
 class uniButton(Button):
 
-    def __init__(self,img,func,**kwargs):
+    def __init__(self, img, func, **kwargs):
         super(uniButton,self).__init__(**kwargs)
         self.background_normal = img
         self.on_press = func
 
+
 class multiButton(Button):
-    funcs = []
+    funcs = None
     counter = 0
 
-    def __init__(self,img,funcs,**kwargs):
+
+    def __init__(self, img, funcs, signal, button_lst, button_num,  **kwargs):
         super(multiButton,self).__init__(**kwargs)
         self.background_normal = img
         self.funcs = funcs
         self.on_press = self.get_func
+        self.signal = signal
+        self.num = button_num
+        self.lst = button_lst
+
 
     def get_func(self):
         f = self.counter%len(self.funcs)
         self.funcs[f]()
         self.counter += 1
+        self.signal.set()
+        self.lst.append(self.num)
+
