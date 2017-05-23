@@ -1,29 +1,27 @@
 import threading
-
 import time
-
 import logging
-from pydispatch import dispatcher
 
 from GameDataHandler import GameDataHandler
+from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
 CONFIG_FILE_PATH = "./config.ini"
-SIG_BUTTON_PRESS = 'A button has been pressed in kivy'
 
 
 class GameHandler:
 
     def __init__(self):
-        self.config = read_config_file(CONFIG_FILE_PATH)
+        #self.config = read_config_file(CONFIG_FILE_PATH)
         self.current_graph = None
         self.current_data_handler = None
         self.display = None
 
         self.current_step_count = 0
         self.button_event = threading.Event()
+        self.not_finished_run_flag = True
 
     def run_single_game(self, graph, graph_config):
         """
@@ -35,7 +33,10 @@ class GameHandler:
         :param graph_config: A graph config file containing basic structure data about the graph. Number of nodes etc.
 
         """
-        self.current_graph = load_graph_from_file(graph)
+        if graph is None:
+            self.current_graph = create_rand_graph(graph_config)
+        else:
+            self.current_graph = load_graph_from_file(graph)
         self.current_data_handler = GameDataHandler(graph_config)
 
         # Stage 1 - Run game
@@ -49,7 +50,12 @@ class GameHandler:
         # Run kivy
         display_thread = threading.Thread(name="Kivy display thread", target=self.kivy_thread, args=([], self.button_event))
         display_thread.start()
+        while self.not_finished_run_flag:
+            pass
+        self.not_finished_run_flag = True
+        # Stage 2 - Questionnaire
 
+        print("end")
 
     def kivy_thread(self, *args):
         print(threading.currentThread().getName(), 'Starting')
