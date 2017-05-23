@@ -1,15 +1,15 @@
 import questionsAnswering
-from Enums import Colours
+from SupplementaryFiles.Enums import Colours
 
 class QuestionObject():
     question_string= ""
-    is_the_question_open = ""
-    user_answer = ""
-    question_number = ""
+    is_the_question_open = False
+    user_answer = -1
+    question_number = 0
     list_of_possible_answers = None
     args = []
     def __init__(self, questsion_string, question_number, *args):
-        self.question_string = question_string
+        self.question_string = questsion_string
         self.quetion_number = question_number
         self.args = args
 
@@ -101,3 +101,6 @@ class QuestionObject():
 
     def getListOfPossibleAnswers (self):
         return self.list_of_possible_answers
+
+    def setUserAnswer (self,answer):
+        self.user_answer = answer
