@@ -87,18 +87,18 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
-    def move_node_to_center(self, node):
+    def move_node_to_center(self, new_center):
         """
         function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
         :param node: a node to be moved to the center of the screen
         """
-        delta_x = self.center_coor[0] - node.get_x()
-        delta_y = self.center_coor[1] - node.get_y()
+        delta_x = self.center_coor[0] - new_center.get_x()
+        delta_y = self.center_coor[1] - new_center.get_y()
         for node in self.nodes:
             node.move_by_amount(delta_x,delta_y)
         for edge in self.edges:
             edge.reset_edge()
-        self.center_node = node
+        self.center_node = new_center
 
     def centralize_random_node(self):
         """
