@@ -3,7 +3,7 @@ from kivy.app import App
 from Point import Point
 from LineEquation import LineEquation
 from NodeObject import NodeObject
-from CreateRandGraph import create_rand_graph
+
 
 class GraphTabletGame(App):
     counter1 = 0
@@ -11,24 +11,24 @@ class GraphTabletGame(App):
     counter3 = 0
     counter4 = 0
 
-    def __init__(self, graph, button_funcs, signal, button_width = 100, dim = {"max_x": 800, "max_y": 600}, **kwargs):
-        '''
+    def __init__(self, graph, button_funcs, signal, button_width=100, dim={"max_x": 1100, "max_y": 600}, **kwargs):
+
+        """
         graph
         button functions - list of buttons and their functions
         screen dimentions
         button size/width
         signal - to announce button press
-        '''
+        """
         super(GraphTabletGame, self).__init__(**kwargs)
         self.layout = GraphLayout(graph, button_funcs, signal, dim, button_width)
         self.real_graph = graph
 
-
     def build(self):
         return self.layout
 
-    def press_button(self,num):
-        if(num == 1):
+    def press_button(self, num):
+        if (num == 1):
             f = self.counter1 % len(self.layout.button1_func)
             self.layout.button1_func[f]()
             self.counter1 += 1
@@ -57,7 +57,7 @@ class GraphTabletGame(App):
         '''
         nodes = self.get_onscreen_nodes
         edges = self.get_onscreen_edges(nodes)
-        return {'nodes':nodes, 'edges':edges}
+        return {'nodes': nodes, 'edges': edges}
 
     def get_onscreen_nodes(self):
         '''
@@ -71,7 +71,7 @@ class GraphTabletGame(App):
             node_y = node.get_y()
             node_r = node.get_radius()
             if (node_x + node_r) > screen_edges['min_x'] and (node_x - node_r) < screen_edges['max_x'] and \
-                    (node_y + node_r) > screen_edges['min_y'] and (node_y - node_r) < screen_edges['max_y']:
+                            (node_y + node_r) > screen_edges['min_y'] and (node_y - node_r) < screen_edges['max_y']:
                 real_node = self.real_graph.get_node_by_serial(node.serial)
                 displayed_nodes.append(real_node)
         return displayed_nodes
@@ -88,13 +88,13 @@ class GraphTabletGame(App):
 
         screen_edges = self.layout.dim
         top_left = Point(screen_edges['min_x'], screen_edges['max_y'])
-        top_right = Point(screen_edges['max_x']+0.001, screen_edges['max_y'])
-        bottom_left = Point(screen_edges['min_x']+0.001, screen_edges['min_y'])
+        top_right = Point(screen_edges['max_x'] + 0.001, screen_edges['max_y'])
+        bottom_left = Point(screen_edges['min_x'] + 0.001, screen_edges['min_y'])
         bottom_right = Point(screen_edges['max_x'], screen_edges['min_y'])
-        top = LineEquation.create_equation(top_left,top_right)
+        top = LineEquation.create_equation(top_left, top_right)
         bottom = LineEquation.create_equation(bottom_left, bottom_right)
-        left = LineEquation.create_equation(bottom_left,top_left)
-        right = LineEquation.create_equation(bottom_right,top_right)
+        left = LineEquation.create_equation(bottom_left, top_left)
+        right = LineEquation.create_equation(bottom_right, top_right)
 
         displayed_edges = []
 
@@ -106,7 +106,7 @@ class GraphTabletGame(App):
                     first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
                     second_node = self.real_graph.get_node_by_serial(edge.node2.serial)
                     if edge.node1.get_x() < edge.node2.get_x():
-                        curr_edge = (first_node,second_node)
+                        curr_edge = (first_node, second_node)
                     else:
                         curr_edge = (second_node, first_node)
                 else:
@@ -119,18 +119,16 @@ class GraphTabletGame(App):
             if curr_edge is not None:
                 displayed_edges.append(curr_edge)
 
-
         return displayed_edges
 
-    def is_node_onscreen(self,serial,displayed_nodes):
+    def is_node_onscreen(self, serial, displayed_nodes):
         for node in displayed_nodes:
             if node.serial_num == serial:
-
                 return True
 
         return False
 
-    def get_partly_visible_edge(self,edge,top,bottom,left,right,node):
+    def get_partly_visible_edge(self, edge, top, bottom, left, right, node):
         '''
 
         :param edge: an edge that can be seen onscreen but where at least one node is not visible
@@ -156,7 +154,7 @@ class GraphTabletGame(App):
         if LineEquation.check_collision_point(edge_equation, top):
             col_point = LineEquation.get_equation_collision_point(edge_equation, top)
             if first_node is not None:
-                second_node = NodeObject(None,{'x':col_point[0], 'y':col_point[1]},None)
+                second_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 second_node.real = False
             else:
                 first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
@@ -166,7 +164,7 @@ class GraphTabletGame(App):
         if LineEquation.check_collision_point(edge_equation, bottom):
             col_point = LineEquation.get_equation_collision_point(edge_equation, bottom)
             if first_node is not None:
-                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
+                second_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 second_node.real = False
             else:
                 first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
@@ -176,7 +174,7 @@ class GraphTabletGame(App):
         if LineEquation.check_collision_point(edge_equation, left):
             col_point = LineEquation.get_equation_collision_point(edge_equation, left)
             if first_node is not None:
-                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
+                second_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 second_node.real = False
             else:
                 first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
@@ -186,7 +184,7 @@ class GraphTabletGame(App):
         if LineEquation.check_collision_point(edge_equation, right):
             col_point = LineEquation.get_equation_collision_point(edge_equation, right)
             if first_node is not None:
-                second_node = NodeObject(None,{'x': col_point[0], 'y': col_point[1]},None)
+                second_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
                 second_node.real = False
             else:
                 first_node = NodeObject(None, {'x': col_point[0], 'y': col_point[1]}, None)
@@ -202,7 +200,3 @@ class GraphTabletGame(App):
         else:
             curr_edge = (second_node, first_node)
         return curr_edge
-
-if __name__ == "__main__":
-    game = GraphTabletGame(create_rand_graph("../config.ini"),None,None)
-    game.run()
