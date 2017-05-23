@@ -24,6 +24,7 @@ class GraphLayout(FloatLayout):
         super(GraphLayout, self).__init__(**kwargs)
         self.button_width = button_width
         self.dim = {"min_x": button_width, "min_y": 0 ,"max_x": dim['max_x'], "max_y": dim['max_y']}
+        self.buttons = []
         self.original_graph = graph
         self.center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size, self.dim)
@@ -32,6 +33,7 @@ class GraphLayout(FloatLayout):
         self.set_button_functions(button_funcs)
         self.get_buttons(signal, button_lst)
         self.kivy_graph.centralize_random_node()
+
 
     def get_center_coor(self):
         """
@@ -85,6 +87,10 @@ class GraphLayout(FloatLayout):
         layout.add_widget(button2)
         layout.add_widget(button3)
         layout.add_widget(button4)
+        self.buttons.append(button1)
+        self.buttons.append(button2)
+        self.buttons.append(button3)
+        self.buttons.append(button4)
         self.add_widget(layout)
 
     def set_button_functions(self, buttons):
@@ -97,5 +103,7 @@ class GraphLayout(FloatLayout):
         self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
         self.kivy_graph.move_right(110)
 
-
+    def set_button_status(self, status):
+        for item in self.buttons:
+            item.active = status
 

@@ -14,7 +14,7 @@ class UniButton(Button):
 class MultiButton(Button):
     funcs = None
     counter = 0
-
+    active = True
 
     def __init__(self, img, funcs, signal, button_lst, button_num,  **kwargs):
         super(MultiButton,self).__init__(**kwargs)
@@ -28,9 +28,10 @@ class MultiButton(Button):
 
 
     def get_func(self):
-        f = self.counter % len(self.funcs)
-        self.funcs[f]()
-        self.counter += 1
-        self.lst.append(self.num)
-        self.signal.set()
+        if(self.active):
+            f = self.counter % len(self.funcs)
+            self.funcs[f]()
+            self.counter += 1
+            self.lst.append(self.num)
+            self.signal.set()
 

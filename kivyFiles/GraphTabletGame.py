@@ -28,6 +28,9 @@ class GraphTabletGame(App):
     def build(self):
         return self.layout
 
+    def set_button_status(self, status):
+        self.layout.set_button_status(status)
+
     def press_button(self, num):
         if (num == 1):
             f = self.counter1 % len(self.layout.button1_func)
