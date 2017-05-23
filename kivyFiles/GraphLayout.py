@@ -9,7 +9,7 @@ from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
-
+from SupplementaryFiles.Enums import Colours
 
 class GraphLayout(FloatLayout):
     button_width = 100
@@ -31,7 +31,7 @@ class GraphLayout(FloatLayout):
         self.get_edges()
         self.set_button_functions(button_funcs)
         self.get_buttons()
-        ##self.kivy_graph.centralize_random_node()
+        self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
         """
@@ -49,7 +49,7 @@ class GraphLayout(FloatLayout):
         graph_nodes = self.original_graph.node_list
         with self.canvas:
             for node in graph_nodes:
-                colour = node.colour
+                colour = Colours.__getattribute__(Colours,node.colour)
                 Color(colour['R'],colour['G'],colour['B'])
                 new_node = KivyNode(node.x, node.y, node.serial_num, colour['name'])
                 print node.size

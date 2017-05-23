@@ -10,8 +10,9 @@ class KivyGraph(Widget):
     nodes = None
     edges = None
     real_size = {'max_x': 800, 'max_y': 600}
+    center_node = None
 
-    def __init__(self, center, size, screen_size, center_node=None, **kwargs):
+    def __init__(self, center, size, screen_size, **kwargs):
         super(KivyGraph, self).__init__(**kwargs)
         self.center_coor = center
         self.nodes = []
@@ -20,10 +21,6 @@ class KivyGraph(Widget):
         self.max_size = size
         self.min_size = {'max_x': (0.2*self.max_size['max_x']),'max_y': (0.2*self.max_size['max_y'])}
         self.screen_size = screen_size
-        if(center_node == None):
-            self.center_node = self.centralize_random_node()
-        else:
-            self.center_node = center_node
 
     def add_node(self,node):
         """
@@ -158,6 +155,12 @@ class KivyGraph(Widget):
         if(new_center != None):
             self.move_node_to_center(new_center)
 
+    def centralize_closest_neighbor_diff_color(self):
+        node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
+        new_center = self.get_closest(node_list,0)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
+
     def zoom_out(self):
         self.resize_graph(self.min_size['max_x'], self.min_size['max_y'], 35, 1.4)
 
@@ -196,12 +199,7 @@ class KivyGraph(Widget):
             edge.reset_edge()
 
         self.real_size = {'max_x': new_x, 'max_y': new_y}
-
-        if new_center is not None:
-            self.center_coor = new_center
-
-        if (keep_center_node) and (self.center_node):
-            self.move_node_to_center(self.center_node)
+        self.move_node_to_center(self.center_node)
 
     def get_onscreen_nodes(self, node_list):
         '''
