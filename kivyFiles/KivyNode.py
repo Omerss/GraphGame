@@ -46,7 +46,7 @@ class KivyNode(Widget):
         return self.node_size/2
 
     def add_neighbor(self,node):
-        self.neighbors.append(node.serial)
+        self.neighbors.append(node)
 
     def move_y(self, amount = 40):
         '''
@@ -94,7 +94,7 @@ class KivyNode(Widget):
         self.y_coor = newY
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
-    def get_neighbors(self):
+    def get_neighbrs(self):
         """
         :return: the list of neighbors associated with a given node
         """
