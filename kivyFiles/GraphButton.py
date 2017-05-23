@@ -3,22 +3,23 @@ kivy.require('1.9.1')
 
 from kivy.uix.button import Button
 
-class uniButton(Button):
 
-    def __init__(self, img, func, **kwargs):
-        super(uniButton,self).__init__(**kwargs)
+class UniButton(Button):
+    def __init__(self,img,func,**kwargs):
+        super(UniButton, self).__init__(**kwargs)
         self.background_normal = img
         self.on_press = func
 
 
-class multiButton(Button):
+class MultiButton(Button):
     funcs = None
     counter = 0
 
 
     def __init__(self, img, funcs, signal, button_lst, button_num,  **kwargs):
-        super(multiButton,self).__init__(**kwargs)
+        super(MultiButton,self).__init__(**kwargs)
         self.background_normal = img
+
         self.funcs = funcs
         self.on_press = self.get_func
         self.signal = signal
@@ -27,7 +28,7 @@ class multiButton(Button):
 
 
     def get_func(self):
-        f = self.counter%len(self.funcs)
+        f = self.counter % len(self.funcs)
         self.funcs[f]()
         self.counter += 1
         self.signal.set()

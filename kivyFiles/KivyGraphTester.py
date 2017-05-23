@@ -1,11 +1,14 @@
 import kivy
+
+from SupplementaryFiles import Utils
+
 kivy.require('1.9.1')
 
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from GraphButton import multiButton
+from GraphButton import MultiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
@@ -83,17 +86,16 @@ class GameLayout(FloatLayout):
         initialized using a string representing an image to be displayed on the button and a function that will be
         responsible for the button's functionality
         """
-        layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = multiButton('button1.jpg',self.button1_func, None, [], 1)
-        button2 = multiButton('button2.jpg',self.button2_func, None, [], 2)
-        button3 = multiButton('button3.jpg',self.button3_func, None, [], 3)
-        button4 = multiButton('button4.jpg',self.button4_func, None, [], 4)
+        layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
+        button1 = MultiButton('{}\\button1.jpg'.format(Utils.image_folder), self.button1_func, None, [], 1)
+        button2 = MultiButton('{}\\button2.jpg'.format(Utils.image_folder), self.button2_func, None, [], 2)
+        button3 = MultiButton('{}\\button3.jpg'.format(Utils.image_folder), self.button3_func, None, [], 3)
+        button4 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button4_func, None, [], 4)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
         layout.add_widget(button4)
         self.add_widget(layout)
-
 
     def get_GraphObj(self):
         graph = GraphObject(None,800,400,6,4,5)

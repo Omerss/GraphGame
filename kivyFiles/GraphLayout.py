@@ -3,12 +3,14 @@ kivy.require('1.9.1')
 
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from GraphButton import multiButton
+from GraphButton import MultiButton
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles import Utils
+
 
 class GraphLayout(FloatLayout):
     button_width = 100
@@ -74,11 +76,11 @@ class GraphLayout(FloatLayout):
         initialized using a string representing an image to be displayed on the button and a function that will be
         responsible for the button's functionality
         """
-        layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = multiButton('button1.jpg',self.button1_func, signal, button_lst, 1)
-        button2 = multiButton('button2.jpg',self.button2_func, signal, button_lst, 2)
-        button3 = multiButton('button3.jpg',self.button3_func, signal, button_lst, 3)
-        button4 = multiButton('button4.jpg',self.button4_func, signal, button_lst, 4)
+        layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
+        button1 = MultiButton('{}\\button1.jpg'.format(Utils.image_folder), self.button1_func, signal, button_lst, 1)
+        button2 = MultiButton('{}\\button2.jpg'.format(Utils.image_folder), self.button2_func, signal, button_lst, 2)
+        button3 = MultiButton('{}\\button3.jpg'.format(Utils.image_folder), self.button3_func, signal, button_lst, 3)
+        button4 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button4_func, signal, button_lst, 4)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
@@ -86,7 +88,7 @@ class GraphLayout(FloatLayout):
         self.add_widget(layout)
 
     def set_button_functions(self, buttons):
-        self.button1_func = [self.kivy_graph.zoom_out,self.kivy_graph.zoom_in]
+        self.button1_func = [self.kivy_graph.zoom_out, self.kivy_graph.zoom_in]
         self.button2_func = [self.kivy_graph.centralize_most_connected]
         self.button3_func = [self.kivy_graph.centralize_closest_same_color]
         self.button4_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
@@ -94,5 +96,6 @@ class GraphLayout(FloatLayout):
     def fit_graph_to_screen(self):
         self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
         self.kivy_graph.move_right(110)
+
 
 
