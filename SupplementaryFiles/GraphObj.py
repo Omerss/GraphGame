@@ -10,7 +10,7 @@ class GraphObject:
     node_list = []
     connections = []
     size = {"max_x": 1000, "max_y": 1000}
-    line_colour = Colours.white
+    line_colour = Colours.red
     node_count = 10
     max_neighbors = 5
     extra_distance = 25
@@ -38,7 +38,7 @@ class GraphObject:
         for i in range(self.node_count):
             self.nodeList.append(NodeObject())
 
-    def add_node(self, x_loc, y_loc, node_colour=Colours.black, node_shape=Shapes.circle, node_size=50, serial=None, real=True):
+    def add_node(self, x_loc, y_loc, node_colour=Colours.red, node_shape=Shapes.circle, node_size=50, serial=None, real=True):
         """
         :param serial: A specific serial for the node.
         :param x_loc: The x location of the node

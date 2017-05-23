@@ -18,9 +18,10 @@ def save_graph(graph, file_name):
 
     for i in range(0, len(graph.node_list)):
         E.SubElement(node_list,"node_serial_num_{}".format(i), name="node_serial_num_{}".format(i)).text = "{}".format(graph.node_list[i].serial_num)
-        E.SubElement(node_list, "node_colour_{}".format(i), name="node_colour_{}".format(i)).text =graph.node_list[i].colour['name']
+        E.SubElement(node_list, "node_colour_{}".format(i), name="node_colour_{}".format(i)).text =graph.node_list[i].colour
         E.SubElement(node_list, "node_shape_{}".format(i), name="node_shape_{}".format(i)).text = graph.node_list[i].shape['name']
-        E.SubElement(node_list, "node_location_{}".format(i), name="node_location_{}".format(i)).text = str(graph.node_list[i].location)
+        E.SubElement(node_list, "node_location_{}".format(i), name="node_location_{}".format(i)).text = \
+            str({'x': graph.node_list[i].x, 'y': graph.node_list[i].x})
         E.SubElement(node_list, "node_size_{}".format(i), name="node_size_{}".format(i)).text = "{}".format(graph.node_list[i].size)
         E.SubElement(node_list, "node_neighbors_{}".format(i), name="node_neighbors_{}".format(i)).text = repr(graph.node_list[i].neighbors)
         E.SubElement(node_list, "possible_neighbors_{}".format(i), name="possible_neighbors_{}".format(i)).text = repr(graph.node_list[i].possible_neighbors)

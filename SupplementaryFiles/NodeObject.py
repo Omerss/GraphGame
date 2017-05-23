@@ -6,14 +6,13 @@ from SupplementaryFiles.Enums import Colours, Shapes
 
 class NodeObject(Point):
     serial_num = None
-    colour = Colours.black
     shape = Shapes.circle
     size = 0
     neighbors = set()
     possible_neighbors = set()
     real = True
 
-    def __init__(self, serial, location, size, colour=Colours.green, shape=Shapes.circle, real=True):
+    def __init__(self, serial, location, size, colour=Colours.red, shape=Shapes.circle, real=True):
         """
 
         :param serial:
