@@ -28,6 +28,3 @@ class TestNode(unittest.TestCase):
         # Assert
         assert far_distance < far_result + max_error or far_distance > far_result - max_error
         assert close_distance < close_result + max_error or close_distance > close_result - max_error
-
-if __name__ == '__main__':
-    unittest.main()

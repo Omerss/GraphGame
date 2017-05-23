@@ -40,19 +40,31 @@ class NodeObject(Point):
         :param node_2: NodeObject
         :return: distance between self and the line between the two points
         """
+        # In case the two nodes are exactly horizontal or vertical to one another
+        if node_2.y == node_1.y:
+            if min(node_1.x, node_2.x) <= self.x <= max(node_1.x, node_2.x):
+                distance = math.fabs(self.y - node_1.y)
+            else:
+                distance = min(self.distance(node_1), self.distance(node_2))
+        elif node_2.x == node_1.x:
+            if min(node_1.y, node_2.y) <= self.y <= max(node_1.y, node_2.y):
+                distance = math.fabs(self.x - node_1.x)
+            else:
+                distance = min(self.distance(node_1), self.distance(node_2))
         # See https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        y_part = math.fabs(node_2.y - node_1.y)
-        x_part = math.fabs(node_2.x - node_1.x)
+        else:
+            y_part = math.fabs(node_2.y - node_1.y)
+            x_part = math.fabs(node_2.x - node_1.x)
 
-        dist_part1 = y_part * self.x
-        dist_part2 = x_part * self.y
-        distance = math.fabs(dist_part1
-                             - dist_part2
-                             + node_1.y * node_2.x
-                             - node_2.y * node_1.x)
-        if math.sqrt(y_part ** 2 + x_part ** 2) == 0:
-            raise Exception("Point-1 and Point-2 are the same!")
-        distance /= math.sqrt(y_part**2 + x_part**2)
+            dist_part1 = y_part * self.x
+            dist_part2 = x_part * self.y
+            distance = math.fabs(dist_part1
+                                 - dist_part2
+                                 + node_1.y * node_2.x
+                                 - node_2.y * node_1.x)
+            if math.sqrt(y_part ** 2 + x_part ** 2) == 0:
+                raise Exception("Point-1 and Point-2 are the same!")
+            distance /= math.sqrt(y_part**2 + x_part**2)
         return distance
 
     def is_real(self):

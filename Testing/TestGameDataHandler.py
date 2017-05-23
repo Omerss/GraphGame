@@ -3,7 +3,7 @@ import unittest
 
 from mock import patch
 
-from GameDataHandler import GameDataHandler
+from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.NodeObject import NodeObject
 
@@ -11,7 +11,7 @@ MIN_VALUE = 0.0001
 MAX_VALUE = 1
 
 
-class TestGameDataHandling(unittest.TestCase):
+class TestGameDataHandler(unittest.TestCase):
 
     def setUp(self):
         self.node_1_real = NodeObject(serial=10, location={'x': 100, 'y': 100}, size=1, real=True)
@@ -131,8 +131,7 @@ class TestGameDataHandling(unittest.TestCase):
         mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
         self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
 
-    @patch('GameData.GameDataHandler.read_data_from_window')
-    def test_data_collection(self, mock_reader):
+    def test_data_collection(self,):
         # WIP
         return
         # Assemble
