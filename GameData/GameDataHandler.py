@@ -116,10 +116,10 @@ class GameDataHandler:
             if collision_point == LINES_ALWAYS_MEET:
                 # Lines have the same slope + const. Big change they are the same one.
                 if LineEquation.check_collision_point(eq1, eq2):
-                    print ("Lines meet and intersect with each other - They are the same line")
+                    #print ("Lines meet and intersect with each other - They are the same line")
                     return True
                 else:
-                    print ("Line have the same parameters but we are not sure of they meet")
+                    #print ("Line have the same parameters but we are not sure of they meet")
                     return False
 
     def connect_edges(self, edge_1, edge_2):
@@ -190,7 +190,7 @@ class GameDataHandler:
         node_list = {}
         for node in args:
             if type(node) != NodeObject:
-                raise "One of the arguments is not of type NodeObjects"
+                raise Exception("One of the arguments is not of type NodeObjects")
             distance_list = []
             for other_node in args:
                 if other_node != node:
