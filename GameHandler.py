@@ -1,11 +1,9 @@
-import threading
-import time
 import logging
+import threading
 
-from GameDataHandler import GameDataHandler
+from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from SupplementaryFiles.Utils import read_config_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
 CONFIG_FILE_PATH = "./config.ini"
