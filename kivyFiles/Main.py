@@ -1,14 +1,9 @@
 import kivy
 kivy.require('1.9.1')
 
-from kivy.app import App
-from GraphLayout import GraphLayout
-
-
-class GraphGameApp(App):
-    def build(self):
-        layout = GraphLayout()
-        return layout
+from CreateRandGraph import create_rand_graph
+from GraphTabletGame import GraphTabletGame
 
 if __name__ == "__main__":
-    GraphGameApp().run()
+    game = GraphTabletGame(create_rand_graph("../config.ini"),None,None)
+    game.run()
