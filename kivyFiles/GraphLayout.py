@@ -17,7 +17,7 @@ class GraphLayout(FloatLayout):
     kivy_graph = None
     center_screen = (0,0)
 
-    def __init__(self, graph, button_funcs, signal, dim, button_width, **kwargs):
+    def __init__(self, graph, button_funcs, signal, button_lst, dim, button_width, **kwargs):
 
         super(GraphLayout, self).__init__(**kwargs)
         self.button_width = button_width
@@ -28,7 +28,7 @@ class GraphLayout(FloatLayout):
         self.get_nodes()
         self.get_edges()
         self.set_button_functions(button_funcs)
-        self.get_buttons()
+        self.get_buttons(signal, button_lst)
         self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
@@ -68,17 +68,17 @@ class GraphLayout(FloatLayout):
                 node1.add_neighbor(node2)
                 node2.add_neighbor(node1)
 
-    def get_buttons(self):
+    def get_buttons(self, signal, button_lst):
         """
         creates a GridLayout that would hold the buttons (GraphButtons) needed for the game. each button should be
         initialized using a string representing an image to be displayed on the button and a function that will be
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = multiButton('button1.jpg',self.button1_func)
-        button2 = multiButton('button2.jpg',self.button2_func)
-        button3 = multiButton('button3.jpg',self.button3_func)
-        button4 = multiButton('button4.jpg',self.button4_func)
+        button1 = multiButton('button1.jpg',self.button1_func, signal, button_lst, 1)
+        button2 = multiButton('button2.jpg',self.button2_func, signal, button_lst, 2)
+        button3 = multiButton('button3.jpg',self.button3_func, signal, button_lst, 3)
+        button4 = multiButton('button4.jpg',self.button4_func, signal, button_lst, 4)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)

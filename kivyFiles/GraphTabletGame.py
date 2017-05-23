@@ -5,23 +5,24 @@ from SupplementaryFiles.Point import Point
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
 
+
 class GraphTabletGame(App):
     counter1 = 0
     counter2 = 0
     counter3 = 0
     counter4 = 0
+    button_presses = []
 
     def __init__(self, graph, button_funcs, signal, button_width=100, dim={"max_x": 1100, "max_y": 600}, **kwargs):
-
         """
         graph
         button functions - list of buttons and their functions
-        screen dimentions
+        screen dimensions
         button size/width
         signal - to announce button press
         """
         super(GraphTabletGame, self).__init__(**kwargs)
-        self.layout = GraphLayout(graph, button_funcs, signal, dim, button_width)
+        self.layout = GraphLayout(graph, button_funcs, signal, self.button_presses, dim, button_width)
         self.real_graph = graph
 
     def build(self):
