@@ -1,7 +1,15 @@
 configparser
+funcsigs
+packaging
+pyparsing
+six
 ini
 numpy
-kivy
+kivy==1.9.1
 mock
 pydispatch
 PyDispatcher
+enum
+Kivy-Garden==0.1.4
+kivy.deps.glew==0.1.4
+kivy.deps.sdl2==0.1.12
