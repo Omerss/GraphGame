@@ -18,8 +18,10 @@ class CheckBox(ToggleButtonBehavior, Widget):
     questionString = ""
     possibleAnswers= []
     funcDict= {}
+    question = None
     x = None
     def __init__ (self,question):
+        self.question = question
         self.questionString = question.getQuestionString()
         self.possibleAnswers = question.getListOfPossibleAnswers()
         self.x = GridLayout(cols=4)
@@ -36,14 +38,16 @@ class CheckBox(ToggleButtonBehavior, Widget):
     def on_checkbox_active_0(self, checkbox, value):
         if value:
             self.answer = 0
+            self.question.setUserAnswer (0)
 
     def on_checkbox_active_1(self, checkbox, value):
         if value:
             self.answer = 1
-
+            self.question.setUserAnswer(1)
     def on_checkbox_active_2(self, checkbox, value):
         if value:
             self.answer = 2
+            self.question.setUserAnswer(2)
 
 
 
@@ -164,8 +168,6 @@ class CheckBox(ToggleButtonBehavior, Widget):
     :class:`~kivy.properties.ListProperty` and defaults to
     '[1, 1, 1, 1]'.
     '''
-
-
 
     def on_state(self, instance, value):
         if value == 'down':
