@@ -56,7 +56,7 @@ class GraphTabletGame(App):
                  created where the x,y coordinates represent the intersection between the edge and the screen and the
                  serial and size are set to None.
         '''
-        nodes = self.get_onscreen_nodes
+        nodes = self.get_onscreen_nodes()
         edges = self.get_onscreen_edges(nodes)
         return {'nodes': nodes, 'edges': edges}
 

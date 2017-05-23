@@ -50,37 +50,6 @@ class GameDataHandler:
                 node_1.possible_neighbors.add(node_0.serial_num)
             self.graph.connect_nodes(node_0, node_1, allow_overflow=True)
 
-
-            # if not edge[0].is_real() and not edge[1].is_real():
-            #     tmp_node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_colour=node.colour, node_size=node.size,
-            #                                      real=False)
-            #     tmp_node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_colour=node.colour, node_size=node.size,
-            #                                      real=False)
-            #     tmp_node_0.possible_neighbors.add(tmp_node_1.serial_num)
-            #     tmp_node_1.possible_neighbors.add(tmp_node_0.serial_num)
-            #     self.graph.connect_nodes(tmp_node_0, tmp_node_1, allow_overflow=True)
-            #
-            # if edge[0].is_real() and not edge[1].is_real():
-            #     node = self.graph.get_node_by_serial(edge[0].serial_num)
-            #     tmp_node = self.graph.add_node(edge[1].x, edge[1].y, node_colour=node.colour, node_size=node.size, real=False)
-            #     node.possible_neighbors.add(tmp_node.serial_num)
-            #     tmp_node.possible_neighbors.add(node.serial_num)
-            #     self.graph.connect_nodes(node, tmp_node, allow_overflow=True)
-            #
-            # if not edge[0].is_real() and edge[1].is_real():
-            #     node = self.graph.get_node_by_serial(edge[1].serial_num)
-            #     tmp_node = self.graph.add_node(edge[0].x, edge[0].y, node_colour=node.colour, node_size=node.size, real=False)
-            #     node.possible_neighbors.add(tmp_node.serial_num)
-            #     tmp_node.possible_neighbors.add(node.serial_num)
-            #     self.graph.connect_nodes(node, tmp_node, allow_overflow=True)
-            #
-            # if edge[1].is_real() and edge[0].is_real():
-            #     node_0 = self.graph.get_node_by_serial(edge[0].serial_num)
-            #     node_1 = self.graph.get_node_by_serial(edge[1].serial_num)
-            #     node_0.possible_neighbors.add(node_1.serial_num)
-            #     node_1.possible_neighbors.add(node_0.serial_num)
-            #     self.graph.connect_nodes(node_0, node_1, allow_overflow=True)
-
             if edge not in self.extra_edges:
                 self.extra_edges.append(edge)
         self.trim_data()

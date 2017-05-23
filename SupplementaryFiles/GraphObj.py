@@ -144,8 +144,8 @@ class GraphObject:
             return True
         else:
             # print "Distance is too small. Node crossed the line of sight of the other nodes."
-            # print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}." \
-            #     .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
+            print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}." \
+                .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
             return False
 
     def connect_nodes(self, node1, node2, allow_overflow=False):

@@ -45,57 +45,63 @@ class GameHandler:
             self.current_graph = load_graph_from_file(graph)
         self.current_data_handler = GameDataHandler(graph_config)
         self.current_turn = 0
-
+        self.stop_threads = False
 
         # Stage 1 - Run game
+        logging.info("Starting Stage 1 - Run game")
         self.current_step_count = 0
         # Register event
         click_thread = threading.Thread(name='block',
                                         target=self.event_pressed_button,
-                                        args=(self.button_event,))
-        click_thread.start()
-        #dispatcher.connect(self.event_press_button, signal=SIG_BUTTON_PRESS, sender=dispatcher.Any)
+                                        args=(self.button_event,)).start()
 
         logging.info("Starting main kivy thread")
-        display_thread = threading.Thread(name="Kivy display thread", target=self.kivy_thread, args=([], self.button_event))
-        display_thread.start()
+        display_thread = threading.Thread(name="Kivy display thread",
+                                          target=self.kivy_thread,
+                                          args=([], self.button_event, self.current_graph)).start()
 
         while True:
-            if self.current_turn == self.max_turns:
-                logging.info("Finished running stage 1")
-                self.stop_threads = True
+            if self.stop_threads:
                 break
+
         self.display.stop()
-        display_thread.join()
-        click_thread.join()
+        display_thread.join(5)
+        if display_thread.is_alive():
+            raise Exception("Threads not closed - thread={}".format(display_thread.name))
+        click_thread.join(5)
+        if click_thread.is_alive():
+            raise Exception("Threads not closed - thread={}".format(click_thread.name))
 
         # Stage 2 - Questionnaire
-        logging.info("Starting Questionnaire")
+        logging.info("Starting Stage 2 - Questionnaire")
 
         # Stage 3 - Results screen
-        logging.info("Starting Result Screen")
-
+        logging.info("Starting Stage 3 - Result Screen")
+        known_graph = self.current_data_handler.graph
+        display_thread = threading.Thread(name="Kivy display thread",
+                                          target=self.kivy_thread,
+                                          args=([], self.button_event, known_graph)).start()
         print("end")
 
     def kivy_thread(self, *args):
         print(threading.currentThread().getName(), 'Starting')
-        self.display = GraphTabletGame(self.current_graph, args[0], args[1])
-        while True:
-            self.display.run()
-            if self.stop_threads:
-                break
+        self.display = GraphTabletGame(args[2], args[0], args[1])
+        self.display.run()
 
     def event_pressed_button(self, button_event):
         """Wait for the event to be set before doing anything"""
         while True:
+
             logging.debug('wait_for_event starting')
             button_clicked = button_event.wait()
             logging.debug('event set: %s', button_clicked)
-            data = self.read_data_from_window
-            print("do something with the data")
+            data = self.display.get_info_from_screen()
+            self.current_data_handler.add_view_to_db(data)
+            print(self.current_data_handler)
             button_event.clear()
             self.current_turn = self.current_turn + 1
-            if self.stop_threads:
+            if self.current_turn == self.max_turns:
+                self.stop_threads = True
                 break
 
     def read_data_from_window(self):
