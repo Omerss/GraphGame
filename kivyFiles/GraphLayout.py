@@ -1,7 +1,6 @@
 import kivy
 kivy.require('1.9.1')
 
-from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from GraphButton import multiButton
@@ -23,7 +22,6 @@ class GraphLayout(FloatLayout):
         super(GraphLayout, self).__init__(**kwargs)
         self.button_width = button_width
         self.dim = {"min_x": button_width, "min_y": 0 ,"max_x": dim['max_x'], "max_y": dim['max_y']}
-        kivy.core.window.Window.size = (self.dim['max_x'], self.dim['max_y'])
         self.original_graph = graph
         self.center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size, self.dim)
@@ -52,7 +50,6 @@ class GraphLayout(FloatLayout):
                 colour = Colours.__getattribute__(Colours,node.colour)
                 Color(colour['R'],colour['G'],colour['B'])
                 new_node = KivyNode(node.x, node.y, node.serial_num, colour['name'])
-                print node.size
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self):
@@ -89,10 +86,10 @@ class GraphLayout(FloatLayout):
         self.add_widget(layout)
 
     def set_button_functions(self, buttons):
-        self.button1_func = [self.kivy_graph.zoom_in,self.kivy_graph.zoom_out]
-        self.button2_func = [self.kivy_graph.move_down, self.kivy_graph.move_up, self.kivy_graph.jump]
-        self.button3_func = [self.kivy_graph.move_right]
-        self.button4_func = [self.kivy_graph.move_left]
+        self.button1_func = [self.kivy_graph.zoom_out,self.kivy_graph.zoom_in]
+        self.button2_func = [self.kivy_graph.centralize_most_connected]
+        self.button3_func = [self.kivy_graph.centralize_closest_same_color]
+        self.button4_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
 
     def fit_graph_to_screen(self):
         self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
