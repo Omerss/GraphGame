@@ -131,6 +131,19 @@ class KivyGraph(Widget):
                         closest_node = node
         return closest_node
 
+    def get_farthest(self, node_list, same_color):
+        max_distance = 0
+        farthest_node = None
+        color = self.center_node.get_colour()
+        for node in node_list:
+            if node != self.center_node:
+                if (same_color == -1) or ((color == node.get_colour()) == same_color):
+                    dist = self.center_node.get_distance_from_node(node)
+                    if (dist > max_distance):
+                        max_distance = dist
+                        farthest_node = node
+        return farthest_node
+
     def centralize_most_connected(self):
         node_list = self.get_onscreen_nodes(self.nodes)
         new_center = self.get_most_connected(node_list)
@@ -158,6 +171,12 @@ class KivyGraph(Widget):
     def centralize_closest_neighbor_diff_color(self):
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
         new_center = self.get_closest(node_list,0)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
+
+    def centralize_farthest_neighbor(self):
+        node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
+        new_center = self.get_farthest(node_list,-1)
         if(new_center != None):
             self.move_node_to_center(new_center)
 
