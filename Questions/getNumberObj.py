@@ -14,8 +14,9 @@ class getNumber():
     answer = 0
     lbl1 = None
     txt1 = ""
-
+    question = None
     def __init__ (self, question):
+        self.question = question
         layout = BoxLayout(padding=10, orientation='vertical')
         btn1 = Button(text="OK")
         btn1.bind(on_press=self.buttonClicked)
@@ -35,4 +36,7 @@ class getNumber():
             self.answer= int(self.txt1)
         except ValueError:
             self.txt1 = "please enter a number value"
+            self.txt1 = "-1"
+        self.question.setUserAnswer(int(self.txt1))
+
 
