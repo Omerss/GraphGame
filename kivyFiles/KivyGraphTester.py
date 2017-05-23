@@ -10,7 +10,6 @@ from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
-from random import randint
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.NodeObject import NodeObject
 
@@ -31,15 +30,15 @@ class GameLayout(FloatLayout):
         self.original_graph = self.get_GraphObj()
         # self.original_graph = create_rand_graph("../config.ini")
         self.center_screen = self.get_center_coor()
-        self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size)
+        self.kivy_graph = KivyGraph(self.center_screen, self.original_graph.size, self.dim)
         self.get_nodes()
         self.get_edges()
-        self.button1_func = [self.kivy_graph.move_up]
-        self.button2_func = [self.kivy_graph.move_down]
-        self.button3_func = [self.kivy_graph.move_right]
-        self.button4_func = [self.kivy_graph.move_left]
+        self.button1_func = [self.kivy_graph.zoom_out, self.kivy_graph.zoom_in]
+        self.button2_func = [self.kivy_graph.centralize_most_connected_neighbor]
+        self.button3_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
+        self.button4_func = [self.kivy_graph.centralize_most_connected]
         self.get_buttons()
-        # self.kivy_graph.centralize_random_node()
+        self.kivy_graph.centralize_random_node()
 
     def get_center_coor(self):
         """
@@ -48,8 +47,6 @@ class GameLayout(FloatLayout):
         x = (self.dim['max_x'] - self.dim['min_x'])/2 + self.button_width
         y = (self.dim['max_y'] - self.dim['min_y']) / 2
         return (x,y)
-
-    colour = Colours[randint(0, len(Colours) - 1)]
 
     def get_nodes(self):
         """
@@ -87,10 +84,10 @@ class GameLayout(FloatLayout):
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width = self.button_width, col_force_default=True)
-        button1 = multiButton('button1.jpg',self.button1_func)
-        button2 = multiButton('button2.jpg',self.button2_func)
-        button3 = multiButton('button3.jpg',self.button3_func)
-        button4 = multiButton('button4.jpg',self.button4_func)
+        button1 = multiButton('button1.jpg',self.button1_func, None, [], 1)
+        button2 = multiButton('button2.jpg',self.button2_func, None, [], 2)
+        button3 = multiButton('button3.jpg',self.button3_func, None, [], 3)
+        button4 = multiButton('button4.jpg',self.button4_func, None, [], 4)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
@@ -100,21 +97,20 @@ class GameLayout(FloatLayout):
 
     def get_GraphObj(self):
         graph = GraphObject(None,800,400,6,4,5)
-        node1 = NodeObject(1885808396, {'x': 369, 'y': 168},50,Colours[0])
-        node2 = NodeObject(-558841234, {'x': 480, 'y': 275}, 50, Colours[1])
-        node3 = NodeObject(640916944, {'x': 628, 'y': 169}, 50, Colours[2])
-        node4 = NodeObject(2063450689, {'x': 636, 'y': 306}, 50, Colours[3])
-        node5 = NodeObject(-670411082, {'x': 250, 'y': 289}, 50, Colours[4])
-        node6 = NodeObject(1860364738, {'x': 184, 'y': 71}, 50, Colours[5])
+        node1 = NodeObject(188, {'x': 369, 'y': 168},50,Colours[0])
+        node2 = NodeObject(-55, {'x': 480, 'y': 275}, 50, Colours[1])
+        node3 = NodeObject(640, {'x': 628, 'y': 169}, 50, Colours[2])
+        node4 = NodeObject(206, {'x': 636, 'y': 306}, 50, Colours[3])
+        node5 = NodeObject(-67, {'x': 250, 'y': 289}, 50, Colours[4])
+        node6 = NodeObject(186, {'x': 184, 'y': 71}, 50, Colours[5])
         graph.node_list.append(node1)
         graph.node_list.append(node2)
         graph.node_list.append(node3)
         graph.node_list.append(node4)
         graph.node_list.append(node5)
         graph.node_list.append(node6)
-        graph.connections = [(640916944, 1885808396), (-558841234, 2063450689), (-558841234, 1860364738),
-                             (-670411082, 640916944), (-670411082, 2063450689), (640916944, 2063450689),
-                             (-670411082, 1860364738), (640916944, 1860364738)]
+        graph.connections = [(640, 188), (-55, 206), (-55, 186), (-67, 640),
+                             (-67, 206), (640, 206), (-67, 186), (640, 186)]
         return graph
 
 
@@ -124,3 +120,5 @@ class GraphGameApp(App):
         print layout.original_graph.connections
         layout.kivy_graph.print_graph_nodes()
         return layout
+
+
