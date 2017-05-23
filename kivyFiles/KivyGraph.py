@@ -9,10 +9,9 @@ class KivyGraph(Widget):
     center_coor = (0,0)
     nodes = None
     edges = None
-    center_node = None
     real_size = {'max_x': 800, 'max_y': 600}
 
-    def __init__(self, center, size, **kwargs):
+    def __init__(self, center, size, screen_size, center_node=None, **kwargs):
         super(KivyGraph, self).__init__(**kwargs)
         self.center_coor = center
         self.nodes = []
@@ -20,6 +19,11 @@ class KivyGraph(Widget):
         self.real_size = size
         self.max_size = size
         self.min_size = {'max_x': (0.2*self.max_size['max_x']),'max_y': (0.2*self.max_size['max_y'])}
+        self.screen_size = screen_size
+        if(center_node == None):
+            self.center_node = self.centralize_random_node()
+        else:
+            self.center_node = center_node
 
     def add_node(self,node):
         """
@@ -86,13 +90,6 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
-    def centralize_random_node(self):
-        """
-        function chooses a random node and moves it to center of screen using the function "move_node_to_center"
-        """
-        i = randint(0,len(self.nodes)-1)
-        self.move_node_to_center(self.nodes[i])
-
     def move_node_to_center(self, node):
         """
         function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
@@ -106,43 +103,65 @@ class KivyGraph(Widget):
             edge.reset_edge()
         self.center_node = node
 
-    ### if we will need to find the closest/farthest neighbor often,
-    ### we should consider adding them as KivyNode variables instead of finding them each time using the following two functions.
+    def centralize_random_node(self):
+        """
+        function chooses a random node and moves it to center of screen using the function "move_node_to_center"
+        """
+        i = randint(0,len(self.nodes)-1)
+        self.move_node_to_center(self.nodes[i])
 
-    def get_closest_physical_connection(self,node):
-        """
-        :param node: KivyNode
-        :return: a KivyNode that is connected to node, and has the smallest distance from it.
-        """
-        min_dist = -1
+    def get_most_connected(self, node_list):
+        max_connections = 0
+        most_connected_node = None
+        for node in node_list:
+            if node != self.center_node:
+                curr_connections = node.get_amount_of_neighbors()
+                if curr_connections > max_connections:
+                    max_connections = curr_connections
+                    most_connected_node = node
+        return most_connected_node
+
+    def get_closest(self, node_list, same_color):
+        min_distance = -1
         closest_node = None
-        for item in node.neighbors:
-            other_node = self.get_by_serial(item)
-            curr_dist = node.get_distance_from_node(other_node)
-            if ((curr_dist < min_dist) and (curr_dist != -1)) or (min_dist==-1):
-                min_dist = curr_dist
-                closest_node = other_node
+        color = self.center_node.get_colour()
+        for node in node_list:
+            if node != self.center_node:
+                if (same_color == -1) or ((color == node.get_colour()) == same_color):
+                    dist = self.center_node.get_distance_from_node(node)
+                    if ((dist < min_distance) and (dist != -1)) or (min_distance == -1):
+                        min_distance = dist
+                        closest_node = node
         return closest_node
 
-    def get_farthest_physical_connection(self,node):
-        """
-        :param node: KivyNode
-        :return: a KivyNode that is connected to node, and has the largest distance from it.
-        """
-        max_dist = 0
-        farthest_node = None
-        for item in node.neighbors:
-            other_node = self.get_by_serial(item)
-            curr_dist = node.get_distance_from_node(other_node)
-            if (curr_dist > max_dist) and (curr_dist != -1):
-                max_dist = curr_dist
-                farthest_node = other_node
-        return farthest_node
+    def centralize_most_connected(self):
+        node_list = self.get_onscreen_nodes(self.nodes)
+        new_center = self.get_most_connected(node_list)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
 
-    def zoom_in(self):
-        self.resize_graph(self.min_size['max_x'], self.min_size['max_y'], 35, 1.4)
+    def centralize_most_connected_neighbor(self):
+        node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
+        new_center = self.get_most_connected(node_list)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
+
+    def centralize_closest_neighbor_same_color(self):
+        node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
+        new_center = self.get_closest(node_list,1)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
+
+    def centralize_closest_same_color(self):
+        node_list = self.get_onscreen_nodes(self.nodes)
+        new_center = self.get_closest(node_list,1)
+        if(new_center != None):
+            self.move_node_to_center(new_center)
 
     def zoom_out(self):
+        self.resize_graph(self.min_size['max_x'], self.min_size['max_y'], 35, 1.4)
+
+    def zoom_in(self):
         self.resize_graph(self.max_size['max_x'], self.max_size['max_y'], 50, 2)
 
     def resize_graph(self, new_x, new_y, node_size = None, edge_size = None, keep_center_node = True, new_center = None):
@@ -183,3 +202,19 @@ class KivyGraph(Widget):
 
         if (keep_center_node) and (self.center_node):
             self.move_node_to_center(self.center_node)
+
+    def get_onscreen_nodes(self, node_list):
+        '''
+        Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
+        :return: A list containing the nodes that are at least partially displayed onscreen.
+        '''
+        screen_edges = self.screen_size
+        displayed_nodes = []
+        for node in node_list:
+            node_x = node.get_x()
+            node_y = node.get_y()
+            node_r = node.get_radius()
+            if (node_x + node_r) > screen_edges['min_x'] and (node_x - node_r) < screen_edges['max_x'] and \
+                            (node_y + node_r) > screen_edges['min_y'] and (node_y - node_r) < screen_edges['max_y']:
+                displayed_nodes.append(node)
+        return displayed_nodes
