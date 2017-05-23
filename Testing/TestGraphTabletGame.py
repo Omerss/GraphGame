@@ -1,7 +1,7 @@
 from kivyFiles.GraphTabletGame import GraphTabletGame
 import unittest
 
-class testGraphTabletGame(unittest.TestCase):
+class TestGraphTabletGame(unittest.TestCase):
 
     def test_buttons(self):
         game = GraphTabletGame()
@@ -34,9 +34,6 @@ class testGraphTabletGame(unittest.TestCase):
         print nodes
         edges = game.get_onscreen_edges(nodes)
         print edges
-
-if __name__ == '__main__':
-    unittest.main()
 
 
 
