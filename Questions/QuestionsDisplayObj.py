@@ -1,29 +1,29 @@
 from CheckBoxObj import CheckBox
 from getNumberObj import getNumber
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
+from kivy.app import App
 
+class QuestionDisplay(App):
+    questions = None
+    usersAnswers = None
+    questionsArray = None
 
-class QuestionDisplay():
-    questions = []
-    usersAnswers = {}
-    questionsArray = []
+    def __init__ (self, questions, **kwargs):
+        super(QuestionDisplay, self).__init__(**kwargs)
 
-    def __init__ (self, questions):
-        btn1 = Button(text='submit')
-        btn1.bind(on_press=self.callback)
-        self.questions = questions
-        i = 0
-        for question in questions:
-            if (question.isOpenQuestion()):
-                openQuestion = buildOpenQuestion(question)
-                self.questionsArray[i] = openQuestion
-            else:
-                checkBox = buildCheckBox(question)
-                self.questionsArray[i] = checkBox
+        self.layout = GridLayout(rows = 6)
+        self.questions = []
+        self.questionsArray = []
+        self.usersAnswers = []
+        self.set_questions(questions)
+        submit_button = Button(text='submit')
+        submit_button.bind(on_press=self.callback)
+        self.layout.add_widget(submit_button)
 
     def callback(self,instance):
         gotoAnswers = True
-        i=0
+        i = 0
         for question in self.questionsArray:
             if (question.getAnswer == -1):
                 gotoAnswers = False
@@ -33,31 +33,19 @@ class QuestionDisplay():
         if (gotoAnswers):
             pass
 
+    def set_questions(self, questions):
+        for question in questions:
+            if (question.isOpenQuestion()):
+                new_question = getNumber(question)
+            else:
+                new_question = CheckBox(question)
+            self.questionsArray.append(new_question)
+            self.layout.add_widget(new_question)
+
+    def build(self):
+        return self.layout
 
 
-
-if __name__ == '__main__':
-    from random import uniform
-    from kivy.base import runTouchApp
-    from kivy.uix.gridlayout import GridLayout
-    x = GridLayout
-    QuestionDisplay(x)
-
-
-def buildSubmissionButton ():
-    btn1 = Button(text='submit')
-    btn1.bind(on_press=callback)
-
-def callback(instance):
-    print('The button <%s> is being pressed' % instance.text)
-
-def buildCheckBox(question):
-    checkBox = CheckBox (question)
-    return checkBox
-
-def buildOpenQuestion(question):
-    openQuestion = getNumber(question)
-    return openQuestion
 
 
 
