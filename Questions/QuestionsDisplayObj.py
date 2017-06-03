@@ -4,6 +4,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.app import App
 
+
 class QuestionDisplay(App):
     questions = None
     usersAnswers = None
@@ -18,10 +19,10 @@ class QuestionDisplay(App):
         self.usersAnswers = []
         self.set_questions(questions)
         submit_button = Button(text='submit')
-        submit_button.bind(on_press=self.callback)
+        submit_button.bind(on_press=self.submitButton)
         self.layout.add_widget(submit_button)
 
-    def callback(self,instance):
+    def submitButton(self):
         gotoAnswers = True
         i = 0
         for question in self.questionsArray:
@@ -44,9 +45,6 @@ class QuestionDisplay(App):
 
     def build(self):
         return self.layout
-
-
-
 
 
 
