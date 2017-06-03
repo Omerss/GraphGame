@@ -1,5 +1,6 @@
 import logging
 import os
+import uuid
 
 from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
@@ -48,10 +49,10 @@ class GraphObject:
         :param node_size: Size of the node (int value)
         :return: the new node of type NodeObject
         """
-        assert self.size["max_x"] >= x_loc + node_size and 0 <= x_loc - node_size, \
-            "Error! Coordinate of node is out of bound: {}".format(x_loc)
-        assert self.size["max_y"] >= y_loc + node_size and 0 <= y_loc - node_size, \
-            "Error! Coordinate of node is out of bound: {}".format(y_loc)
+        if self.size["max_x"] < x_loc + node_size and 0 > x_loc - node_size:
+            raise Exception("Error! Coordinate of node is out of bound: {}".format(x_loc))
+        if self.size["max_y"] < y_loc + node_size and 0 > y_loc - node_size:
+            raise Exception("Error! Coordinate of node is out of bound: {}".format(y_loc))
 
         location = {'x': x_loc, 'y': y_loc}
         if serial is not None:
@@ -59,7 +60,7 @@ class GraphObject:
                 print("Error - Trying to add a node with an existing serial")
                 return None
         else:
-            serial = get_serial(location)
+            serial = get_serial()
         new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape, real=real)
         self.node_list.append(new_node)
         return new_node
@@ -127,7 +128,7 @@ class GraphObject:
             if node.serial_num == serial:
                 return node
         return None
-        # raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.node_list))
+
 
     def is_node_far_enough(self, main_node, node_1, node_2):
         """
@@ -144,8 +145,8 @@ class GraphObject:
             return True
         else:
             # print "Distance is too small. Node crossed the line of sight of the other nodes."
-            print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}." \
-                .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
+            # print "The distance between node '{}' and the line of sight between node '{}' and node {} is {}." \
+            #     .format(main_node.serial_num, node_1.serial_num, node_2.serial_num, distance)
             return False
 
     def connect_nodes(self, node1, node2, allow_overflow=False):
@@ -176,8 +177,8 @@ class GraphObject:
         return self.connections
 
 
-def get_serial(location):
-    return hash(frozenset(location.items()))
+def get_serial():
+    return str(uuid.uuid4())
 
 
 

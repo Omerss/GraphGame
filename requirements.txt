@@ -13,3 +13,4 @@ enum
 Kivy-Garden==0.1.4
 kivy.deps.glew==0.1.4
 kivy.deps.sdl2==0.1.12
+structlog

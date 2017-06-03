@@ -1,7 +1,8 @@
-import logging
 import threading
 import os
 
+
+from structlog import get_logger
 from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObj import AnswerObj
 from Questions.QuestionObj import QuestionObject
@@ -29,6 +30,7 @@ class GameHandler:
         self.max_turns = int(self.config['Default']['max_turns'])
         self.current_turn = 0
         self.stop_threads = False
+        self.log = get_logger()
 
     def run_single_game(self, graph, graph_config):
         """
@@ -40,7 +42,7 @@ class GameHandler:
         :param graph_config: A graph config file containing basic structure data about the graph. Number of nodes etc.
 
         """
-        logging.info("Setting up a single game")
+        self.log.info("Setting up a single game")
         if graph is None:
             self.current_graph = create_rand_graph(graph_config)
         else:
@@ -50,14 +52,14 @@ class GameHandler:
         self.stop_threads = False
 
         # Stage 1 - Run game
-        logging.info("Starting Stage 1 - Run game")
+        self.log.info("Starting Stage 1 - Run game")
         self.current_step_count = 0
         # Register event
         click_thread = threading.Thread(name='block',
                                         target=self.event_pressed_button,
                                         args=(self.button_event,)).start()
 
-        logging.info("Starting main kivy thread")
+        self.log.info("Starting main kivy thread")
         display_thread = threading.Thread(name="Kivy display thread",
                                           target=self.kivy_thread,
                                           args=([], self.button_event, self.current_graph)).start()
@@ -67,16 +69,20 @@ class GameHandler:
                 break
 
         self.display.stop()
-        display_thread.join(5)
-        if display_thread.is_alive():
+        if self.display is not None:
+            self.log.debug("Try to join thread display")
+            display_thread.join(5)
+        self.log.debug("Checking if threads did not close correctly")
+        if display_thread is not None and display_thread.is_alive():
             raise Exception("Threads not closed - thread={}".format(display_thread.name))
         click_thread.join(5)
-        if click_thread.is_alive():
+        if click_thread is not None and click_thread.is_alive():
             raise Exception("Threads not closed - thread={}".format(click_thread.name))
 
         # Stage 2 - Questionnaire
-        logging.info("Starting Stage 2 - Questionnaire")
+        self.log.info("Starting Stage 2 - Questionnaire")
 
+ # omer fix this please git is very angry - merge
         # Stage 3 - Results scnreen
         logging.info("Starting Stage 3 - Result Screen")
         # user_seen_graph_answers = set_answer_objects(userSeenGraph)
@@ -84,6 +90,11 @@ class GameHandler:
 
 
         know_graph = self.current_data_handler.graph
+
+        # Stage 3 - Results screen
+        self.log.info("Starting Stage 3 - Result Screen")
+        known_graph = self.current_data_handler.graph
+# end of merge
         display_thread = threading.Thread(name="Kivy display thread",
                                           target=self.kivy_thread,
                                           args=([], self.button_event, known_graph)).start()
@@ -115,24 +126,18 @@ class GameHandler:
         """Wait for the event to be set before doing anything"""
         while True:
 
-            logging.debug('wait_for_event starting')
+            self.log.debug("wait_for_event starting")
             button_clicked = button_event.wait()
-            logging.debug('event set: %s', button_clicked)
+            self.log.debug("event set.", new_event=button_clicked)
+            self.log.info("Collecting data from display")
+            self.display.set_button_status(False)
             data = self.display.get_info_from_screen()
             self.current_data_handler.add_view_to_db(data)
-            print(self.current_data_handler)
+            # We clear the event so it could be called again. If we dont do this then calling the event again will not
+            # actually do anything.
             button_event.clear()
             self.current_turn = self.current_turn + 1
+            self.display.set_button_status(True)
             if self.current_turn == self.max_turns:
                 self.stop_threads = True
                 break
-
-    def read_data_from_window(self):
-        """
-        Gets data from the kivy game. Data = {'nodes': [NodeObject list]. 'edges':[(NodeObject, NodeObject)]}
-        In edges, if NodeObject has serial = None
-        :return:
-        """
-        node_list = []
-        return node_list
-
