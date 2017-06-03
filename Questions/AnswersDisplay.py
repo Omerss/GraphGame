@@ -15,23 +15,24 @@ from kivy.app import App
 class AnswersDisplay(App):
     usersAnswers = None
     questionsArray = None
-    userSeenGraph = None
-    fullGraph = None
-    def __init__ (self, usersAnswers, questionsArray, userSeenGraph, fullGraph,**kwargs):
+    user_seen_graph_answers = None
+    full_graph_answers = None
+    success_rate = 0
+    def __init__ (self, usersAnswers, questionsArray, user_seen_graph_answers, full_graph_answers, success_rate, **kwargs):
         super(AnswersDisplay, self).__init__(**kwargs)
 
         self.layout = GridLayout(rows = 6)
         self.usersAnswers = usersAnswers
         self.questionsArray = questionsArray
-        self.userSeenGraph= userSeenGraph
-        self.fullGraph = fullGraph
-
-        user_seen_graph_answers = self.set_answer_objects(userSeenGraph)
-        full_graph_answers = self.set_answer_objects(fullGraph)
+        self.user_seen_graph_answers = user_seen_graph_answers
+        self.full_graph_answers = full_graph_answers
 
         self.display_answers(user_seen_graph_answers, full_graph_answers)
-        self.display_graphs(userSeenGraph,fullGraph)
+        self.display_graphs()
         self.display_success_rates()
+
+        success_rate_label = Label(text="success rate" + str(self.success_rate))
+        self.layout.add_widget(success_rate_label)
 
         submit_button = Button(text='exit')
         submit_button.bind(on_press=self.callback)
@@ -40,18 +41,8 @@ class AnswersDisplay(App):
     def callback(self,instance):
             pass
 
-
-    def set_answer_objects(self, graph):
-        answer_objects = []
-        for question in self.questionsArray:
-            question_number = question.get_question_number()
-            question_arguments = question.question_arguments()
-            answer_object = AnswerObj(graph, question_number, question_arguments)
-            answer_objects.append(answer_object)
-        return answer_objects
-
     def display_answers (self, user_seen_graph_answers, full_graph_answers):
-         counter =0
+         counter = 0
          for question in self.questionsArray:
              question_label = Label(text=question.getQuestionString())
              self.layout.add_widget(question_label)
@@ -66,12 +57,8 @@ class AnswersDisplay(App):
              counter = counter + 1
 
 
-    def display_graphs (self, userSeenGraph,fullGraph):
-
-        pass
-
-    def display_success_rates (self):
-
+    def display_graphs (self):
+        #ask for tal's help
         pass
 
 
@@ -83,5 +70,18 @@ class AnswersDisplay(App):
 
 
 
+
+#pass to game manager
+        user_seen_graph_answers = self.set_answer_objects(userSeenGraph)
+        full_graph_answers = self.set_answer_objects(fullGraph)
+    #pass to game manager
+    def set_answer_objects(self, graph):
+        answer_objects = []
+        for question in self.questionsArray:
+            question_number = question.get_question_number()
+            question_arguments = question.get_question_arguments()
+            answer_object = AnswerObj(graph, question_number, question_arguments)
+            answer_objects.append(answer_object)
+        return answer_objects
 
 

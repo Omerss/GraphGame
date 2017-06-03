@@ -158,10 +158,10 @@ class GraphTabletGame(App):
             col_point = LineEquation.get_equation_collision_point(edge_equation, top)
             location = {'x': col_point[0], 'y': col_point[1]}
             if first_node is not None:
-                second_node = NodeObject(get_serial(location), location, 0)
+                second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
             else:
-                first_node = NodeObject(get_serial(location), location, 0)
+                first_node = NodeObject(serial=get_serial(), location=location, size=0)
                 first_node.real = False
 
         # check if edge collides with bottom border
@@ -169,10 +169,10 @@ class GraphTabletGame(App):
             col_point = LineEquation.get_equation_collision_point(edge_equation, bottom)
             location = {'x': col_point[0], 'y': col_point[1]}
             if first_node is not None:
-                second_node = NodeObject(location, location , 0)
+                second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
             else:
-                first_node = NodeObject(location, location, 0)
+                first_node = NodeObject(serial=get_serial(), location=location, size=0)
                 first_node.real = False
 
         # check if edge collides with left border
@@ -180,10 +180,10 @@ class GraphTabletGame(App):
             col_point = LineEquation.get_equation_collision_point(edge_equation, left)
             location = {'x': col_point[0], 'y': col_point[1]}
             if first_node is not None:
-                second_node = NodeObject(location, location , 0)
+                second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
             else:
-                first_node = NodeObject(location, location, 0)
+                first_node = NodeObject(serial=get_serial(), location=location, size=0)
                 first_node.real = False
 
         # check if edge collides with right border
@@ -191,10 +191,10 @@ class GraphTabletGame(App):
             col_point = LineEquation.get_equation_collision_point(edge_equation, right)
             location = {'x': col_point[0], 'y': col_point[1]}
             if first_node is not None:
-                second_node = NodeObject(location, location , 0)
+                second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
             else:
-                first_node = NodeObject(location, location, 0)
+                first_node = NodeObject(serial=get_serial(), location=location, size=0)
                 first_node.real = False
 
         if second_node is None:
