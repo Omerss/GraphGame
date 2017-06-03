@@ -51,22 +51,20 @@ class AnswersDisplay(App):
         return answer_objects
 
     def display_answers (self, user_seen_graph_answers, full_graph_answers):
-        counter =0
+         counter =0
          for question in self.questionsArray:
-             question_label = Label(text=question.getQuestionString)
-             user_answer_label = 
+             question_label = Label(text=question.getQuestionString())
+             self.layout.add_widget(question_label)
+             user_answer_label = Label(text = "your answer" + str(self.usersAnswers[counter].get_question_result()))
+             self.layout.add_widget(user_answer_label)
+             user_seen_graph_answer_label = Label (text = "the answer by the graph you discovered" + str(
+                 user_seen_graph_answers[counter].get_question_result()))
+             self.layout.add_widget(user_seen_graph_answer_label)
+             full_graph_answer_label = Label(text="the answer by the full graph" + str(
+                 full_graph_answers[counter].get_question_result()))
+             self.layout.add_widget(full_graph_answer_label)
              counter = counter + 1
 
-         for answer in user_seen_graph_answers:
-             pass
-
-         for answer in full_graph_answers:
-             pass
-
-         label = Label(text='Hello world')
-         self.layout.add_widget(new_question)
-
-        pass
 
     def display_graphs (self, userSeenGraph,fullGraph):
 
