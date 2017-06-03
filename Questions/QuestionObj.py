@@ -108,5 +108,5 @@ class QuestionObject():
     def get_question_number (self):
         return self.question_number
 
-    def question_arguments (self):
+    def get_question_arguments (self):
         return self.args
