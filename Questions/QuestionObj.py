@@ -104,3 +104,9 @@ class QuestionObject():
 
     def setUserAnswer (self,answer):
         self.user_answer = answer
+
+    def get_question_number (self):
+        return self.question_number
+
+    def question_arguments (self):
+        return self.args
