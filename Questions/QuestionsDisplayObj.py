@@ -1,20 +1,25 @@
-
-
-
-import QuestionObj
 from CheckBoxObj import CheckBox
 from getNumberObj import getNumber
-from kivy.uix.widget import Widget
-from kivy.properties import BooleanProperty, StringProperty, ListProperty
-from kivy.uix.behaviors import ToggleButtonBehavior
 from kivy.uix.button import Button
-from kivy.uix.button import ButtonBehavior
-from kivy.uix.button import Label
+
 
 class QuestionDisplay():
     questions = []
     usersAnswers = {}
     questionsArray = []
+
+    def __init__ (self, questions):
+        btn1 = Button(text='submit')
+        btn1.bind(on_press=self.callback)
+        self.questions = questions
+        i = 0
+        for question in questions:
+            if (question.isOpenQuestion()):
+                openQuestion = buildOpenQuestion(question)
+                self.questionsArray[i] = openQuestion
+            else:
+                checkBox = buildCheckBox(question)
+                self.questionsArray[i] = checkBox
 
     def callback(self,instance):
         gotoAnswers = True
@@ -28,18 +33,6 @@ class QuestionDisplay():
         if (gotoAnswers):
             pass
 
-    def __init__ (self, questions):
-        btn1 = Button(text='submit')
-        btn1.bind(on_press=self.callback)
-        self.questions= questions
-        i =0
-        for question in questions:
-            if (question.is_the_question_open):
-                openQuestion = buildOpenQuestion(question)
-                self.questionsArray[i] =openQuestion
-            else:
-                checkBox= buildCheckBox(question)
-                self.questionsArray[i] = checkBox
 
 
 
@@ -61,6 +54,7 @@ def callback(instance):
 def buildCheckBox(question):
     checkBox = CheckBox (question)
     return checkBox
+
 def buildOpenQuestion(question):
     openQuestion = getNumber(question)
     return openQuestion
