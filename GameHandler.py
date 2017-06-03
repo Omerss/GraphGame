@@ -3,6 +3,8 @@ import threading
 import os
 
 from GameData.GameDataHandler import GameDataHandler
+from Questions.AnswerObj import AnswerObj
+from Questions.QuestionObj import QuestionObject
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles import Utils
 from SupplementaryFiles.LoadGraph import load_graph_from_file
@@ -75,13 +77,34 @@ class GameHandler:
         # Stage 2 - Questionnaire
         logging.info("Starting Stage 2 - Questionnaire")
 
-        # Stage 3 - Results screen
+        # Stage 3 - Results scnreen
         logging.info("Starting Stage 3 - Result Screen")
-        known_graph = self.current_data_handler.graph
+        # user_seen_graph_answers = set_answer_objects(userSeenGraph)
+        # full_graph_answers = set_answer_objects(fullGraph)
+
+
+        know_graph = self.current_data_handler.graph
         display_thread = threading.Thread(name="Kivy display thread",
                                           target=self.kivy_thread,
                                           args=([], self.button_event, known_graph)).start()
         print("end")
+
+
+    @staticmethod
+    def set_answer_objects(graph, question_list):
+        """
+
+        :param question_list: question objects
+        :return: 
+        """
+        answer_objects = []
+        for question in question_list:
+            question_number = question.get_question_number()
+            question_arguments = question.get_question_arguments()
+            answer_object = AnswerObj(graph, question_number, question_arguments)
+            answer_objects.append(answer_object)
+        return answer_objects
+
 
     def kivy_thread(self, *args):
         print(threading.currentThread().getName(), 'Starting')
