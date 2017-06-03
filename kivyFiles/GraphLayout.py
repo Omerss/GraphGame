@@ -23,7 +23,8 @@ class GraphLayout(FloatLayout):
 
         super(GraphLayout, self).__init__(**kwargs)
         self.button_width = button_width
-        self.dim = {"min_x": button_width, "min_y": 0 ,"max_x": dim['max_x'], "max_y": dim['max_y']}
+        self.dim = {"min_x": button_width, "min_y": 0 , "max_x": dim['max_x'], "max_y": dim['max_y']}
+        self.buttons = []
         self.original_graph = graph
         self.center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(self.center_screen,self.original_graph.size, self.dim)
@@ -35,9 +36,9 @@ class GraphLayout(FloatLayout):
 
     def get_center_coor(self):
         """
-        :return: the coordinations of the center of the screen (not including the button area)
+        :return: the coordination of the center of the screen (not including the button area)
         """
-        x = (self.dim['max_x'] - self.dim['min_x'])/2 + self.button_width
+        x = (self.dim['max_x'] - self.dim['min_x']) / 2 + self.button_width
         y = (self.dim['max_y'] - self.dim['min_y']) / 2
         return (x,y)
 
@@ -70,6 +71,13 @@ class GraphLayout(FloatLayout):
                 node1.add_neighbor(node2)
                 node2.add_neighbor(node1)
 
+    def set_button_functions(self, buttons):
+        self.button1_func = [self.kivy_graph.zoom_out, self.kivy_graph.zoom_in]
+        self.button2_func = [self.kivy_graph.centralize_most_connected]
+        self.button3_func = [self.kivy_graph.centralize_closest_same_color]
+        self.button4_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
+
+
     def get_buttons(self, signal, button_lst):
         """
         creates a GridLayout that would hold the buttons (GraphButtons) needed for the game. each button should be
@@ -85,17 +93,17 @@ class GraphLayout(FloatLayout):
         layout.add_widget(button2)
         layout.add_widget(button3)
         layout.add_widget(button4)
+        self.buttons.append(button1)
+        self.buttons.append(button2)
+        self.buttons.append(button3)
+        self.buttons.append(button4)
         self.add_widget(layout)
-
-    def set_button_functions(self, buttons):
-        self.button1_func = [self.kivy_graph.zoom_out, self.kivy_graph.zoom_in]
-        self.button2_func = [self.kivy_graph.centralize_most_connected]
-        self.button3_func = [self.kivy_graph.centralize_closest_same_color]
-        self.button4_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
 
     def fit_graph_to_screen(self):
         self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
         self.kivy_graph.move_right(110)
 
-
+    def set_button_status(self, status):
+        for item in self.buttons:
+            item.active = status
 
