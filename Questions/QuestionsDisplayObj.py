@@ -34,6 +34,7 @@ class QuestionDisplay(App):
         if (gotoAnswers):
             pass
 
+
     def set_questions(self, questions):
         for question in questions:
             if (question.isOpenQuestion()):
