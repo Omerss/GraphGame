@@ -79,7 +79,7 @@ class AnswersDisplay(App):
         answer_objects = []
         for question in self.questionsArray:
             question_number = question.get_question_number()
-            question_arguments = question.question_arguments()
+            question_arguments = question.get_question_arguments()
             answer_object = AnswerObj(graph, question_number, question_arguments)
             answer_objects.append(answer_object)
         return answer_objects
