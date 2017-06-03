@@ -36,7 +36,7 @@ class Point(object):
         return slope(self.x, self.y)
 
     def slope(self, target):
-        return slope(target.x - self.x, target.y - self.y)
+        return slope(float(target.x - self.x), target.y - self.y)
 
     def y_int(self, target):
         return self.y - self.slope(target)*self.x
