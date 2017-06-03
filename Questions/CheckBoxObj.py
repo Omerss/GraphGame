@@ -1,37 +1,34 @@
 __all__ = ('CheckBox', )
 
 from QuestionObj import QuestionObject
-from QuestionObj import QuestionObject
-from QuestionObj import QuestionObject
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.properties import BooleanProperty, StringProperty, ListProperty
 from kivy.uix.behaviors import ToggleButtonBehavior
-from random import uniform
-from kivy.base import runTouchApp
 from kivy.uix.gridlayout import GridLayout
 
 class CheckBox(ToggleButtonBehavior, Widget):
     '''CheckBox class, see module documentation for more information.
     '''
     answer = -1
-    questionString = ""
-    possibleAnswers= []
-    funcDict= {}
+    questionString = None
+    possibleAnswers = None
+    funcDict = None
     question = None
-    x = None
-    def __init__ (self,question):
+
+    def __init__ (self, question, **kwargs):
+        super(CheckBox, self).__init__(**kwargs)
         self.question = question
         self.questionString = question.getQuestionString()
         self.possibleAnswers = question.getListOfPossibleAnswers()
-        self.x = GridLayout(cols=4)
+        self.layout = GridLayout(cols=4)
         Label(text=self.questionString)
         self.funcDict = {'0': self.on_checkbox_active_0, '1': self.on_checkbox_active_1, '2': self.on_checkbox_active_2}
         i = 0
         for ans in self.possibleAnswers:
             checkbox = self.x.add_widget(CheckBox(group='1', color=[0, 0, 1]))
             self.x.add_widget(Label(ans))
-            func = self.funcDict(str(i))
+            func = self.funcDict[str(i)]
             checkbox.bind(active=func)
             i = i + 1
 
