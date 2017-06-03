@@ -11,6 +11,7 @@ class KivyEdge(Widget):
     line_width = 2
     line = None
     colour = "white"
+    slope = None
 
     def __init__(self, node1, node2,**kwargs):
         super(KivyEdge, self).__init__(**kwargs)
@@ -20,6 +21,9 @@ class KivyEdge(Widget):
         else:
             self.node1 = node2
             self.node2 = node1
+
+        if(self.node1.x != self.node2.x):
+            self.slope = abs(float(self.node2.y - self.node1.y) / (self.node2.x - self.node1.x))
 
         with self.canvas:
             self.line=Line(points=[self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()], width=self.line_width)
