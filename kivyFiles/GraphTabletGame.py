@@ -82,9 +82,8 @@ class GraphTabletGame(App):
         Function goes over the list of edges in the graph and checks which ones are displayed onscreen
         :param displayed_nodes: a list of the nodes displayed onscreen
         :return: A list representing the edges that are at least partially displayed onscreen. Each edge is represented
-                 by a tuple containing of the edge's nodes. If one of the nodes is not onscreen, a new NodeObject is
-                 created where the x,y coordinates represent the intersection between the edge and the screen and the
-                 serial and size are set to None.
+                 by a tuple containing the edge's nodes and the edge's original slope. If one of the nodes is not onscreen, a new NodeObject is
+                 created where the x,y coordinates represent the intersection between the edge and the screen.
         '''
 
         screen_edges = self.layout.dim
@@ -107,9 +106,9 @@ class GraphTabletGame(App):
                     first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
                     second_node = self.real_graph.get_node_by_serial(edge.node2.serial)
                     if edge.node1.get_x() < edge.node2.get_x():
-                        curr_edge = (first_node, second_node)
+                        curr_edge = (first_node, second_node, edge.slope)
                     else:
-                        curr_edge = (second_node, first_node)
+                        curr_edge = (second_node, first_node, edge.slope)
                 else:
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
             elif self.is_node_onscreen(edge.node2.serial, displayed_nodes):
@@ -201,7 +200,7 @@ class GraphTabletGame(App):
             else:
                 raise Exception("Only One viable nodes for onscreen edge!")
         if first_node.x < second_node.x:
-            curr_edge = (first_node, second_node)
+            curr_edge = (first_node, second_node, edge.slope)
         else:
-            curr_edge = (second_node, first_node)
+            curr_edge = (second_node, first_node, edge.slope)
         return curr_edge
