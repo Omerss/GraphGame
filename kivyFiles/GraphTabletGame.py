@@ -104,8 +104,8 @@ class GraphTabletGame(App):
         for edge in self.layout.kivy_graph.edges:
             curr_edge = None
 
-            if self.is_node_onscreen(edge.node1.serial, displayed_nodes):
-                if self.is_node_onscreen(edge.node2.serial, displayed_nodes):
+            if self.is_node_onscreen(edge.node1, screen_edges):
+                if self.is_node_onscreen(edge.node2, screen_edges):
                     first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
                     second_node = self.real_graph.get_node_by_serial(edge.node2.serial)
                     if edge.node1.get_x() < edge.node2.get_x():
@@ -114,7 +114,7 @@ class GraphTabletGame(App):
                         curr_edge = (second_node, first_node, edge.slope)
                 else:
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
-            elif self.is_node_onscreen(edge.node2.serial, displayed_nodes):
+            elif self.is_node_onscreen(edge.node2, screen_edges):
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2)
             else:
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None)
@@ -124,12 +124,12 @@ class GraphTabletGame(App):
 
         return displayed_edges
 
-    def is_node_onscreen(self, serial, displayed_nodes):
-        for node in displayed_nodes:
-            if node.serial_num == serial:
-                return True
+    def is_node_onscreen(self, node, screen_edges):
+        node_x = node.get_x()
+        node_y = node.get_y()
+        return (node_x > screen_edges['min_x']) and (node_x < screen_edges['max_x']) and \
+                        (node_y  > screen_edges['min_y']) and (node_y < screen_edges['max_y'])
 
-        return False
 
     def get_partly_visible_edge(self, edge, top, bottom, left, right, node):
         '''
