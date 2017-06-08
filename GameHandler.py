@@ -1,7 +1,7 @@
 import threading
 import os
 
-
+import time
 from structlog import get_logger
 from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObj import AnswerObj
@@ -63,7 +63,8 @@ class GameHandler:
         display_thread = threading.Thread(name="Kivy display thread",
                                           target=self.kivy_thread,
                                           args=([], self.button_event, self.current_graph)).start()
-
+        time.sleep(4)
+        self.current_data_handler.add_view_to_db(self.display.get_info_from_screen())
         while True:
             if self.stop_threads:
                 break
@@ -84,7 +85,7 @@ class GameHandler:
 
  # omer fix this please git is very angry - merge
         # Stage 3 - Results scnreen
-        logging.info("Starting Stage 3 - Result Screen")
+        self.log.info("Starting Stage 3 - Result Screen")
         # user_seen_graph_answers = set_answer_objects(userSeenGraph)
         # full_graph_answers = set_answer_objects(fullGraph)
 

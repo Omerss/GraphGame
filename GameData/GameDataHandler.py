@@ -31,20 +31,25 @@ class GameDataHandler:
         """
         # Innumerate over the nodes
         for node in view['nodes']:
-            if node.is_real() and self.graph.get_node_by_serial(node.serial_num) is None:
+            if self.graph.get_node_by_serial(node.serial_num) is None:
+                self.log.info("Adding node", serial=node.serial_num, real=True)
                 self.graph.add_node(node.x, node.y, node_colour=node.colour, node_size=node.size, serial=node.serial_num)
 
         # Innumerate over the edges
         for edge in view['edges']:
-            if edge[0].is_real():
+            if self.graph.get_node_by_serial(edge[0].serial_num) is not None:
                 node_0 = self.graph.get_node_by_serial(edge[0].serial_num)
             else:
-                node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False)
+                self.log.info("Adding node", serial=edge[0].serial_num, real=False)
+                node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
+                                             serial=edge[0].serial_num)
 
-            if edge[1].is_real():
+            if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
                 node_1 = self.graph.get_node_by_serial(edge[1].serial_num)
             else:
-                node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False)
+                self.log.info("Adding node", serial=edge[1].serial_num, real=False)
+                node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
+                                             serial=edge[1].serial_num)
 
             if node_1.serial_num not in node_0.possible_neighbors:
                 node_0.possible_neighbors.add(node_1.serial_num)
@@ -57,7 +62,7 @@ class GameDataHandler:
 
         self.log.info("Timing data from graph")
         self.trim_data()
-        self.log.info("Adding extra edges to edge list", edges_to_add=self.edges_to_add)
+        self.log.info("Adding extra edges to edge list")
         if len(self.edges_to_add) > 0:
             self.extra_edges += self.edges_to_add
         self.clean_duplicate_nodes()
@@ -84,7 +89,10 @@ class GameDataHandler:
                     self.extra_edges.remove(item)
 
                 for edge in edges_to_check:
-                    edges_to_check.remove(item)
+                    # if item in edges_to_check:
+                    #     edges_to_check.remove(item)
+                    # else:
+                    #     raise Exception("Item not in edges_to_check", edges=edges_to_check, edges_to_remove=item)
                     did_edge_have_match = False
                     for other_edge in edges_to_check:
                         if self.two_edges_are_one(edge, other_edge):

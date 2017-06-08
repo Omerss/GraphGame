@@ -13,6 +13,9 @@ class LineEquation:
         self.edge1 = None
         self.edge2 = None
 
+    def __repr__(self):
+        return 'slope:{}, const:{}, edge1:{}, edge2:{}'.format(self.slope, self.const, self.edge1, self.edge2)
+
     @staticmethod
     def check_collision_point(eq1, eq2):
         """
