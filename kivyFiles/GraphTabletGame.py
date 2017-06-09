@@ -31,19 +31,19 @@ class GraphTabletGame(App):
         self.layout.set_button_status(status)
 
     def press_button(self, num):
-        if (num == 1):
+        if num == 1:
             f = self.counter1 % len(self.layout.button1_func)
             self.layout.button1_func[f]()
             self.counter1 += 1
-        elif (num == 2):
+        elif num == 2:
             f = self.counter2 % len(self.layout.button2_func)
             self.layout.button2_func[f]()
             self.counter2 += 1
-        elif (num == 3):
+        elif num == 3:
             f = self.counter3 % len(self.layout.button3_func)
             self.layout.button3_func[f]()
             self.counter3 += 1
-        elif (num == 4):
+        elif num == 4:
             f = self.counter4 % len(self.layout.button4_func)
             self.layout.button4_func[f]()
             self.counter4 += 1

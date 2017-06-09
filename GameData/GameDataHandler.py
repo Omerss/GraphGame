@@ -1,5 +1,10 @@
 import sys
+from collections import namedtuple
+
+import itertools
 from structlog import get_logger
+
+from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
 
@@ -60,12 +65,16 @@ class GameDataHandler:
             if edge not in self.extra_edges:
                 self.extra_edges.append(edge)
 
-        self.log.info("Timing data from graph")
+        self.edges_to_add = []
+        self.log.info("Triming data from graph")
         self.trim_data()
         self.log.info("Adding extra edges to edge list")
-        if len(self.edges_to_add) > 0:
-            self.extra_edges += self.edges_to_add
-        self.clean_duplicate_nodes()
+        for item in self.edges_to_add:
+            self.extra_edges.append(item)
+        self.clear_empty_nodes()
+        self.log.info("Finished triming data", num_of_node=len(self.graph.node_list),
+                      num_real_node=len([item for item in self.graph.node_list if item.is_real()]),
+                      num_of_edges=len(self.extra_edges))
 
     def trim_data(self):
         """
@@ -77,29 +86,27 @@ class GameDataHandler:
         for edge in self.extra_edges:
             slope_set.add(edge[2])
         sorted(slope_set)
+        self.log.debug("Number of slops found = {}".format(len(slope_set)))
         for slope in slope_set:
             edges_to_check = []
             for edge in self.extra_edges:
                 if edge[2] == slope:
                     edges_to_check.append(edge)
+            self.log.debug("Number of items in slope {} = {}".format(slope, len(edges_to_check)))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
                 for item in edges_to_check:
                     self.extra_edges.remove(item)
 
-                for edge in edges_to_check:
-                    # if item in edges_to_check:
-                    #     edges_to_check.remove(item)
-                    # else:
-                    #     raise Exception("Item not in edges_to_check", edges=edges_to_check, edges_to_remove=item)
-                    did_edge_have_match = False
-                    for other_edge in edges_to_check:
-                        if self.two_edges_are_one(edge, other_edge):
-                            self.connect_edges(edge, other_edge)
-                            did_edge_have_match = True
-                    if not did_edge_have_match:
-                        self.edges_to_add.append(edge)
+                for edge_pair in list(itertools.combinations(edges_to_check, 2)):
+                    if self.two_edges_are_one(edge_pair[0], edge_pair[1]):
+                        self.connect_edges(edge_pair[0], edge_pair[1])
+                    else:
+                        self.edges_to_add.append(edge_pair[0])
+                        self.edges_to_add.append(edge_pair[1])
+
+
 
     @staticmethod
     def two_edges_are_one(edge_1, edge_2):
@@ -108,23 +115,23 @@ class GameDataHandler:
         :return: True if edges are 100% the same one
         """
         log = get_logger()
-        log.info("Checking if two edges are one", edge_1=edge_1, edge_2=edge_2)
+        #log.info("Checking if two edges are one", edge_1=edge_1, edge_2=edge_2)
         if edge_1[0].slope(edge_1[1]) != edge_2[0].slope(edge_2[1]):
-            log.debug("Slopes of both edges are not the same")
+            #log.debug("Slopes of both edges are not the same")
             return False
         else:
             eq1 = LineEquation.create_equation(edge_1[0], edge_1[1])
             eq2 = LineEquation.create_equation(edge_2[0], edge_2[1])
             # Check collision point
             collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-            log.debug("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
+            #log.debug("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
             if collision_point == LINES_ALWAYS_MEET:
                 # Lines have the same slope + const. Big change they are the same one.
                 if LineEquation.check_collision_point(eq1, eq2):
-                    log.debug("Lines meet and intersect with each other - They are the same line")
+                    #log.debug("Lines meet and intersect with each other - They are the same line")
                     return True
                 else:
-                    log.debug("Lines have the same parameters but we are not sure of they meet")
+                    #log.debug("Lines have the same parameters but we are not sure if they meet")
                     return False
 
     def connect_edges(self, edge_1, edge_2):
@@ -134,7 +141,7 @@ class GameDataHandler:
         :param edge_1, edge_2: An edge defined by a tuple of NodeObjects
         """
         # Cleaning all existing connection
-        self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
+        #self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
         if edge_1 in self.extra_edges:
             self.log.debug("Removing edge from extra edges", removed_edge=edge_1)
             self.extra_edges.remove(edge_1)
@@ -168,11 +175,12 @@ class GameDataHandler:
         :param main_node: The node we want to remove data from 
         :return: 
         """
-        self.log.info("Cleaning connection to another node", main_node=main_node.serial_num,
-                      node_to_remove=node_to_remove.serial_num)
+        # self.log.debug("Cleaning connection to another node", main_node=main_node.serial_num,
+        #                node_to_remove=node_to_remove.serial_num)
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
-            raise Exception("Node '{}' was not found in node list. Node list = {}".format(main_node, self.graph.node_list))
+            raise Exception("Node '{}' was not found in node list. Node list = {}"
+                            .format(main_node.serial_num, [node.serial_num for node in self.graph.node_list]))
         if node_to_remove.serial_num in node.neighbors:
             node.neighbors.remove(node_to_remove.serial_num)
         if node_to_remove.serial_num in node.possible_neighbors:
@@ -195,28 +203,43 @@ class GameDataHandler:
         :param args: a list of NodeObjects
         :return: The serial numbers of the two furthest nodes from each of other.
         """
-        from SupplementaryFiles.NodeObject import NodeObject
+
         node_list = {}
+        DistanceTuple = namedtuple('Distance', ['point', 'distance'])
         for node in args:
             if type(node) != NodeObject:
-                raise Exception("One of the arguments is not of type NodeObjects")
+                raise Exception("One of the arguments is not of type NodeObjects - {}".format(node))
             distance_list = []
             for other_node in args:
                 if other_node != node:
-                    distance_list.append((other_node,node.distance(other_node)))
+                    distance_list.append(DistanceTuple(point=other_node, distance=node.distance(other_node)))
             node_list[node.serial_num] = distance_list
 
         best_distance = 0
         best_pair = ()
         for node in args:
             for other_node in node_list[node.serial_num]:
-                if other_node[1] > best_distance:
+                if other_node.distance > best_distance:
                     best_pair = (node.serial_num, other_node[0].serial_num)
                     best_distance = other_node[1]
         return best_pair
 
-    def clean_duplicate_nodes(self):
-        pass
+    def clear_empty_nodes(self):
+        """
+        Go over node list and see if two nodes are the same.
+        This is mainly 
+        :return: 
+        """
+        remove_list = []
+        self.log.debug("removing nodes with no neighbors")
+        for node in self.graph.node_list:
+            if len(node.neighbors) == 0:
+                self.log.debug("Found node with no neighbors - deleting", serial=node.serial_num, real=node.is_real())
+                remove_list.append(node.serial_num)
+        for serial in remove_list:
+            self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
+
+        self.log.info("removed {} nodes".format(len(remove_list)))
 
 
 

@@ -2,6 +2,8 @@ import logging
 import os
 import uuid
 
+from datetime import datetime
+datetime.utcnow()
 from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.NodeObject import NodeObject
@@ -178,6 +180,7 @@ class GraphObject:
 
 
 def get_serial():
+    #return str(datetime.now().strftime("%M%S%f"))
     return str(uuid.uuid4())
 
 

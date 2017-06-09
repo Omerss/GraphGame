@@ -30,9 +30,6 @@ class NodeObject(Point):
         self.possible_neighbors = set()
         self.real = real
 
-    def __repr__(self):
-        return 'Point({}, {}) - {}'.format(self.x, self.y, self.serial_num)
-
     def get_num_neighbors(self):
         return len(self.neighbors)
 
