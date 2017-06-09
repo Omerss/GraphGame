@@ -87,18 +87,22 @@ class GameHandler:
             if self.stop_threads:
                 break
 
-        self.display.stop()
+        # This is just trying to catch threads if they don't close.
+        # Don't look too much into this as it's just trowing everything and hoping something sticks.
         if self.display is not None:
             self.log.debug("Try to join thread display")
-            display_thread.join(5)
+            #self.display.stop()
+            if display_thread is not None:
+                display_thread.join(5)
         self.log.debug("Checking if threads did not close correctly")
         if display_thread is not None and display_thread.is_alive():
             raise Exception("Threads not closed - thread={}".format(display_thread.name))
-        click_thread.join(5)
-        if click_thread is not None and click_thread.is_alive():
-            raise Exception("Threads not closed - thread={}".format(click_thread.name))
 
-        if real_user:
+        if self.real_user:
+            click_thread.join(5)
+            if click_thread is not None and click_thread.is_alive():
+                raise Exception("Threads not closed - thread={}".format(click_thread.name))
+
             # Stage 2 - Questionnaire
             self.log.info("Starting Stage 2 - Questionnaire")
 

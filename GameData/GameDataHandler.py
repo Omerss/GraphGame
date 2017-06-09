@@ -179,7 +179,8 @@ class GameDataHandler:
         #                node_to_remove=node_to_remove.serial_num)
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
-            raise Exception("Node '{}' was not found in node list. Node list = {}".format(main_node, self.graph.node_list))
+            raise Exception("Node '{}' was not found in node list. Node list = {}"
+                            .format(main_node.serial_num, [node.serial_num for node in self.graph.node_list]))
         if node_to_remove.serial_num in node.neighbors:
             node.neighbors.remove(node_to_remove.serial_num)
         if node_to_remove.serial_num in node.possible_neighbors:
