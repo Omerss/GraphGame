@@ -3,6 +3,8 @@ kivy.require('1.9.1')
 
 from kivy.uix.widget import Widget
 from random import randint
+from KivyNode import KivyNode
+from SupplementaryFiles.Point import Point
 
 
 class KivyGraph(Widget):
@@ -21,14 +23,23 @@ class KivyGraph(Widget):
         self.max_size = size
         self.min_size = {'max_x': (0.2*self.max_size['max_x']),'max_y': (0.2*self.max_size['max_y'])}
         self.screen_size = screen_size
+        self.corners = self.set_screen_corners()
 
-    def add_node(self,node):
+    def set_screen_corners(self):
+        bottom_left = KivyNode(self.screen_size["min_x"], self.screen_size["min_y"], -1, 'white')
+        top_left = KivyNode(self.screen_size["min_x"], self.screen_size["max_y"], -1, 'white')
+        bottom_right = KivyNode(self.screen_size["max_x"], self.screen_size["min_y"], -1, 'white')
+        top_right = KivyNode(self.screen_size["max_x"], self.screen_size["max_y"], -1, 'white')
+
+        return {"bottom_left": bottom_left, "bottom_right": bottom_right, "top_left": top_left, "top_right": top_right}
+
+    def add_node(self, node):
         """
         function adds a given node to graph's nodes list
         """
         self.nodes.append(node)
 
-    def add_edge(self,edge):
+    def add_edge(self, edge):
         """
         function adds a given edge to graph's list of edges
         """
@@ -44,33 +55,53 @@ class KivyGraph(Widget):
                 return node
         raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.nodes))
 
-    def move_up(self, amount = 40):
+    def move_up(self, amount = 5):
         self.center_node = None
         for node in self.nodes:
             node.move_y(amount)
         for edge in self.edges:
-            edge.reset_edge()
+            edge.reset_edge(False)
 
-    def move_down(self, amount = -40):
+        self.corners["top_right"].move_y(-amount)
+        self.corners["top_left"].move_y(-amount)
+        self.corners["bottom_right"].move_y(-amount)
+        self.corners["bottom_left"].move_y(-amount)
+
+    def move_down(self, amount = -5):
         self.center_node = None
         for node in self.nodes:
             node.move_y(amount)
         for edge in self.edges:
-            edge.reset_edge()
+            edge.reset_edge(False)
+        self.corners["top_right"].move_y(-amount)
+        self.corners["top_left"].move_y(-amount)
+        self.corners["bottom_right"].move_y(-amount)
+        self.corners["bottom_left"].move_y(-amount)
 
-    def move_left(self, amount = -40):
+    def move_left(self, amount = -5):
         self.center_node = None
         for node in self.nodes:
             node.move_x(amount)
         for edge in self.edges:
-           edge.reset_edge()
+           edge.reset_edge(False)
 
-    def move_right(self, amount = 40):
+        self.corners["top_right"].move_x(-amount)
+        self.corners["top_left"].move_x(-amount)
+        self.corners["bottom_right"].move_x(-amount)
+        self.corners["bottom_left"].move_x(-amount)
+
+
+    def move_right(self, amount = 5):
         self.center_node = None
         for node in self.nodes:
             node.move_x(amount)
         for edge in self.edges:
-            edge.reset_edge()
+            edge.reset_edge(False)
+
+        self.corners["top_right"].move_x(-amount)
+        self.corners["top_left"].move_x(-amount)
+        self.corners["bottom_right"].move_x(-amount)
+        self.corners["bottom_left"].move_x(-amount)
 
     def print_graph_nodes(self):
         for node in self.nodes:
@@ -87,6 +118,11 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
+        self.corners["top_right"].move_by_amount(-x, -y)
+        self.corners["top_left"].move_by_amount(-x, -y)
+        self.corners["bottom_right"].move_by_amount(-x, -y)
+        self.corners["bottom_left"].move_by_amount(-x, -y)
+
     def move_node_to_center(self, new_center, animated=True):
         """
         function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
@@ -99,6 +135,10 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge(animated)
         self.center_node = new_center
+        self.corners["top_right"].move_by_amount(-delta_x, -delta_y, False)
+        self.corners["top_left"].move_by_amount(-delta_x, -delta_y, False)
+        self.corners["bottom_right"].move_by_amount(-delta_x, -delta_y, False)
+        self.corners["bottom_left"].move_by_amount(-delta_x, -delta_y, False)
 
     def centralize_random_node(self, animated):
         """
@@ -198,7 +238,6 @@ class KivyGraph(Widget):
         change_in_x = float(new_x)/self.real_size['max_x']
         change_in_y = float(new_y)/self.real_size['max_y']
         for node in self.nodes:
-            old_size = node.node_size
             if node_size:
                 new_size = node_size
             else:
@@ -206,16 +245,21 @@ class KivyGraph(Widget):
                 new_size = min(change_in_x, change_in_y) * old_size
             node.size = [new_size, new_size]
             node.node_size = new_size
+            node.relative_move(change_in_x, change_in_y)
 
-            node.relative_move(change_in_x,change_in_y)
         for edge in self.edges:
             if edge_size:
                 new_size = edge_size
             else:
                 old_size = edge.line_width
-                new_size = min(change_in_x,change_in_y)*old_size
+                new_size = min(change_in_x, change_in_y)*old_size
             edge.line.width = new_size
             edge.reset_edge(False)
+
+        self.corners["top_right"].relative_move(-change_in_x, -change_in_y)
+        self.corners["top_left"].relative_move(-change_in_x, -change_in_y)
+        self.corners["bottom_right"].relative_move(-change_in_x, -change_in_y)
+        self.corners["bottom_left"].relative_move(-change_in_x, -change_in_y)
 
         self.real_size = {'max_x': new_x, 'max_y': new_y}
         self.move_node_to_center(self.center_node, False)
