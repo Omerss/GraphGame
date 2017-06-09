@@ -1,3 +1,14 @@
+from GameHandler import GameHandler
+
+graphs_to_run = ["Graph_1"]
+
+
+game = GameHandler()
+for graph in graphs_to_run:
+    graph_score = game.run_single_game(graph, None)
+
+
+
 def do_move(self):
     btn_num = self.get_best_button()
     self.tablet_game.press_button(btn_num)

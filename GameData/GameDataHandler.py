@@ -92,6 +92,7 @@ class GameDataHandler:
             for edge in self.extra_edges:
                 if edge[2] == slope:
                     edges_to_check.append(edge)
+            self.log.debug("Number of items in slope {} = {}".format(slope, len(edges_to_check)))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -127,10 +128,10 @@ class GameDataHandler:
             if collision_point == LINES_ALWAYS_MEET:
                 # Lines have the same slope + const. Big change they are the same one.
                 if LineEquation.check_collision_point(eq1, eq2):
-                    log.debug("Lines meet and intersect with each other - They are the same line")
+                    #log.debug("Lines meet and intersect with each other - They are the same line")
                     return True
                 else:
-                    log.debug("Lines have the same parameters but we are not sure of they meet")
+                    #log.debug("Lines have the same parameters but we are not sure if they meet")
                     return False
 
     def connect_edges(self, edge_1, edge_2):
@@ -140,7 +141,7 @@ class GameDataHandler:
         :param edge_1, edge_2: An edge defined by a tuple of NodeObjects
         """
         # Cleaning all existing connection
-        self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
+        #self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
         if edge_1 in self.extra_edges:
             self.log.debug("Removing edge from extra edges", removed_edge=edge_1)
             self.extra_edges.remove(edge_1)
@@ -174,8 +175,8 @@ class GameDataHandler:
         :param main_node: The node we want to remove data from 
         :return: 
         """
-        self.log.debug("Cleaning connection to another node", main_node=main_node.serial_num,
-                       node_to_remove=node_to_remove.serial_num)
+        # self.log.debug("Cleaning connection to another node", main_node=main_node.serial_num,
+        #                node_to_remove=node_to_remove.serial_num)
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
             raise Exception("Node '{}' was not found in node list. Node list = {}".format(main_node, self.graph.node_list))

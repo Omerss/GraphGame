@@ -31,22 +31,23 @@ class GameHandler:
         self.current_turn = 0
         self.stop_threads = False
         self.log = get_logger()
+        self.score = 0
 
-    def run_single_game(self, graph, graph_config):
+    def run_single_game(self, graph_file_path, graph_config):
         """
         Does a single run of a game - 3 stages:
         Graph learning - the main game section.
         Questionnaire - A list of questions about the graph
         Results - The result screen and summary of the data.
-        :param graph: A path to a graph xml. The graph object also contains data about the questions
+        :param graph_file_path: A path to a graph xml. The graph object also contains data about the questions
         :param graph_config: A graph config file containing basic structure data about the graph. Number of nodes etc.
 
         """
         self.log.info("Setting up a single game")
-        if graph is None:
+        if graph_file_path is None:
             self.current_graph = create_rand_graph(graph_config)
         else:
-            self.current_graph = load_graph_from_file(graph)
+            self.current_graph = load_graph_from_file(graph_file_path)
         self.current_data_handler = GameDataHandler(graph_config)
         self.current_turn = 0
         self.stop_threads = False
@@ -83,24 +84,21 @@ class GameHandler:
         # Stage 2 - Questionnaire
         self.log.info("Starting Stage 2 - Questionnaire")
 
- # omer fix this please git is very angry - merge
-        # Stage 3 - Results scnreen
-        self.log.info("Starting Stage 3 - Result Screen")
-        # user_seen_graph_answers = set_answer_objects(userSeenGraph)
-        # full_graph_answers = set_answer_objects(fullGraph)
-
-
-        know_graph = self.current_data_handler.graph
-
-        # Stage 3 - Results screen
-        self.log.info("Starting Stage 3 - Result Screen")
-        known_graph = self.current_data_handler.graph
-# end of merge
-        display_thread = threading.Thread(name="Kivy display thread",
-                                          target=self.kivy_thread,
-                                          args=([], self.button_event, known_graph)).start()
-        print("end")
-
+#         # Stage 3 - Results scnreen
+#         self.log.info("Starting Stage 3 - Result Screen")
+#         # user_seen_graph_answers = set_answer_objects(userSeenGraph)
+#         # full_graph_answers = set_answer_objects(fullGraph)
+#
+#
+#         know_graph = self.current_data_handler.graph
+#
+#         # Stage 3 - Results screen
+#         self.log.info("Starting Stage 3 - Result Screen")
+#         known_graph = self.current_data_handler.graph
+#         display_thread = threading.Thread(name="Kivy display thread",
+#                                           target=self.kivy_thread,
+#                                           args=([], self.button_event, known_graph)).start()
+        return self.score
 
     @staticmethod
     def set_answer_objects(graph, question_list):
