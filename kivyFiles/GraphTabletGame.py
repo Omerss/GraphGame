@@ -61,11 +61,6 @@ class GraphTabletGame(App):
         nodes = self.get_onscreen_nodes()
         edges = self.get_onscreen_edges(nodes)
 
-        for node in nodes:
-            print node
-        for edge in edges:
-            print edge
-
         return {'nodes': nodes, 'edges': edges}
 
     def get_onscreen_nodes(self):
@@ -209,10 +204,15 @@ class GraphTabletGame(App):
             if first_node is None:
                 return None
             else:
-                print "first_node", first_node
                 raise Exception("Only One viable node for onscreen edge!")
+
+        min_dist = edge.node1.get_radius()/2
+        if first_node.distance(second_node) < min_dist:
+            return None
+
         if first_node.x < second_node.x:
             curr_edge = (first_node, second_node, edge.slope)
         else:
             curr_edge = (second_node, first_node, edge.slope)
+
         return curr_edge
