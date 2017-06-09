@@ -63,7 +63,7 @@ class GameHandler:
         display_thread = threading.Thread(name="Kivy display thread",
                                           target=self.kivy_thread,
                                           args=([], self.button_event, self.current_graph)).start()
-        time.sleep(4)
+        time.sleep(5)
         self.current_data_handler.add_view_to_db(self.display.get_info_from_screen())
         while True:
             if self.stop_threads:
