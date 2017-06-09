@@ -230,10 +230,10 @@ class GameDataHandler:
         :return: 
         """
         remove_list = []
-        self.log.info("removing nodes with no neighbors")
+        self.log.debug("removing nodes with no neighbors")
         for node in self.graph.node_list:
             if len(node.neighbors) == 0:
-                self.log.info("Found node with no neighbors - deleting", serial=node.serial_num, real=node.is_real())
+                self.log.debug("Found node with no neighbors - deleting", serial=node.serial_num, real=node.is_real())
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
