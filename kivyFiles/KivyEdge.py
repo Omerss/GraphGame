@@ -3,6 +3,7 @@ kivy.require('1.9.1')
 
 from kivy.graphics import Line
 from kivy.uix.widget import Widget
+from kivy.animation import Animation
 
 
 class KivyEdge(Widget):
@@ -28,5 +29,9 @@ class KivyEdge(Widget):
         with self.canvas:
             self.line=Line(points=[self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()], width=self.line_width)
 
-    def reset_edge(self):
-        self.line.points = [self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()]
+    def reset_edge(self, animated):
+        if animated:
+            anim = Animation(points=[self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()])
+            anim.start(self.line)
+        else:
+            self.line.points = [self.node1.get_x(),self.node1.get_y(),self.node2.get_x(),self.node2.get_y()]

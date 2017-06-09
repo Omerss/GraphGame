@@ -87,7 +87,7 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
-    def move_node_to_center(self, new_center):
+    def move_node_to_center(self, new_center, animated=True):
         """
         function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
         :param node: a node to be moved to the center of the screen
@@ -95,17 +95,17 @@ class KivyGraph(Widget):
         delta_x = self.center_coor[0] - new_center.get_x()
         delta_y = self.center_coor[1] - new_center.get_y()
         for node in self.nodes:
-            node.move_by_amount(delta_x,delta_y)
+            node.move_by_amount(delta_x,delta_y, animated)
         for edge in self.edges:
-            edge.reset_edge()
+            edge.reset_edge(animated)
         self.center_node = new_center
 
-    def centralize_random_node(self):
+    def centralize_random_node(self, animated):
         """
         function chooses a random node and moves it to center of screen using the function "move_node_to_center"
         """
         i = randint(0,len(self.nodes)-1)
-        self.move_node_to_center(self.nodes[i])
+        self.move_node_to_center(self.nodes[i], animated)
 
     def get_most_connected(self, node_list):
         max_connections = 0
@@ -215,10 +215,10 @@ class KivyGraph(Widget):
                 old_size = edge.line_width
                 new_size = min(change_in_x,change_in_y)*old_size
             edge.line.width = new_size
-            edge.reset_edge()
+            edge.reset_edge(False)
 
         self.real_size = {'max_x': new_x, 'max_y': new_y}
-        self.move_node_to_center(self.center_node)
+        self.move_node_to_center(self.center_node, False)
 
     def get_onscreen_nodes(self, node_list):
         '''
@@ -231,7 +231,7 @@ class KivyGraph(Widget):
             node_x = node.get_x()
             node_y = node.get_y()
             node_r = node.get_radius()
-            if (node_x + node_r) > screen_edges['min_x'] and (node_x - node_r) < screen_edges['max_x'] and \
-                            (node_y + node_r) > screen_edges['min_y'] and (node_y - node_r) < screen_edges['max_y']:
+            if (node_x - node_r) > screen_edges['min_x'] and (node_x + node_r) < screen_edges['max_x'] and \
+                            (node_y - node_r) > screen_edges['min_y'] and (node_y + node_r) < screen_edges['max_y']:
                 displayed_nodes.append(node)
         return displayed_nodes

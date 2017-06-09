@@ -4,6 +4,7 @@ kivy.require('1.9.1')
 from kivy.graphics import Ellipse
 from kivy.uix.widget import Widget
 import math
+from kivy.animation import Animation
 
 class KivyNode(Widget):
     x_coor = 0
@@ -64,14 +65,19 @@ class KivyNode(Widget):
         self.x_coor += amount
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
 
-    def move_by_amount(self,delta_x,delta_y):
+    def move_by_amount(self,delta_x,delta_y, animated):
         """
         :param delta_x: a distance to move the node's x_coor by
         :param delta_y: a distance to move the node's y_coor by
         """
         self.x_coor = self.x_coor + delta_x
         self.y_coor = self.y_coor + delta_y
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+
+        if animated:
+            anim = Animation(x=(self.x_coor - self.node_size / 2), y=(self.y_coor - self.node_size / 2))
+            anim.start(self)
+        else:
+            self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
     def relative_move(self, x_change, y_change):
         """

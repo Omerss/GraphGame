@@ -14,7 +14,6 @@ from SupplementaryFiles import Utils
 
 class GraphLayout(FloatLayout):
     button_width = 100
-    ##dim = {"min_x": button_width, "min_y": 0 ,"max_x": 800, "max_y": 600}
     original_graph = None
     kivy_graph = None
     center_screen = (0,0)
@@ -32,7 +31,7 @@ class GraphLayout(FloatLayout):
         self.get_edges()
         self.set_button_functions(button_funcs)
         self.get_buttons(signal, button_lst)
-        self.kivy_graph.centralize_random_node()
+        self.kivy_graph.centralize_random_node(False)
 
     def get_center_coor(self):
         """
