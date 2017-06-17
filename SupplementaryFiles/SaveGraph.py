@@ -15,6 +15,7 @@ def save_graph(graph, file_name):
     E.SubElement(graph_xml, "max_neighbors", name="max_neighbors").text=str(graph.max_neighbors)
     E.SubElement(graph_xml, "node_count", name="node_count").text = str(graph.node_count)
     E.SubElement(graph_xml, "line_colour", name="line_colour").text = graph.line_colour['name']
+    E.SubElement(graph_xml,"connections",name="connections").text=str(graph.connections)
 
     for i in range(0, len(graph.node_list)):
         E.SubElement(node_list,"node_serial_num_{}".format(i), name="node_serial_num_{}".format(i)).text = "{}".format(graph.node_list[i].serial_num)
