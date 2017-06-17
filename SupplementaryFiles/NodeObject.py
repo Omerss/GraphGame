@@ -1,5 +1,4 @@
 import math
-
 from Point import Point
 from SupplementaryFiles.Enums import Colours, Shapes
 
@@ -11,7 +10,7 @@ class NodeObject(Point):
     neighbors = set()
     possible_neighbors = set()
     real = True
-
+    colour = Colours.red
     def __init__(self, serial, location, size, colour=Colours.red, shape=Shapes.circle, real=True):
         """
 
