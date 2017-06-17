@@ -2,16 +2,20 @@ import threading
 import os
 
 import time
+from Queue import Queue
+
 from structlog import get_logger
 from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObj import AnswerObj
 from Questions.QuestionObj import QuestionObject
+from Questions.QuestionsDisplayObj import QuestionDisplay
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles import Utils
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
 CONFIG_FILE_PATH = "./config.ini"
+
 
 def kivy_thread_graph_game(self, *args):
     print(threading.currentThread().getName(), 'Starting')
@@ -20,6 +24,7 @@ def kivy_thread_graph_game(self, *args):
         self.display.run()
     else:
         self.display.build()
+
 
 class GameHandler:
 
@@ -74,9 +79,12 @@ class GameHandler:
                                             args=(self.button_event,)).start()
 
         self.log.info("Starting main kivy thread")
-        display_thread = threading.Thread(name="Kivy display thread",
+        display_thread = threading.Thread(name="Kivy game display",
                                           target=self.kivy_thread_graph_game,
-                                          args=([], self.button_event, self.current_graph, real_user)).start()
+                                          kwargs={'button_funcs': [],
+                                                  'button_event': self.button_event,
+                                                  'graph': self.current_graph,
+                                                  'real_user': real_user}).start()
         time.sleep(5)
         self.current_data_handler.add_view_to_db(self.display.get_info_from_screen())
         if not self.real_user:
@@ -89,32 +97,36 @@ class GameHandler:
 
         # This is just trying to catch threads if they don't close.
         # Don't look too much into this as it's just trowing everything and hoping something sticks.
-        if self.display is not None:
+        if self.display is not None and display_thread is not None:
             self.log.debug("Try to join thread display")
             #self.display.stop()
-            if display_thread is not None:
-                display_thread.join(5)
+            display_thread.join(5)
         self.log.debug("Checking if threads did not close correctly")
         if display_thread is not None and display_thread.is_alive():
             raise Exception("Threads not closed - thread={}".format(display_thread.name))
 
         if self.real_user:
-            click_thread.join(5)
             if click_thread is not None and click_thread.is_alive():
+                click_thread.join(5)
                 raise Exception("Threads not closed - thread={}".format(click_thread.name))
 
             # Stage 2 - Questionnaire
             self.log.info("Starting Stage 2 - Questionnaire")
+            questions = self.create_questions()
+            q = Queue(1)
+            self.log.info("Starting Questionnaire kivy thread")
+            questionnaire_thread = threading.Thread(name="Kivy Questionnaire",
+                                                    target=self.kivy_thread_questionnaire,
+                                                    kwargs={'answer_queue': q, 'question_list': questions}).start()
+            answers = q.get()
+            if questionnaire_thread is not None:
+                self.log.debug("Try to join questionnaire thread")
+                questionnaire_thread.join(5)
+            print(answers)
 
-    #         # Stage 3 - Results scnreen
-    #         self.log.info("Starting Stage 3 - Result Screen")
-    #         # user_seen_graph_answers = set_answer_objects(userSeenGraph)
-    #         # full_graph_answers = set_answer_objects(fullGraph)
-    #
-    #
-    #         know_graph = self.current_data_handler.graph
+
             # Stage 3 - Results screen
-    #         self.log.info("Starting Stage 3 - Result Screen")
+            self.log.info("Starting Stage 3 - Result Screen")
     #         known_graph = self.current_data_handler.graph
     #         display_thread = threading.Thread(name="Kivy display thread",
     #                                           target=self.kivy_thread,
@@ -139,10 +151,17 @@ class GameHandler:
             answer_objects.append(answer_object)
         return answer_objects
 
-    def kivy_thread_graph_game(self, *args):
+    def kivy_thread_questionnaire(self, **kwargs):
         print(threading.currentThread().getName(), 'Starting')
-        self.display = GraphTabletGame(args[2], args[0], args[1])
-        if args[3]:
+        kwargs['answer_queue']
+
+        self.display = QuestionDisplay(kwargs['question_list'])
+        self.display.run()
+
+    def kivy_thread_graph_game(self, **kwargs):
+        print(threading.currentThread().getName(), 'Starting')
+        self.display = GraphTabletGame(kwargs['graph'], kwargs['button_funcs'], kwargs['button_event'])
+        if kwargs['real_user']:
             self.display.run()
         else:
             self.display.build()
@@ -153,7 +172,7 @@ class GameHandler:
 
             self.log.debug("wait_for_event starting")
             button_clicked = button_event.wait()
-            self.log.debug("event set.", new_event=button_clicked)
+            self.log.debug("event set", new_event=button_clicked)
             self.log.info("Collecting data from display")
             self.display.set_button_status(False)
             data = self.display.get_info_from_screen()
@@ -176,4 +195,16 @@ class GameHandler:
         if self.current_turn == self.max_turns:
             self.stop_threads = True
         self.machine_signal.set()
+
+    def create_questions(self):
+        """
+        Creates a list of QuestionObject
+        """
+        question_list = []
+        # Dummy
+        import random
+        for i in range(10):
+            question_list.append(QuestionObject('dummy_text_{}'.format(i), random.randint(2)))
+
+        return question_list
 
