@@ -1,3 +1,5 @@
+from Queue import Queue
+
 from QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
@@ -10,8 +12,8 @@ def main():
     questionTen = QuestionObject( "is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN)
 
     questionList = [questionOne,questionThree,questionFive,questionNine, questionTen]
-
-    display = QuestionDisplay(questionList)
+    q = Queue()
+    display = QuestionDisplay(questionList, q)
     display.run()
 
 main()

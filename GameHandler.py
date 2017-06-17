@@ -11,6 +11,7 @@ from Questions.QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles import Utils
+from SupplementaryFiles.Enums import QuestionTypes
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
@@ -153,8 +154,6 @@ class GameHandler:
 
     def kivy_thread_questionnaire(self, **kwargs):
         print(threading.currentThread().getName(), 'Starting')
-        kwargs['answer_queue']
-
         self.display = QuestionDisplay(kwargs['question_list'])
         self.display.run()
 
@@ -201,10 +200,20 @@ class GameHandler:
         Creates a list of QuestionObject
         """
         question_list = []
+
+        questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER)
+        questionThree = QuestionObject("what is the color that contain the node with the maximun links in the graph?",
+                                       QuestionTypes.MULTIPLE_CHOICE)
+        questionFive = QuestionObject("how many red nodes do not have links blue nodes?", QuestionTypes.NUMBER)
+        questionNine = QuestionObject("does every node at color yellow have link to a node of color red?",
+                                      QuestionTypes.BOOLEAN)
+        questionTen = QuestionObject("is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN)
+
+        questionList = [questionOne, questionThree, questionFive, questionNine, questionTen]
         # Dummy
         import random
-        for i in range(10):
-            question_list.append(QuestionObject('dummy_text_{}'.format(i), random.randint(2)))
+        # for i in range(10):
+        #     question_list.append(QuestionObject('dummy_text_{}'.format(i), random.randint(2)))
 
         return question_list
 
