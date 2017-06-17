@@ -9,3 +9,9 @@ class Colours(Enum):
 
 class Shapes(Enum):
     circle = {'name': "Circle"}
+
+
+class QuestionTypes(Enum):
+    NUMBER = 1
+    MULTIPLE_CHOICE = 2
+    BOOLEAN = 3

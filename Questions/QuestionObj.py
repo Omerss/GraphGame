@@ -1,48 +1,51 @@
 import questionsAnswering
-from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.Enums import Colours, QuestionTypes
 
-#an object used for the questions displaying
-class QuestionObject():
+
+class QuestionObject:
+    """
+    An object used for the questions displaying
+    """
     question_string = None
     open_question = False
     user_answer = -1
     question_type_number = 0
     list_of_possible_answers = None
     args = None
-# question_type_number - 1- open question, question_type_number-2 close question with answers derived from colors, question_type_number-3 yes/no question
+
     def __init__(self, question_string, question_type_number):
         self.question_string = question_string
         self.question_type_number = question_type_number
         self.get_question_values()
 
     def get_question_values(self):
-        if (self.question_type_number== 1):
+        if self.question_type_number == QuestionTypes.NUMBER:
             self.open_question = True
 
-        if (self.question_type_number == 2):
+        elif self.question_type_number == QuestionTypes.MULTIPLE_CHOICE:
             self.open_question = False
-            for color in Colours:
-                self.list_of_possible_answers.append(color)
+            for color_index in len(Colours.mro()):
+                self.list_of_possible_answers.append(Colours.__getitem__(c, color_index))
 
-        if (self.question_type_number == 3 ):
+        elif self.question_type_number == QuestionTypes.BOOLEAN:
             self.open_question = False
             self.list_of_possible_answers.append(True)
             self.list_of_possible_answers.append(False)
 
-    def getQuestionString (self):
+    def get_question_string(self):
         return self.question_string
 
-    def isOpenQuestion (self):
+    def is_open_question(self):
         return self.open_question
 
-    def getListOfPossibleAnswers (self):
+    def get_list_of_possible_answers(self):
         return self.list_of_possible_answers
 
-    def setUserAnswer (self,answer):
+    def set_user_answer(self, answer):
         self.user_answer = answer
 
-    def get_question_number (self):
+    def get_question_number(self):
         return self.question_number
 
-    def get_question_arguments (self):
+    def get_question_arguments(self):
         return self.args
