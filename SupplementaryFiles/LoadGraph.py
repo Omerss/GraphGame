@@ -26,17 +26,17 @@ def load_graph_from_file(file_name):
     i=0
     #while we find more nodes in the tree we continue to store them in the list
     while (node_list.find("node_serial_num_{}".format(i))!= None):
-        node_serial_num=int(node_list.find("node_serial_num_{}".format(i)).text)
+        node_serial_num=node_list.find("node_serial_num_{}".format(i)).text
         node_colour=from_name_to_color(node_list.find("node_colour_{}".format(i)).text)
         node_shape=from_name_to_shape(node_list.find("node_shape_{}".format(i)).text)
-        node_location=ast.literal_eval(node_list.find("node_location_{}".format(i)).text)
+        node_location={'x' :node_list.find("node_x_{}".format(i)).text, 'y':node_list.find("node_y_{}".format(i)).text}
         node_size=int(node_list.find("node_size_{}".format(i)).text)
         node_neighbors=set (eval(node_list.find("node_neighbors_{}".format(i)).text))
         possible_neighbors=set (eval(node_list.find("possible_neighbors_{}".format(i)).text))
         new_node=NodeObject(node_serial_num, node_location, node_size, node_colour, node_shape)
         new_node.neighbors=node_neighbors
         new_node.possible_neighbors=possible_neighbors
-        new_graph.node_list[i]=new_node
+        new_graph.node_list.append(new_node)
         i=i+1
 
     return new_graph

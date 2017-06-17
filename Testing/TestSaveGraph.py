@@ -1,10 +1,10 @@
 import unittest
-
+from kivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
-
-
+from SupplementaryFiles.LoadGraph import load_graph_from_file
+import threading
 class TestSaveGraph(unittest.TestCase):
     # Arrange
     max_neighbors = 5
@@ -39,11 +39,12 @@ class TestSaveGraph(unittest.TestCase):
     new_graph.connect_nodes (new_graph.node_list[3],new_graph.node_list[1])
     # Act
     save_graph(new_graph, "testSavingGraph.xml")
+    new_loaded_graph = load_graph_from_file("testSavingGraph.xml")
 
+    #assert
+   # button_event = threading.Event()
 
+    #display = GraphTabletGame([],new_graph , button_event)
 
-
-
-
-
-
+#    display.build()
+    self.assertEqual(
