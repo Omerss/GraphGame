@@ -50,8 +50,7 @@ class GraphLayout(FloatLayout):
         with self.canvas:
             for node in graph_nodes:
                 colour = Colours.__getattribute__(Colours,node.colour)
-                # Color(colour['R'],colour['G'],colour['B'])
-                new_node = KivyNode(node.x, node.y, node.serial_num, 'red')
+                new_node = KivyNode(node.x, node.y, node.serial_num, Color(colour['R'],colour['G'],colour['B']))
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self):
