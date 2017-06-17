@@ -10,7 +10,6 @@ game_ready_event = threading.Event()
 
 
 def game_thread():
-   # game.run_single_game(graph, None, False)
     score = game.run_single_game(None, "{}\GraphsData\config.ini".format(os.getcwd()), real_user=False,
                          machine_signal=game_ready_event)
     print("score is:{}".format(score))
@@ -18,11 +17,10 @@ def game_thread():
 
 
 def main():
-    g_thread = threading.Thread(name='game_thread',
-                                    target=game_thread).start()
+    threading.Thread(name='game_thread', target=game_thread).start()
     turns = 5
     while True:
-        game_ready = game_ready_event.wait()
+        game_ready_event.wait()
         print('playing turn {}'.format(game.current_turn))
         game_ready_event.clear()
         if game.stop_threads:
@@ -30,10 +28,12 @@ def main():
         button_to_press = random.randint(1, 4)
         game.machine_press_button(button_to_press)
     print("")
-    game_ready = game_ready_event.wait()
+    game_ready_event.wait()
     print("Finish")
 
-main()
+if __name__ == "__main__":
+
+    main()
 
 
 
