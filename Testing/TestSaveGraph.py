@@ -47,4 +47,36 @@ class TestSaveGraph(unittest.TestCase):
     #display = GraphTabletGame([],new_graph , button_event)
 
 #    display.build()
-    self.assertEqual(
+    size = 0
+    neighbors = set()
+    possible_neighbors = set()
+    real = True
+    colour = Colours.red
+
+    self.assertEqual(new_loaded_graph.line_colour, Colours.red)
+    self.assertEqual(new_loaded_graph.size['max_x'],1000)
+    self.assertEqual(new_loaded_graph.size['max_y'],1000)
+    self.assertEqual(new_loaded_graph.node_count,10 )
+    self.assertEqual(new_loaded_graph.max_neighbors, 5)
+    self.assertEqual(new_loaded_graph.extra_distance,25)
+
+    self.assertEqual(new_loaded_graph.connections[0], (min(new_loaded_graph.node_list[0].serial_num, new_loaded_graph.node_list[1].serial_num), max(new_loaded_graph.node_list[0].serial_num, new_loaded_graph.node_list[1].serial_num)))
+    self.assertEqual(new_loaded_graph.connections[1], (min(new_loaded_graph.node_list[2].serial_num, new_loaded_graph.node_list[3].serial_num), max(new_loaded_graph.node_list[2].serial_num, new_loaded_graph.node_list[3].serial_num)))
+    self.assertEqual(new_loaded_graph.connections[2], (min(new_loaded_graph.node_list[4].serial_num, new_loaded_graph.node_list[5].serial_num), max(new_loaded_graph.node_list[4].serial_num, new_loaded_graph.node_list[5].serial_num)))
+    self.assertEqual(new_loaded_graph.connections[3], (min(new_loaded_graph.node_list[6].serial_num, new_loaded_graph.node_list[7].serial_num), max(new_loaded_graph.node_list[6].serial_num, new_loaded_graph.node_list[7].serial_num)))
+
+    self.assertEqual(new_loaded_graph.node_list[0].serial_num, new_graph.node_list[0].serial_num)
+    self.assertEqual(new_loaded_graph.node_list[0].size, 50)
+    self.assertEqual(new_loaded_graph.node_list[0].colour, Colours.yellow)
+    self.assertEqual(new_loaded_graph.node_list[0].x,150)
+    self.assertEqual(new_loaded_graph.node_list[0].y, 100)
+    self.assertEqual(new_loaded_graph.node_list[1].serial_num, new_graph.node_list[1].serial_num)
+    self.assertEqual(new_loaded_graph.node_list[1].size, 50)
+    self.assertEqual(new_loaded_graph.node_list[1].colour, Colours.red)
+    self.assertEqual(new_loaded_graph.node_list[1].x, 100)
+    self.assertEqual(new_loaded_graph.node_list[1].y, 800)
+    self.assertEqual(new_loaded_graph.node_list[2].serial_num, new_graph.node_list[2].serial_num)
+    self.assertEqual(new_loaded_graph.node_list[2].size, 50)
+    self.assertEqual(new_loaded_graph.node_list[2].colour, Colours.blue)
+    self.assertEqual(new_loaded_graph.node_list[2].x, 150)
+    self.assertEqual(new_loaded_graph.node_list[2].y, 500)
