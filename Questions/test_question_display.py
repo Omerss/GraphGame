@@ -4,6 +4,7 @@ from QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
+
 def main():
     questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER)
     questionThree = QuestionObject("what is the color that contain the node with the maximun links in the graph?", QuestionTypes.MULTIPLE_CHOICE)
@@ -15,5 +16,6 @@ def main():
     q = Queue()
     display = QuestionDisplay(questionList, q)
     display.run()
+    answers = q.get()
 
 main()

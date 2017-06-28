@@ -2,6 +2,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.app import App
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 
@@ -26,18 +27,27 @@ class QuestionDisplay(App):
         self.submit_button = Button(text='submit')
         self.submit_button.bind(on_press=self.submit_action)
         self.layout.add_widget(self.submit_button)
+        self.queue = queue
 
     def submit_action(self, instance):
         go_to_answers = True
-
+        bad_answers = []
         for question in self.questionsArray:
-            if question.getAnswer == -1:
+            if question.get_answer() is None:
                 go_to_answers = False
+                bad_answers.append(question)
             else:
-                self.usersAnswers.append(question.getAnswer)
+                self.usersAnswers.append(question)
 
         if go_to_answers:
-            pass
+            self.queue.put(1)
+        else:
+            self.popup = Popup(title='Inappropriate Answers',
+                               content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
+                               auto_dismiss=True,
+                               size_hint=(None, None),
+                               size=(600, 150))
+            self.popup.open()
 
     def set_questions(self, questions):
         for i in range(len(questions)):

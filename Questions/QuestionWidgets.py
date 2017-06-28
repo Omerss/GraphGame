@@ -18,6 +18,9 @@ class IntInput(TextInput):
         s = re.sub(self.pat, '', substring)
         return super(IntInput, self).insert_text(s, from_undo=from_undo)
 
+    def get_answer(self):
+        return None if len(self.text) == 0 or int(self.text) < 0 else int(self.text)
+
 
 class UntoggbleToggle(ToggleButtonBehavior, Button):
     def __init__(self, **kwargs):
@@ -34,6 +37,13 @@ class MultipleAnswersObj(GridLayout):
             btn_answer = UntoggbleToggle(text=answer, group='question_{}'.format(question_number))
             self.add_widget(btn_answer)
 
+    def get_answer(self):
+        for child in self.children:
+            if type(child) == UntoggbleToggle:
+                if child.state == 'down':
+                    return child.text
+        return None
+
 
 class BooleanQuestion(GridLayout):
     def __init__(self, question_number):
@@ -42,3 +52,11 @@ class BooleanQuestion(GridLayout):
         btn_no = UntoggbleToggle(text='no', group='question_{}'.format(question_number))
         self.add_widget(btn_yes)
         self.add_widget(btn_no)
+
+    def get_answer(self):
+        for child in self.children:
+            if type(child) == UntoggbleToggle:
+                if child.state == 'down':
+                    return child.text
+        return None
+
