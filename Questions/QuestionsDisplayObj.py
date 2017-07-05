@@ -18,7 +18,7 @@ class QuestionDisplay(App):
     def __init__(self, questions, queue, **kwargs):
         super(QuestionDisplay, self).__init__(**kwargs)
 
-        num_of_rows = 2*len(questions) + 1
+        num_of_rows = 2 * len(questions) + 1
         self.layout = GridLayout(rows=num_of_rows, cols=1)
         self.questions = questions
         self.questionsArray = []
@@ -40,26 +40,27 @@ class QuestionDisplay(App):
                 self.usersAnswers.append(question)
 
         if go_to_answers:
-            self.queue.put(1)
+            self.queue.put(self.usersAnswers)
+            self.stop()
         else:
-            self.popup = Popup(title='Inappropriate Answers',
-                               content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
-                               auto_dismiss=True,
-                               size_hint=(None, None),
-                               size=(600, 150))
-            self.popup.open()
+            popup = Popup(title='Inappropriate Answers',
+                          content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
+                          auto_dismiss=True,
+                          size_hint=(None, None),
+                          size=(600, 150))
+            popup.open()
 
-    def set_questions(self, questions):
-        for i in range(len(questions)):
-            new_question_label = Label(text=questions[i].question_string)
-            if questions[i].question_type_number == QuestionTypes.NUMBER:
-                new_question = IntInput(text='', multiline=False)
+    def set_questions(self, question_list):
+        for question in question_list:
+            new_question_label = Label(text=question.question_string)
+            if question.question_type_number == QuestionTypes.NUMBER:
+                new_question = IntInput(question_number=question.question_id)
 
-            elif questions[i].question_type_number == QuestionTypes.MULTIPLE_CHOICE:
-                new_question = MultipleAnswersObj(questions[i], i)
+            elif question.question_type_number == QuestionTypes.MULTIPLE_CHOICE:
+                new_question = MultipleAnswersObj(question, question.question_id)
 
-            elif questions[i].question_type_number == QuestionTypes.BOOLEAN:
-                new_question = BooleanQuestion(i)
+            elif question.question_type_number == QuestionTypes.BOOLEAN:
+                new_question = BooleanQuestion(question.question_id)
 
             self.questionsArray.append(new_question)
             self.layout.add_widget(new_question_label)
@@ -67,6 +68,3 @@ class QuestionDisplay(App):
 
     def build(self):
         return self.layout
-
-
-

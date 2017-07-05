@@ -9,6 +9,7 @@ from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObj import AnswerObj
 from Questions.QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
+from Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import QuestionTypes
@@ -114,7 +115,7 @@ class GameHandler:
             # Stage 2 - Questionnaire
             self.log.info("Starting Stage 2 - Questionnaire")
             questions = self.create_questions()
-            q = Queue(1)
+            q = Queue()
             self.log.info("Starting Questionnaire kivy thread")
             questionnaire_thread = threading.Thread(name="Kivy Questionnaire",
                                                     target=self.kivy_thread_questionnaire,
@@ -123,11 +124,16 @@ class GameHandler:
             if questionnaire_thread is not None:
                 self.log.debug("Try to join questionnaire thread")
                 questionnaire_thread.join(5)
-            print(answers)
-
+            for item in answers:
+                print("question #{} - {}".format(item.question_number, item.get_answer()))
 
             # Stage 3 - Results screen
             self.log.info("Starting Stage 3 - Result Screen")
+
+            result_thread = threading.Thread(name="Kivy Results",
+                                             target=self.kivy_thread_questionnaire,
+                                             kwargs={'answer_queue': q, 'question_list': questions}).start()
+
     #         known_graph = self.current_data_handler.graph
     #         display_thread = threading.Thread(name="Kivy display thread",
     #                                           target=self.kivy_thread,
@@ -155,6 +161,11 @@ class GameHandler:
     def kivy_thread_questionnaire(self, **kwargs):
         print(threading.currentThread().getName(), 'Starting')
         self.display = QuestionDisplay(kwargs['question_list'])
+        self.display.run()
+
+    def kivy_thread_results(self):
+        print(threading.currentThread().getName(), 'Starting')
+        self.display = ResultDisplay()
         self.display.run()
 
     def kivy_thread_graph_game(self, **kwargs):
@@ -199,21 +210,15 @@ class GameHandler:
         """
         Creates a list of QuestionObject
         """
-        question_list = []
-
-        questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER)
+        questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER, 111)
         questionThree = QuestionObject("what is the color that contain the node with the maximun links in the graph?",
-                                       QuestionTypes.MULTIPLE_CHOICE)
-        questionFive = QuestionObject("how many red nodes do not have links blue nodes?", QuestionTypes.NUMBER)
+                                       QuestionTypes.MULTIPLE_CHOICE, 222)
+        questionFive = QuestionObject("how many red nodes do not have links blue nodes?", QuestionTypes.NUMBER, 4)
         questionNine = QuestionObject("does every node at color yellow have link to a node of color red?",
-                                      QuestionTypes.BOOLEAN)
-        questionTen = QuestionObject("is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN)
+                                      QuestionTypes.BOOLEAN, 12)
+        questionTen = QuestionObject("is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN, 14)
 
-        questionList = [questionOne, questionThree, questionFive, questionNine, questionTen]
-        # Dummy
-        import random
-        # for i in range(10):
-        #     question_list.append(QuestionObject('dummy_text_{}'.format(i), random.randint(2)))
+        question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
 
         return question_list
 

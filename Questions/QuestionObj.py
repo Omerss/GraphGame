@@ -14,10 +14,11 @@ class QuestionObject:
     list_of_possible_answers = None
     args = None
 
-    def __init__(self, question_string, question_type_number):
+    def __init__(self, question_string, question_type_number, question_id):
         self.question_string = question_string
         self.question_type_number = question_type_number
         self.get_question_values()
+        self.question_id = question_id
 
     def get_question_values(self):
         if self.question_type_number == QuestionTypes.NUMBER:

@@ -11,6 +11,9 @@ from kivy.uix.button import Button
 
 
 class IntInput(TextInput):
+    def __init__(self, question_number):
+        super(IntInput, self).__init__(text='', multiline=False)
+        self.question_number = question_number
 
     pat = re.compile('[^0-9]')
 
@@ -37,6 +40,8 @@ class MultipleAnswersObj(GridLayout):
             btn_answer = UntoggbleToggle(text=answer, group='question_{}'.format(question_number))
             self.add_widget(btn_answer)
 
+        self.question_number = question_number
+
     def get_answer(self):
         for child in self.children:
             if type(child) == UntoggbleToggle:
@@ -46,12 +51,15 @@ class MultipleAnswersObj(GridLayout):
 
 
 class BooleanQuestion(GridLayout):
+
     def __init__(self, question_number):
         super(BooleanQuestion, self).__init__(rows=1, cols=2)
         btn_yes = UntoggbleToggle(text='yes', group='question_{}'.format(question_number))
         btn_no = UntoggbleToggle(text='no', group='question_{}'.format(question_number))
         self.add_widget(btn_yes)
         self.add_widget(btn_no)
+
+        self.question_number = question_number
 
     def get_answer(self):
         for child in self.children:
