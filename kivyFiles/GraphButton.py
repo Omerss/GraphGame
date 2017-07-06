@@ -28,4 +28,4 @@ class MultiButton(Button):
             self.funcs[f]()
             self.counter += 1
             self.lst.append(self.num)
-           # self.signal.set()
+            self.signal.set()

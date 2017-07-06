@@ -1,6 +1,6 @@
 import kivy
-kivy.require('1.9.1')
 
+kivy.require('1.9.1')
 from kivy.uix.widget import Widget
 from random import randint
 from KivyNode import KivyNode
@@ -20,7 +20,7 @@ class KivyGraph(Widget):
         self.edges = []
         self.real_size = size
         self.max_size = size
-        self.min_size = {'max_x': (0.7*self.max_size['max_x']),'max_y': (0.7*self.max_size['max_y'])}
+        self.min_size = {'max_x': (0.7 * self.max_size['max_x']), 'max_y': (0.7 * self.max_size['max_y'])}
         self.screen_size = screen_size
         self.corners = self.set_screen_corners()
 
@@ -54,7 +54,7 @@ class KivyGraph(Widget):
                 return node
         raise Exception("Node '{}' was not found in node list. Node list = {}".format(serial, self.nodes))
 
-    def move_up(self, amount = 5):
+    def move_up(self, amount=5):
         self.center_node = None
         for node in self.nodes:
             node.move_y(amount)
@@ -66,7 +66,7 @@ class KivyGraph(Widget):
         self.corners["bottom_right"].move_y(-amount)
         self.corners["bottom_left"].move_y(-amount)
 
-    def move_down(self, amount = -5):
+    def move_down(self, amount=-5):
         self.center_node = None
         for node in self.nodes:
             node.move_y(amount)
@@ -77,20 +77,19 @@ class KivyGraph(Widget):
         self.corners["bottom_right"].move_y(-amount)
         self.corners["bottom_left"].move_y(-amount)
 
-    def move_left(self, amount = -5):
+    def move_left(self, amount=-5):
         self.center_node = None
         for node in self.nodes:
             node.move_x(amount)
         for edge in self.edges:
-           edge.reset_edge(False)
+            edge.reset_edge(False)
 
         self.corners["top_right"].move_x(-amount)
         self.corners["top_left"].move_x(-amount)
         self.corners["bottom_right"].move_x(-amount)
         self.corners["bottom_left"].move_x(-amount)
 
-
-    def move_right(self, amount = 5):
+    def move_right(self, amount=5):
         self.center_node = None
         for node in self.nodes:
             node.move_x(amount)
@@ -119,9 +118,9 @@ class KivyGraph(Widget):
         x = randint(-100, 100)
         y = randint(-100, 100)
         for node in self.nodes:
-            node.move_by_amount(x, y)
+            node.move_by_amount(x, y, animated)
         for edge in self.edges:
-            edge.reset_edge()
+            edge.reset_edge(animated)
 
         self.corners["top_right"].move_by_amount(-x, -y, False)
         self.corners["top_left"].move_by_amount(-x, -y, False)
@@ -136,7 +135,7 @@ class KivyGraph(Widget):
         delta_x = self.center_coor[0] - new_center.get_x()
         delta_y = self.center_coor[1] - new_center.get_y()
         for node in self.nodes:
-            node.move_by_amount(delta_x,delta_y, animated)
+            node.move_by_amount(delta_x, delta_y, animated)
         for edge in self.edges:
             edge.reset_edge(animated)
         self.center_node = new_center
@@ -151,7 +150,7 @@ class KivyGraph(Widget):
         """
         function chooses a random node and moves it to center of screen using the function "move_node_to_center"
         """
-        i = randint(0,len(self.nodes)-1)
+        i = randint(0, len(self.nodes) - 1)
         self.move_node_to_center(self.nodes[i], animated)
 
     def get_most_connected(self, node_list):
@@ -186,7 +185,7 @@ class KivyGraph(Widget):
             if node != self.center_node:
                 if (same_color == -1) or ((color == node.get_colour()) == same_color):
                     dist = self.center_node.get_distance_from_node(node)
-                    if (dist > max_distance):
+                    if dist > max_distance:
                         max_distance = dist
                         farthest_node = node
         return farthest_node
@@ -194,37 +193,37 @@ class KivyGraph(Widget):
     def centralize_most_connected(self):
         node_list = self.get_onscreen_nodes(self.nodes)
         new_center = self.get_most_connected(node_list)
-        if(new_center != None):
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_most_connected_neighbor(self):
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
         new_center = self.get_most_connected(node_list)
-        if(new_center != None):
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_neighbor_same_color(self):
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
-        new_center = self.get_closest(node_list,1)
-        if(new_center != None):
+        new_center = self.get_closest(node_list, 1)
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_same_color(self):
         node_list = self.get_onscreen_nodes(self.nodes)
-        new_center = self.get_closest(node_list,1)
-        if(new_center != None):
+        new_center = self.get_closest(node_list, 1)
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_neighbor_diff_color(self):
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
-        new_center = self.get_closest(node_list,0)
-        if(new_center != None):
+        new_center = self.get_closest(node_list, 0)
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_farthest_neighbor(self):
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbrs())
-        new_center = self.get_farthest(node_list,-1)
-        if(new_center != None):
+        new_center = self.get_farthest(node_list, -1)
+        if new_center is not None:
             self.move_node_to_center(new_center)
 
     def zoom_out(self):
@@ -233,7 +232,7 @@ class KivyGraph(Widget):
     def zoom_in(self):
         self.resize_graph(self.max_size['max_x'], self.max_size['max_y'], 50, 2)
 
-    def resize_graph(self, new_x, new_y, node_size = None, edge_size = None, keep_center_node = True, new_center = None):
+    def resize_graph(self, new_x, new_y, node_size=None, edge_size=None, keep_center_node=True, new_center=None):
         '''
         function sets the size of the graph to be new_x by new_y
         :param new_x: the new 'x' size of the graph
@@ -242,8 +241,8 @@ class KivyGraph(Widget):
         :param new_center: in the form (center_x,center_y). if given will be set as the graph's center coordinates.
         '''
 
-        change_in_x = float(new_x)/self.real_size['max_x']
-        change_in_y = float(new_y)/self.real_size['max_y']
+        change_in_x = float(new_x) / self.real_size['max_x']
+        change_in_y = float(new_y) / self.real_size['max_y']
         for node in self.nodes:
             if node_size:
                 new_size = node_size
@@ -259,7 +258,7 @@ class KivyGraph(Widget):
                 new_size = edge_size
             else:
                 old_size = edge.line_width
-                new_size = min(change_in_x, change_in_y)*old_size
+                new_size = min(change_in_x, change_in_y) * old_size
             edge.line.width = new_size
             edge.reset_edge(False)
 
@@ -276,31 +275,31 @@ class KivyGraph(Widget):
         '''
         TODO
 
-        :param change_in_x: relative cahnge in x
+        :param change_in_x: relative change in x
         :param change_in_y: relative change in y
         :return:
         '''
 
         delta_x = self.corners["top_right"].get_x() - self.corners["bottom_left"].get_x()
         delta_y = self.corners["top_right"].get_y() - self.corners["bottom_left"].get_y()
-        delta_x *= (1/change_in_x)
-        delta_y *= (1/change_in_y)
+        delta_x *= (1 / change_in_x)
+        delta_y *= (1 / change_in_y)
         min_x = self.corners["bottom_left"].get_x()
         min_y = self.corners["bottom_left"].get_y()
 
         if change_in_x < 1:
-            min_x -= 0.15*delta_x
+            min_x -= 0.15 * delta_x
         else:
-            min_x += 0.215*delta_x
+            min_x += 0.215 * delta_x
         if change_in_y < 1:
-            min_y -= 0.15*delta_y
+            min_y -= 0.15 * delta_y
         else:
-            min_y += 0.215*delta_y
+            min_y += 0.215 * delta_y
 
-        self.corners["bottom_left"].jump_to_location(round(min_x,2), round(min_y,2))
-        self.corners["top_left"].jump_to_location(round(min_x,2), round(min_y+delta_y,2))
-        self.corners["bottom_right"].jump_to_location(round(min_x+delta_x,2), round(min_y,2))
-        self.corners["top_right"].jump_to_location(round(min_x+delta_x,2), round(min_y+delta_y,2))
+        self.corners["bottom_left"].jump_to_location(round(min_x, 2), round(min_y, 2))
+        self.corners["top_left"].jump_to_location(round(min_x, 2), round(min_y + delta_y, 2))
+        self.corners["bottom_right"].jump_to_location(round(min_x + delta_x, 2), round(min_y, 2))
+        self.corners["top_right"].jump_to_location(round(min_x + delta_x, 2), round(min_y + delta_y, 2))
 
     def get_onscreen_nodes(self, node_list):
         '''
