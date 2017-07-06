@@ -4,11 +4,10 @@ kivy.require('1.9.1')
 from kivy.uix.widget import Widget
 from random import randint
 from KivyNode import KivyNode
-from SupplementaryFiles.Point import Point
 
 
 class KivyGraph(Widget):
-    center_coor = (0,0)
+    center_coor = (0, 0)
     nodes = None
     edges = None
     real_size = {'max_x': 800, 'max_y': 600}
@@ -21,7 +20,7 @@ class KivyGraph(Widget):
         self.edges = []
         self.real_size = size
         self.max_size = size
-        self.min_size = {'max_x': (0.2*self.max_size['max_x']),'max_y': (0.2*self.max_size['max_y'])}
+        self.min_size = {'max_x': (0.7*self.max_size['max_x']),'max_y': (0.7*self.max_size['max_y'])}
         self.screen_size = screen_size
         self.corners = self.set_screen_corners()
 
@@ -107,7 +106,13 @@ class KivyGraph(Widget):
         for node in self.nodes:
             node.print_node()
 
-    def jump(self):
+    def resetGraph(self):
+        for node in self.nodes:
+            node.reset_pos()
+        for edge in self.edges:
+            edge.reset_edge(False)
+
+    def jump(self, animated=True):
         """
         function moves the coordinates of all the nodes in the graph by a random difference
         """
@@ -118,15 +123,15 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge()
 
-        self.corners["top_right"].move_by_amount(-x, -y)
-        self.corners["top_left"].move_by_amount(-x, -y)
-        self.corners["bottom_right"].move_by_amount(-x, -y)
-        self.corners["bottom_left"].move_by_amount(-x, -y)
+        self.corners["top_right"].move_by_amount(-x, -y, False)
+        self.corners["top_left"].move_by_amount(-x, -y, False)
+        self.corners["bottom_right"].move_by_amount(-x, -y, False)
+        self.corners["bottom_left"].move_by_amount(-x, -y, False)
 
-    def move_node_to_center(self, new_center, animated=True):
+    def move_node_to_center(self, new_center, animated=True, moveCorners=True):
         """
         function moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
-        :param node: a node to be moved to the center of the screen
+        :param new_center: a node to be moved to the center of the screen
         """
         delta_x = self.center_coor[0] - new_center.get_x()
         delta_y = self.center_coor[1] - new_center.get_y()
@@ -135,10 +140,12 @@ class KivyGraph(Widget):
         for edge in self.edges:
             edge.reset_edge(animated)
         self.center_node = new_center
-        self.corners["top_right"].move_by_amount(-delta_x, -delta_y, False)
-        self.corners["top_left"].move_by_amount(-delta_x, -delta_y, False)
-        self.corners["bottom_right"].move_by_amount(-delta_x, -delta_y, False)
-        self.corners["bottom_left"].move_by_amount(-delta_x, -delta_y, False)
+
+        if moveCorners:
+            self.corners["top_right"].move_by_amount(-delta_x, -delta_y, False)
+            self.corners["top_left"].move_by_amount(-delta_x, -delta_y, False)
+            self.corners["bottom_right"].move_by_amount(-delta_x, -delta_y, False)
+            self.corners["bottom_left"].move_by_amount(-delta_x, -delta_y, False)
 
     def centralize_random_node(self, animated):
         """
@@ -256,13 +263,44 @@ class KivyGraph(Widget):
             edge.line.width = new_size
             edge.reset_edge(False)
 
-        self.corners["top_right"].relative_move(-change_in_x, -change_in_y)
-        self.corners["top_left"].relative_move(-change_in_x, -change_in_y)
-        self.corners["bottom_right"].relative_move(-change_in_x, -change_in_y)
-        self.corners["bottom_left"].relative_move(-change_in_x, -change_in_y)
+        self.move_corners(change_in_x, change_in_y)
 
         self.real_size = {'max_x': new_x, 'max_y': new_y}
-        self.move_node_to_center(self.center_node, False)
+
+        if new_center:
+            self.center = new_center
+        if keep_center_node:
+            self.move_node_to_center(self.center_node, False, False)
+
+    def move_corners(self, change_in_x, change_in_y):
+        '''
+        TODO
+
+        :param change_in_x: relative cahnge in x
+        :param change_in_y: relative change in y
+        :return:
+        '''
+
+        delta_x = self.corners["top_right"].get_x() - self.corners["bottom_left"].get_x()
+        delta_y = self.corners["top_right"].get_y() - self.corners["bottom_left"].get_y()
+        delta_x *= (1/change_in_x)
+        delta_y *= (1/change_in_y)
+        min_x = self.corners["bottom_left"].get_x()
+        min_y = self.corners["bottom_left"].get_y()
+
+        if change_in_x < 1:
+            min_x -= 0.15*delta_x
+        else:
+            min_x += 0.215*delta_x
+        if change_in_y < 1:
+            min_y -= 0.15*delta_y
+        else:
+            min_y += 0.215*delta_y
+
+        self.corners["bottom_left"].jump_to_location(round(min_x,2), round(min_y,2))
+        self.corners["top_left"].jump_to_location(round(min_x,2), round(min_y+delta_y,2))
+        self.corners["bottom_right"].jump_to_location(round(min_x+delta_x,2), round(min_y,2))
+        self.corners["top_right"].jump_to_location(round(min_x+delta_x,2), round(min_y+delta_y,2))
 
     def get_onscreen_nodes(self, node_list):
         '''

@@ -60,6 +60,10 @@ class GraphTabletGame(App):
         '''
         nodes = self.get_onscreen_nodes()
         edges = self.get_onscreen_edges(nodes)
+        for node in nodes:
+            print node
+        for edge in edges:
+            print edge
 
         return {'nodes': nodes, 'edges': edges}
 

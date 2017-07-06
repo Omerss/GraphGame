@@ -1,7 +1,7 @@
 import configparser
 
 config = configparser.ConfigParser()
-image_folder = "./"
+image_folder = "..//Images"
 
 def read_config_file(path):
     config.sections()

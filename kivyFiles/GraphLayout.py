@@ -50,7 +50,8 @@ class GraphLayout(FloatLayout):
         with self.canvas:
             for node in graph_nodes:
                 colour = Colours.__getattribute__(Colours,node.colour)
-                new_node = KivyNode(node.x, node.y, node.serial_num, Color(colour['R'],colour['G'],colour['B']))
+                Color(colour['R'],colour['G'],colour['B'])
+                new_node = KivyNode(node.x, node.y, node.serial_num, colour['name'])
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self):
@@ -74,7 +75,6 @@ class GraphLayout(FloatLayout):
         self.button2_func = [self.kivy_graph.centralize_most_connected]
         self.button3_func = [self.kivy_graph.centralize_closest_same_color]
         self.button4_func = [self.kivy_graph.centralize_closest_neighbor_diff_color]
-
 
     def get_buttons(self, signal, button_lst):
         """

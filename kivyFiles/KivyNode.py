@@ -25,6 +25,7 @@ class KivyNode(Widget):
         self.serial = serial
         self.colour = colour
         self.neighbors = []
+        self.original_location = (x_loc,y_loc)
 
     def redraw(self, *args):
         self.canvas.clear()
@@ -99,6 +100,9 @@ class KivyNode(Widget):
         self.x_coor = newX
         self.y_coor = newY
         self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+
+    def reset_pos(self):
+        self.jump_to_location(self.original_location[0], self.original_location[1])
 
     def get_neighbrs(self):
         """
