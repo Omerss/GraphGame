@@ -49,10 +49,15 @@ class ResultDisplay(App):
         return question_result_grid
 
 
-def calculatePrecentage(list):
+def calculate_percentage(list):
+    user_answers_percentage = 0
+    user_graph_answer_percentage = 0
     for answer in list:
         answers_list = answer.get_question_results()
-        
+        if answers_list[0]== answers_list[1]:
+            user_answers_percentage = user_answers_percentage+1
+        if answers_list[1]==answers_list[2]:
+            user_graph_answer_percentage = user_graph_answer_percentage+1
+    num_of_questions = len(list)
 
-
-    return
+    return [user_answers_percentage*100/float(num_of_questions), user_graph_answer_percentage*100/float(num_of_questions)]

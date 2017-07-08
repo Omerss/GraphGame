@@ -222,3 +222,7 @@ class GameHandler:
 
         return question_list
 
+    def game_grade (self, user_seen_graph, real_graph):
+        user_graph_num_of_nodes = len(user_seen_graph.node_list)
+        real_graph_num_of_nodes = len(real_graph.node_list)
+        return float(user_graph_num_of_nodes)/float(real_graph_num_of_nodes)
