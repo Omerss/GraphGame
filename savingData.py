@@ -80,7 +80,7 @@ def create_dict_for_answer_object(answers_object):
     :param answers_object: an valid answers_object 
     :return: dict with the values: question's id, question args, user's answer
     """
-    answer_dict = {'question id number':answers_object.question_number ,''question arguments': answers_object.args,'user answer': answers_object.user_answer}
+    answer_dict = {'question id number':answers_object.question_number ,'question arguments': answers_object.args,'user answer': answers_object.user_answer}
     return answer_dict
 
 
@@ -95,4 +95,7 @@ def create_dict_for_game_metadata(dict_answers_object_list, node_seen_percentage
     :param button_func_list: list of the button functionality 
     :return: one big dictionary of everything
     """
-    
+    dictionary = {'user questions data': dict_answers_object_list, 'seen nodes precentage': node_seen_percentage,
+                  'the precentage of user correct answers' : user_answers_percentage,
+                  'the precentage of correct answers with the graph that the user saw': user_graph_answer_percentage
+                  'button pressed logger': button_press_list, 'button funcionality'}
