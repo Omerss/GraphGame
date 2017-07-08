@@ -1,5 +1,4 @@
 from Queue import Queue
-
 from QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
@@ -16,8 +15,8 @@ def main():
     q = Queue()
     display = QuestionDisplay(questionList, q)
     display.run()
-    answers = q.get()
-    for item in answers:
+    user_answers = q.get()
+    for item in user_answers:
         print("question #{} - {}".format(item.question_number, item.get_answer()))
 
 

@@ -1,13 +1,6 @@
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 from kivy.app import App
 from kivy.uix.label import Label
-from kivy.uix.popup import Popup
-from kivy.uix.textinput import TextInput
-from kivy.uix.togglebutton import ToggleButton
-
-from Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
-from SupplementaryFiles.Enums import QuestionTypes
 
 
 class ResultDisplay(App):
@@ -15,11 +8,11 @@ class ResultDisplay(App):
     usersAnswers = None
     questionsArray = None
 
-    def __init__(self, question_list):
+    def __init__(self, answer_list, user_graph, true_graph):
         super(ResultDisplay, self).__init__()
         self.layout = GridLayout(rows=1, cols=2)
 
-        self.layout.add_widget(self.get_question_result_grid(question_list=question_list))
+        self.layout.add_widget(self.get_question_result_grid(question_list=answer_list))
 
         map_grid = GridLayout(rows=2, cols=1)
         self.layout.add_widget(map_grid)
