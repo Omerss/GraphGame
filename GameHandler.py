@@ -2,22 +2,19 @@ import threading
 import os
 import time
 from Queue import Queue
-
 from structlog import get_logger
-from GameData.GameDataHandler import GameDataHandler
-from Questions.AnswerObj import AnswerObj
 
+from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObject import AnswerObject
-from Questions.QuestionObj import QuestionObject
-from Questions.QuestionsDisplayObj import QuestionDisplay
+from Questions.QuestionObject import QuestionObject
+from Questions.QuestionsDisplay import QuestionDisplay
 from Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles import Utils
-from SupplementaryFiles.Enums import QuestionTypes
+from SupplementaryFiles.Enums import QuestionTypes, Colours
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
-from kivy.app import App
 
 CONFIG_FILE_PATH = "./config.ini"
 
@@ -122,9 +119,11 @@ class GameHandler:
 
             # Stage 3 - Results screen
             self.log.info("Starting Stage 3 - Result Screen")
-
-            self.display = QuestionDisplay(questions, q)
-            self.display.run()
+            self.clean_graph_from_ghosts(self.current_data_handler.graph)
+            display = ResultDisplay(answer_list=full_answers,
+                                    user_graph=self.current_data_handler.graph,
+                                    true_graph=self.current_graph)
+            display.run()
         else:
             # Machine user. Only get percentage score
             pass
@@ -197,19 +196,36 @@ class GameHandler:
         """
         Creates a list of QuestionObject
         """
-        questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER, 111)
-        questionThree = QuestionObject("what is the color that contain the node with the maximun links in the graph?",
-                                       QuestionTypes.MULTIPLE_CHOICE, 222)
-        questionFive = QuestionObject("how many red nodes do not have links blue nodes?", QuestionTypes.NUMBER, 4)
-        questionNine = QuestionObject("does every node at color yellow have link to a node of color red?",
-                                      QuestionTypes.BOOLEAN, 12)
-        questionTen = QuestionObject("is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN, 14)
+        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
 
         question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
 
         return question_list
 
-    def game_grade (self, user_seen_graph, real_graph):
-        user_graph_num_of_nodes = len(user_seen_graph.node_list)
-        real_graph_num_of_nodes = len(real_graph.node_list)
-        return float(user_graph_num_of_nodes)/float(real_graph_num_of_nodes)
+    @staticmethod
+    def clean_graph_from_ghosts(graph):
+        """
+        Removes all fake node and edges from graph
+        :param graph:
+        :return:
+        """
+        node_to_remove = []
+        print(graph.node_list)
+        for node in graph.node_list:
+            if not node.is_real():
+                node_to_remove.append(node)
+        print(node_to_remove)
+        for node in node_to_remove:
+            for item in node.neighbors:
+                if graph.get_node_by_serial(item):
+                    graph.get_node_by_serial(item).neighbors.remove(node.serial_num)
+            graph.node_list.remove(node)
+        print(graph.node_list)
+
+
+
+
