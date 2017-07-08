@@ -10,7 +10,6 @@ def question_one(graph_object, color_x):
     :return: the number of nodes in graph_object of the color color_x
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color,1, color_x)
-
     return number_of_nodes
 
 
@@ -345,7 +344,7 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
         else:
 
             if flag == 1:
-                if (boolean_expression(node, args)):
+                if (boolean_expression(node, args[0])):
                     sum= sum +1
             if flag == 2:
                 if (boolean_expression(node, args)):

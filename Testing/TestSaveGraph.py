@@ -39,8 +39,8 @@ class TestSaveGraph(unittest.TestCase):
         new_graph.connect_nodes (new_graph.node_list[7],new_graph.node_list[3])
         new_graph.connect_nodes (new_graph.node_list[3],new_graph.node_list[1])
         # Act
-        save_graph(new_graph, "testSavingGraph.xml")
-        new_loaded_graph = load_graph_from_file("testSavingGraph.xml")
+        save_graph(new_graph, "testSavingGraph2.xml")
+        new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
 
         #assert
        # button_event = threading.Event()

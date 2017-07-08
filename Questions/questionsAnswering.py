@@ -327,13 +327,14 @@ def scan_nodes_colors(graph_object, flag):
 
 # Scaning all the nodes in the GraphObject with given Boolean expression, and return the number of nodes that answer to that boolean expression.
 
-def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
+def boolean_scan_of_nodes(graph_object, boolean_expression, flag, flag_for_node_field, *args):
     """
 
     :param GraphObject: a valid graph object to be scanned
     :param Boolean_expression: the  boolean expression that will be used for questioning while scaning the graph. the  boolean expression will be at the following format -
     param - valid node object. return -  true/false.
     :param flag: 1: to return the number of nodes answering the boolean expression. 2: to return the total number of links all the nodes answering the boolean expression have.
+    :param flag_for_node_field: 0- take the node colour
     :return: if the flag is 1, then return the number of nodes answering the boolean expression. if 2 then return the total number of links all the nodes answering the boolean expression have.
     """
     sum = 0
@@ -341,11 +342,14 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
         if (not node.real):
             continue
         else:
+            attrib = None
+            if flag_for_node_field == 0:
+                attrib = node.colour
             if flag == 1:
-                if (boolean_expression(node, args)):
+                if (boolean_expression(attrib, args)):
                     sum = sum +1
             if flag == 2:
-                if (boolean_expression(node, args)):
+                if (boolean_expression(attrib, args)):
                     sum = sum + node.get_num_neighbors()
 
     return sum
