@@ -11,10 +11,12 @@ class AnswerObject:
 
     def __init__(self, question_object, user_seen_graph, real_graph):
         self.question_id = question_object.question_data.question_id
-        self.user_seen_graph = user_seen_graph
-        self.real_graph = real_graph
+        self.question_string = question_object.question_data.question_string
         self.user_answer = question_object.get_answer()
         self.args = question_object.question_data.args
+        self.user_seen_graph = user_seen_graph
+        self.real_graph = real_graph
+
         self.get_question_results()
 
     def get_question_results(self):

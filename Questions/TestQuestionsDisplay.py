@@ -1,6 +1,6 @@
 from Queue import Queue
-from QuestionObj import QuestionObject
-from Questions.QuestionsDisplayObj import QuestionDisplay
+from QuestionObject import QuestionObject
+from Questions.QuestionsDisplay import QuestionDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
 
@@ -19,5 +19,5 @@ def main():
     for item in user_answers:
         print("question #{} - {}".format(item.question_number, item.get_answer()))
 
-
-main()
+if __name__ == "__main__":
+    main()

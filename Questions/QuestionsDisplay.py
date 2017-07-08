@@ -9,9 +9,6 @@ from SupplementaryFiles.Enums import QuestionTypes
 
 
 class QuestionDisplay(App):
-    questions = None
-    usersAnswers = None
-    questionsArray = None
 
     def __init__(self, questions, queue, **kwargs):
         super(QuestionDisplay, self).__init__(**kwargs)

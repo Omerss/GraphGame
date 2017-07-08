@@ -1,7 +1,7 @@
 import os
 
 from Questions.AnswerObject import AnswerObject
-from Questions.QuestionObj import QuestionObject
+from Questions.QuestionObject import QuestionObject
 from Questions.QuestionWidgets import IntInput
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.Enums import QuestionTypes, Colours
@@ -24,4 +24,5 @@ def main():
 
     print(answer)
 
-main()
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,4 @@
-import QuestionObj
+import QuestionObject
 import AnswerObject
 from AnswerObject import AnswerObj
 from kivy.uix.gridlayout import GridLayout
