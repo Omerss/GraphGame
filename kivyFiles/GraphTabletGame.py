@@ -220,3 +220,6 @@ class GraphTabletGame(App):
             curr_edge = (second_node, first_node, edge.slope)
 
         return curr_edge
+
+    def stop_me(self):
+        self.stop()

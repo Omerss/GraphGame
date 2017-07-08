@@ -1,12 +1,13 @@
 import threading
 import os
-
 import time
 from Queue import Queue
 
 from structlog import get_logger
 from GameData.GameDataHandler import GameDataHandler
 from Questions.AnswerObj import AnswerObj
+
+from Questions.AnswerObject import AnswerObject
 from Questions.QuestionObj import QuestionObject
 from Questions.QuestionsDisplayObj import QuestionDisplay
 from Questions.ResultDisplay import ResultDisplay
@@ -15,6 +16,8 @@ from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import QuestionTypes
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
+
+from kivy.app import App
 
 CONFIG_FILE_PATH = "./config.ini"
 
@@ -60,6 +63,7 @@ class GameHandler:
         :param graph_config: A graph config file containing basic structure data about the graph. Number of nodes etc.
 
         """
+        self.max_turns = 1 # todo - remove this!
         self.real_user = real_user
         self.machine_signal = machine_signal
         self.log.info("Setting up a single game")
@@ -75,37 +79,23 @@ class GameHandler:
         self.log.info("Starting Stage 1 - Run game")
         self.current_step_count = 0
         # Register event
+        self.display = GraphTabletGame(self.current_graph, [], self.button_event)
+
         if self.real_user:
             click_thread = threading.Thread(name='press_button_event',
                                             target=self.event_pressed_button,
                                             args=(self.button_event,)).start()
 
         self.log.info("Starting main kivy thread")
-        display_thread = threading.Thread(name="Kivy game display",
-                                          target=self.kivy_thread_graph_game,
-                                          kwargs={'button_funcs': [],
-                                                  'button_event': self.button_event,
-                                                  'graph': self.current_graph,
-                                                  'real_user': real_user}).start()
-        time.sleep(5)
+
+        self.display.build()
+        time.sleep(3)
         self.current_data_handler.add_view_to_db(self.display.get_info_from_screen())
-        if not self.real_user:
+        if real_user:
+            self.display.run()
+        else:
             # Pass signal to machine player to start pressing keys
             self.machine_signal.set()
-
-        while True:
-            if self.stop_threads:
-                break
-
-        # This is just trying to catch threads if they don't close.
-        # Don't look too much into this as it's just trowing everything and hoping something sticks.
-        if self.display is not None and display_thread is not None:
-            self.log.debug("Try to join thread display")
-            #self.display.stop()
-            display_thread.join(5)
-        self.log.debug("Checking if threads did not close correctly")
-        if display_thread is not None and display_thread.is_alive():
-            raise Exception("Threads not closed - thread={}".format(display_thread.name))
 
         if self.real_user:
             if click_thread is not None and click_thread.is_alive():
@@ -117,27 +107,24 @@ class GameHandler:
             questions = self.create_questions()
             q = Queue()
             self.log.info("Starting Questionnaire kivy thread")
-            questionnaire_thread = threading.Thread(name="Kivy Questionnaire",
-                                                    target=self.kivy_thread_questionnaire,
-                                                    kwargs={'answer_queue': q, 'question_list': questions}).start()
-            answers = q.get()
-            if questionnaire_thread is not None:
-                self.log.debug("Try to join questionnaire thread")
-                questionnaire_thread.join(5)
-            for item in answers:
+            self.display = QuestionDisplay(questions, q)
+            self.display.run()
+            user_answers = q.get()
+
+            for item in user_answers:
                 print("question #{} - {}".format(item.question_number, item.get_answer()))
+
+            full_answers = []
+            for item in user_answers:
+                full_answers.append(AnswerObject(question_object=item,
+                                                 user_seen_graph=self.current_data_handler.graph,
+                                                 real_graph=self.current_graph))
 
             # Stage 3 - Results screen
             self.log.info("Starting Stage 3 - Result Screen")
 
-            result_thread = threading.Thread(name="Kivy Results",
-                                             target=self.kivy_thread_questionnaire,
-                                             kwargs={'answer_queue': q, 'question_list': questions}).start()
-
-    #         known_graph = self.current_data_handler.graph
-    #         display_thread = threading.Thread(name="Kivy display thread",
-    #                                           target=self.kivy_thread,
-    #                                           args=([], self.button_event, known_graph)).start()
+            self.display = QuestionDisplay(questions, q)
+            self.display.run()
         else:
             # Machine user. Only get percentage score
             pass
@@ -158,10 +145,6 @@ class GameHandler:
             answer_objects.append(answer_object)
         return answer_objects
 
-    def kivy_thread_questionnaire(self, **kwargs):
-        print(threading.currentThread().getName(), 'Starting')
-        self.display = QuestionDisplay(kwargs['question_list'])
-        self.display.run()
 
     def kivy_thread_results(self):
         print(threading.currentThread().getName(), 'Starting')
@@ -175,6 +158,8 @@ class GameHandler:
             self.display.run()
         else:
             self.display.build()
+        while not self.stop_threads:
+            pass
 
     def event_pressed_button(self, button_event):
         """Wait for the event to be set before doing anything"""
@@ -195,6 +180,8 @@ class GameHandler:
 
             if self.current_turn == self.max_turns:
                 self.stop_threads = True
+                time.sleep(5)
+                self.display.stop()
                 break
 
     def machine_press_button(self, button_num):
