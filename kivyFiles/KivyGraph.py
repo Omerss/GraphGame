@@ -306,13 +306,15 @@ class KivyGraph(Widget):
         Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
         :return: A list containing the nodes that are at least partially displayed onscreen.
         '''
-        screen_edges = self.screen_size
+        bl = self.corners['bottom_left']
+        tr = self.corners['top_right']
         displayed_nodes = []
         for node in node_list:
-            node_x = node.get_x()
-            node_y = node.get_y()
+            node_x = node.original_location[0]
+            node_y = node.original_location[1]
             node_r = node.get_radius()
-            if (node_x - node_r) > screen_edges['min_x'] and (node_x + node_r) < screen_edges['max_x'] and \
-                            (node_y - node_r) > screen_edges['min_y'] and (node_y + node_r) < screen_edges['max_y']:
+            if (node_x + node_r) > bl.get_x() and (node_x - node_r) < tr.get_x() and \
+                            (node_y + node_r) > bl.get_y() and (node_y - node_r) < tr.get_y():
+
                 displayed_nodes.append(node)
         return displayed_nodes
