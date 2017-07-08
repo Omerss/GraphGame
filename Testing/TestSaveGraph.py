@@ -68,8 +68,9 @@ class TestSaveGraph(unittest.TestCase):
 
         self.assertEqual(new_loaded_graph.node_list[0].serial_num, new_graph.node_list[0].serial_num)
         self.assertEqual(new_loaded_graph.node_list[0].size, 50)
-        print (new_loaded_graph.node_list[0].colour)
         self.assertEqual(new_loaded_graph.node_list[0].colour, Colours.yellow)
+        print (new_graph.node_list[0].x==150)
+
         self.assertEqual(new_loaded_graph.node_list[0].x,150)
         self.assertEqual(new_loaded_graph.node_list[0].y, 100)
         self.assertEqual(new_loaded_graph.node_list[1].serial_num, new_graph.node_list[1].serial_num)
