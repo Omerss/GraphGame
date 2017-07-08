@@ -13,7 +13,7 @@ class QuestionObject:
     question_type_number = 0
     list_of_possible_answers = None
     args = None
-
+    question_id =0
     def __init__(self, question_string, question_type_number, question_id):
         self.question_string = question_string
         self.question_type_number = question_type_number

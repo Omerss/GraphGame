@@ -49,3 +49,10 @@ class ResultDisplay(App):
         return question_result_grid
 
 
+def calculatePrecentage(list):
+    for answer in list:
+        answers_list = answer.get_question_results()
+        
+
+
+    return
