@@ -15,11 +15,11 @@ def main():
     user_graph = create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd()))
     true_graph = create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd()))
     for i in range(len(user_graph.node_list)):
-        user_graph.node_list[i].colour = Colours.yellow
-        true_graph.node_list[i].colour = Colours.red
+        user_graph.node_list[i].colour = Colours.yellow['name']
+        true_graph.node_list[i].colour = Colours.red['name']
 
     for i in range(len(user_graph.node_list)-5):
-        user_graph.node_list[i].colour = Colours.red
+        user_graph.node_list[i].colour = Colours.red['name']
 
     answer_list = []
 

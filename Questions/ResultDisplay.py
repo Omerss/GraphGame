@@ -38,10 +38,9 @@ class ResultDisplay(App):
         self.meta_layout.add_widget(Label(text="possible_success 1: {}; true_success 2: {}; discovery grade: {}"
                                           .format(res['possible_success'],
                                                   res['true_success'],
-                                                  self.game_grade(user_graph, true_graph))))
+                                                  self.game_grade(user_graph, true_graph)), size_hint_y=None, height=50))
 
-        self.submit_button = Button(text='Done',
-                                    size=(10, 50))
+        self.submit_button = Button(text='Done', size_hint_y=None, height=50)
         self.submit_button.bind(on_press=self.stop_me)
         self.meta_layout.add_widget(self.submit_button)
 

@@ -49,7 +49,10 @@ class GraphLayout(FloatLayout):
         graph_nodes = self.original_graph.node_list
         with self.canvas:
             for node in graph_nodes:
-                colour = Colours.__getattribute__(Colours,node.colour)
+                try:
+                    colour = Colours.__getattribute__(Colours, node.colour)
+                except TypeError:
+                    colour = node.colour
                 Color(colour['R'],colour['G'],colour['B'])
                 new_node = KivyNode(node.x, node.y, node.serial_num, colour['name'])
                 self.kivy_graph.add_node(new_node)
@@ -98,8 +101,7 @@ class GraphLayout(FloatLayout):
         self.add_widget(layout)
 
     def fit_graph_to_screen(self):
-        self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]),20,1)
-        self.kivy_graph.move_right(110)
+        self.kivy_graph.resize_graph((self.dim["max_x"]-self.dim["min_x"]),(self.dim["max_y"]-self.dim["min_y"]), 20, 1)
 
     def set_button_status(self, status):
         for item in self.buttons:
