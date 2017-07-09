@@ -13,11 +13,12 @@ def question_one(graph_object, color_x):
     :return: the number of nodes in graph_object of the color color_x
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, color_x)
-
     return number_of_nodes
 
 
 # how many nodes of color X have links to nodes of color Y?
+# if color_x = color_y the links are counted twice - notice the function count the number of Nodes and not the number of links
+
 def question_two(graph_object, color_x, color_y):
     """
 
@@ -26,7 +27,7 @@ def question_two(graph_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: the number of nodes in graph_object of the color color_x that have links to nodes of color color_y
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_y)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_y, graph_object)
 
     return number_of_nodes
 
@@ -342,10 +343,10 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
             continue
         else:
             if flag == 1:
-                if boolean_expression(node, args[0]):
+                if boolean_expression(node, args):
                     sum = sum + 1
             if flag == 2:
-                if (boolean_expression(node, args[0])):
+                if (boolean_expression(node, args)):
                     sum = sum + node.get_num_neighbors()
 
     return sum
@@ -368,13 +369,14 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
 
 #boolean expressions:
 
-def is_nodes_of_color(node_object, color):
+def is_nodes_of_color(node_object, args):
     """
 
     :param node_object: a valid node object
     :param color: a valid color enum
     :return: true if node_object is at the color- "color". else- return false
     """
+    color = args[0]
     if not node_object.real:
         return False
     else:
@@ -383,7 +385,7 @@ def is_nodes_of_color(node_object, color):
             return True
     return False
 
-def is_color_x_link_color_y(node_object, color_x, color_y, num=1 ):
+def is_color_x_link_color_y(node_object, args, num=1 ):
     """
 
     :param node_object: a valid node object
@@ -391,16 +393,18 @@ def is_color_x_link_color_y(node_object, color_x, color_y, num=1 ):
     :param color_y: a valid color enum
     :return: true - if node_object of color color_x and link to a node of color color_y. else - false
     """
+
+    color_x = args[0]
+    color_y = args [1]
+    graph = args[2]
     if (not node_object.real):
         return False
     else:
-        tmp =0
         if (node_object.colour == color_x):
             for node in node_object.neighbors:
-                if (node.colour == color_y):
-                    tmp = tmp +1
-                    if (tmp >= num):
-                        return True
+                tmp_node = graph.get_node_by_serial(node)
+                if (tmp_node.colour == color_y):
+                    return True
     return False
 
 
