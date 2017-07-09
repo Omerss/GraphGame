@@ -72,6 +72,7 @@ class TestGraph(unittest.TestCase):
        answer_color_blue_yellow = questionsAnswering.question_two(new_graph, Colours.blue, Colours.yellow)
        answer_color_blue_blue = questionsAnswering.question_two(new_graph, Colours.blue, Colours.blue)
        answer_color_yellow_yellow = questionsAnswering.question_two(new_graph, Colours.yellow, Colours.yellow)
+
        self.assertEqual(answer_color_red_red, 0)
        self.assertEqual(answer_color_blue_red, 3)
        self.assertEqual(answer_color_yellow_red, 3)
@@ -93,3 +94,49 @@ class TestGraph(unittest.TestCase):
 
       # Act question 5
        # how many nodes of color X  do not have links to nodes of color Y?
+
+       answer_color_red_red = questionsAnswering.question_five(new_graph, Colours.red, Colours.red)
+       answer_color_red_blue = questionsAnswering.question_five(new_graph, Colours.red, Colours.blue)
+       answer_color_yellow_red = questionsAnswering.question_five(new_graph, Colours.yellow, Colours.red)
+       answer_color_blue_yellow = questionsAnswering.question_five(new_graph, Colours.blue, Colours.yellow)
+       answer_color_blue_blue = questionsAnswering.question_five(new_graph, Colours.blue, Colours.blue)
+       answer_color_yellow_yellow = questionsAnswering.question_five(new_graph, Colours.yellow, Colours.yellow)
+
+       self.assertEqual(answer_color_red_red, 3)
+       self.assertEqual(answer_color_red_blue, 0)
+       self.assertEqual(answer_color_yellow_red, 0)
+       self.assertEqual(answer_color_blue_yellow, 1)
+       self.assertEqual(answer_color_blue_blue, 0)
+       self.assertEqual(answer_color_yellow_yellow, 3)
+
+
+       # Act question 6
+       # what is the color that contain the node with the minimum links in the graph?
+
+       answer_min_6 = questionsAnswering.question_six(new_graph)
+
+       self.assertEqual(answer_min_6, 'yellow')
+
+
+      # Act question 7
+       # what is the color that contain the minimum sum of links in the graph?
+       answer_min_7 = questionsAnswering.question_seven(new_graph)
+
+       self.assertEqual(answer_min_7, 'yellow')
+
+       # Act question 8
+       # is there a nodes of color X that have a link to another node of color X?
+
+       answer_color_red = questionsAnswering.question_eight(new_graph, Colours.red)
+       answer_color_blue = questionsAnswering.question_eight(new_graph, Colours.blue)
+       answer_color_yellow = questionsAnswering.question_eight(new_graph, Colours.yellow)
+
+       #assert
+       self.assertEqual(answer_color_blue, True)
+       self.assertEqual(answer_color_red, False)
+       self.assertEqual(answer_color_yellow, False)
+
+
+       # Act question 9
+       # does every node at color X have link to a node of color Y?
+

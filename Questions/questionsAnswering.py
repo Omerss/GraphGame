@@ -77,7 +77,7 @@ def question_five(graph_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: the number of nodes in graph_object of the color color_x that do not have links to nodes of color color_y
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1,0, color_x, color_y)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1, color_x, color_y, graph_object)
 
     return number_of_nodes
 
@@ -127,7 +127,7 @@ def question_eight(graph_object, color_x):
     :param color_x: a valid color enum
     :return: true - if there is nodes in graph_object of the color color_x that have links to another node of color color_x.
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, 0, color_x, color_x)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_x)
     if number_of_nodes>0:
         return  True
     else:
@@ -408,7 +408,7 @@ def is_color_x_link_color_y(node_object, args, num=1 ):
     return False
 
 
-def is_color_x_unlink_color_y(node_object, color_x, color_y):
+def is_color_x_unlink_color_y(node_object, args):
     """
 
     :param node_object: a valid node object
@@ -416,12 +416,17 @@ def is_color_x_unlink_color_y(node_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: true - if node_object of color color_x and link to a node of color color_y. else - false
     """
-    if (not node_object.real):
+
+    color_x= args[0]
+    color_y = args[1]
+    graph = args[2]
+    if not node_object.real:
         return False
     else:
-        if (node_object.colour == color_x):
+        if node_object.colour == color_x:
             for node in node_object.neighbors:
-                if (node.colour == color_y):
+                tmp_node = graph.get_node_by_serial(node)
+                if tmp_node.colour == color_y:
                     return False
             return True
     return False
