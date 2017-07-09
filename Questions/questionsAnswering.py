@@ -1,4 +1,6 @@
-
+from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.GraphObj import GraphObject
+from SupplementaryFiles.NodeObject import NodeObject
 # question functions:
 
 
@@ -10,7 +12,7 @@ def question_one(graph_object, color_x):
     :param color_x: a valid color enum
     :return: the number of nodes in graph_object of the color color_x
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, 0, color_x)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, color_x)
 
     return number_of_nodes
 
@@ -24,7 +26,7 @@ def question_two(graph_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: the number of nodes in graph_object of the color color_x that have links to nodes of color color_y
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1,0, color_x, color_y)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_y)
 
     return number_of_nodes
 
@@ -144,7 +146,7 @@ def question_nine (graph_object, color_x, color_y):
     number_of_nodes_color_x= question_one(graph_object,color_x)
     number_color_x_link_y = question_two(graph_object,color_x,color_y)
     if (number_color_x_link_y==number_of_nodes_color_x):
-        return  True
+        return True
     else:
         return False
 
@@ -325,14 +327,13 @@ def scan_nodes_colors(graph_object, flag):
 
 # Scaning all the nodes in the GraphObject with given Boolean expression, and return the number of nodes that answer to that boolean expression.
 
-def boolean_scan_of_nodes(graph_object, boolean_expression, flag, flag_for_node_field, *args):
+def boolean_scan_of_nodes(graph_object, boolean_expression, flag, *args):
     """
 
     :param GraphObject: a valid graph object to be scanned
     :param Boolean_expression: the  boolean expression that will be used for questioning while scaning the graph. the  boolean expression will be at the following format -
     param - valid node object. return -  true/false.
     :param flag: 1: to return the number of nodes answering the boolean expression. 2: to return the total number of links all the nodes answering the boolean expression have.
-    :param flag_for_node_field: 0- take the node colour
     :return: if the flag is 1, then return the number of nodes answering the boolean expression. if 2 then return the total number of links all the nodes answering the boolean expression have.
     """
     sum = 0
@@ -340,14 +341,11 @@ def boolean_scan_of_nodes(graph_object, boolean_expression, flag, flag_for_node_
         if (not node.real):
             continue
         else:
-            attrib = None
-            if flag_for_node_field == 0:
-                attrib = node.colour
             if flag == 1:
-                if (boolean_expression(attrib, args)):
-                    sum = sum +1
+                if boolean_expression(node, args[0]):
+                    sum = sum + 1
             if flag == 2:
-                if (boolean_expression(attrib, args)):
+                if (boolean_expression(node, args[0])):
                     sum = sum + node.get_num_neighbors()
 
     return sum
@@ -377,10 +375,11 @@ def is_nodes_of_color(node_object, color):
     :param color: a valid color enum
     :return: true if node_object is at the color- "color". else- return false
     """
-    if (not node_object.real):
+    if not node_object.real:
         return False
     else:
-        if (node_object.colour == color):
+
+        if node_object.colour['name'] == color['name']:
             return True
     return False
 
