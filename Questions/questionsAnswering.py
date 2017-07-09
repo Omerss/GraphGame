@@ -10,7 +10,7 @@ def question_one(graph_object, color_x):
     :param color_x: a valid color enum
     :return: the number of nodes in graph_object of the color color_x
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, color_x)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, 0, color_x)
 
     return number_of_nodes
 
@@ -24,7 +24,7 @@ def question_two(graph_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: the number of nodes in graph_object of the color color_x that have links to nodes of color color_y
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_y)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1,0, color_x, color_y)
 
     return number_of_nodes
 
@@ -74,7 +74,7 @@ def question_five(graph_object, color_x, color_y):
     :param color_y: a valid color enum
     :return: the number of nodes in graph_object of the color color_x that do not have links to nodes of color color_y
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1, color_x, color_y)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1,0, color_x, color_y)
 
     return number_of_nodes
 
@@ -124,7 +124,7 @@ def question_eight(graph_object, color_x):
     :param color_x: a valid color enum
     :return: true - if there is nodes in graph_object of the color color_x that have links to another node of color color_x.
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_x)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, 0, color_x, color_x)
     if number_of_nodes>0:
         return  True
     else:
@@ -322,8 +322,6 @@ def scan_nodes_colors(graph_object, flag):
                 if (dictionary[str_color] > node.get_num_neighbors()) or (dictionary[str_color] == 0):
                     dictionary[str_color] =  node.get_num_neighbors()
     return dictionary
-
-
 
 # Scaning all the nodes in the GraphObject with given Boolean expression, and return the number of nodes that answer to that boolean expression.
 

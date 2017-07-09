@@ -322,7 +322,7 @@ def scan_nodes_colors(graph_object, flag):
             if flag == 4:
                 if dictionary.get(str_color)> node.get_num_neighbors() or dictionary.get(str_color) is None:
                     dictionary[str_color] =  node.get_num_neighbors()
-    return  dictionary
+    return dictionary
 
 
 
