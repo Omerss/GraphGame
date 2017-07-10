@@ -127,7 +127,7 @@ def question_eight(graph_object, color_x):
     :param color_x: a valid color enum
     :return: true - if there is nodes in graph_object of the color color_x that have links to another node of color color_x.
     """
-    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_x)
+    number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_x, graph_object)
     if number_of_nodes>0:
         return  True
     else:
@@ -178,7 +178,7 @@ def question_eleven(graph_object, color_x, number=2):
     :return:  true - if there is nodes in graph_object of the color color_x that have at least "number" of links to another nodes of color color_x.
     """
 
-    number_of_node = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x,color_x,number)
+    number_of_node = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x,color_x, graph_object, number)
     if number_of_node > 0:
         return True
     else:
@@ -397,14 +397,21 @@ def is_color_x_link_color_y(node_object, args, num=1 ):
     color_x = args[0]
     color_y = args [1]
     graph = args[2]
+    if len(args) == 4:
+        number = args[3]
+    else:
+        number = 1
     if (not node_object.real):
         return False
     else:
+        sum = 0
         if (node_object.colour == color_x):
             for node in node_object.neighbors:
                 tmp_node = graph.get_node_by_serial(node)
                 if (tmp_node.colour == color_y):
-                    return True
+                    sum = sum +1
+                    if sum >= number:
+                        return True
     return False
 
 
@@ -432,7 +439,7 @@ def is_color_x_unlink_color_y(node_object, args):
     return False
 
 
-def is_node_with_odd_links (node_object, color_x, flag=1):
+def is_node_with_odd_links(node_object, args):
     """
 
     :param node_object: a valid node object
@@ -441,13 +448,20 @@ def is_node_with_odd_links (node_object, color_x, flag=1):
     :return: if flag = 1, return true if node_object have odd num of links.
             if flag = 0, return true if node_object have even num of links.
     """
+
+    color_x = args[0]
+    if len(args) > 1 :
+        flag = args[1]
+    else:
+        flag = 1
     if (not node_object.real):
         return False
     else:
-        if (flag == 1):
-            if (node_object.get_num_neighbors() %2 ==0):
-                return False
-        else:
-            if (node_object.get_num_neighbors() % 2 == 1):
-                return False
-    return True
+        if node_object.colour == color_x:
+            if (flag == 1):
+                if (node_object.get_num_neighbors() %2 ==1):
+                    return True
+            else:
+                if (node_object.get_num_neighbors() % 2 == 0):
+                    return True
+    return False

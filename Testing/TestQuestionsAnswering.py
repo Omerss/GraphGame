@@ -140,3 +140,105 @@ class TestGraph(unittest.TestCase):
        # Act question 9
        # does every node at color X have link to a node of color Y?
 
+       answer_color_red_red = questionsAnswering.question_nine(new_graph, Colours.red, Colours.red)
+       answer_color_red_blue = questionsAnswering.question_nine(new_graph, Colours.red, Colours.blue)
+       answer_color_yellow_red = questionsAnswering.question_nine(new_graph, Colours.yellow, Colours.red)
+       answer_color_blue_yellow = questionsAnswering.question_nine(new_graph, Colours.blue, Colours.yellow)
+       answer_color_blue_blue = questionsAnswering.question_nine(new_graph, Colours.blue, Colours.blue)
+       answer_color_yellow_yellow = questionsAnswering.question_nine(new_graph, Colours.yellow, Colours.yellow)
+
+       self.assertEqual(answer_color_red_red, False)
+       self.assertEqual(answer_color_red_blue, True)
+       self.assertEqual(answer_color_yellow_red, True)
+       self.assertEqual(answer_color_blue_yellow, False)
+       self.assertEqual(answer_color_blue_blue, True)
+       self.assertEqual(answer_color_yellow_yellow, False)
+
+
+       # Act question 10
+       # is there more nodes of color X than nodes of color Y?
+
+
+       answer_color_red_red = questionsAnswering.question_ten(new_graph, Colours.red, Colours.red)
+       answer_color_red_blue = questionsAnswering.question_ten(new_graph, Colours.red, Colours.blue)
+       answer_color_yellow_red = questionsAnswering.question_ten(new_graph, Colours.yellow, Colours.red)
+       answer_color_blue_yellow = questionsAnswering.question_ten(new_graph, Colours.blue, Colours.yellow)
+       answer_color_blue_blue = questionsAnswering.question_ten(new_graph, Colours.blue, Colours.blue)
+       answer_color_yellow_yellow = questionsAnswering.question_ten(new_graph, Colours.yellow, Colours.yellow)
+
+       self.assertEqual(answer_color_red_red, False)
+       self.assertEqual(answer_color_red_blue, False)
+       self.assertEqual(answer_color_yellow_red, False)
+       self.assertEqual(answer_color_blue_yellow, True)
+       self.assertEqual(answer_color_blue_blue, False)
+       self.assertEqual(answer_color_yellow_yellow, False)
+
+       # Act question 11
+       # is there a nodes of color X that have at least Number link to another node of color X?
+
+       answer_color_red = questionsAnswering.question_eleven(new_graph, Colours.red, 1)
+       answer_color_blue = questionsAnswering.question_eleven(new_graph, Colours.blue)
+       answer_color_yellow = questionsAnswering.question_eleven(new_graph, Colours.yellow, 3)
+
+       #assert
+       self.assertEqual(answer_color_blue, False)
+       self.assertEqual(answer_color_red, False)
+       self.assertEqual(answer_color_yellow, False)
+
+       # Act question 12
+       # is there a node of color X with odd (flag =1)/ even (flag=0) number of links?
+
+       answer_color_red = questionsAnswering.question_twelve(new_graph, Colours.red , 1)
+       answer_color_blue = questionsAnswering.question_twelve(new_graph, Colours.blue, 1)
+       answer_color_yellow = questionsAnswering.question_twelve(new_graph, Colours.yellow, 0)
+
+       #assert
+       self.assertEqual(answer_color_red, False)
+       self.assertEqual(answer_color_blue, False)
+       self.assertEqual(answer_color_yellow, True)
+
+       # Act question 13
+       # does all the color X nodes have odd (flag =1)/ even (flag=0) number of links?
+
+       answer_color_red = questionsAnswering.question_thirteen(new_graph, Colours.red , 1)
+       answer_color_blue = questionsAnswering.question_thirteen(new_graph, Colours.blue, 0)
+       answer_color_yellow = questionsAnswering.question_thirteen(new_graph, Colours.yellow, 1)
+
+       #assert
+       self.assertEqual(answer_color_red, False)
+       self.assertEqual(answer_color_blue, True)
+       self.assertEqual(answer_color_yellow, False)
+
+       # Act question 14
+       #does the sum of the links in all the nodes at color X is odd (flag =1)/ even (flag=0)?
+
+       answer_color_red = questionsAnswering.question_fourteen(new_graph, Colours.red , 0)
+       answer_color_blue = questionsAnswering.question_fourteen(new_graph, Colours.blue, 1)
+       answer_color_yellow = questionsAnswering.question_fourteen(new_graph, Colours.yellow, 0)
+
+       #assert
+       self.assertEqual(answer_color_red, True)
+       self.assertEqual(answer_color_blue, False)
+       self.assertEqual(answer_color_yellow, True)
+
+       # Act question 15
+       #does the number of nodes at color X is odd (flag =1)/ even (flag=0)?
+       answer_color_red = questionsAnswering.question_fifteen(new_graph, Colours.red , 0)
+       answer_color_blue = questionsAnswering.question_fifteen(new_graph, Colours.blue, 1)
+       answer_color_yellow = questionsAnswering.question_fifteen(new_graph, Colours.yellow, 0)
+
+       #assert
+       self.assertEqual(answer_color_red, False)
+       self.assertEqual(answer_color_blue, False)
+       self.assertEqual(answer_color_yellow, False)
+
+       # Act question 16
+       # which color has the maximum number of nodes?
+       answer_max_16 = questionsAnswering.question_sixteen(new_graph)
+       self.assertEqual(answer_max_16, 'blue')
+
+
+       # Act question 17
+       # which color has the minimum number of nodes?
+       answer_min_17 = questionsAnswering.question_seventeen(new_graph)
+       self.assertEqual(answer_min_17, 'yellow')
