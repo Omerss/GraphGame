@@ -10,7 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 
 class GameLayout(FloatLayout):
 
-    def __init__(self, graph, signal, button_lst, func, button_width, dim, zoom_rate=0.7, edge_size=2, **kwargs):
+    def __init__(self, graph, signal, button_lst, button_width, dim, zoom_rate=0.7, edge_size=2, **kwargs):
         super(GameLayout, self).__init__(rows=1, cols=2, **kwargs)
         self.button_width = button_width
         self.dim = {"min_x": 0, "min_y": 0, "max_x": dim['max_x'], "max_y": dim['max_y']}
@@ -23,17 +23,16 @@ class GameLayout(FloatLayout):
         self.kivy_graph_out.pos = (self.button_width, 0)
         self.add_widget(self.kivy_graph_in)
         self.is_zoomed_out = False
-        self.set_button_functions(func)
+        self.set_button_functions()
         self.button_layout = self.get_buttons(signal, button_lst)
         self.add_widget(self.button_layout)
         self.button_layout.pos=(0,0)
 
-    def set_button_functions(self, func):
+    def set_button_functions(self):
         self.button1_func = [self.zoom_out, self.zoom_in]
         self.button2_func = [self.centralize_most_connected]
         self.button3_func = [self.centralize_closest_same_color]
         self.button4_func = [self.centralize_closest_neighbor_diff_color]
-        self.button5_func = func
 
     def get_buttons(self, signal, button_lst):
         """
@@ -50,18 +49,14 @@ class GameLayout(FloatLayout):
                               self.button_width)
         button4 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button4_func, signal, button_lst, 4,
                               self.button_width)
-        button5 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button5_func, signal, button_lst, 5,
-                              self.button_width)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
         layout.add_widget(button4)
-        layout.add_widget(button5)
         self.buttons.append(button1)
         self.buttons.append(button2)
         self.buttons.append(button3)
         self.buttons.append(button4)
-        self.buttons.append(button5)
         return layout
 
     def zoom_out(self):

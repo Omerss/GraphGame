@@ -39,8 +39,8 @@ class TestSaveGraph(unittest.TestCase):
         new_graph.connect_nodes (new_graph.node_list[7],new_graph.node_list[3])
         new_graph.connect_nodes (new_graph.node_list[3],new_graph.node_list[1])
         # Act
-        save_graph(new_graph, "testSavingGraph.xml")
-        new_loaded_graph = load_graph_from_file("testSavingGraph.xml")
+        save_graph(new_graph, "testSavingGraph2.xml")
+        new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
 
         #assert
        # button_event = threading.Event()
@@ -68,8 +68,9 @@ class TestSaveGraph(unittest.TestCase):
 
         self.assertEqual(new_loaded_graph.node_list[0].serial_num, new_graph.node_list[0].serial_num)
         self.assertEqual(new_loaded_graph.node_list[0].size, 50)
-        print (new_loaded_graph.node_list[0].colour)
         self.assertEqual(new_loaded_graph.node_list[0].colour, Colours.yellow)
+        print (new_graph.node_list[0].x==150)
+
         self.assertEqual(new_loaded_graph.node_list[0].x,150)
         self.assertEqual(new_loaded_graph.node_list[0].y, 100)
         self.assertEqual(new_loaded_graph.node_list[1].serial_num, new_graph.node_list[1].serial_num)

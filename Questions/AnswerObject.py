@@ -1,99 +1,123 @@
 import questionsAnswering
 from Enums import Colours
-class AnswerObj():
 
-    question_number = 0
-    args = []
-    result = ""
-    graph = None
+
+class AnswerObject:
+
     question_function = None
+    user_answer = ""
+    user_graph_answer = ""
+    real_answer = ""
 
-    def __init__(self, graph, question_number, *args):
-        self.question_number = question_number
-        self.graph = graph
-        self.args = args
+    def __init__(self, question_object, user_seen_graph, real_graph):
+        self.question_id = question_object.question_data.question_id
+        self.question_string = question_object.question_data.question_string
+        self.user_answer = question_object.get_answer()
+        self.args = question_object.question_data.args
+        self.user_seen_graph = user_seen_graph
+        self.real_graph = real_graph
 
-    def get_question_result (self):
-        if (self.quetion_number== 1):
+        self.get_question_results()
+
+    def get_question_results(self):
+        if self.question_id == 1:
             self.question_function = questionsAnswering.question_one
-            self.result = self.question_function(self.graph, self.args[0])
-            return self.result
-        if (self.quetion_number== 2):
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0])
+            self.real_answer = self.question_function(self.real_graph, self.args[0])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
+
+        if self.question_id == 2:
             self.question_function = questionsAnswering.question_two
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number== 3):
+        if self.question_id == 3:
             self.question_function = questionsAnswering.question_three
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number== 4):
+        if self.question_id == 4:
             self.question_function = questionsAnswering.question_four
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number== 5):
+        if (self.question_id== 5):
             self.question_function = questionsAnswering.question_five
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number== 6):
+        if (self.question_id== 6):
             self.question_function = questionsAnswering.question_six
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number== 7):
+        if (self.question_id== 7):
             self.question_function = questionsAnswering.question_seven
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 8):
+        if (self.question_id == 8):
             self.question_function = questionsAnswering.question_eight
-            self.result = self.question_function(self.graph, self.args[0])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0])
+            self.real_answer = self.question_function(self.real_graph, self.args[0])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 9):
+        if (self.question_id == 9):
             self.question_function = questionsAnswering.question_nine
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 10):
+        if (self.question_id == 10):
             self.question_function = questionsAnswering.question_ten
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 11):
+        if (self.question_id == 11):
             self.question_function = questionsAnswering.question_eleven
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 12):
+        if (self.question_id == 12):
             self.question_function = questionsAnswering.question_twelve
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 13):
+        if (self.question_id == 13):
             self.question_function = questionsAnswering.question_thirteen
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 14):
+        if (self.question_id == 14):
             self.question_function = questionsAnswering.question_fourteen
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 15):
+        if (self.question_id == 15):
             self.question_function = questionsAnswering.question_fifteen
-            self.result = self.question_function(self.graph, self.args[0], self.args[1])
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph, self.args[0], self.args[1])
+            self.real_answer = self.question_function(self.real_graph, self.args[0], self.args[1])
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 16):
+        if (self.question_id == 16):
             self.question_function = questionsAnswering.question_sixteen
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]
 
-        if (self.quetion_number == 17):
+        if (self.question_id == 17):
             self.question_function = questionsAnswering.question_seventeen
-            self.result = self.question_function(self.graph)
-            return self.result
+            self.user_graph_answer = self.question_function(self.user_seen_graph)
+            self.real_answer = self.question_function(self.real_graph)
+            return [self.user_answer, self.user_graph_answer, self.real_answer]

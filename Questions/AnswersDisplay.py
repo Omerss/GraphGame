@@ -1,4 +1,4 @@
-import QuestionObj
+import QuestionObject
 import AnswerObject
 from AnswerObject import AnswerObj
 from kivy.uix.gridlayout import GridLayout
@@ -12,14 +12,16 @@ from kivy.uix.button import ButtonBehavior
 from kivy.uix.button import Label
 from kivy.app import App
 
+
 class AnswersDisplay(App):
     usersAnswers = None
     questionsArray = None
     user_seen_graph_answers = None
     full_graph_answers = None
     success_rate = 0
-    def __init__ (self, usersAnswers, questionsArray, user_seen_graph_answers, full_graph_answers, success_rate, **kwargs):
-        super(AnswersDisplay, self).__init__(**kwargs)
+
+    def __init__ (self, answer_list, graph_user, graph_true):
+        super(AnswersDisplay, self).__init__()
 
         self.layout = GridLayout(rows = 6)
         self.usersAnswers = usersAnswers
@@ -64,12 +66,6 @@ class AnswersDisplay(App):
 
     def build(self):
         return self.layout
-
-
-
-
-
-
 
 #pass to game manager
         user_seen_graph_answers = self.set_answer_objects(userSeenGraph)

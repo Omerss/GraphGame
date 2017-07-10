@@ -1,6 +1,6 @@
-
-from QuestionObj import QuestionObject
-from Questions.ResultDisplay import ResultDisplay
+from Queue import Queue
+from QuestionObject import QuestionObject
+from Questions.QuestionsDisplay import QuestionDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
 
@@ -11,12 +11,13 @@ def main():
     questionNine = QuestionObject("does every node at color yellow have link to a node of color red?", QuestionTypes.BOOLEAN, 12)
     questionTen = QuestionObject( "is there more red nodes than yellow nodes?", QuestionTypes.BOOLEAN, 14)
 
-    question_list = []
-    display = ResultDisplay(question_list)
+    questionList = [questionOne,questionThree,questionFive,questionNine, questionTen]
+    q = Queue()
+    display = QuestionDisplay(questionList, q)
     display.run()
-    answers = q.get()
-    for item in answers:
+    user_answers = q.get()
+    for item in user_answers:
         print("question #{} - {}".format(item.question_number, item.get_answer()))
 
-
-main()
+if __name__ == "__main__":
+    main()

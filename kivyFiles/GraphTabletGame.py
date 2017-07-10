@@ -22,7 +22,7 @@ class GraphTabletGame(App):
         signal - to announce button press
         """
         super(GraphTabletGame, self).__init__(**kwargs)
-        self.layout = GameLayout(graph, signal, self.button_presses, [self.get_info_from_screen], button_width, dim)
+        self.layout = GameLayout(graph, signal, self.button_presses, button_width, dim)
         self.original_graph = graph
 
     def build(self):
@@ -232,3 +232,6 @@ class GraphTabletGame(App):
             curr_edge = (second_node, first_node, edge.slope)
 
         return curr_edge
+
+    def stop_me(self):
+        self.stop()
