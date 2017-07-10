@@ -1,9 +1,10 @@
 from SupplementaryFiles.GraphObj import get_serial
-from GraphLayout import GraphLayout
+from GameLayout import GameLayout
 from kivy.app import App
 from SupplementaryFiles.Point import Point
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
+
 
 class GraphTabletGame(App):
     counter1 = 0
@@ -12,7 +13,7 @@ class GraphTabletGame(App):
     counter4 = 0
     button_presses = []
 
-    def __init__(self, graph, button_funcs, signal, button_width=100, dim={"max_x": 800, "max_y": 600}, **kwargs):
+    def __init__(self, graph, signal, button_width=100, dim={"max_x": 800, "max_y": 600}, **kwargs):
         """
         graph
         button functions - list of buttons and their functions
@@ -21,8 +22,8 @@ class GraphTabletGame(App):
         signal - to announce button press
         """
         super(GraphTabletGame, self).__init__(**kwargs)
-        self.layout = GraphLayout(graph, button_funcs, signal, self.button_presses, dim, button_width)
-        self.real_graph = graph
+        self.layout = GameLayout(graph, signal, self.button_presses, [self.get_info_from_screen], button_width, dim)
+        self.original_graph = graph
 
     def build(self):
         return self.layout
@@ -49,7 +50,7 @@ class GraphTabletGame(App):
             self.counter4 += 1
 
     def get_info_from_screen(self):
-        '''
+        """
         Function returns the nodes and edges that are at least partially displayed onscreen
         :return: returns a dictionary containing two objects:
         'nodes': A list containing the nodes that are at least partially displayed onscreen.
@@ -57,9 +58,21 @@ class GraphTabletGame(App):
                  by a tuple containing of the edge's nodes. If one of the nodes is not onscreen, a new NodeObject is
                  created where the x,y coordinates represent the intersection between the edge and the screen and the
                  serial and size are set to None.
-        '''
-        nodes = self.get_onscreen_nodes()
-        edges = self.get_onscreen_edges(nodes)
+        """
+        if self.layout.is_zoomed_out:
+            graph_nodes = self.layout.kivy_graph_out.kivy_graph.nodes
+            graph_edges = self.layout.kivy_graph_out.kivy_graph.edges
+            graph_corners = self.layout.kivy_graph_out.kivy_graph.corners
+        else:
+            graph_nodes = self.layout.kivy_graph_in.kivy_graph.nodes
+            graph_edges = self.layout.kivy_graph_in.kivy_graph.edges
+            graph_corners = self.layout.kivy_graph_in.kivy_graph.corners
+
+        nodes = self.get_onscreen_nodes(graph_nodes, graph_corners)
+        edges = self.get_onscreen_edges(graph_edges, graph_corners)
+
+        print graph_corners
+        print "on screen: "
         for node in nodes:
             print node
         for edge in edges:
@@ -67,38 +80,38 @@ class GraphTabletGame(App):
 
         return {'nodes': nodes, 'edges': edges}
 
-    def get_onscreen_nodes(self):
-        '''
+    def get_onscreen_nodes(self, graph_nodes, graph_corners):
+        """
         Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
         :return: A list containing the nodes that are at least partially displayed onscreen.
-        '''
-        bottom_left = self.layout.kivy_graph.corners["bottom_left"]
-        top_right = self.layout.kivy_graph.corners["top_right"]
+        """
+        bottom_left = graph_corners["bottom_left"]
+        top_right = graph_corners["top_right"]
         displayed_nodes = []
-        for node in self.layout.kivy_graph.nodes:
-            real_node = self.real_graph.get_node_by_serial(node.serial)
-            node_x = real_node.x
-            node_y = real_node.y
-            node_r = node.get_radius()
-            if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
-                            (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
-                displayed_nodes.append(real_node)
+        for node in graph_nodes:
+            if node.serial != -1:
+                real_node = self.original_graph.get_node_by_serial(node.serial)
+                node_x = real_node.x
+                node_y = real_node.y
+                node_r = node.get_radius() * 0.85
+                if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
+                    (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
+                    displayed_nodes.append(real_node)
         return displayed_nodes
 
-    def get_onscreen_edges(self, displayed_nodes):
-        '''
+    def get_onscreen_edges(self, graph_edges, graph_corners):
+        """
         Function goes over the list of edges in the graph and checks which ones are displayed onscreen
-        :param displayed_nodes: a list of the nodes displayed onscreen
         :return: A list representing the edges that are at least partially displayed onscreen. Each edge is represented
-                 by a tuple containing the edge's nodes and the edge's original slope. If one of the nodes is not onscreen, a new NodeObject is
-                 created where the x,y coordinates represent the intersection between the edge and the screen.
-        '''
+                 by a tuple containing the edge's nodes and the edge's original slope. If one of the nodes is not
+                 onscreen, a new NodeObject is created where the x,y coordinates represent the intersection between
+                  the edge and the screen.
+        """
 
-        screen_edges = self.layout.kivy_graph.corners
-        top_left = Point(screen_edges["top_left"].get_x(), screen_edges["top_left"].get_y())
-        top_right = Point(screen_edges["top_right"].get_x() + 0.001, screen_edges["top_right"].get_y())
-        bottom_left = Point(screen_edges["bottom_left"].get_x() + 0.001, screen_edges["bottom_left"].get_y())
-        bottom_right = Point(screen_edges["bottom_right"].get_x(), screen_edges["bottom_right"].get_y())
+        top_left = Point(graph_corners["top_left"].get_x(), graph_corners["top_left"].get_y())
+        top_right = Point(graph_corners["top_right"].get_x() + 0.001, graph_corners["top_right"].get_y())
+        bottom_left = Point(graph_corners["bottom_left"].get_x() + 0.001, graph_corners["bottom_left"].get_y())
+        bottom_right = Point(graph_corners["bottom_right"].get_x(), graph_corners["bottom_right"].get_y())
         top = LineEquation.create_equation(top_left, top_right)
         bottom = LineEquation.create_equation(bottom_left, bottom_right)
         left = LineEquation.create_equation(bottom_left, top_left)
@@ -106,19 +119,18 @@ class GraphTabletGame(App):
 
         displayed_edges = []
 
-        for edge in self.layout.kivy_graph.edges:
-
-            if self.is_node_onscreen(edge.node1, screen_edges):
-                if self.is_node_onscreen(edge.node2, screen_edges):
-                    first_node = self.real_graph.get_node_by_serial(edge.node1.serial)
-                    second_node = self.real_graph.get_node_by_serial(edge.node2.serial)
+        for edge in graph_edges:
+            if self.is_node_onscreen(edge.node1, graph_corners):
+                if self.is_node_onscreen(edge.node2, graph_corners):
+                    first_node = self.original_graph.get_node_by_serial(edge.node1.serial)
+                    second_node = self.original_graph.get_node_by_serial(edge.node2.serial)
                     if edge.node1.get_x() < edge.node2.get_x():
                         curr_edge = (first_node, second_node, edge.slope)
                     else:
                         curr_edge = (second_node, first_node, edge.slope)
                 else:
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
-            elif self.is_node_onscreen(edge.node2, screen_edges):
+            elif self.is_node_onscreen(edge.node2, graph_corners):
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2)
             else:
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None)
@@ -129,14 +141,14 @@ class GraphTabletGame(App):
         return displayed_edges
 
     def is_node_onscreen(self, node, screen_edges):
-        real_node = self.real_graph.get_node_by_serial(node.serial)
+        real_node = self.original_graph.get_node_by_serial(node.serial)
         node_x = real_node.x
         node_y = real_node.y
         return screen_edges["bottom_left"].get_x() < node_x < screen_edges["top_right"].get_x() and \
-                        screen_edges["bottom_left"].get_y() < node_y < screen_edges["top_right"].get_y()
+                screen_edges["bottom_left"].get_y() < node_y < screen_edges["top_right"].get_y()
 
     def get_partly_visible_edge(self, edge, top, bottom, left, right, node):
-        '''
+        """
 
         :param edge: an edge that can be seen onscreen but where at least one node is not visible
         :param top: equation representing the top border of the screen
@@ -147,9 +159,9 @@ class GraphTabletGame(App):
         :return: A tuple of two NodeObjects, each representing a one of the edge's nodes. If one of the nodes is not
         onscreen, the x,y coordinates represent the intersection between the edge and the screen and the serial and
         size are set to None.
-        '''
-        real_node1 = self.real_graph.get_node_by_serial(edge.node1.serial)
-        real_node2 = self.real_graph.get_node_by_serial(edge.node2.serial)
+        """
+        real_node1 = self.original_graph.get_node_by_serial(edge.node1.serial)
+        real_node2 = self.original_graph.get_node_by_serial(edge.node2.serial)
         point1 = Point(real_node1.x, real_node1.y)
         point2 = Point(real_node2.x, real_node2.y)
         edge_equation = LineEquation.create_equation(point1, point2)
@@ -157,12 +169,12 @@ class GraphTabletGame(App):
         second_node = None
 
         if node:
-            first_node = self.real_graph.get_node_by_serial(node.serial)
+            first_node = self.original_graph.get_node_by_serial(node.serial)
 
         # check if edge collides with top border
         if LineEquation.check_collision_point(edge_equation, top):
             col_point = LineEquation.get_equation_collision_point(edge_equation, top)
-            location = {'x': round(col_point[0],2), 'y': round(col_point[1],2)}
+            location = {'x': round(col_point[0], 2), 'y': round(col_point[1], 2)}
             if first_node is not None:
                 second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
@@ -173,7 +185,7 @@ class GraphTabletGame(App):
         # check if edge collides with bottom border
         if LineEquation.check_collision_point(edge_equation, bottom):
             col_point = LineEquation.get_equation_collision_point(edge_equation, bottom)
-            location = {'x': round(col_point[0],2), 'y': round(col_point[1],2)}
+            location = {'x': round(col_point[0], 2), 'y': round(col_point[1], 2)}
             if first_node is not None:
                 second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
@@ -184,7 +196,7 @@ class GraphTabletGame(App):
         # check if edge collides with left border
         if LineEquation.check_collision_point(edge_equation, left):
             col_point = LineEquation.get_equation_collision_point(edge_equation, left)
-            location = {'x': round(col_point[0],2), 'y': round(col_point[1],2)}
+            location = {'x': round(col_point[0], 2), 'y': round(col_point[1], 2)}
             if first_node is not None:
                 second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
@@ -196,7 +208,7 @@ class GraphTabletGame(App):
         # check if edge collides with right border
         if LineEquation.check_collision_point(edge_equation, right):
             col_point = LineEquation.get_equation_collision_point(edge_equation, right)
-            location = {'x': round(col_point[0],2), 'y': round(col_point[1],2)}
+            location = {'x': round(col_point[0], 2), 'y': round(col_point[1], 2)}
             if first_node is not None:
                 second_node = NodeObject(serial=get_serial(), location=location, size=0)
                 second_node.real = False
@@ -210,7 +222,7 @@ class GraphTabletGame(App):
             else:
                 raise Exception("Only One viable node for onscreen edge!")
 
-        min_dist = edge.node1.get_radius()/2
+        min_dist = edge.node1.get_radius() / 2
         if first_node.distance(second_node) < min_dist:
             return None
 
