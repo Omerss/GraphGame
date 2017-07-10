@@ -13,8 +13,8 @@ class MultiButton(Button):
     counter = 0
     active = True
 
-    def __init__(self, img, funcs, signal, button_lst, button_num,  **kwargs):
-        super(MultiButton, self).__init__(**kwargs)
+    def __init__(self, img, funcs, signal, button_lst, button_num, button_width, **kwargs):
+        super(MultiButton, self).__init__(size_hint_x=None, width=button_width, **kwargs)
         self.background_normal = img
         self.funcs = funcs
         self.on_press = self.get_func

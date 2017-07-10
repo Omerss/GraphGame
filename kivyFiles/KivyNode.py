@@ -6,26 +6,28 @@ from kivy.uix.widget import Widget
 import math
 from kivy.animation import Animation
 
+
 class KivyNode(Widget):
     x_coor = 0
     y_coor = 0
     serial = -1
-    node_size = 50
     colour = None
     neighbors = None
 
-    def __init__(self, x_loc, y_loc, serial, colour,**kwargs):
+    def __init__(self, x_loc, y_loc, serial, node_size, radius, colour, **kwargs):
         super(KivyNode, self).__init__(**kwargs)
+        self.node_size = node_size
+        self.radius = radius/2.0
         self.bind(pos=self.redraw)
         self.bind(size=self.redraw)
         self.x_coor = x_loc
         self.y_coor = y_loc
         self.size = [self.node_size, self.node_size]
-        self.pos = [self.x_coor - self.node_size / 2 ,self.y_coor - self.node_size / 2]
+        self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
         self.serial = serial
         self.colour = colour
         self.neighbors = []
-        self.original_location = (x_loc,y_loc)
+        self.original_location = (x_loc, y_loc)
 
     def redraw(self, *args):
         self.canvas.clear()
@@ -45,31 +47,32 @@ class KivyNode(Widget):
         return self.colour
 
     def get_radius(self):
-        return self.node_size/2
+        return self.radius
 
-    def add_neighbor(self,node):
+    def add_neighbor(self, node):
         self.neighbors.append(node)
 
-    def move_y(self, amount = 40):
-        '''
+    def move_y(self, amount=40):
+        """
         moves the node's y coordinate by 'amount'
         :param amount: optional. a distance to move the node's y_coor by
-        '''
+        """
         self.y_coor += amount
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+        self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
-    def move_x(self, amount = 40):
-        '''
+    def move_x(self, amount=40):
+        """
         moves the node's x coordinate by 'amount'
         :param amount: optional. a distance to move the node's x_coor by
-        '''
+        """
         self.x_coor += amount
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+        self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
-    def move_by_amount(self,delta_x,delta_y, animated):
+    def move_by_amount(self, delta_x, delta_y, animated):
         """
         :param delta_x: a distance to move the node's x_coor by
         :param delta_y: a distance to move the node's y_coor by
+        :param animated: if True, node's movement will be visually displayed
         """
         self.x_coor = self.x_coor + delta_x
         self.y_coor = self.y_coor + delta_y
@@ -91,20 +94,17 @@ class KivyNode(Widget):
         self.y_coor = self.y_coor*y_change
         self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
-    def jump_to_location(self,newX,newY):
+    def jump_to_location(self, new_x, new_y):
         """
         sets self's location to (newX,newY)
-        :param newX: new value for node's x_coor
-        :param newY: new value for node's y_coor
+        :param new_x: new value for node's x_coor
+        :param new_y: new value for node's y_coor
         """
-        self.x_coor = newX
-        self.y_coor = newY
-        self.pos = [self.x_coor - self.node_size / 2,self.y_coor - self.node_size / 2]
+        self.x_coor = new_x
+        self.y_coor = new_y
+        self.pos = [self.x_coor - self.node_size / 2, self.y_coor - self.node_size / 2]
 
-    def reset_pos(self):
-        self.jump_to_location(self.original_location[0], self.original_location[1])
-
-    def get_neighbrs(self):
+    def get_neighbors(self):
         """
         :return: the list of neighbors associated with a given node
         """
@@ -116,7 +116,7 @@ class KivyNode(Widget):
         """
         return len(self.neighbors)
 
-    def get_distance_from_node(self,node):
+    def get_distance_from_node(self, node):
         """
         :param node: KivyNode
         :return: the distance between self and node
@@ -129,4 +129,5 @@ class KivyNode(Widget):
         return dist
 
     def print_node(self):
-        print "For node " + str(self.serial) + ", coordinates = ("+str(self.get_x())+","+str(self.get_y())+"), color = " + self.colour
+        print "For node " + str(self.serial) + ", coordinates = ("+str(self.get_x()) + ","+str(self.get_y()) + \
+              "), color = " + self.get_colour()
