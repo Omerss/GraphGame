@@ -1,10 +1,8 @@
 from enum import Enum
 
 
-class Colours(Enum):
-    yellow = {'R': 1, 'G': 1, 'B': 0, 'name': "yellow"}
-    red = {'R': 1, 'G': 0, 'B': 0, 'name': "red"}
-    blue = {'R': 0, 'G': 0, 'B': 1, 'name': "blue"}
+Colours = {'yellow': {'R': 1, 'G': 1, 'B': 0, 'name': "yellow"}, 'red': {'R': 1, 'G': 0, 'B': 0, 'name': "red"},
+           'blue': {'R': 0, 'G': 0, 'B': 1, 'name': "blue"}}
 
 
 class Shapes(Enum):
