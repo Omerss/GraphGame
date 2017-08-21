@@ -13,22 +13,23 @@ import threading
 class TestGraph(unittest.TestCase):
     # how many nodes of color X are there?
     def test_question_one(self):
+       print ("1")
        # Arrange
        max_neighbors = 5
        extra_distance = 1
 
        new_graph = GraphObject(max_x=1000, max_y=1000, node_count=10, max_neighbors=max_neighbors,
                                extra_distance=extra_distance)
-       new_graph.add_node(150, 100, node_colour=Colours.yellow)
-       new_graph.add_node(100, 800, node_colour=Colours.red)
-       new_graph.add_node(150, 500, node_colour=Colours.blue)
-       new_graph.add_node(150, 300, node_colour=Colours.blue)
-       new_graph.add_node(550, 100, node_colour=Colours.red)
-       new_graph.add_node(450, 500, node_colour=Colours.yellow)
-       new_graph.add_node(350, 600, node_colour=Colours.yellow)
-       new_graph.add_node(250, 700, node_colour=Colours.red)
-       new_graph.add_node(150, 800, node_colour=Colours.blue)
-       new_graph.add_node(50, 900, node_colour=Colours.blue)
+       new_graph.add_node(150, 100, node_colour=Colours['yellow'])
+       new_graph.add_node(100, 800, node_colour=Colours['red'])
+       new_graph.add_node(150, 500, node_colour=Colours['blue'])
+       new_graph.add_node(150, 300, node_colour=Colours['blue'])
+       new_graph.add_node(550, 100, node_colour=Colours['red'])
+       new_graph.add_node(450, 500, node_colour=Colours['yellow'])
+       new_graph.add_node(350, 600, node_colour=Colours['yellow'])
+       new_graph.add_node(250, 700, node_colour=Colours['red'])
+       new_graph.add_node(150, 800, node_colour=Colours['blue'])
+       new_graph.add_node(50, 900, node_colour=Colours['blue'])
 
 
        for node in new_graph.node_list:
