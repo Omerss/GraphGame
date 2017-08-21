@@ -381,7 +381,7 @@ def is_nodes_of_color(node_object, args):
         return False
     else:
 
-        if node_object.colour['name'] == color['name']:
+        if node_object.colour == color['name']:
             return True
     return False
 
