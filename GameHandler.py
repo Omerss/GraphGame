@@ -196,11 +196,11 @@ class GameHandler:
         """
         Creates a list of QuestionObject
         """
-        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
-        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
-        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
-        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
-        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
 
         question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
 
