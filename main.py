@@ -2,8 +2,6 @@ import os
 import argparse
 import threading
 
-
-
 NUM_OF_GAMES = 10
 
 user_id = 111
