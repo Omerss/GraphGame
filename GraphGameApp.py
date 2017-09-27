@@ -1,109 +1,81 @@
 #!/usr/bin/kivy
 # -*- coding: utf-8 -*-
-from kivy.uix.scatter import Scatter
-from kivy.properties import StringProperty, ObjectProperty
-from kivy.core.audio import SoundLoader
-from kivy.uix.floatlayout import FloatLayout
-from functools import partial
-from kivy.uix.label import Label
 from kivy.clock import Clock
-
 from kivy_communication import *
-LANGUAGE = 'Hebrew'  # 'Hebrew'
 from kivy.uix.screenmanager import Screen
+
 from kivyFiles.GraphTabletGame import GraphTabletGame
+from Questions.QuestionObject import QuestionObject
+from Questions.QuestionsDisplay import QuestionDisplay
+from Questions.AnswerObject import AnswerObject
+from Questions.ResultDisplay import ResultDisplay
+from SupplementaryFiles.Enums import QuestionTypes, Colours
+
+LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
-class GameScreen(Screen):
-    graph_game = None
+class GraphGameScreen(Screen):
     real_user = True
-
     game_number = -1
-    the_app = None
-    game_type = None
-    graph = None
-    current_step_count = 0
-
-    config = None
-    current_graph = None
-    current_data_handler = None
-    display = None
-    max_turns = 0
-    current_turn = 0
+    parent_app = None
     score = 0
-    discovered_graph = None
 
-    def start(self, number=-1, the_app=None, the_type=None, max_turns=None, graph=None):
+    max_turns = -1
+    graph = None
+    graph_config = None
+
+    graph_game = None
+
+    def setup(self, graph, graph_config, parent_app, max_turns, number=-1, real_user=True):
+        """
+        Does a single run of a game - 3 stages:
+        Graph learning - the main game section.
+        Questionnaire - A list of questions about the graph
+        Results - The result screen and summary of the data.
+        :param graph_config:
+        :param real_user: Bool. False if machine player
+        :param number: The game number
+        :param parent_app: The parent who called this screen
+        :param max_turns: Number of steps for the game
+        :param graph: The graph used in this specific game
+        """
+        # Init
         self.size = (200, 100)
         self.game_number = number
-        self.the_app = the_app
-        self.game_type = the_type
-        self.graph = graph
-        self.max_turns = max_turns
-
-        self.current_graph = None
-        self.current_data_handler = None
-        self.display = None
-
-        self.current_step_count = 0
-
-        self.current_turn = 0
+        self.parent_app = parent_app
+        self.real_user = real_user
         self.score = 0
 
-        self.graph_game = GraphTabletGame(self)
-        self.graph_game.number_of_turns = self.max_turns
+        self.graph = graph
+        self.max_turns = max_turns
+        parent_app.discovered_graph = None
+        self.graph_config = graph_config
 
-        if self.game_number == 0:
-            self.graph_game.set_tutorial()
+        self.graph_game = GraphTabletGame(self)
 
     def on_enter(self, *args):
         log_str = 'start,'
-        log_str += 'duration=' + str(self.graph_game.game_duration) + ','
-        log_str += 'questions=' + str(self.graph_game.game_questions)
-        KL.log.insert(action=LogAction.data, obj='game_'+str(self.game_number), comment=log_str)
+        log_str += 'turns=' + str(self.graph_game.number_of_turns) + ','
+        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
 
-        self.graph_game.load(network=self.game_network,
-                             questions=self.game_questions,
-                             edges=self.game_edges)
-        Clock.schedule_once(self.explanation_screen, 0.5)
+        self.graph_game.load(self)
+    #     Clock.schedule_once(self.explanation_screen, 0.5)
+    #
+    # def explanation_screen(self):
+    #     self.graph_game.start()
+    #     self.graph_game.tell_story(self.game_introduction[0], self.game_introduction[1])
+    #     Clock.schedule_once(self.end_game, self.graph_game.game_duration)
 
-    def explanation_screen(self, dt):
-        self.curiosity_game.start()
-        self.curiosity_game.tell_story(self.game_introduction[0], self.game_introduction[1])
-        Clock.schedule_once(self.end_game, self.curiosity_game.game_duration)
-
-    def end_game(self, dt):
+    def end_graph(self):
         self.graph_game.the_end = True
         if not self.graph_game.is_playing:
             self.next_game()
 
     def next_game(self):
-        # log_str = 'end,q_type='
-        # for q in self.curiosity_game.game_q_type:
-        #     log_str += str(q) + ';'
-        # KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
-        #
-        # # delete network
-        # self.curiosity_game.discovered_network = set()
-        # for c_name, c in self.curiosity_game.network.concepts.items():
-        #     c['visible'] = c['level'] == 1
-        #
-        # try:
-        #     self.the_app.sm.current = 'game_' + str(self.game_number+1)
-        # except:
-        #     KL.log.insert(action=LogAction.data, obj='game', comment='the_end', sync=True)
-        #     self.curiosity_game.is_playing = True
-        #     sl = SoundLoader.load('items/sounds/the_end_Q_World.wav')
-        #     sl.bind(on_stop=self.end_subject)
-        #     sl.play()
-        pass
-
-    def end_subject(self, *args):
-        self.the_app.stop()
-            # self.the_app.sm.current = 'zero_screen'
-
-
-
-
-
-
+        log_str = 'end game'
+        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
+        try:
+            self.the_app.sm.current = 'game_' + str(self.game_number + 1)
+        except Exception as e:
+            KL.log.insert(action=LogAction.data, obj='game', comment='the_end - {}'.format(e), sync=True)
+            self.graph_game.is_playing = True

@@ -3,26 +3,39 @@ from kivy.uix.button import Button
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.uix.floatlayout import FloatLayout
+from kivy.graphics import Rectangle
 
 from Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
 from SupplementaryFiles.Enums import QuestionTypes
 
 
-class QuestionDisplay(App):
+class QuestionDisplay:
+    parent_app = None
 
-    def __init__(self, questions, queue, **kwargs):
-        super(QuestionDisplay, self).__init__(**kwargs)
+    def __init__(self, parent_app=None):
+        self.parent_app = parent_app
+        self.the_widget = QuestionnaireWidget(self, parent_app.question_list)
 
-        num_of_rows = 2 * len(questions) + 1
-        self.layout = GridLayout(rows=num_of_rows, cols=1)
-        self.questions = questions
+    def load(self):
+        pass
+
+
+class QuestionnaireWidget(GridLayout):
+    question_list = None
+    the_game = None
+
+    def __init__(self, the_game, question_list):
+        super(QuestionnaireWidget, self).__init__(rows=2 * len(question_list) + 1, cols=1)
+        self.the_game = the_game
+
+        self.questions = question_list
         self.questionsArray = []
         self.user_answers = []
-        self.set_questions(questions)
+        self.set_questions(question_list)
         self.submit_button = Button(text='submit')
         self.submit_button.bind(on_press=self.submit_action)
-        self.layout.add_widget(self.submit_button)
-        self.queue = queue
+        self.add_widget(self.submit_button)
 
     # DO NOT REMOVE instance
     def submit_action(self, instance):
@@ -60,8 +73,15 @@ class QuestionDisplay(App):
                 new_question = BooleanQuestion(question=question)
 
             self.questionsArray.append(new_question)
-            self.layout.add_widget(new_question_label)
-            self.layout.add_widget(new_question)
+            self.add_widget(new_question_label)
+            self.add_widget(new_question)
 
-    def build(self):
-        return self.layout
+    def update_background(self, filename):
+        with self.canvas.before:
+            self.rect = Rectangle(source=filename, size=self.size)
+            self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, instance, value):
+        self.rect.pos = instance.pos
+        self.rect.size = instance.size
+        self.the_game.network.update_pos_size(instance.size)

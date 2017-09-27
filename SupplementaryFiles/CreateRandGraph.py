@@ -33,7 +33,6 @@ def create_rand_graph(config_file):
         randColor = random.choice(Colours.values())
         new_graph.add_node(xRandom, yRandom, randColor, Shapes.circle, config.getint("NodeData", "NodeSize"))
     connect_graph(new_graph, config.getint("NodeData", "MaxNeighbors"), config.getint("NodeData", "MinNeighbors"))
-    new_graph.update_center_node(random.choice(new_graph.node_list).serial_num)
     return new_graph
 
 
