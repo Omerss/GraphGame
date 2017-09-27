@@ -10,6 +10,7 @@ def question_one(graph_object, color_x):
     :return: the number of nodes in graph_object of the color color_x
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color,1, color_x)
+    print (number_of_nodes)
     return number_of_nodes
 
 
