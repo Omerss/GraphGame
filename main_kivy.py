@@ -21,7 +21,7 @@ class ZeroScreen(Screen):
         self.ids['subject_id'].bind(text=self.ids['subject_id'].on_text_change)
 
 
-class GraphGameMain(App):
+class GraphGameMainApp(App):
     game_screen = []
     filename = 'network_new.json'
 
@@ -68,7 +68,7 @@ class GraphGameMain(App):
 
             # Step 2 - Questionnaire
             self.game_screen.append(QuestionnaireScreen(name='game_' + str(i_net)))
-            self.game_screen[-1].setup(parent_app=self,
+            self.game_screen[-1].setup(main_app=self,
                                        number=i_net,
                                        real_user=self.real_user,
                                        )
@@ -102,4 +102,4 @@ class GraphGameMain(App):
         self.sm.current = 'game_0'
 
 if __name__ == '__main__':
-    GraphGameMain().run()
+    GraphGameMainApp().run()

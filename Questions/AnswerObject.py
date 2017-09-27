@@ -1,5 +1,4 @@
 import questionsAnswering
-from Enums import Colours
 
 
 class AnswerObject:
