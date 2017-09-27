@@ -1,4 +1,5 @@
 import kivy
+from kivy.uix.floatlayout import FloatLayout
 
 kivy.require('1.9.1')
 
@@ -14,6 +15,7 @@ from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.NodeObject import NodeObject
 from GraphLayout import GraphLayout
 from SupplementaryFiles.Enums import Colours
+from GameLayout import GameLayout
 
 MYColours = [{'R': 1, 'G': 0, 'B': 0, 'name': "red"}, {'R': 0, 'G': 1, 'B': 0, 'name': "green"},
            {'R': 0, 'G': 0, 'B': 1, 'name': "blue"}, {'R': 1, 'G': 0, 'B': 1, 'name': "purple"},
@@ -21,23 +23,28 @@ MYColours = [{'R': 1, 'G': 0, 'B': 0, 'name': "red"}, {'R': 0, 'G': 1, 'B': 0, '
            {'R': 1, 'G': 1, 'B': 1, 'name': "white"}]
 
 
-class MyGameLayout(GridLayout):
+class MyGameLayout(FloatLayout):
 
-    def __init__(self, graph, signal, button_lst, dim, button_width=100, zoom_rate=0.7, edge_size=2, **kwargs):
+    def __init__(self, graph, signal, button_lst, button_width=0.3, zoom_rate=0.7, edge_size=2, **kwargs):
         super(MyGameLayout, self).__init__(rows=1, cols=2, **kwargs)
-        kivy.core.window.Window.size = (dim['max_x'], dim['max_y'])
-        self.button_width = button_width
-        self.dim = {"min_x": 0, "min_y": 0, "max_x": dim['max_x'], "max_y": dim['max_y']}
+        self.button_width = kivy.core.window.Window.size[0] * button_width
+        self.dim = {"min_x":0, "min_y": 0}
+        self.dim["max_x"] = kivy.core.window.Window.size[0]
+        self.dim["max_y"] = kivy.core.window.Window.size[1]
+        print self.dim
         self.buttons = []
         self.original_graph = graph
-        dim["max_x"] -= self.button_width
-        self.kivy_graph_in = GraphLayout(self.original_graph, dim, 1, edge_size)
-        self.kivy_graph_out = GraphLayout(self.original_graph, dim, zoom_rate, edge_size)
+        self.dim["max_x"] -= self.button_width
+        self.kivy_graph_in = GraphLayout(self.original_graph, self.dim, 1, edge_size)
+        self.kivy_graph_out = GraphLayout(self.original_graph, self.dim, zoom_rate, edge_size)
+        self.kivy_graph_in.pos = (self.width - button_width, 0)
+        self.kivy_graph_out.pos = (self.button_width, 0)
         self.add_widget(self.kivy_graph_in)
         self.is_zoomed_out = False
         self.set_button_functions()
         self.button_layout = self.get_buttons(signal, button_lst)
         self.add_widget(self.button_layout)
+        self.button_layout.pos=(0,0)
 
     def set_button_functions(self):
         self.button1_func = [self.zoom_out, self.zoom_in]
@@ -141,6 +148,7 @@ class MyGameLayout(GridLayout):
         graph.node_list.append(node6)
         graph.connections = [(640, 188), (-55, 206), (-55, 186), (-67, 640),
                              (-67, 206), (640, 206), (-67, 186), (640, 186)]
+        graph.center_node = 188
 
         in_bl = NodeObject(-1, {'x': 59, 'y': -4}, 50, MYColours[6])
         in_tr = NodeObject(-1, {'x': 309, 'y': 146}, 50, MYColours[6])
@@ -157,26 +165,26 @@ class MyGameLayout(GridLayout):
     @staticmethod
     def get_graph_obj1():
         graph = GraphObject(None, 5000, 5000, 24, 3, 10)
-        node2 = NodeObject("ce5", {'x': -2465, 'y': 2732}, 50, Colours.yellow)
-        node1 = NodeObject("a26", {'x': 614, 'y': 600}, 50, Colours.yellow)
-        node3 = NodeObject("4ec", {'x': -3229, 'y': 3455}, 50, Colours.red)
-        node4 = NodeObject("5e7", {'x': -1184, 'y': 3385}, 50, Colours.blue)
-        node5 = NodeObject("5ea", {'x': 303, 'y': 1050}, 50, Colours.red)
-        node6 = NodeObject("a97", {'x': -1128, 'y': 1884}, 50, Colours.blue)
-        node7 = NodeObject("5f3", {'x': -2910, 'y': 271}, 50, Colours.red)
-        node8 = NodeObject("68f", {'x': -1105, 'y': 1409}, 50, Colours.blue)
-        node9 = NodeObject("a0f", {'x': -1598, 'y': 4054}, 50, Colours.yellow)
-        node10 = NodeObject("b3b", {'x': 1047, 'y': 61}, 50, Colours.red)
-        node11 = NodeObject("379", {'x': -1034, 'y': 2046}, 50, Colours.red)
-        node12 = NodeObject("c5c", {'x': 1543, 'y': 4466}, 50, Colours.red)
-        node13 = NodeObject("97b", {'x': -2551, 'y': 1694}, 50, Colours.yellow)
-        node14 = NodeObject("ac2", {'x': 821, 'y': 4534}, 50, Colours.blue)
-        node15 = NodeObject("788", {'x': -2790, 'y': 2330}, 50, Colours.yellow)
-        node16 = NodeObject("01d", {'x': 450, 'y': 300}, 50, Colours.blue)
-        node17 = NodeObject("e29", {'x': -272, 'y': 910}, 50, Colours.yellow)
-        node18 = NodeObject("d21", {'x': -2329, 'y': 2245}, 50, Colours.blue)
-        node19 = NodeObject("7ac", {'x': 693, 'y': 3124}, 50, Colours.blue)
-        node20 = NodeObject("189", {'x': -2748, 'y': 3403}, 50, Colours.blue)
+        node2 = NodeObject("ce5", {'x': -2465, 'y': 2732}, 50, Colours['yellow'])
+        node1 = NodeObject("a26", {'x': 614, 'y': 600}, 50, Colours['yellow'])
+        node3 = NodeObject("4ec", {'x': -3229, 'y': 3455}, 50, Colours['red'])
+        node4 = NodeObject("5e7", {'x': -1184, 'y': 3385}, 50, Colours['blue'])
+        node5 = NodeObject("5ea", {'x': 303, 'y': 1050}, 50, Colours['red'])
+        node6 = NodeObject("a97", {'x': -1128, 'y': 1884}, 50, Colours['blue'])
+        node7 = NodeObject("5f3", {'x': -2910, 'y': 271}, 50, Colours['red'])
+        node8 = NodeObject("68f", {'x': -1105, 'y': 1409}, 50, Colours['blue'])
+        node9 = NodeObject("a0f", {'x': -1598, 'y': 4054}, 50, Colours['yellow'])
+        node10 = NodeObject("b3b", {'x': 1047, 'y': 61}, 50, Colours['red'])
+        node11 = NodeObject("379", {'x': -1034, 'y': 2046}, 50, Colours['red'])
+        node12 = NodeObject("c5c", {'x': 1543, 'y': 4466}, 50, Colours['red'])
+        node13 = NodeObject("97b", {'x': -2551, 'y': 1694}, 50, Colours['yellow'])
+        node14 = NodeObject("ac2", {'x': 821, 'y': 4534}, 50, Colours['blue'])
+        node15 = NodeObject("788", {'x': -2790, 'y': 2330}, 50, Colours['yellow'])
+        node16 = NodeObject("01d", {'x': 450, 'y': 300}, 50, Colours['blue'])
+        node17 = NodeObject("e29", {'x': -272, 'y': 910}, 50, Colours['yellow'])
+        node18 = NodeObject("d21", {'x': -2329, 'y': 2245}, 50, Colours['blue'])
+        node19 = NodeObject("7ac", {'x': 693, 'y': 3124}, 50, Colours['blue'])
+        node20 = NodeObject("189", {'x': -2748, 'y': 3403}, 50, Colours['blue'])
 
         graph.node_list.append(node1)
         graph.node_list.append(node2)
@@ -203,6 +211,7 @@ class MyGameLayout(GridLayout):
                              ('5e7', '68f'), ('5e7', '5ea'), ('5ea', '788'), ('a0f', 'a97'), ('5f3', 'b3b'),
                              ('68f', '7ac'), ('a0f', 'd21'), ('a26', 'b3b'), ('189', '379'), ('97b', 'c5c'),
                              ('97b', 'e29'), ('a26', 'ac2'), ('788', '7ac'), ('189', 'd21')]
+        graph.center_node = "ce5"
 
         in_bl = NodeObject(-1, {'x': -1509.0, 'y': 3110.0}, 50, MYColours[6])
         in_tr = NodeObject(-1, {'x': -859.0, 'y': 3660.0}, 50, MYColours[6])
@@ -403,13 +412,29 @@ class MyGameLayout(GridLayout):
         return curr_edge
 
 
+class TestScreen():
+    graph_config = None
+    max_steps = 10
+
+    def __init__(self, graph, button_presses, button_ratio, **kwargs):
+        self.graph = graph
+        self.button_presses = button_presses
+        self.button_ratio = button_ratio
+
+    def end_game(self):
+        App.get_running_app().stop()
+
+
 class GraphGameApp(App):
     def __init__(self, button_presses, **kwargs):
         super(GraphGameApp, self).__init__(**kwargs)
         self.button_presses = button_presses
 
     def build(self):
-        layout = MyGameLayout(MyGameLayout.get_graph_obj(), None, self.button_presses, dim={"max_x": 400, "max_y": 200})
+        # dim={"max_x": 400, "max_y": 200}
+        # kivy.core.window.Window.size = (dim['max_x'], dim['max_y'])
+        # layout = GameLayout(MyGameLayout.get_graph_obj(), None, self.button_presses, 100, dim)
+        layout = MyGameLayout(MyGameLayout.get_graph_obj(), None, self.button_presses)
         layout.kivy_graph_in.kivy_graph.print_graph_nodes()
         print layout.original_graph.connections
         return layout
