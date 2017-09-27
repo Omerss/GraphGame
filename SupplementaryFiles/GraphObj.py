@@ -67,7 +67,7 @@ class GraphObject:
         new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape,
                               real=real)
         self.node_list.append(new_node)
-        self.center_node = self.node_list[0].serial
+        self.center_node = self.node_list[0].serial_num
         return new_node
 
     def get_possible_connections(self, node_serial, allow_overflow=False):

@@ -38,6 +38,7 @@ class TestSaveGraph(unittest.TestCase):
         new_graph.connect_nodes (new_graph.node_list[2],new_graph.node_list[5])
         new_graph.connect_nodes (new_graph.node_list[7],new_graph.node_list[3])
         new_graph.connect_nodes (new_graph.node_list[3],new_graph.node_list[1])
+        center_node = new_graph.center_node
         # Act
         save_graph(new_graph, "testSavingGraph2.xml")
         new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
@@ -60,6 +61,7 @@ class TestSaveGraph(unittest.TestCase):
         self.assertEqual(new_loaded_graph.node_count,10 )
         self.assertEqual(new_loaded_graph.max_neighbors, 5)
         self.assertEqual(new_loaded_graph.extra_distance,1)
+        self.assertEqual(new_loaded_graph.center_node, center_node)
 
         self.assertEqual(new_loaded_graph.connections[0], (min(new_loaded_graph.node_list[0].serial_num, new_loaded_graph.node_list[1].serial_num), max(new_loaded_graph.node_list[0].serial_num, new_loaded_graph.node_list[1].serial_num)))
         self.assertEqual(new_loaded_graph.connections[1], (min(new_loaded_graph.node_list[2].serial_num, new_loaded_graph.node_list[3].serial_num), max(new_loaded_graph.node_list[2].serial_num, new_loaded_graph.node_list[3].serial_num)))
