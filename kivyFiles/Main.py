@@ -6,11 +6,13 @@ from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from GraphTabletGame import GraphTabletGame
 from KivyGraphTester import *
 
+
 if __name__ == "__main__":
+
     button_presses = []
-    game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None,
-     button_width=100, dim={"max_x": 800, "max_y": 600})
-    # game = GraphTabletGame(MyGameLayout.get_graph_obj1(), None, button_width=100, dim={"max_x": 800, "max_y": 600})
+    kivy.core.window.Window.size = (400, 200)
+    game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
+    # game = GraphTabletGame(MyGameLayout.get_graph_obj(), None, None, 0.25)
     # game  = GraphGameApp(button_presses)
     game.run()
     print game.button_presses
