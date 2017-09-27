@@ -14,10 +14,10 @@ class GameLayout(FloatLayout):
         super(GameLayout, self).__init__(rows=1, cols=2, **kwargs)
 
         self.dim = {"min_x": 0, "min_y": 0}
-        self.dim["max_x"] = 800
-        self.dim["max_y"] = 600
-        #self.dim["max_x"] = kivy.core.window.Window.size[0]
-        #self.dim["max_y"] = kivy.core.window.Window.size[1]
+        #self.dim["max_x"] = 800
+        #self.dim["max_y"] = 600
+        self.dim["max_x"] = kivy.core.window.Window.size[0]
+        self.dim["max_y"] = kivy.core.window.Window.size[1]
         self.button_width = self.dim["max_x"] * button_width
         print self.button_width
         self.buttons = []
