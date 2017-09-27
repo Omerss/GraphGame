@@ -17,15 +17,18 @@ class GraphTabletGame:
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
         self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
-        self.max_steps = self.game_screen.max_steps
+        self.max_turns = self.game_screen.max_turns
         self.button_presses = self.game_screen.button_presses
         self.layout = GameLayout(self.original_graph, self.button_presses, self.game_screen.button_ratio,
-                                 self.send_info_from_screen, self.max_steps, self.game_screen.end_game)
+                                 self.send_info_from_screen, self.max_turns, self.game_screen.end_graph)
+
+    def load(self):
+        pass
 
     def send_info_from_screen(self):
         self.current_data_handler.add_view_to_db(self.get_info_from_screen())
-        if len(self.button_presses) >= self.max_steps:
-            self.game_screen.end_game()
+        if len(self.button_presses) >= self.max_turns:
+            self.game_screen.end_graph()
 
     def set_button_status(self, status):
         self.layout.set_button_status(status)
