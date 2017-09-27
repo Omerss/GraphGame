@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from kivy.app import App
-from os import path, os
+from os import path, getcwd
+from kivy.uix.screenmanager import ScreenManager, Screen
 
+from QuestionnaireApp import QuestionnaireScreen
 from SupplementaryFiles import Utils
 from kivy_communication import *
-from kivy.uix.screenmanager import ScreenManager, Screen
-from copy import deepcopy
-from GraphGameApp import GameScreen
+from GraphGameApp import GraphGameScreen
 
 CONFIG_FILE_PATH = "./config.ini"
 
@@ -24,6 +24,8 @@ class ZeroScreen(Screen):
 class GraphGameApp(App):
     game_screen = []
     filename = 'network_new.json'
+    user_answers = []
+    discovered_graph = None
 
     def build(self):
         self.init_communication()
@@ -35,24 +37,45 @@ class GraphGameApp(App):
         self.sm.add_widget(screen)
 
         self.config = Utils.read_config_file(CONFIG_FILE_PATH)
-        Utils.image_folder = path.join(os.getcwd(), self.config['Default']['image_folder'])
-        self.max_turns = int(self.config['Default']['max_turns'])
+        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
 
+        # TODO - Actually get multiple graphs in here
         graph_list = [(1, 'graph')]
 
         concepts_path = 'items/'
+        graph_config = path.join(getcwd(), "GraphsData", "config.ini")
 
-        concepts_json = JsonStore(concepts_path + self.filename)
-        print(concepts_json.keys())
-        for i_net, net in enumerate(graph_list):
-            self.game_screen.append(GameScreen(name='game_' + str(i_net)))
-            self.game_screen[-1].start(number=i_net, the_app=self, the_type=(net['type'], net['n']),
-                                       duration=net['duration'],
-                                       introduction=net['introduction'],
-                                       network=deepcopy(concepts_json.get(net['network'])),
-                                       questions=deepcopy(concepts_json.get('questions')),
-                                       edges=deepcopy(concepts_json.get('edges')))
-            self.game_screen[-1].add_widget(self.game_screen[-1].curiosity_game.the_widget)
+
+        self.user_answers = []
+        # concepts_json = JsonStore(concepts_path + self.filename)
+        # print(concepts_json.keys())
+        for i_net, graph_data in enumerate(graph_list):
+            # Step 1 - Graph Game
+            # self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
+            # self.game_screen[-1].setup(number=i_net,
+            #                            parent_app=self,
+            #                            max_turns=int(self.config['Default']['max_turns']),
+            #                            real_user=True,
+            #                            graph=graph_data,
+            #                            graph_config=graph_config)
+            # self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.the_widget)
+
+            # Step 2 - Questionnaire
+            self.game_screen.append(QuestionnaireScreen(name='game_' + str(i_net)))
+            self.game_screen[-1].setup(parent_app=self,
+                                       number=i_net,
+                                       real_user=True)
+            self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
+
+            # Step 3 - Results
+            # self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
+            # self.game_screen[-1].setup(number=i_net,
+            #                            parent_app=self,
+            #                            max_turns=int(self.config['Default']['max_turns']),
+            #                            real_user=True,
+            #                            graph=graph_data,
+            #                            graph_config=graph_config)
+            # self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.the_widget)
 
         for gs in self.game_screen:
             self.sm.add_widget(gs)
@@ -65,7 +88,7 @@ class GraphGameApp(App):
         KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
 
     def on_connection(self):
-        KL.log.insert(action=LogAction.data, obj='QWorldApp', comment='start')
+        KL.log.insert(action=LogAction.data, obj='GraphGameApp', comment='start')
 
     def press_start(self, pre_post):
         # self.game_screen.curiosity_game.filename = 'items_' + pre_post + '.json'

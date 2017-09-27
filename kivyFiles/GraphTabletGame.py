@@ -1,30 +1,31 @@
 from SupplementaryFiles.GraphObj import get_serial
 from GameLayout import GameLayout
+from kivy.app import App
 from SupplementaryFiles.Point import Point
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
-from GameData.GameDataHandler import GameDataHandler
 
-class GraphTabletGame:
+
+class GraphTabletGame(App):
     counter1 = 0
     counter2 = 0
     counter3 = 0
     counter4 = 0
-    graph_config = None
+    button_presses = []
 
-    def __init__(self, game_screen=None):
-        self.game_screen = game_screen
-        self.original_graph = self.game_screen.graph
-        self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
-        self.max_steps = self.game_screen.max_steps
-        self.button_presses = self.game_screen.button_presses
-        self.layout = GameLayout(self.original_graph, self.button_presses, self.game_screen.button_ratio,
-                                 self.send_info_from_screen, self.max_steps, self.game_screen.end_game)
+    def __init__(self, graph, button_funcs, signal, button_ratio=0.2, **kwargs):
+        """
+        graph - the graph we wish to display
+        signal - to announce button press
+        screen dimensions
+        button size/width
+        """
+        super(GraphTabletGame, self).__init__(**kwargs)
+        self.layout = GameLayout(graph, signal, self.button_presses, button_ratio)
+        self.original_graph = graph
 
-    def send_info_from_screen(self):
-        self.current_data_handler.add_view_to_db(self.get_info_from_screen())
-        if len(self.button_presses) >= self.max_steps:
-            self.game_screen.end_game()
+    def build(self):
+        return self.layout
 
     def set_button_status(self, status):
         self.layout.set_button_status(status)
@@ -68,6 +69,13 @@ class GraphTabletGame:
 
         nodes = self.get_onscreen_nodes(graph_nodes, graph_corners)
         edges = self.get_onscreen_edges(graph_edges, graph_corners)
+
+        print graph_corners
+        print "on screen: "
+        for node in nodes:
+            print node
+        for edge in edges:
+            print edge
 
         return {'nodes': nodes, 'edges': edges}
 

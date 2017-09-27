@@ -11,30 +11,21 @@ class UniButton(Button):
 class MultiButton(Button):
     funcs = None
     counter = 0
-    moves = 10
+    active = True
 
-    def __init__(self, img, funcs, button_lst, button_num, button_width, updater_func, set_disabled, max_moves,
-                 end_game, **kwargs):
+    def __init__(self, img, funcs, signal, button_lst, button_num, button_width, **kwargs):
         super(MultiButton, self).__init__(size_hint_x=None, width=button_width, **kwargs)
         self.background_normal = img
         self.funcs = funcs
         self.on_press = self.get_func
+        self.signal = signal
         self.num = button_num
         self.lst = button_lst
-        self.send_screen_info = updater_func
-        self.set_disabled = set_disabled
-        self.moves = max_moves
-        self.end_game = end_game
 
     def get_func(self):
-        self.set_disabled(True)
-        if len(self.lst) >= self.moves:
-            self.end_game()
-        else:
+        if self.active:
             f = self.counter % len(self.funcs)
             self.funcs[f]()
             self.counter += 1
             self.lst.append(self.num)
-            self.send_screen_info()
-            self.set_disabled(False)
-
+            self.signal.set()
