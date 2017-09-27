@@ -42,7 +42,7 @@ class GraphLayout(RelativeLayout):
         """
         with self.canvas:
             for node in original_graph.node_list:
-                colour = Colours[node.colour]
+                colour = node.colour
                 Color(colour['R'], colour['G'], colour['B'])
                 new_node = KivyNode(node.x, node.y, node.serial_num, zoom_rate*node.size, node.size, colour['name'])
                 new_node.relative_move(zoom_rate, zoom_rate)

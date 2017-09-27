@@ -13,35 +13,45 @@ from GameData.GameDataHandler import GameDataHandler
 CONFIG_FILE_PATH = "./config.ini"
 
 def main ():
-    iter = itertools.product('1234', repeat=10)
+    iter = itertools.product('1234', repeat=6)
     sucsess_marker = 0
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
-        steps = ""
-        for i in range(0,1048576):
+        save_graph(graph, "saved_rand_graph.xml")
+        F = open("saved_steps.txt", 'w')
+        #steps = ""
+        for i in range(0,4096):
             buttons = iter.next()
             answer = run_buttons_on_graph(graph,buttons)
-            sucsess_marker = sucsess_marker + answer
+            #sucsess_marker = sucsess_marker + answer
+            F.write("stpes"+str(buttons)+"nodes"+str(answer)+"\n")
             if sucsess_marker > 1:
-                steps = ""
+                #steps = ""
                 sucsess_marker = 0
                 break
-            if answer ==1:
-                steps = buttons
-        if sucsess_marker== 1:
-            sucsess_marker =0
-            save_graph(graph, "saved_rand_graph.xml")
-            F =open("saved_steps.txt",'w')
-            F.write(str(steps))
-            F.close()
+            #if answer ==1:
+                #steps = buttons
+        #if sucsess_marker== 1:
+        sucsess_marker =1
+        F.close()
+
+
+
+
 def run_buttons_on_graph(graph, buttons):
     game = GraphTabletGame(graph, None, None)
-    another_config_file = "./anthoner_config.ini"
-    data_handler = GameDataHandler(another_config_file)
-    for i in range(0,10):
+    data_handler = GameDataHandler(CONFIG_FILE_PATH)
+    data_handler.add_view_to_db(game.get_info_from_screen())
+    for i in range(0,6):
+        #print ("\n"+str(i)+"meow \n")
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
-    if data_handler.get_number_of_known_nodes== len(graph.node_list):
-        return 1
-    else:
-        return 0
+  #  if data_handler.get_number_of_known_nodes== len(graph.node_list):
+   #     return 1
+ #   else:
+#        return 0
+    print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
+    return data_handler.get_number_of_known_nodes()
+
+if __name__ == "__main__":
+    main()
