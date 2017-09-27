@@ -43,15 +43,14 @@ class QuestionnaireScreen(Screen):
 
     def end_questionnaire(self):
         self.questionnaire.the_end = True
-        if not self.questionnaire.is_playing:
-            self.next_game()
+        self.next_game()
 
     def next_game(self):
         log_str = 'end game'
         KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
 
         try:
-            self.the_app.sm.current = 'game_' + str(self.game_number + 1)
+            self.main_app.sm.current = 'game_' + str(self.game_number + 1)
 
         except Exception as e:
             KL.log.insert(action=LogAction.data, obj='game', comment='the_end - {}'.format(e), sync=True)

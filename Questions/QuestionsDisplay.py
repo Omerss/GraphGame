@@ -15,10 +15,11 @@ class QuestionDisplay:
 
     def __init__(self, parent_screen=None):
         self.parent_screen = parent_screen
-        self.the_widget = QuestionnaireWidget(self, self.parent_screen.main_app)
+        self.the_widget = QuestionnaireWidget(parent_screen, self.parent_screen.main_app)
 
     def load(self):
-        pass
+        #self.the_widget.update_background(self.network.background)
+        self.is_playing = True
 
 
 class QuestionnaireWidget(GridLayout):
@@ -45,17 +46,18 @@ class QuestionnaireWidget(GridLayout):
     def submit_action(self, instance):
         go_to_answers = True
         bad_answers = []
+        self.main_app.user_answers = []
         for question in self.questionsArray:
             if question.get_answer() is None:
                 go_to_answers = False
                 bad_answers.append(question)
             else:
-                self.main_app.append(question)
+                self.main_app.user_answers.append(question)
 
         if go_to_answers:
             self.parent_screen.end_questionnaire()
         else:
-            self.main_app = []
+            self.main_app.user_answers = []
             popup = Popup(title='Inappropriate Answers',
                           content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
                           auto_dismiss=True,
