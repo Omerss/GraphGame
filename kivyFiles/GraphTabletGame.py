@@ -12,6 +12,7 @@ class GraphTabletGame:
     counter3 = 0
     counter4 = 0
     graph_config = None
+    is_playing = True
 
     def __init__(self, game_screen=None):
         self.game_screen = game_screen

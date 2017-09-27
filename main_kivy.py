@@ -9,6 +9,8 @@ from SupplementaryFiles import Utils
 from kivy_communication import *
 from GraphGameScreen import GraphGameScreen
 
+from kivyFiles.KivyGraphTester import MyGameLayout
+
 CONFIG_FILE_PATH = "./config.ini"
 
 
@@ -29,6 +31,7 @@ class GraphGameMainApp(App):
     discovered_graph = None
     user_answers = []
     question_list = []
+    button_presses = []
 
     real_user = True
 
@@ -45,7 +48,7 @@ class GraphGameMainApp(App):
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
 
         # TODO - Actually get multiple graphs in here
-        graph_list = [(1, 'graph')]
+        graph_list = [MyGameLayout.get_graph_obj()]
 
         concepts_path = 'items/'
         graph_config = path.join(getcwd(), "GraphsData", "config.ini")
@@ -54,17 +57,19 @@ class GraphGameMainApp(App):
         self.discovered_graph = None
         self.user_answers = []
         self.question_list = []
+        self.button_presses = []
 
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
-            # self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
-            # self.game_screen[-1].setup(number=i_net,
-            #                            parent_app=self,
-            #                            max_turns=int(self.config['Default']['max_turns']),
-            #                            real_user=True,
-            #                            graph=graph_data,
-            #                            graph_config=graph_config)
-            # self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.the_widget)
+            self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
+            self.game_screen[-1].setup(number=i_net,
+                                       parent_app=self,
+                                       max_turns=int(self.config['Default']['max_turns']),
+                                       real_user=True,
+                                       graph=graph_data,
+                                       graph_config=graph_config,
+                                       button_presses=self.button_presses)
+            self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.layout)
 
             # Step 2 - Questionnaire
             self.game_screen.append(QuestionnaireScreen(name='game_' + str(i_net)))

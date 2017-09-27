@@ -16,6 +16,8 @@ from GraphLayout import GraphLayout
 from SupplementaryFiles.Enums import Colours
 from GameLayout import GameLayout
 
+from kivy.uix.floatlayout import FloatLayout
+
 MYColours = [{'R': 1, 'G': 0, 'B': 0, 'name': "red"}, {'R': 0, 'G': 1, 'B': 0, 'name': "green"},
            {'R': 0, 'G': 0, 'B': 1, 'name': "blue"}, {'R': 1, 'G': 0, 'B': 1, 'name': "purple"},
            {'R': 1, 'G': 1, 'B': 0, 'name': "yellow"}, {'R': 0, 'G': 1, 'B': 1, 'name': "light blue"},
@@ -148,17 +150,6 @@ class MyGameLayout(FloatLayout):
         graph.connections = [(640, 188), (-55, 206), (-55, 186), (-67, 640),
                              (-67, 206), (640, 206), (-67, 186), (640, 186)]
         graph.center_node = 188
-
-        in_bl = NodeObject(-1, {'x': 59, 'y': -4}, 50, MYColours[6])
-        in_tr = NodeObject(-1, {'x': 309, 'y': 146}, 50, MYColours[6])
-        out_bl = NodeObject(-1, {'x': -5, 'y': -46}, 50, MYColours[6])
-        out_tr = NodeObject(-1, {'x': 373, 'y': 189}, 50, MYColours[6])
-
-        # graph.node_list.append(in_bl)
-        # graph.node_list.append(in_tr)
-        # graph.node_list.append(out_bl)
-        # graph.node_list.append(out_tr)
-
         return graph
 
     @staticmethod
