@@ -43,16 +43,13 @@ def load_graph_from_file(file_name):
 
 
 def from_name_to_color(name):
-    if name == "black":
-        return Enums.Colours.black
+
     if name == "red":
-        return Enums.Colours.red
+        return Enums.Colours['red']
     if name == "yellow":
-        return Enums.Colours.yellow
+        return Enums.Colours['yellow']
     if name == "blue":
-        return Enums.Colours.blue
-    if name == "white":
-        return Enums.Colours.white
+        return Enums.Colours['blue']
 
 
 def from_name_to_shape(name):
