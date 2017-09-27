@@ -10,15 +10,20 @@ from kivy.uix.floatlayout import FloatLayout
 
 class GameLayout(FloatLayout):
 
-    def __init__(self, graph, signal, button_lst, button_width, dim, zoom_rate=0.7, edge_size=2, **kwargs):
+    def __init__(self, graph, signal, button_lst, button_width, zoom_rate=0.7, edge_size=2, **kwargs):
         super(GameLayout, self).__init__(rows=1, cols=2, **kwargs)
-        self.button_width = button_width
-        self.dim = {"min_x": 0, "min_y": 0, "max_x": dim['max_x'], "max_y": dim['max_y']}
+
+        self.dim = {"min_x": 0, "min_y": 0}
+        self.dim["max_x"] = kivy.core.window.Window.size[0]
+        self.dim["max_y"] = kivy.core.window.Window.size[1]
+        self.button_width = self.dim["max_x"] * button_width
+        print self.button_width
         self.buttons = []
         self.original_graph = graph
-        dim["max_x"] -= self.button_width
-        self.kivy_graph_in = GraphLayout(self.original_graph, dim, 1, edge_size)
-        self.kivy_graph_out = GraphLayout(self.original_graph, dim, zoom_rate, edge_size)
+        self.dim["max_x"] -= self.button_width
+        print self.dim
+        self.kivy_graph_in = GraphLayout(self.original_graph, self.dim, 1, edge_size)
+        self.kivy_graph_out = GraphLayout(self.original_graph, self.dim, zoom_rate, edge_size)
         self.kivy_graph_in.pos = (self.button_width, 0)
         self.kivy_graph_out.pos = (self.button_width, 0)
         self.add_widget(self.kivy_graph_in)

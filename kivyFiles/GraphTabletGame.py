@@ -13,7 +13,7 @@ class GraphTabletGame(App):
     counter4 = 0
     button_presses = []
 
-    def __init__(self, graph, button_funcs, signal, button_width=100, dim={"max_x": 800, "max_y": 600}, **kwargs):
+    def __init__(self, graph, button_funcs, signal, button_ratio=0.2, **kwargs):
         """
         graph - the graph we wish to display
         signal - to announce button press
@@ -21,7 +21,7 @@ class GraphTabletGame(App):
         button size/width
         """
         super(GraphTabletGame, self).__init__(**kwargs)
-        self.layout = GameLayout(graph, signal, self.button_presses, button_width, dim)
+        self.layout = GameLayout(graph, signal, self.button_presses, button_ratio)
         self.original_graph = graph
 
     def build(self):
