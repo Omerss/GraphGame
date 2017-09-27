@@ -181,11 +181,9 @@ class GraphObject:
     def get_connections(self):
         return self.connections
 
-
+    def update_center_node(self, node_serial):
+        self.center_node = node_serial
 def get_serial():
     # return str(datetime.now().strftime("%M%S%f"))
     return str(uuid.uuid4())
 
-
-def update_center_node (self,node_serial):
-    self.center_node = node_serial
