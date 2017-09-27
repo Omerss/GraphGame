@@ -12,34 +12,37 @@ from GameData.GameDataHandler import GameDataHandler
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
 
+
 def main ():
     iter = itertools.product('1234', repeat=6)
     sucsess_marker = 0
+
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
         save_graph(graph, "saved_rand_graph.xml")
-        F = open("saved_steps.txt", 'w')
-        #steps = ""
-        for i in range(0,4096):
-            buttons = iter.next()
-            answer = run_buttons_on_graph(graph,buttons)
-            #sucsess_marker = sucsess_marker + answer
-            F.write("stpes"+str(buttons)+"nodes"+str(answer)+"\n")
-            if sucsess_marker > 1:
-                #steps = ""
-                sucsess_marker = 0
-                break
-            #if answer ==1:
-                #steps = buttons
-        #if sucsess_marker== 1:
-        sucsess_marker =1
-        F.close()
+        with open("saved_steps.txt", 'w') as f:
+            #steps = ""
+            for i in range(0,4096):
+                buttons = iter.next()
+                answer = run_buttons_on_graph(graph,buttons)
+                #sucsess_marker = sucsess_marker + answer
+                f.write("stpes"+str(buttons)+"nodes"+str(answer)+"\n")
+                if sucsess_marker > 1:
+                    #steps = ""
+                    sucsess_marker = 0
+                    break
+                #if answer ==1:
+                    #steps = buttons
+            #if sucsess_marker== 1:
+            sucsess_marker =1
+
+class DummyScreen:
+    # look at GraphTabletGame
+    pass
 
 
-
-
-def run_buttons_on_graph(graph, buttons):
-    game = GraphTabletGame(graph, None, None)
+def run_buttons_on_graph(dummy_screen, buttons):
+    game = GraphTabletGame(dummy_screen)
     data_handler = GameDataHandler(CONFIG_FILE_PATH)
     data_handler.add_view_to_db(game.get_info_from_screen())
     for i in range(0,6):
