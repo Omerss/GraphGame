@@ -15,6 +15,7 @@ def save_graph(graph, file_name):
     E.SubElement(graph_xml, "max_neighbors", name="max_neighbors").text=str(graph.max_neighbors)
     E.SubElement(graph_xml, "node_count", name="node_count").text = str(graph.node_count)
     E.SubElement(graph_xml, "line_colour", name="line_colour").text = graph.line_colour['name']
+    E.SubElement(graph_xml, "center_node", name="center_node").text=str(graph.center_node)
     E.SubElement(graph_xml,"connections",name="connections").text=str(graph.connections)
 
 

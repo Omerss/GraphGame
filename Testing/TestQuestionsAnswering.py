@@ -13,7 +13,7 @@ import threading
 class TestGraph(unittest.TestCase):
     # how many nodes of color X are there?
     def test_question_one(self):
-       print ("1")
+
        # Arrange
        max_neighbors = 5
        extra_distance = 1

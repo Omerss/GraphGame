@@ -18,7 +18,7 @@ def load_graph_from_file(file_name):
     new_graph.line_colour = from_name_to_color(graph_xml.find("line_colour").text)
     new_graph.node_count = int(graph_xml.find("node_count").text)
     new_graph.connections = ast.literal_eval(graph_xml.find("connections").text)
-
+    new_graph.center_node = graph_xml.find("center_node").text
 
 
     # get the node list from the tree
@@ -43,16 +43,13 @@ def load_graph_from_file(file_name):
 
 
 def from_name_to_color(name):
-    if name == "black":
-        return Enums.Colours.black
+
     if name == "red":
-        return Enums.Colours.red
+        return Enums.Colours['red']
     if name == "yellow":
-        return Enums.Colours.yellow
+        return Enums.Colours['yellow']
     if name == "blue":
-        return Enums.Colours.blue
-    if name == "white":
-        return Enums.Colours.white
+        return Enums.Colours['blue']
 
 
 def from_name_to_shape(name):
