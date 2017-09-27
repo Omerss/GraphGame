@@ -2,6 +2,7 @@ import itertools
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from kivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.SaveGraph import save_graph
+from GameData.GameDataHandler import GameDataHandler
 #create each permutation of buttons and save them in an array
 
 #create and save one random graph
@@ -34,12 +35,13 @@ def main ():
             F.write(str(steps))
             F.close()
 def run_buttons_on_graph(graph, buttons):
-    GraphTabletGame()
-    #press buttons
-    #get user graph
-    seen_graph =None
-    #ask Tal and Omer about ghost nodes
-    if len(seen_graph.node_list) == len(graph.node_list):
+    game = GraphTabletGame(graph, None, None)
+    another_config_file = "./anthoner_config.ini"
+    data_handler = GameDataHandler(another_config_file)
+    for i in range(0,10):
+        game.press_button(int(buttons[i]))
+        data_handler.add_view_to_db(game.get_info_from_screen())
+    if data_handler.get_number_of_known_nodes== len(graph.node_list):
         return 1
     else:
         return 0
