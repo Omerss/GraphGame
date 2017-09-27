@@ -2,6 +2,8 @@ import threading
 import os
 import time
 from Queue import Queue
+
+from os import path
 from structlog import get_logger
 
 from GameData.GameDataHandler import GameDataHandler
@@ -42,7 +44,7 @@ class GameHandler:
 
         self.current_step_count = 0
         self.button_event = threading.Event()
-        Utils.image_folder = "{}\\{}".format(os.getcwd(), self.config['Default']['image_folder'])
+        Utils.image_folder = path.join(os.getcwd(), self.config['Default']['image_folder'])
         self.max_turns = int(self.config['Default']['max_turns'])
         self.current_turn = 0
         self.stop_threads = False
