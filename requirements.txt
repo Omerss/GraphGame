@@ -4,7 +4,9 @@ packaging
 pyparsing
 six
 ini
+#ok
 numpy
+#ok
 kivy==1.9.1
 mock
 pydispatch
