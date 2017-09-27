@@ -15,6 +15,7 @@ class GraphObject:
     node_count = 10
     max_neighbors = 5
     extra_distance = 25
+    center_node = None
 
     def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None,
                  extra_distance=None):
@@ -66,6 +67,7 @@ class GraphObject:
         new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape,
                               real=real)
         self.node_list.append(new_node)
+        self.center_node = self.node_list[0].serial
         return new_node
 
     def get_possible_connections(self, node_serial, allow_overflow=False):
@@ -183,3 +185,7 @@ class GraphObject:
 def get_serial():
     # return str(datetime.now().strftime("%M%S%f"))
     return str(uuid.uuid4())
+
+
+def update_center_node (self,node_serial):
+    self.center_node = node_serial
