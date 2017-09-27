@@ -11,8 +11,8 @@ if __name__ == "__main__":
 
     button_presses = []
     kivy.core.window.Window.size = (400, 200)
-    game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
-    # game = GraphTabletGame(MyGameLayout.get_graph_obj(), None, None, 0.25)
+    # game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
+    game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj(), button_presses, 0.25))
     # game  = GraphGameApp(button_presses)
     game.run()
     print game.button_presses

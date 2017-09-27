@@ -6,7 +6,6 @@ from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 from kivy.uix.relativelayout import RelativeLayout
-from SupplementaryFiles.Enums import Colours
 
 
 class GraphLayout(RelativeLayout):
@@ -24,8 +23,8 @@ class GraphLayout(RelativeLayout):
         center_screen = self.get_center_coor()
         self.kivy_graph = KivyGraph(center_screen, zoom_rate, self.dim)
         self.get_nodes(original_graph, zoom_rate)
-        self.get_edges(original_graph, zoom_rate, edge_size)
-        self.kivy_graph.move_node_to_center(self.kivy_graph.nodes[0], False)
+        self.get_edges(original_graph.get_connections(), zoom_rate, edge_size)
+        self.kivy_graph.move_node_to_center(self.kivy_graph.get_by_serial(original_graph.center_node), False)
 
     def get_center_coor(self):
         """
@@ -42,19 +41,18 @@ class GraphLayout(RelativeLayout):
         """
         with self.canvas:
             for node in original_graph.node_list:
-                colour = Colours[node.colour]
+                colour = node.colour
                 Color(colour['R'], colour['G'], colour['B'])
                 new_node = KivyNode(node.x, node.y, node.serial_num, zoom_rate*node.size, node.size, colour['name'])
                 new_node.relative_move(zoom_rate, zoom_rate)
                 self.kivy_graph.add_node(new_node)
 
-    def get_edges(self, original_graph, zoom_rate, size):
+    def get_edges(self, edges, zoom_rate, size):
         """
         function creates a KivyEdge that represents the neighbors in the original graph (GraphObj), adds created
          edge to the kivy graph (KivyGraph), and adds the nodes (KivyNodes) connected to the edge to each other's
           list of neighbors
         """
-        edges = original_graph.get_connections()
         with self.canvas:
             Color(1, 1, 1)
             for edge in edges:
