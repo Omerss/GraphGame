@@ -11,11 +11,11 @@ from SupplementaryFiles.Enums import QuestionTypes
 
 
 class QuestionDisplay:
-    parent_app = None
+    parent_screen = None
 
-    def __init__(self, parent_app=None):
-        self.parent_app = parent_app
-        self.the_widget = QuestionnaireWidget(self, parent_app.question_list)
+    def __init__(self, parent_screen=None):
+        self.parent_screen = parent_screen
+        self.the_widget = QuestionnaireWidget(self, self.parent_screen.main_app)
 
     def load(self):
         pass
@@ -23,16 +23,20 @@ class QuestionDisplay:
 
 class QuestionnaireWidget(GridLayout):
     question_list = None
-    the_game = None
+    main_app = None
+    parent_screen = None
 
-    def __init__(self, the_game, question_list):
-        super(QuestionnaireWidget, self).__init__(rows=2 * len(question_list) + 1, cols=1)
-        self.the_game = the_game
-
-        self.questions = question_list
+    def __init__(self, parent_screen, main_app):
+        """
+        :param main_app: The main app that runs the program. We use it to pass on the question list and the user answers
+        """
+        super(QuestionnaireWidget, self).__init__(rows=2 * len(main_app.question_list) + 1, cols=1)
+        self.parent_screen = parent_screen
+        self.main_app = main_app
+        self.question_list = self.main_app.question_list
         self.questionsArray = []
-        self.user_answers = []
-        self.set_questions(question_list)
+        self.main_app.user_answers = []
+        self.set_questions(self.main_app.question_list)
         self.submit_button = Button(text='submit')
         self.submit_button.bind(on_press=self.submit_action)
         self.add_widget(self.submit_button)
@@ -46,13 +50,12 @@ class QuestionnaireWidget(GridLayout):
                 go_to_answers = False
                 bad_answers.append(question)
             else:
-                self.user_answers.append(question)
+                self.main_app.append(question)
 
         if go_to_answers:
-            self.queue.put(self.user_answers)
-            self.stop()
+            self.parent_screen.end_questionnaire()
         else:
-            self.user_answers = []
+            self.main_app = []
             popup = Popup(title='Inappropriate Answers',
                           content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
                           auto_dismiss=True,

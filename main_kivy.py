@@ -4,10 +4,10 @@ from kivy.app import App
 from os import path, getcwd
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-from QuestionnaireApp import QuestionnaireScreen
+from QuestionnaireScreen import QuestionnaireScreen
 from SupplementaryFiles import Utils
 from kivy_communication import *
-from GraphGameApp import GraphGameScreen
+from GraphGameScreen import GraphGameScreen
 
 CONFIG_FILE_PATH = "./config.ini"
 
@@ -24,8 +24,13 @@ class ZeroScreen(Screen):
 class GraphGameMain(App):
     game_screen = []
     filename = 'network_new.json'
-    user_answers = []
+
+    true_graph = None
     discovered_graph = None
+    user_answers = []
+    question_list = []
+
+    real_user = True
 
     def build(self):
         self.init_communication()
@@ -45,10 +50,11 @@ class GraphGameMain(App):
         concepts_path = 'items/'
         graph_config = path.join(getcwd(), "GraphsData", "config.ini")
 
-
+        self.current_graph = None
+        self.discovered_graph = None
         self.user_answers = []
-        # concepts_json = JsonStore(concepts_path + self.filename)
-        # print(concepts_json.keys())
+        self.question_list = []
+
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
             # self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
@@ -64,7 +70,8 @@ class GraphGameMain(App):
             self.game_screen.append(QuestionnaireScreen(name='game_' + str(i_net)))
             self.game_screen[-1].setup(parent_app=self,
                                        number=i_net,
-                                       real_user=True)
+                                       real_user=self.real_user,
+                                       )
             self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
 
             # Step 3 - Results
