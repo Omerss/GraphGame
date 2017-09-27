@@ -16,6 +16,7 @@ class GameLayout(FloatLayout):
 
         self.dim = {"min_x": 0, "min_y": 0, "max_x": kivy.core.window.Window.size[0],
                     "max_y": kivy.core.window.Window.size[1]}
+        # self.dim = {"min_x": 0, "min_y": 0, "max_x": 800, "max_y": 600}
         self.button_width = self.dim["max_x"] * button_width
         self.buttons = []
         self.original_graph = graph

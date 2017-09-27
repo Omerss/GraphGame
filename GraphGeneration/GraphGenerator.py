@@ -37,11 +37,22 @@ def main ():
             sucsess_marker =1
 
 class DummyScreen:
+    graph = None
+    graph_config = CONFIG_FILE_PATH
+    max_steps = 6
+    button_presses = []
+    button_ratio = 0.2
+    def end_game(self):
+        print ("end game \n")
+        pass
+    def __init__ (self, graph):
+        self.graph = graph
     # look at GraphTabletGame
     pass
 
 
-def run_buttons_on_graph(dummy_screen, buttons):
+def run_buttons_on_graph(graph, buttons):
+    dummy_screen = DummyScreen(graph)
     game = GraphTabletGame(dummy_screen)
     data_handler = GameDataHandler(CONFIG_FILE_PATH)
     data_handler.add_view_to_db(game.get_info_from_screen())
