@@ -2,6 +2,8 @@ import logging
 import os
 import uuid
 
+from structlog import get_logger
+
 from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.NodeObject import NodeObject
@@ -15,6 +17,7 @@ class GraphObject:
     node_count = 10
     max_neighbors = 5
     extra_distance = 25
+    inner_node_count = 0
 
     def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None,
                  extra_distance=None):
@@ -35,6 +38,8 @@ class GraphObject:
             self.extra_distance = extra_distance
         self.node_list = []
         self.connections = []
+        self.log = get_logger()
+        self.inner_node_count = 0
 
     def create_graph(self):
         for i in range(self.node_count):
@@ -64,7 +69,8 @@ class GraphObject:
         else:
             serial = get_serial()
         new_node = NodeObject(serial=serial, location=location, size=node_size, colour=node_colour, shape=node_shape,
-                              real=real)
+                              real=real, dummy_num=self.inner_node_count)
+        self.inner_node_count+=1
         self.node_list.append(new_node)
         return new_node
 
@@ -160,6 +166,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
+        self.log.info("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:
