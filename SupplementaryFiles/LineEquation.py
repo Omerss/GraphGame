@@ -61,7 +61,7 @@ class LineEquation:
         else:
             # y = m*x + b
             location_equation = LineEquation()
-            location_equation.slope = float(point1.y - point2.y) / (point1.x - point2.x)
+            location_equation.slope = round(float(point1.y - point2.y) / float(point1.x - point2.x),3)
             location_equation.const = point1.y - location_equation.slope * point1.x  # b
             location_equation.edge1 = min(point1.x, point2.x)
             location_equation.edge2 = max(point1.x, point2.x)

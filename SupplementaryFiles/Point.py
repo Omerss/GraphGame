@@ -1,5 +1,5 @@
 def slope(dx, dy):
-    return (dy / dx) if dx else None
+    return round(dy / dx, 3) if dx else None
 
 
 class Point(object):
@@ -36,7 +36,7 @@ class Point(object):
         return slope(self.x, self.y)
 
     def slope(self, target):
-        return slope(float(target.x - self.x), target.y - self.y)
+        return slope(float(target.x - self.x), float(target.y - self.y))
 
     def y_int(self, target):
         return self.y - self.slope(target)*self.x

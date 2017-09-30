@@ -25,7 +25,7 @@ class GameDataHandler:
         self.log = get_logger()
 
     def get_number_of_known_nodes(self):
-        return len(self.graph.node_list)
+        return len([real_node for real_node in self.graph.node_list if real_node.real])
 
     def add_view_to_db(self, view):
         """
@@ -99,7 +99,7 @@ class GameDataHandler:
             for edge in self.extra_edges:
                 if edge[2] == slope:
                     edges_to_check.append(edge)
-            self.log.debug("Number of edges in slope {} = {}".format(slope, len(edges_to_check)), edges=edges_to_check)
+            self.log.info("Number of edges in slope {} = {}".format(slope, len(edges_to_check)), edges=edges_to_check)
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -108,37 +108,38 @@ class GameDataHandler:
 
                 for edge_pair in list(itertools.combinations(edges_to_check, 2)):
                     if self.two_edges_are_one(edge_pair[0], edge_pair[1]):
-                        self.log.debug("two edges are one")
+                        self.log.info("two edges are one")
                         self.connect_edges(edge_pair[0], edge_pair[1])
                     else:
-                        self.log.debug("edges are not the same. re-adding them")
+                        self.log.info("edges are not the same. re-adding them")
                         self.edges_to_add.append(edge_pair[0])
                         self.edges_to_add.append(edge_pair[1])
 
-    @staticmethod
-    def two_edges_are_one(edge_1, edge_2):
+    def two_edges_are_one(self, edge_1, edge_2):
         """
         Checks if the two edges are actually a single edge.
         :return: True if edges are 100% the same one
         """
-        log = get_logger()
-        #log.info("Checking if two edges are one", edge_1=edge_1, edge_2=edge_2)
-        if edge_1[0].slope(edge_1[1]) != edge_2[0].slope(edge_2[1]):
-            return False
-        else:
-            eq1 = LineEquation.create_equation(edge_1[0], edge_1[1])
-            eq2 = LineEquation.create_equation(edge_2[0], edge_2[1])
-            # Check collision point
-            collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-            log.info("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
-            if collision_point == LINES_ALWAYS_MEET:
-                # Lines have the same slope + const. Big change they are the same one.
-                if LineEquation.check_collision_point(eq1, eq2):
-                    #log.debug("Lines meet and intersect with each other - They are the same line")
-                    return True
-                else:
-                    #log.debug("Lines have the same parameters but we are not sure if they meet")
-                    return False
+        raise Exception("Fix here!!!")
+
+        # if edge_1[0].slope(edge_1[1]) != edge_2[0].slope(edge_2[1]):
+        #     self.log.info("Slopes are not the same for two edges", slope_1=edge_1[0].slope(edge_1[1]),
+        #                   slope_2=edge_2[0].slope(edge_2[1]))
+        #     return False
+        # else:
+        eq1 = LineEquation.create_equation(edge_1[0], edge_1[1])
+        eq2 = LineEquation.create_equation(edge_2[0], edge_2[1])
+        # Check collision point
+        collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
+        self.log.info("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
+        if collision_point == LINES_ALWAYS_MEET:
+            # Lines have the same slope + const. Big change they are the same one.
+            if LineEquation.check_collision_point(eq1, eq2):
+                self.log.info("Lines meet and intersect with each other - They are the same line")
+                return True
+            else:
+                self.log.info("Lines have the same parameters but we are not sure if they meet")
+                return False
 
     def connect_edges(self, edge_1, edge_2):
         """
