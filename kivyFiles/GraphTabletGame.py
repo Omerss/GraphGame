@@ -58,9 +58,9 @@ class GraphTabletGame:
         :return: returns a dictionary containing two objects:
         'nodes': A list containing the nodes that are at least partially displayed onscreen.
         'edges': A list representing the edges that are at least partially displayed onscreen. Each edge is represented
-                 by a tuple containing of the edge's nodes. If one of the nodes is not onscreen, a new NodeObject is
-                 created where the x,y coordinates represent the intersection between the edge and the screen and the
-                 serial and size are set to None.
+                 by a tuple containing the edge's nodes, the edge's original slope and the edge's equation. If one of
+                 the nodes is not onscreen, a new NodeObject is created where the x,y coordinates represent the
+                 intersection between the edge and the screen and the serial and size are set to None.
         """
         if self.layout.is_zoomed_out:
             graph_nodes = self.layout.kivy_graph_out.kivy_graph.nodes
@@ -99,9 +99,9 @@ class GraphTabletGame:
         """
         Function goes over the list of edges in the graph and checks which ones are displayed onscreen
         :return: A list representing the edges that are at least partially displayed onscreen. Each edge is represented
-                 by a tuple containing the edge's nodes and the edge's original slope. If one of the nodes is not
-                 onscreen, a new NodeObject is created where the x,y coordinates represent the intersection between
-                  the edge and the screen.
+                 by a tuple containing the edge's nodes, the edge's original slope and the edge's equation. If one of
+                 the nodes is not onscreen, a new NodeObject is created where the x,y coordinates represent the
+                 intersection between the edge and the screen.
         """
 
         top_left = Point(graph_corners["top_left"].get_x(), graph_corners["top_left"].get_y())
