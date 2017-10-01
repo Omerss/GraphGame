@@ -5,13 +5,14 @@ from SupplementaryFiles.Enums import Colours, Shapes
 
 class NodeObject(Point):
     serial_num = None
+    dummy_num=-1
     shape = Shapes.circle
     size = 0
     neighbors = set()
     possible_neighbors = set()
     real = True
     colour = Colours['red']
-    def __init__(self, serial, location, size, colour=Colours['red'], shape=Shapes.circle, real=True):
+    def __init__(self, serial, location, size, colour=Colours['red'], shape=Shapes.circle, real=True, dummy_num=None):
         """
 
         :param serial:
@@ -28,6 +29,7 @@ class NodeObject(Point):
         self.neighbors = set()
         self.possible_neighbors = set()
         self.real = real
+        self.dummy_num = dummy_num
 
     def get_num_neighbors(self):
         return len(self.neighbors)
