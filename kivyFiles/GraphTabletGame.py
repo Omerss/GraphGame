@@ -116,20 +116,24 @@ class GraphTabletGame:
         displayed_edges = []
 
         for edge in graph_edges:
+            real_node1 = self.original_graph.get_node_by_serial(edge.node1.serial)
+            real_node2 = self.original_graph.get_node_by_serial(edge.node2.serial)
+            point1 = Point(real_node1.x, real_node1.y)
+            point2 = Point(real_node2.x, real_node2.y)
+            edge_equation = LineEquation.create_equation(point1, point2)
+
             if self.is_node_onscreen(edge.node1, graph_corners):
                 if self.is_node_onscreen(edge.node2, graph_corners):
-                    first_node = self.original_graph.get_node_by_serial(edge.node1.serial)
-                    second_node = self.original_graph.get_node_by_serial(edge.node2.serial)
                     if edge.node1.get_x() < edge.node2.get_x():
-                        curr_edge = (first_node, second_node, edge.slope)
+                        curr_edge = (real_node1, real_node2, edge.slope, edge.edge_equation)
                     else:
-                        curr_edge = (second_node, first_node, edge.slope)
+                        curr_edge = (real_node2, real_node1, edge.slope, edge.edge_equation)
                 else:
-                    curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1)
+                    curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1, edge_equation)
             elif self.is_node_onscreen(edge.node2, graph_corners):
-                curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2)
+                curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2, edge_equation)
             else:
-                curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None)
+                curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None, edge_equation)
 
             if curr_edge is not None:
                 displayed_edges.append(curr_edge)
@@ -143,7 +147,7 @@ class GraphTabletGame:
         return screen_edges["bottom_left"].get_x() < node_x < screen_edges["top_right"].get_x() and \
                 screen_edges["bottom_left"].get_y() < node_y < screen_edges["top_right"].get_y()
 
-    def get_partly_visible_edge(self, edge, top, bottom, left, right, node):
+    def get_partly_visible_edge(self, edge, top, bottom, left, right, node, edge_equation):
         """
 
         :param edge: an edge that can be seen onscreen but where at least one node is not visible
@@ -156,11 +160,6 @@ class GraphTabletGame:
         onscreen, the x,y coordinates represent the intersection between the edge and the screen and the serial and
         size are set to None.
         """
-        real_node1 = self.original_graph.get_node_by_serial(edge.node1.serial)
-        real_node2 = self.original_graph.get_node_by_serial(edge.node2.serial)
-        point1 = Point(real_node1.x, real_node1.y)
-        point2 = Point(real_node2.x, real_node2.y)
-        edge_equation = LineEquation.create_equation(point1, point2)
         first_node = None
         second_node = None
 
@@ -223,9 +222,9 @@ class GraphTabletGame:
             return None
 
         if first_node.x < second_node.x:
-            curr_edge = (first_node, second_node, edge.slope)
+            curr_edge = (first_node, second_node, edge.slope, edge_equation)
         else:
-            curr_edge = (second_node, first_node, edge.slope)
+            curr_edge = (second_node, first_node, edge.slope, edge_equation)
 
         return curr_edge
 
