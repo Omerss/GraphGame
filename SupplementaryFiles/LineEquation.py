@@ -1,4 +1,5 @@
 from Point import Point
+from SupplementaryFiles.NodeObject import NodeObject
 
 LINES_ALWAYS_MEET = 'always'  # used when both line equations have the same slope + const
 
@@ -6,7 +7,7 @@ LINES_ALWAYS_MEET = 'always'  # used when both line equations have the same slop
 class LineEquation:
     def __init__(self, slope=None, const=None, edge1=None, edge2=None):
         """
-        edge1 and edge2 are the x value of the edge point of the line
+        edge1 and edge2 are the the two points at the end of the line
         """
         self.slope = slope
         self.const = const
@@ -19,7 +20,6 @@ class LineEquation:
     @staticmethod
     def check_collision_point(eq1, eq2):
         """
-
         :param eq1: a LineEquation type
         :param eq2: a LineEquation type
         :return: True if the collision of the two line actually happens on the graph
@@ -37,14 +37,16 @@ class LineEquation:
             else:
                 return False
 
-        if LineEquation.point_in_between_edges(point.x, eq1) and LineEquation.point_in_between_edges(point.x, eq2):
+        if LineEquation.point_in_between_edges(point, eq1) and LineEquation.point_in_between_edges(point, eq2):
             return True
         else:
             return False
 
     @staticmethod
     def point_in_between_edges(point, eq1):
-        if eq1.edge1 <= point <= eq1.edge2 or eq1.edge1 >= point >= eq1.edge2:
+        if type(eq1.edge1) != Point and type(eq1.edge1) != NodeObject:
+            raise TypeError("Edge must be a NodeObject or Point type! type = {}".format(type(eq1.edge1)))
+        if eq1.edge1.x <= point.x <= eq1.edge2.x or eq1.edge1.x >= point.x >= eq1.edge2.x:
             return True
         else:
             return False
@@ -57,14 +59,15 @@ class LineEquation:
         """
         assert isinstance(point1, Point) and isinstance(point2, Point)
         if point1.x == point2.x:
-            pass
+            # I just don't want to deal with this issue as it has ripples through the entire code...
+            raise Exception("cant work with two points having the same x value")
         else:
             # y = m*x + b
             location_equation = LineEquation()
             location_equation.slope = round(float(point1.y - point2.y) / float(point1.x - point2.x),3)
             location_equation.const = point1.y - location_equation.slope * point1.x  # b
-            location_equation.edge1 = min(point1.x, point2.x)
-            location_equation.edge2 = max(point1.x, point2.x)
+            location_equation.edge1 = point1 if point1.x < point2.x else point2
+            location_equation.edge2 = point1 if point1.x > point2.x else point2
             return location_equation
 
     @staticmethod
@@ -76,7 +79,7 @@ class LineEquation:
         :return: An absolute collision point in virtual space. This point might not exists if vectors are capped.
         """
         if eq1 is None or eq2 is None:
-            pass
+            raise TypeError("At least one of the equation is None!\n eq1 = {},\n eq2 = {}".format(eq1, eq2))
         slope_variation = eq1.slope - eq2.slope
         const_variation = eq2.const - eq1.const
         if slope_variation == 0:

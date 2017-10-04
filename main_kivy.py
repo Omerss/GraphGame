@@ -106,5 +106,7 @@ class GraphGameMainApp(App):
         # self.game_screen.curiosity_game.filename = 'items_' + pre_post + '.json'
         self.sm.current = 'game_0'
 
+
 if __name__ == '__main__':
     GraphGameMainApp().run()
+

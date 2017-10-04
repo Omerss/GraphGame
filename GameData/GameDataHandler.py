@@ -124,12 +124,12 @@ class GameDataHandler:
         """
         eq1 = LineEquation(slope=edge_1[3].slope,
                            const=edge_1[3].const,
-                           edge1=edge_1[0].x,
-                           edge2=edge_1[1].x)
+                           edge1=edge_1[0],
+                           edge2=edge_1[1])
         eq2 = LineEquation(slope=edge_2[3].slope,
                            const=edge_2[3].const,
-                           edge1=edge_2[0].x,
-                           edge2=edge_2[1].x)
+                           edge1=edge_2[0],
+                           edge2=edge_2[1])
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
         self.log.info("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
@@ -141,6 +141,7 @@ class GameDataHandler:
             else:
                 self.log.info("Lines have the same parameters but we are not sure if they meet")
                 return False
+        return False
 
     def connect_edges(self, edge_1, edge_2):
         """
