@@ -11,6 +11,8 @@ from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from kivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.SaveGraph import save_graph
 from GameData.GameDataHandler import GameDataHandler
+from SupplementaryFiles.LoadGraph import load_graph_from_file
+from structlog import get_logger
 #create each permutation of buttons and save them in an array
 
 #create and save one random graph
@@ -23,13 +25,20 @@ SAVED_GRAPH_PATH = "./Saved_Graphs"
 
 
 def main ():
+    #log = get_logger()
+   # log.setLevel("DEBUG")
     iter = itertools.product('1234', repeat=6)
     sucsess_marker = 0
-
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
+<<<<<<< Updated upstream
         save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
         with open("saved_steps.txt", 'w') as f:
+=======
+        save_graph(graph, "saved_rand_graph.xml")
+        #graph = load_graph_from_file("./saved_rand_graph.xml")
+        with open("saved_steps2.txt", 'w') as f:
+>>>>>>> Stashed changes
             #steps = ""
             for i in range(0,4096):
                 buttons = iter.next()
@@ -51,6 +60,7 @@ class DummyScreen:
     max_turns = 6
     button_presses = []
     button_ratio = 0.2
+<<<<<<< Updated upstream
 
     def __init__(self, graph):
         self.graph = graph
@@ -61,6 +71,9 @@ class DummyScreen:
             pass
 
     def end_game(self):
+=======
+    def end_graph(self):
+>>>>>>> Stashed changes
         print ("end game \n")
 
 
@@ -68,6 +81,7 @@ def run_buttons_on_graph(graph, buttons):
     log = get_logger()
     dummy_screen = DummyScreen(graph)
     game = GraphTabletGame(dummy_screen)
+    #game.run()
     data_handler = GameDataHandler(CONFIG_FILE_PATH)
     data_handler.add_view_to_db(game.get_info_from_screen())
     max_steps = 6

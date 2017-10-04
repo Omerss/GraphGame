@@ -5,8 +5,9 @@ from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
 from GameData.GameDataHandler import GameDataHandler
 
+from kivy.app import App
 
-class GraphTabletGame:
+class GraphTabletGame(App):
     counter1 = 0
     counter2 = 0
     counter3 = 0
@@ -14,7 +15,8 @@ class GraphTabletGame:
     graph_config = None
     is_playing = True
 
-    def __init__(self, game_screen=None):
+    def __init__(self, game_screen=None, **kwargs):
+        super(GraphTabletGame, self).__init__(**kwargs)
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
         self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
@@ -22,6 +24,9 @@ class GraphTabletGame:
         self.button_presses = self.game_screen.button_presses
         self.layout = GameLayout(self.original_graph, self.button_presses, self.game_screen.button_ratio,
                                  self.send_info_from_screen, self.max_turns, self.game_screen.end_graph)
+
+    def build(self):
+        return self.layout
 
     def load(self):
         pass
