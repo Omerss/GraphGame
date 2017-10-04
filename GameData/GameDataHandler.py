@@ -38,9 +38,11 @@ class GameDataHandler:
         # Innumerate over the nodes
         for node in view['nodes']:
             if self.graph.get_node_by_serial(node.serial_num) is None:
-                self.graph.add_node(node.x, node.y, node_colour=node.colour, node_size=node.size, serial=node.serial_num)
+                self.graph.add_node(node.x, node.y, node_colour=node.colour, node_size=node.size,
+                                    serial=node.serial_num)
                 num = self.graph.get_node_by_serial(node.serial_num).dummy_num
-                self.log.info("Adding node", num=num, real=True, location="{}:{}".format(node.x, node.y), serial=node.serial_num)
+                self.log.info("Adding node", num=num, real=True, location="{}:{}".format(node.x, node.y),
+                              serial=node.serial_num)
         # Innumerate over the edges
         for edge in view['edges']:
             if self.graph.get_node_by_serial(edge[0].serial_num) is not None:
@@ -120,15 +122,14 @@ class GameDataHandler:
         Checks if the two edges are actually a single edge.
         :return: True if edges are 100% the same one
         """
-        raise Exception("Fix here!!!")
-
-        # if edge_1[0].slope(edge_1[1]) != edge_2[0].slope(edge_2[1]):
-        #     self.log.info("Slopes are not the same for two edges", slope_1=edge_1[0].slope(edge_1[1]),
-        #                   slope_2=edge_2[0].slope(edge_2[1]))
-        #     return False
-        # else:
-        eq1 = LineEquation.create_equation(edge_1[0], edge_1[1])
-        eq2 = LineEquation.create_equation(edge_2[0], edge_2[1])
+        eq1 = LineEquation(slope=edge_1[3].slope,
+                           const=edge_1[3].const,
+                           edge1=edge_1[0].x,
+                           edge2=edge_1[1].x)
+        eq2 = LineEquation(slope=edge_2[3].slope,
+                           const=edge_2[3].const,
+                           edge1=edge_2[0].x,
+                           edge2=edge_2[1].x)
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
         self.log.info("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
@@ -148,7 +149,7 @@ class GameDataHandler:
         :param edge_1, edge_2: An edge defined by a tuple of NodeObjects
         """
         # Cleaning all existing connection
-        #self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
+        # self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
         if edge_1 in self.extra_edges:
             self.log.debug("Removing edge from extra edges", removed_edge=edge_1)
             self.extra_edges.remove(edge_1)
@@ -172,9 +173,9 @@ class GameDataHandler:
         # connect the right nodes
         self.connect_nodes(node_1, node_2)
         if node_1.x < node_2.x:
-            self.edges_to_add.append((node_1, node_2, edge_1[2]))
+            self.edges_to_add.append((node_1, node_2, edge_1[2],  edge_1[3]))
         else:
-            self.edges_to_add.append((node_2, node_1, edge_1[2]))
+            self.edges_to_add.append((node_2, node_1, edge_1[2], edge_1[3]))
 
     def clean_connection(self, main_node, node_to_remove):
         """
@@ -188,7 +189,8 @@ class GameDataHandler:
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
             raise Exception("Node '{}' was not found in node list. Node list = {}"
-                            .format(main_node.dummy_num, [found_nodes.dummy_num for found_nodes in self.graph.node_list]))
+                            .format(main_node.dummy_num,
+                                    [found_nodes.dummy_num for found_nodes in self.graph.node_list]))
         if node_to_remove.serial_num in node.neighbors:
             node.neighbors.remove(node_to_remove.serial_num)
         if node_to_remove.serial_num in node.possible_neighbors:
@@ -247,6 +249,3 @@ class GameDataHandler:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
 
         self.log.info("removed {} nodes".format(len(remove_list)))
-
-
-

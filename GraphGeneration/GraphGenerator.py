@@ -74,5 +74,12 @@ def run_buttons_on_graph(graph, buttons):
     return data_handler.get_number_of_known_nodes()
 
 
+def view_graph(graph_xml_path):
+    from GameHandler import GameHandler
+    game = GameHandler()
+    new_score = game.run_single_game(graph_xml_path, None)
+
+
+
 if __name__ == "__main__":
     main()

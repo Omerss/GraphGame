@@ -4,14 +4,14 @@ LINES_ALWAYS_MEET = 'always'  # used when both line equations have the same slop
 
 
 class LineEquation:
-    def __init__(self):
+    def __init__(self, slope=None, const=None, edge1=None, edge2=None):
         """
         edge1 and edge2 are the x value of the edge point of the line
         """
-        self.slope = None
-        self.const = None
-        self.edge1 = None
-        self.edge2 = None
+        self.slope = slope
+        self.const = const
+        self.edge1 = edge1
+        self.edge2 = edge2
 
     def __repr__(self):
         return 'slope:{}, const:{}, edge1:{}, edge2:{}'.format(self.slope, self.const, self.edge1, self.edge2)
@@ -29,22 +29,22 @@ class LineEquation:
             return False
 
         if point == LINES_ALWAYS_MEET:
-            if LineEquation.point_in_between_edges([eq1.edge1], eq2) \
-                    or LineEquation.point_in_between_edges([eq1.edge2], eq2) \
-                    or LineEquation.point_in_between_edges([eq2.edge1], eq1) \
-                    or LineEquation.point_in_between_edges([eq2.edge2], eq1):
+            if LineEquation.point_in_between_edges(eq1.edge1, eq2) \
+                    or LineEquation.point_in_between_edges(eq1.edge2, eq2) \
+                    or LineEquation.point_in_between_edges(eq2.edge1, eq1) \
+                    or LineEquation.point_in_between_edges(eq2.edge2, eq1):
                 return True
             else:
                 return False
 
-        if LineEquation.point_in_between_edges(point, eq1) and LineEquation.point_in_between_edges(point, eq2):
+        if LineEquation.point_in_between_edges(point.x, eq1) and LineEquation.point_in_between_edges(point.x, eq2):
             return True
         else:
             return False
 
     @staticmethod
     def point_in_between_edges(point, eq1):
-        if eq1.edge1 <= point[0] <= eq1.edge2 or eq1.edge1 >= point[0] >= eq1.edge2:
+        if eq1.edge1 <= point <= eq1.edge2 or eq1.edge1 >= point >= eq1.edge2:
             return True
         else:
             return False
@@ -75,6 +75,8 @@ class LineEquation:
         :param eq2: a LineEquation type
         :return: An absolute collision point in virtual space. This point might not exists if vectors are capped.
         """
+        if eq1 is None or eq2 is None:
+            pass
         slope_variation = eq1.slope - eq2.slope
         const_variation = eq2.const - eq1.const
         if slope_variation == 0:
@@ -89,4 +91,4 @@ class LineEquation:
                 const_variation *= -1
             point_x = const_variation / slope_variation
             point_y = point_x * eq1.slope + eq1.const
-            return point_x, point_y
+            return Point(point_x, point_y)
