@@ -1,5 +1,10 @@
 import itertools
 
+from os import path
+
+from datetime import datetime
+from time import strptime
+
 from structlog import get_logger
 
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
@@ -14,6 +19,7 @@ from GameData.GameDataHandler import GameDataHandler
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
+SAVED_GRAPH_PATH = "./Saved_Graphs"
 
 
 def main ():
@@ -22,7 +28,7 @@ def main ():
 
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
-        save_graph(graph, "saved_rand_graph.xml")
+        save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
         with open("saved_steps.txt", 'w') as f:
             #steps = ""
             for i in range(0,4096):
@@ -78,7 +84,6 @@ def view_graph(graph_xml_path):
     from GameHandler import GameHandler
     game = GameHandler()
     new_score = game.run_single_game(graph_xml_path, None)
-
 
 
 if __name__ == "__main__":
