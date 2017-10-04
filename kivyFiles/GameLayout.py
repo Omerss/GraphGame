@@ -100,7 +100,6 @@ class GameLayout(FloatLayout):
             item.disabled = status
 
     def end_game(self):
-        print "in GameLayout, func: 'end_game'"
         self.remove_widget(self.button_layout)
         end_layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
         end_button = UniButton('end game', self.tablet_game.end_game)
