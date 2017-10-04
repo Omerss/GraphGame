@@ -404,14 +404,14 @@ class MyGameLayout(FloatLayout):
 
 class TestScreen():
     graph_config = None
-    max_steps = 10
+    max_turns = 5
 
     def __init__(self, graph, button_presses, button_ratio, **kwargs):
         self.graph = graph
         self.button_presses = button_presses
         self.button_ratio = button_ratio
 
-    def end_game(self):
+    def end_graph(self):
         App.get_running_app().stop()
 
 

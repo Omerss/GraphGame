@@ -22,8 +22,8 @@ class GraphTabletGame(App):
         self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
         self.max_turns = self.game_screen.max_turns
         self.button_presses = self.game_screen.button_presses
-        self.layout = GameLayout(self.original_graph, self.button_presses, self.game_screen.button_ratio,
-                                 self.send_info_from_screen, self.max_turns, self.game_screen.end_graph)
+        self.layout = GameLayout(self)
+        self.send_info_from_screen()
 
     def build(self):
         return self.layout
@@ -33,8 +33,11 @@ class GraphTabletGame(App):
 
     def send_info_from_screen(self):
         self.current_data_handler.add_view_to_db(self.get_info_from_screen())
-        if len(self.button_presses) >= self.max_turns:
-            self.game_screen.end_graph()
+
+    def end_game(self):
+        print "in GraphTabletGame func: 'end_game'"
+        self.is_playing = False
+        self.game_screen.end_graph()
 
     def set_button_status(self, status):
         self.layout.set_button_status(status)
@@ -126,6 +129,7 @@ class GraphTabletGame(App):
             point1 = Point(real_node1.x, real_node1.y)
             point2 = Point(real_node2.x, real_node2.y)
             edge_equation = LineEquation.create_equation(point1, point2)
+            edge.set_slope(edge_equation)
 
             if self.is_node_onscreen(edge.node1, graph_corners):
                 if self.is_node_onscreen(edge.node2, graph_corners):

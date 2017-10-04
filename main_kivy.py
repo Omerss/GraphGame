@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from kivy.app import App
-from os import path, getcwd
+from os import path, getcwd, listdir
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from QuestionnaireScreen import QuestionnaireScreen
 from SupplementaryFiles import Utils
 from kivy_communication import *
 from GraphGameScreen import GraphGameScreen
-
+from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.KivyGraphTester import MyGameLayout
 
 CONFIG_FILE_PATH = "./config.ini"
@@ -48,6 +48,7 @@ class GraphGameMainApp(App):
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
 
         # TODO - Actually get multiple graphs in here
+        # graph_list = self.get_graphs()
         graph_list = [MyGameLayout.get_graph_obj()]
 
         concepts_path = 'items/'
@@ -106,6 +107,15 @@ class GraphGameMainApp(App):
         # self.game_screen.curiosity_game.filename = 'items_' + pre_post + '.json'
         self.sm.current = 'game_0'
 
+    def get_graphs(self):
+        graphs = []
+        graph_folder = path.join(getcwd(), self.config['Default']['graphs'])
+        for file in listdir(graph_folder):
+            graph_file_path = path.join(graph_folder, str(file))
+            current_graph = load_graph_from_file(graph_file_path)
+            graphs.append(current_graph)
+
+        return graphs
 
 if __name__ == '__main__':
     GraphGameMainApp().run()

@@ -3,23 +3,23 @@ kivy.require('1.9.1')
 
 from SupplementaryFiles import Utils
 from kivy.uix.gridlayout import GridLayout
-from GraphButton import MultiButton
+from GraphButton import MultiButton, UniButton
 from GraphLayout import GraphLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
 
 
 class GameLayout(FloatLayout):
 
-    def __init__(self, graph, button_lst, button_width, send_screen_info, max_steps, end_game,
-                 zoom_rate=0.7, edge_size=2, **kwargs):
+    def __init__(self, tablet_game= None, zoom_rate=0.7, edge_size=2, **kwargs):
         super(GameLayout, self).__init__(rows=1, cols=2, **kwargs)
-
+        self.tablet_game = tablet_game
         self.dim = {"min_x": 0, "min_y": 0, "max_x": kivy.core.window.Window.size[0],
                     "max_y": kivy.core.window.Window.size[1]}
         # self.dim = {"min_x": 0, "min_y": 0, "max_x": 800, "max_y": 600}
-        self.button_width = self.dim["max_x"] * button_width
+        self.button_width = self.dim["max_x"] * self.tablet_game.game_screen.button_ratio
         self.buttons = []
-        self.original_graph = graph
+        self.original_graph = self.tablet_game.original_graph
         self.dim["max_x"] -= self.button_width
         self.kivy_graph_in = GraphLayout(self.original_graph, self.dim, 1, edge_size)
         self.kivy_graph_out = GraphLayout(self.original_graph, self.dim, zoom_rate, edge_size)
@@ -28,7 +28,7 @@ class GameLayout(FloatLayout):
         self.add_widget(self.kivy_graph_in)
         self.is_zoomed_out = False
         self.set_button_functions()
-        self.button_layout = self.get_buttons(button_lst, send_screen_info, max_steps, end_game)
+        self.button_layout = self.get_buttons()
         self.add_widget(self.button_layout)
         self.button_layout.pos=(0,0)
 
@@ -38,21 +38,17 @@ class GameLayout(FloatLayout):
         self.button3_func = [self.centralize_closest_same_color]
         self.button4_func = [self.centralize_closest_neighbor_diff_color]
 
-    def get_buttons(self, button_lst, send_screen_info, max_steps, end_game):
+    def get_buttons(self):
         """
         creates a GridLayout that would hold the buttons (GraphButtons) needed for the game. each button should be
         initialized using a string representing an image to be displayed on the button and a function that will be
         responsible for the button's functionality
         """
         layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
-        button1 = MultiButton('{}\\button1.jpg'.format(Utils.image_folder), self.button1_func, button_lst, 1,
-                              self.button_width, send_screen_info, self.set_button_status, max_steps, end_game)
-        button2 = MultiButton('{}\\button2.jpg'.format(Utils.image_folder), self.button2_func, button_lst, 2,
-                              self.button_width, send_screen_info, self.set_button_status, max_steps, end_game)
-        button3 = MultiButton('{}\\button3.jpg'.format(Utils.image_folder), self.button3_func, button_lst, 3,
-                              self.button_width, send_screen_info, self.set_button_status, max_steps, end_game)
-        button4 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button4_func, button_lst, 4,
-                              self.button_width, send_screen_info, self.set_button_status, max_steps, end_game)
+        button1 = MultiButton('{}\\button1.jpg'.format(Utils.image_folder), self.button1_func, 1, self)
+        button2 = MultiButton('{}\\button2.jpg'.format(Utils.image_folder), self.button2_func, 2, self)
+        button3 = MultiButton('{}\\button3.jpg'.format(Utils.image_folder), self.button3_func, 3, self)
+        button4 = MultiButton('{}\\button4.jpg'.format(Utils.image_folder), self.button4_func, 4, self)
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
@@ -102,4 +98,13 @@ class GameLayout(FloatLayout):
     def set_button_status(self, status):
         for item in self.buttons:
             item.disabled = status
+
+    def end_game(self):
+        print "in GameLayout, func: 'end_game'"
+        self.remove_widget(self.button_layout)
+        end_layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
+        end_button = UniButton('end game', self.tablet_game.end_game)
+        end_layout.add_widget(end_button)
+        self.add_widget(end_layout)
+        end_layout.pos=(0,0)
 
