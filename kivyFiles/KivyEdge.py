@@ -23,9 +23,6 @@ class KivyEdge(Widget):
             self.node1 = node2
             self.node2 = node1
 
-        if self.node1.x != self.node2.x:
-            self.slope = abs(float(self.node2.y - self.node1.y) / (self.node2.x - self.node1.x))
-
         with self.canvas:
             self.line = Line(points=[self.node1.get_x(), self.node1.get_y(), self.node2.get_x(), self.node2.get_y()],
                              width=self.line_width)
@@ -36,3 +33,6 @@ class KivyEdge(Widget):
             anim.start(self.line)
         else:
             self.line.points = [self.node1.get_x(), self.node1.get_y(), self.node2.get_x(), self.node2.get_y()]
+
+    def set_slope(self, line_equation):
+        self.slope = line_equation.slope
