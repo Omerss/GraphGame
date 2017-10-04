@@ -19,13 +19,12 @@ SAVED_GRAPH_PATH = "./Saved_Graphs"
 
 
 def main ():
-    #log = get_logger()
-   # log.setLevel("DEBUG")
+
     iter = itertools.product('1234', repeat=6)
     sucsess_marker = 0
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
-        #save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
+        save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
         with open("saved_steps.txt", 'w') as f:
 
             #steps = ""
