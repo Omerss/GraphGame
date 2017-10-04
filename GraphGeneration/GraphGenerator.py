@@ -1,22 +1,16 @@
 import itertools
-
+from datetime import datetime
 from os import path
 
-from datetime import datetime
-from time import strptime
-
 from structlog import get_logger
-
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
-from kivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.SaveGraph import save_graph
 from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from structlog import get_logger
-#create each permutation of buttons and save them in an array
 
-#create and save one random graph
-#run the button permutaion
+from kivyFiles.GraphTabletGame import GraphTabletGame
+
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
@@ -86,7 +80,7 @@ def run_buttons_on_graph(graph, buttons):
 
 
 def view_graph(graph_xml_path):
-    from GameHandler import GameHandler
+    from Old.GameHandler import GameHandler
     game = GameHandler()
     new_score = game.run_single_game(graph_xml_path, None)
 

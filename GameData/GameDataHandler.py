@@ -93,13 +93,14 @@ class GameDataHandler:
         """
         slope_set = set()
         for edge in self.extra_edges:
-            slope_set.add(edge[2])
+            slope_set.add(edge[3].slope)
+
         sorted(slope_set)
         self.log.debug("Number of slops found = {}".format(len(slope_set)))
-        for slope in slope_set:
+        for slope in list(slope_set):
             edges_to_check = []
             for edge in self.extra_edges:
-                if edge[2] == slope:
+                if edge[3].slope == slope:
                     edges_to_check.append(edge)
             self.log.info("Number of edges in slope {} = {}".format(slope, len(edges_to_check)), edges=edges_to_check)
             if len(edges_to_check) > 1:
@@ -164,7 +165,7 @@ class GameDataHandler:
 
         self.clean_connection(edge_1[0], edge_1[1])
         self.clean_connection(edge_1[1], edge_1[0])
-        if edge_2[0] != edge_1[0] and edge_2[1] != edge_2[1]:
+        if edge_2[0] != edge_1[0] or edge_2[1] != edge_2[1]:
             self.clean_connection(edge_2[0], edge_2[1])
             self.clean_connection(edge_2[1], edge_2[0])
 

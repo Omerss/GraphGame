@@ -78,7 +78,7 @@ class GraphGameScreen(Screen):
         log_str = 'end game'
         KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
         try:
-            self.the_app.sm.current = 'game_' + str(self.game_number + 1)
+            self.parent_app.sm.current = 'game_' + str(self.game_number + 1)
         except Exception as e:
             KL.log.insert(action=LogAction.data, obj='game', comment='the_end - {}'.format(e), sync=True)
             self.graph_game.is_playing = True
