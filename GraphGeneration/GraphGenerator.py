@@ -31,14 +31,9 @@ def main ():
     sucsess_marker = 0
     while not sucsess_marker:
         graph = create_rand_graph(CONFIG_FILE_PATH)
-<<<<<<< Updated upstream
-        save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
+        #save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
         with open("saved_steps.txt", 'w') as f:
-=======
-        save_graph(graph, "saved_rand_graph.xml")
-        #graph = load_graph_from_file("./saved_rand_graph.xml")
-        with open("saved_steps2.txt", 'w') as f:
->>>>>>> Stashed changes
+
             #steps = ""
             for i in range(0,4096):
                 buttons = iter.next()
@@ -60,7 +55,6 @@ class DummyScreen:
     max_turns = 6
     button_presses = []
     button_ratio = 0.2
-<<<<<<< Updated upstream
 
     def __init__(self, graph):
         self.graph = graph
@@ -71,9 +65,6 @@ class DummyScreen:
             pass
 
     def end_game(self):
-=======
-    def end_graph(self):
->>>>>>> Stashed changes
         print ("end game \n")
 
 

@@ -1,20 +1,15 @@
 import sys
 from collections import namedtuple
-
 import itertools
-<<<<<<< Updated upstream
-
 from structlog import get_logger
 
-=======
 #from structlog import get_logger
 #from structlog.stdlib import filter_by_level
 import logging
->>>>>>> Stashed changes
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
-LOG_LEVEL = logging.ERROR
+LOG_LEVEL = logging.DEBUG
 """
 Handles all data return from the window. Constructs a new graph based on the supplied data.
 """
@@ -28,16 +23,12 @@ class GameDataHandler:
         self.extra_edges = []
         self.new_edges = []
         self.edges_to_add = []
-       # self.log = get_logger()
+        self.log = get_logger()
 
-        self.log = logging.getLogger()
-        self.log.setLevel(LOG_LEVEL)
+       # self.log = logging.getLogger()
+        #self.log.setLevel(LOG_LEVEL)
     def get_number_of_known_nodes(self):
-<<<<<<< Updated upstream
         return len([real_node for real_node in self.graph.node_list if real_node.real])
-=======
-        return len(self.graph.node_list)
->>>>>>> Stashed changes
 
     def add_view_to_db(self, view):
         """
@@ -50,46 +41,29 @@ class GameDataHandler:
         # Innumerate over the nodes
         for node in view['nodes']:
             if self.graph.get_node_by_serial(node.serial_num) is None:
-<<<<<<< Updated upstream
                 self.graph.add_node(node.x, node.y, node_colour=node.colour, node_size=node.size,
                                     serial=node.serial_num)
                 num = self.graph.get_node_by_serial(node.serial_num).dummy_num
-                self.log.info("Adding node", num=num, real=True, location="{}:{}".format(node.x, node.y),
-                              serial=node.serial_num)
-=======
-                self.log.info("Adding node: serial="+ str(node.serial_num)+ ", real=True")
-                self.graph.add_node(node.x, node.y, node_colour=node.colour, node_size=node.size, serial=node.serial_num)
-
->>>>>>> Stashed changes
+                #self.log.info("Adding node:  num="+ str(num)+ ", real=True", location="{}:{}".format(node.x, node.y),serial=node.serial_num)
         # Innumerate over the edges
         for edge in view['edges']:
             if self.graph.get_node_by_serial(edge[0].serial_num) is not None:
                 node_0 = self.graph.get_node_by_serial(edge[0].serial_num)
             else:
-<<<<<<< Updated upstream
-
-=======
-                self.log.info("Adding node: serial="+str(edge[0].serial_num) + ", real=False")
->>>>>>> Stashed changes
                 node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
                                              serial=edge[0].serial_num)
                 num = self.graph.get_node_by_serial(node_0.serial_num).dummy_num
-                self.log.info("Adding node", num=num, real=False,
-                              location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num)
+                self.log.info("Adding node",extra= dict(num=num, real=False,
+                              location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num))
 
             if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
                 node_1 = self.graph.get_node_by_serial(edge[1].serial_num)
             else:
-<<<<<<< Updated upstream
-
-=======
-                self.log.info("Adding node: serial= "+ str(edge[1].serial_num) +", real=False")
->>>>>>> Stashed changes
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
                                              serial=edge[1].serial_num)
                 num = self.graph.get_node_by_serial(node_1.serial_num).dummy_num
-                self.log.info("Adding node", num=num, real=False,
-                              location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num)
+                self.log.info("Adding node",extra =dict(num=num, real=False,
+                              location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num))
 
             if node_1.serial_num not in node_0.possible_neighbors:
                 node_0.possible_neighbors.add(node_1.serial_num)
@@ -148,7 +122,7 @@ class GameDataHandler:
         Checks if the two edges are actually a single edge.
         :return: True if edges are 100% the same one
         """
-<<<<<<< Updated upstream
+
         eq1 = LineEquation(slope=edge_1[3].slope,
                            const=edge_1[3].const,
                            edge1=edge_1[0],
@@ -169,27 +143,6 @@ class GameDataHandler:
                 self.log.info("Lines have the same parameters but we are not sure if they meet")
                 return False
         return False
-=======
-        log = logging.getLogger()
-        #log.info("Checking if two edges are one", edge_1=edge_1, edge_2=edge_2)
-        if edge_1[0].slope(edge_1[1]) != edge_2[0].slope(edge_2[1]):
-            #log.debug("Slopes of both edges are not the same")
-            return False
-        else:
-            eq1 = LineEquation.create_equation(edge_1[0], edge_1[1])
-            eq2 = LineEquation.create_equation(edge_2[0], edge_2[1])
-            # Check collision point
-            collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-            #log.debug("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
-            if collision_point == LINES_ALWAYS_MEET:
-                # Lines have the same slope + const. Big change they are the same one.
-                if LineEquation.check_collision_point(eq1, eq2):
-                    #log.debug("Lines meet and intersect with each other - They are the same line")
-                    return True
-                else:
-                    #log.debug("Lines have the same parameters but we are not sure if they meet")
-                    return False
->>>>>>> Stashed changes
 
     def connect_edges(self, edge_1, edge_2):
         """
