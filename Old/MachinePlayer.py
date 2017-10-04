@@ -2,7 +2,7 @@ import os
 import random
 import threading
 
-from GameHandler import GameHandler
+from Old.GameHandler import GameHandler
 
 graphs_to_run = ["Graph_1"]
 game = GameHandler()
