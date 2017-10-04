@@ -1,11 +1,8 @@
 import sys
 from collections import namedtuple
 import itertools
-from structlog import get_logger
-
-#from structlog import get_logger
-#from structlog.stdlib import filter_by_level
 import logging
+from SupplementaryFiles.logger_formatter import format_log_msg
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
@@ -23,10 +20,9 @@ class GameDataHandler:
         self.extra_edges = []
         self.new_edges = []
         self.edges_to_add = []
-        self.log = get_logger()
+        self.log = logging.getLogger()
+        self.log.setLevel(LOG_LEVEL)
 
-       # self.log = logging.getLogger()
-        #self.log.setLevel(LOG_LEVEL)
     def get_number_of_known_nodes(self):
         return len([real_node for real_node in self.graph.node_list if real_node.real])
 
@@ -53,7 +49,7 @@ class GameDataHandler:
                 node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
                                              serial=edge[0].serial_num)
                 num = self.graph.get_node_by_serial(node_0.serial_num).dummy_num
-                self.log.info("Adding node",extra= dict(num=num, real=False,
+                self.log.info(format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num))
 
             if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
@@ -62,7 +58,7 @@ class GameDataHandler:
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
                                              serial=edge[1].serial_num)
                 num = self.graph.get_node_by_serial(node_1.serial_num).dummy_num
-                self.log.info("Adding node",extra =dict(num=num, real=False,
+                self.log.info(format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num))
 
             if node_1.serial_num not in node_0.possible_neighbors:
@@ -81,9 +77,9 @@ class GameDataHandler:
         for item in self.edges_to_add:
             self.extra_edges.append(item)
         self.clear_empty_nodes()
-        self.log.info("Finished triming data: num_of_node="+ str(len(self.graph.node_list)) +
-                      ", num_real_node="+ str(len([item for item in self.graph.node_list if item.is_real()]))+
-                      ", num_of_edges=" + str(len(self.extra_edges)))
+        self.log.info(format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
+                      num_real_node=(len([item for item in self.graph.node_list if item.is_real()])),
+                      num_of_edges=len(self.extra_edges)))
 
     def trim_data(self):
         """
@@ -102,7 +98,7 @@ class GameDataHandler:
             for edge in self.extra_edges:
                 if edge[3].slope == slope:
                     edges_to_check.append(edge)
-            self.log.info("Number of edges in slope {} = {}".format(slope, len(edges_to_check)), edges=edges_to_check)
+            self.log.info(format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -134,7 +130,7 @@ class GameDataHandler:
                            edge2=edge_2[1])
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-        self.log.info("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2)
+        self.log.info(format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
         if collision_point == LINES_ALWAYS_MEET:
             # Lines have the same slope + const. Big change they are the same one.
             if LineEquation.check_collision_point(eq1, eq2):
@@ -187,8 +183,8 @@ class GameDataHandler:
         :param main_node: The node we want to remove data from 
         :return: 
         """
-        self.log.debug("Cleaning connection to another node", main_node=main_node.dummy_num,
-                       node_to_remove=node_to_remove.dummy_num)
+        self.log.debug(format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
+                       node_to_remove=node_to_remove.dummy_num))
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
             raise Exception("Node '{}' was not found in node list. Node list = {}"
@@ -246,7 +242,7 @@ class GameDataHandler:
         self.log.debug("removing nodes with no neighbors")
         for node in self.graph.node_list:
             if len(node.neighbors) == 0:
-                self.log.debug("Found node with no neighbors - deleting: serial=" +(node.serial_num)+ "real="+str(node.is_real()))
+                self.log.debug(format_log_msg("Found node with no neighbors - deleting:", serial=node.serial_num, real=node.is_real()))
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
