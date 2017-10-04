@@ -27,7 +27,7 @@ class GraphGameScreen(Screen):
 
     graph_game = None
 
-    def setup(self, graph, graph_config, parent_app, max_turns, button_presses, number=-1, button_ratio=0.2, real_user=True):
+    def setup(self, graph, graph_config, main_app, max_turns, button_presses, number=-1, button_ratio=0.2, real_user=True):
         """
         Does a single run of a game - 3 stages:
         Graph learning - the main game section.
@@ -43,13 +43,13 @@ class GraphGameScreen(Screen):
         # Init
         self.size = (200, 100)
         self.game_number = number
-        self.parent_app = parent_app
+        self.parent_app = main_app
         self.real_user = real_user
         self.score = 0
 
         self.graph = graph
         self.max_turns = max_turns
-        parent_app.discovered_graph = None
+        main_app.discovered_graph = None
         self.graph_config = graph_config
         self.button_presses = button_presses
         self.button_ratio = button_ratio
@@ -76,9 +76,9 @@ class GraphGameScreen(Screen):
 
     def next_game(self):
         log_str = 'end game'
-        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
+        KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
         try:
-            self.parent_app.sm.current = 'game_' + str(self.game_number + 1)
+            self.parent_app.sm.current = 'game_questionnaire_' + str(self.game_number)
         except Exception as e:
-            KL.log.insert(action=LogAction.data, obj='game', comment='the_end - {}'.format(e), sync=True)
+            KL.log.insert(action=LogAction.data, obj='game_graph_', comment='the_end - {}'.format(e), sync=True)
             self.graph_game.is_playing = True

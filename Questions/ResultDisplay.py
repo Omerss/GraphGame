@@ -28,26 +28,21 @@ class ResultWidget(GridLayout):
         self.parent_app = parent_app
         self.main_app = main_app
 
+    def on_enter(self):
         self.layout = GridLayout(rows=10, cols=2)
         self.layout.add_widget(self.get_question_result_grid(question_list=self.main_app.user_answers))
 
         map_grid = GridLayout(rows=2, cols=1)
-        graph1 = GraphLayout(self.main_app.discovered_graph,
-                             button_funcs=[],
-                             signal=None,
-                             button_lst=[],
-                             dim={'max_x': 100, 'max_y': 100},
-                             button_width=0)
-        graph1.fit_graph_to_screen()
-        map_grid.add_widget(graph1)
-        graph2 = GraphLayout(self.main_app.true_graph,
-                             button_funcs=[],
-                             signal=None,
-                             button_lst=[],
-                             dim={'max_x': 100, 'max_y': 100},
-                             button_width=0)
-        graph2.fit_graph_to_screen()
-        map_grid.add_widget(graph2)
+        graph_discovered = GraphLayout(original_graph=self.main_app.discovered_graph,
+                                       dim={'max_x': 100, 'max_y': 100},
+                                       zoom_rate=0.5,
+                                       edge_size="")
+        map_grid.add_widget(graph_discovered)
+        graph_true = GraphLayout(self.main_app.current_graph,
+                                 dim={'max_x': 100, 'max_y': 100},
+                                 zoom_rate=0.5,
+                                 edge_size=1)
+        map_grid.add_widget(graph_true)
         self.layout.add_widget(map_grid)
 
         self.add_widget(self.layout)

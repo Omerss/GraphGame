@@ -1,6 +1,6 @@
 import itertools
 from datetime import datetime
-from os import path
+from os import path, getcwd
 
 from structlog import get_logger
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
@@ -15,7 +15,7 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
-SAVED_GRAPH_PATH = "./Saved_Graphs"
+SAVED_GRAPH_PATH = "../../Saved_Graphs"
 
 
 def main ():

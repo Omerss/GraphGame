@@ -5,6 +5,7 @@ from os import path, getcwd, listdir
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from QuestionnaireScreen import QuestionnaireScreen
+from ResultsScreen import ResultScreen
 from SupplementaryFiles import Utils
 from kivy_communication import *
 from GraphGameScreen import GraphGameScreen
@@ -62,9 +63,9 @@ class GraphGameMainApp(App):
 
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
-            self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
+            self.game_screen.append(GraphGameScreen(name='game_graph_' + str(i_net)))
             self.game_screen[-1].setup(number=i_net,
-                                       parent_app=self,
+                                       main_app=self,
                                        max_turns=int(self.config['Default']['max_turns']),
                                        real_user=True,
                                        graph=graph_data,
@@ -73,22 +74,18 @@ class GraphGameMainApp(App):
             self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.layout)
 
             # Step 2 - Questionnaire
-            self.game_screen.append(QuestionnaireScreen(name='game_' + str(i_net)))
-            self.game_screen[-1].setup(main_app=self,
-                                       number=i_net,
-                                       real_user=self.real_user,
-                                       )
+            self.game_screen.append(QuestionnaireScreen(name='game_questionnaire_' + str(i_net)))
+            self.game_screen[-1].setup(number=i_net,
+                                       main_app=self,
+                                       real_user=self.real_user)
             self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
 
             # Step 3 - Results
-            # self.game_screen.append(GraphGameScreen(name='game_' + str(i_net)))
-            # self.game_screen[-1].setup(number=i_net,
-            #                            parent_app=self,
-            #                            max_turns=int(self.config['Default']['max_turns']),
-            #                            real_user=True,
-            #                            graph=graph_data,
-            #                            graph_config=graph_config)
-            # self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.the_widget)
+            self.game_screen.append(ResultScreen(name='game_results_' + str(i_net)))
+            self.game_screen[-1].setup(number=i_net,
+                                       main_app=self,
+                                       real_user=True)
+            self.game_screen[-1].add_widget(self.game_screen[-1].result_app.the_widget)
 
         for gs in self.game_screen:
             self.sm.add_widget(gs)
@@ -105,7 +102,7 @@ class GraphGameMainApp(App):
 
     def press_start(self, pre_post):
         # self.game_screen.curiosity_game.filename = 'items_' + pre_post + '.json'
-        self.sm.current = 'game_0'
+        self.sm.current = 'game_graph_0'
 
     def get_graphs(self):
         graphs = []
@@ -116,6 +113,7 @@ class GraphGameMainApp(App):
             graphs.append(current_graph)
 
         return graphs
+
 
 if __name__ == '__main__':
     GraphGameMainApp().run()

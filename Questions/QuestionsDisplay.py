@@ -16,6 +16,7 @@ class QuestionDisplay:
     def __init__(self, parent_screen=None):
         self.parent_screen = parent_screen
         self.the_widget = QuestionnaireWidget(parent_screen, self.parent_screen.main_app)
+        self.the_end = False
 
     def load(self):
         #self.the_widget.update_background(self.network.background)

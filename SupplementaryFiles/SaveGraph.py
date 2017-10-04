@@ -1,4 +1,7 @@
 import xml.sax
+
+from os import path, makedirs
+
 from NodeObject import NodeObject
 from Enums import Colours, Shapes
 from GraphObj import GraphObject
@@ -7,6 +10,7 @@ import xml.etree.cElementTree as E
 
 
 def save_graph(graph, file_name):
+
     root = E.Element("root")
     graph_xml = E.SubElement(root, "graph_xml")
     node_list = E.SubElement(graph_xml, "node_list")
@@ -17,7 +21,13 @@ def save_graph(graph, file_name):
     E.SubElement(graph_xml, "line_colour", name="line_colour").text = graph.line_colour['name']
     E.SubElement(graph_xml,"connections",name="connections").text=str(graph.connections)
 
-
+    if not path.exists(path.dirname(file_name)):
+        try:
+            makedirs(path.dirname(file_name))
+        except:
+            pass
+    with open(file_name, 'w+') as f:
+        pass
     for i in range(0, len(graph.node_list)):
         E.SubElement(node_list,"node_serial_num_{}".format(i), name="node_serial_num_{}".format(i)).text = graph.node_list[i].serial_num
         E.SubElement(node_list, "node_colour_{}".format(i), name="node_colour_{}".format(i)).text =graph.node_list[i].colour['name']
