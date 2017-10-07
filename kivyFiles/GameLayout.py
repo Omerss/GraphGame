@@ -13,6 +13,7 @@ from kivy.uix.image import Image
 
 class GameLayout(FloatLayout):
     next_func = None
+    rt = None
 
     def __init__(self, tablet_game=None, zoom_rate=0.7, edge_size=2, **kwargs):
         super(GameLayout, self).__init__(rows=1, cols=2, **kwargs)
@@ -34,7 +35,8 @@ class GameLayout(FloatLayout):
         self.button_layout = self.get_buttons()
         self.add_widget(self.button_layout)
         self.button_layout.pos=(0,0)
-        self.rt = RepeatedTimer(1, self.call_function)
+        if self.tablet_game.game_screen.real_user:
+            self.rt = RepeatedTimer(1, self.call_function)
         self.button_hider = self.get_button_hider()
         self.button_hider.pos=(0,0)
 

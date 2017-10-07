@@ -407,10 +407,11 @@ class TestScreen():
     graph_config = None
     max_turns = 5
 
-    def __init__(self, graph, button_presses, button_ratio, **kwargs):
+    def __init__(self, graph, button_presses, button_ratio, real_user=True,**kwargs):
         self.graph = graph
         self.button_presses = button_presses
         self.button_ratio = button_ratio
+        self.real_user = real_user
 
     def end_graph(self):
         App.get_running_app().stop()
