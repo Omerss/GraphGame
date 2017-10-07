@@ -4,10 +4,9 @@ from SupplementaryFiles.NodeObject import NodeObject
 # question functions:
 
 
-# how many nodes of color X are there?
 def question_one(graph_object, color_x):
     """
-
+    How many nodes of color X are there?
     :param graph_object: a valid graph object
     :param color_x: a valid color enum
     :return: the number of nodes in graph_object of the color color_x
@@ -16,12 +15,10 @@ def question_one(graph_object, color_x):
     return number_of_nodes
 
 
-# how many nodes of color X have links to nodes of color Y?
-# if color_x = color_y the links are counted twice - notice the function count the number of Nodes and not the number of links
-
 def question_two(graph_object, color_x, color_y):
     """
-
+    How many nodes of color X have links to nodes of color Y?
+    if color_x = color_y the links are counted twice - notice the function count the number of Nodes and not the number of links
     :param graph_object: a valid graph object
     :param color_x: a valid color enum
     :param color_y: a valid color enum
@@ -32,12 +29,11 @@ def question_two(graph_object, color_x, color_y):
     return number_of_nodes
 
 
-# what is the color that contain the node with the maximun links in the graph?
 def question_three(graph_object):
     """
-
+    What is the color that contain the node with the maximum links in the graph?
     :param graph_object: a valid graph object
-    :return: the Name of the color of the node with the maximun links
+    :return: the Name of the color of the node with the maximum links
     """
     dictionary = scan_nodes_colors(graph_object, 3)
     max_value = -1
@@ -116,7 +112,6 @@ def question_seven(graph_object):
             min_key = key
 
     return min_key
-
 
 
 # is there a nodes of color X that have a link to another node of color X?

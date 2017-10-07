@@ -44,7 +44,7 @@ def load_graph_from_file(file_name):
         question_string = question_object_list.find("question_string_").text
         question_id = int(question_object_list.find("question_id_").text)
         args = set (eval(question_object_list.find("args_").text))
-        question_object = QuestionObject (question_string, question_type_number, question_id, args)
+        question_object = QuestionObject (question_string, question_type_number, question_id, *args)
         new_graph.question_object_list.append(question_object)
     return new_graph
 
@@ -62,5 +62,4 @@ def from_name_to_shape(name):
     if name == "Circle":
         return Enums.Shapes.circle
 
-#new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
-q = QuestionObject ('hello',1, 2)
+new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")

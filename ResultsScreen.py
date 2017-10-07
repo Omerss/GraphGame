@@ -35,25 +35,24 @@ class ResultScreen(Screen):
 
     def on_enter(self, *args):
         log_str = 'start,'
-        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
+        KL.log.insert(action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
         self.result_app.load()
 
     def end_results(self):
         self.result_app.the_end = True
-        if not self.result_app.is_playing:
-            self.next_game()
+        self.next_game()
 
     def next_game(self):
         log_str = 'end game'
         KL.log.insert(action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
         try:
-            self.the_app.sm.current = 'game_graph_' + str(self.game_number + 1)
+            self.main_app.sm.current = 'game_graph_' + str(self.game_number + 1)
 
         except Exception as e:
             KL.log.insert(action=LogAction.data, obj='game_results_', comment='the_end - {}'.format(e), sync=True)
-            self.result_app.is_playing = True
+            self.end_subject()
 
     def end_subject(self):
-        self.the_app.stop()
+        self.main_app.stop()

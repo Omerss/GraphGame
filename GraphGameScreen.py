@@ -17,7 +17,7 @@ LANGUAGE = 'Hebrew'  # 'Hebrew'
 class GraphGameScreen(Screen):
     real_user = True
     game_number = -1
-    parent_app = None
+    main_app = None
     score = 0
 
     max_turns = -1
@@ -36,14 +36,14 @@ class GraphGameScreen(Screen):
         :param graph_config:
         :param real_user: Bool. False if machine player
         :param number: The game number
-        :param parent_app: The parent who called this screen
+        :param main_app: The main who called this screen
         :param max_turns: Number of steps for the game
         :param graph: The graph used in this specific game
         """
         # Init
         self.size = (200, 100)
         self.game_number = number
-        self.parent_app = main_app
+        self.main_app = main_app
         self.real_user = real_user
         self.score = 0
 
@@ -59,26 +59,25 @@ class GraphGameScreen(Screen):
     def on_enter(self, *args):
         log_str = 'start,'
         log_str += 'turns=' + str(self.graph_game.max_turns) + ','
-        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
+        KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
+
+        self.button_presses = []
 
         self.graph_game.load()
-    #     Clock.schedule_once(self.explanation_screen, 0.5)
-    #
-    # def explanation_screen(self):
-    #     self.graph_game.start()
-    #     self.graph_game.tell_story(self.game_introduction[0], self.game_introduction[1])
-    #     Clock.schedule_once(self.end_game, self.graph_game.game_duration)
 
     def end_graph(self):
         self.graph_game.the_end = True
         if not self.graph_game.is_playing:
+
+            self.main_app.discovered_graph = self.graph_game.current_data_handler.cleaned_graph()
+            self.main_app.true_graph = self.graph
             self.next_game()
 
     def next_game(self):
         log_str = 'end game'
         KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
         try:
-            self.parent_app.sm.current = 'game_questionnaire_' + str(self.game_number)
+            self.main_app.sm.current = 'game_questionnaire_' + str(self.game_number)
         except Exception as e:
             KL.log.insert(action=LogAction.data, obj='game_graph_', comment='the_end - {}'.format(e), sync=True)
             self.graph_game.is_playing = True

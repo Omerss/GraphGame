@@ -13,7 +13,7 @@ from kivyFiles.KivyGraphTester import MyGameLayout
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.DEBUG
 
 def main ():
     iter = itertools.product('1234', repeat=6)
@@ -50,6 +50,7 @@ class DummyScreen:
 
     def __init__(self, graph):
         self.graph = graph
+        self.real_user = False
 
     def end_graph(self):
         self.graph_game.the_end = True
