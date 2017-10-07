@@ -14,6 +14,7 @@ def load_graph_from_file(file_name):
     new_graph = GraphObject()
     new_graph.size = ast.literal_eval(graph_xml.find("size").text)
     new_graph.extra_distance = int(graph_xml.find("extra_distance").text)
+    new_graph.center_node = graph_xml.find("center_node").text
     new_graph.max_neighbors = int(graph_xml.find("max_neighbors").text)
     new_graph.line_colour = from_name_to_color(graph_xml.find("line_colour").text)
     new_graph.node_count = int(graph_xml.find("node_count").text)

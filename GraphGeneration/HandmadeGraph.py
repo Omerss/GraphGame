@@ -40,4 +40,4 @@ def create_draft_graph(self):
     draft_graph.connect_nodes(draft_graph.node_list[11], draft_graph.node_list[12])
 
     # Act
-    save_graph(draft_graph, "testDraftGraph.xml")
+    save_graph(draft_graph, "the_draft_graph.xml")

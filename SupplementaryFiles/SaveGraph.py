@@ -14,7 +14,8 @@ def save_graph(graph, file_name):
     root = E.Element("root")
     graph_xml = E.SubElement(root, "graph_xml")
     node_list = E.SubElement(graph_xml, "node_list")
-    E.SubElement(graph_xml,"size",name="size").text = str(graph.size)
+    E.SubElement(graph_xml,"center_node",name="center_node").text = graph.center_node
+    E.SubElement(graph_xml, "size", name="size").text = str(graph.size)
     E.SubElement(graph_xml,"extra_distance",name="extra_distance").text=str(graph.extra_distance)
     E.SubElement(graph_xml, "max_neighbors", name="max_neighbors").text=str(graph.max_neighbors)
     E.SubElement(graph_xml, "node_count", name="node_count").text = str(graph.node_count)

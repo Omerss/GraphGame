@@ -5,7 +5,7 @@ import logging
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.SaveGraph import save_graph
 from GameData.GameDataHandler import GameDataHandler
-#from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 from kivyFiles.KivyGraphTester import MyGameLayout
 # get the full graph that seen
@@ -23,7 +23,7 @@ def main ():
         #graph = MyGameLayout.get_graph_obj1()
         #graph = create_rand_graph(CONFIG_FILE_PATH)
         #save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
-        graph = load
+        graph = load_graph_from_file("testDraftGraph.xml")
         with open("saved_steps.txt", 'w') as f:
             #steps = ""
             for i in range(0,4096):
