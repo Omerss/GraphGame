@@ -52,18 +52,3 @@ class QuestionnaireScreen(Screen):
 
         except Exception as e:
             KL.log.insert(action=LogAction.data, obj='game_questionnaire_', comment='the_end - {}'.format(e), sync=True)
-
-    @staticmethod
-    def create_questions():
-        """
-        Creates a list of QuestionObject
-        """
-        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-
-        question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
-
-        return question_list
