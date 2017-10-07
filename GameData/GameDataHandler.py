@@ -136,6 +136,8 @@ class GameDataHandler:
                            const=edge_2[3].const,
                            edge1=edge_2[0],
                            edge2=edge_2[1])
+
+
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
         self.log.info(format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
