@@ -36,3 +36,6 @@ class KivyEdge(Widget):
 
     def set_slope(self, line_equation):
         self.slope = line_equation.slope
+
+    def __repr__(self):
+        return 'KivyEdge({}, {})'.format(self.node1, self.node2)
