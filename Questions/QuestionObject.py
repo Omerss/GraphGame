@@ -1,4 +1,4 @@
-import questionsAnswering
+import QuestionsAnswers
 from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
@@ -9,6 +9,13 @@ class QuestionObject:
     """
 
     def __init__(self, question_string, question_type_number, question_id, *args):
+        """
+
+        :param question_string: The string for the question
+        :param question_type_number: a QuestionTypes enum
+        :param question_id: The id of the question as referenced in the QuestionsAnswers class
+        :param args:
+        """
         self.question_string = question_string.format(*tuple([item['name'] for item in args]))
         self.question_type_number = question_type_number
         self.get_question_values()
