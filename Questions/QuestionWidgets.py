@@ -65,6 +65,6 @@ class BooleanQuestion(GridLayout):
         for child in self.children:
             if type(child) == UntoggbleToggle:
                 if child.state == 'down':
-                    return child.text
+                    return child.text == "yes"
         return None
 
