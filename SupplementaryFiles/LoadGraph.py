@@ -39,13 +39,15 @@ def load_graph_from_file(file_name):
         new_graph.node_list.append(new_node)
         i=i+1
 #question_string, question_type_number, question_id, *args
-    while (question_object_list.find("question_id_")!=None):
-        question_type_number = int(question_object_list.find("question_type_number_").text)
-        question_string = question_object_list.find("question_string_").text
-        question_id = int(question_object_list.find("question_id_").text)
-        args = set (eval(question_object_list.find("args_").text))
+    i = 0
+    while (question_object_list.find("question_id_{}".format(i))!=None):
+        question_type_number = int(question_object_list.find("question_type_number_{}".format(i)).text)
+        question_string = question_object_list.find("question_string_{}".format(i)).text
+        question_id = int(question_object_list.find("question_id_{}".format(i)).text)
+        args = set (eval(question_object_list.find("args_{}".format(i)).text))
         question_object = QuestionObject (question_string, question_type_number, question_id, *args)
         new_graph.question_object_list.append(question_object)
+        i = i + 1
     return new_graph
 
 
@@ -62,4 +64,3 @@ def from_name_to_shape(name):
     if name == "Circle":
         return Enums.Shapes.circle
 
-new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
