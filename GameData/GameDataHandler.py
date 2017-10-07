@@ -276,6 +276,16 @@ class GameDataHandler:
             if edge[0].is_real() and edge[1].is_real():
                 self.graph.connections.append((min(edge[0].serial_num, edge[1].serial_num),
                                                max(edge[0].serial_num, edge[1].serial_num)))
+        self.extra_edges = []
+        real_nodes = []
+        for node in self.graph.node_list:
+            if node.is_real:
+                real_nodes.append(node)
+
         # Make sure we see only the same edge once
         self.graph.connections = list(set(self.graph.connections))
+        self.log.debug(format_log_msg("Finished cleaning graph before continuing:", num_of_nodes=len(self.graph.node_list),
+                                      num_real_nodes=(len([item for item in self.graph.node_list if item.is_real()])),
+                                      num_of_connections=len(self.graph.connections)))
+        self.graph.node_list = real_nodes
         return self.graph
