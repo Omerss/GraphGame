@@ -50,6 +50,7 @@ class DummyScreen:
 
     def __init__(self, graph):
         self.graph = graph
+        self.real_user = False
 
     def end_graph(self):
         self.graph_game.the_end = True

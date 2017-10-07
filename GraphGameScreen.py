@@ -59,21 +59,18 @@ class GraphGameScreen(Screen):
     def on_enter(self, *args):
         log_str = 'start,'
         log_str += 'turns=' + str(self.graph_game.max_turns) + ','
-        KL.log.insert(action=LogAction.data, obj='game_' + str(self.game_number), comment=log_str)
+        KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
+
+        self.button_presses = []
 
         self.graph_game.load()
-    #     Clock.schedule_once(self.explanation_screen, 0.5)
-    #
-    # def explanation_screen(self):
-    #     self.graph_game.start()
-    #     self.graph_game.tell_story(self.game_introduction[0], self.game_introduction[1])
-    #     Clock.schedule_once(self.end_game, self.graph_game.game_duration)
 
     def end_graph(self):
         self.graph_game.the_end = True
         if not self.graph_game.is_playing:
 
             self.main_app.discovered_graph = self.graph_game.current_data_handler.cleaned_graph()
+            self.main_app.true_graph = self.graph
             self.next_game()
 
     def next_game(self):
