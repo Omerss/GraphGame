@@ -45,7 +45,15 @@ def load_graph_from_file(file_name):
         question_type_number = int(question_object_list.find("question_type_number_{}".format(i)).text)
         question_string = question_object_list.find("question_string_{}".format(i)).text
         question_id = int(question_object_list.find("question_id_{}".format(i)).text)
-        args = set (eval(question_object_list.find("args_{}".format(i)).text))
+        args = eval(question_object_list.find("args_{}".format(i)).text).split(',')
+
+        for j in range(0, len(args)):
+            tmp = from_name_to_color(args[j])
+            if tmp==-1:
+                args[j]= int(args[j])
+            else:
+                args[j]= tmp
+
         question_object = QuestionObject (question_string, question_type_number, question_id, *args)
         new_graph.question_object_list.append(question_object)
         i = i + 1
@@ -60,6 +68,7 @@ def from_name_to_color(name):
         return Enums.Colours['yellow']
     if name == "blue":
         return Enums.Colours['blue']
+    return -1
 
 def from_name_to_shape(name):
     if name == "Circle":
