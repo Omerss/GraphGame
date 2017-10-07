@@ -1,6 +1,7 @@
 import logging
 import os
 import uuid
+from SupplementaryFiles.logger_formatter import format_log_msg
 
 from structlog import get_logger
 
@@ -38,7 +39,9 @@ class GraphObject:
             self.extra_distance = extra_distance
         self.node_list = []
         self.connections = []
-        self.log = get_logger()
+        LOG_LEVEL = logging.ERROR
+        self.log = logging.getLogger()
+        self.log.setLevel(LOG_LEVEL)
         self.inner_node_count = 0
 
     def create_graph(self):
@@ -86,7 +89,7 @@ class GraphObject:
         main_node = self.get_node_by_serial(node_serial)
         # print "Node '{}' has '{}' neighbors".format(main_node.serial_num, len(main_node.neighbors))
         if len(main_node.neighbors) < self.max_neighbors or allow_overflow:
-            logging.debug("Working with Node '{}'.".format(node_serial))
+            self.log.debug("Working with Node '{}'.".format(node_serial))
             for node_to_connect in self.node_list:
                 # Node is not the main one
                 if node_to_connect != main_node and \
@@ -104,12 +107,12 @@ class GraphObject:
                                     line_doesnt_cross = False
                                     break
                         if line_doesnt_cross:
-                            logging.debug("No obstacle between node {} and node {}. Adding node to list" \
+                            self.log.debug("No obstacle between node {} and node {}. Adding node to list" \
                                           .format(main_node.serial_num, node_to_connect.serial_num))
                             # Line between Main and node_to_connect does't cut any nodes
                             main_node.possible_neighbors.add(node_to_connect.serial_num)
                             node_to_connect.possible_neighbors.add(main_node.serial_num)
-        logging.debug(
+        self.log.debug(
             "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors))
         return main_node.possible_neighbors
 
@@ -166,7 +169,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        self.log.info("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y))
+        self.log.info(format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:

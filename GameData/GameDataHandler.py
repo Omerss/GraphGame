@@ -6,7 +6,7 @@ from SupplementaryFiles.logger_formatter import format_log_msg
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.ERROR
 """
 Handles all data return from the window. Constructs a new graph based on the supplied data.
 """

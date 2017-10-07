@@ -1,45 +1,44 @@
 import itertools
 from datetime import datetime
 from os import path, getcwd
-
-from structlog import get_logger
+import logging
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.SaveGraph import save_graph
 from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from structlog import get_logger
-
 from kivyFiles.GraphTabletGame import GraphTabletGame
-
+from kivyFiles.KivyGraphTester import MyGameLayout
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
-
+LOG_LEVEL = logging.ERROR
 
 def main ():
-
     iter = itertools.product('1234', repeat=6)
+    number_of_successful_runs = 0
     sucsess_marker = 0
     while not sucsess_marker:
+        #graph = MyGameLayout.get_graph_obj1()
         graph = create_rand_graph(CONFIG_FILE_PATH)
         save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
         with open("saved_steps.txt", 'w') as f:
-
             #steps = ""
             for i in range(0,4096):
                 buttons = iter.next()
-                answer = run_buttons_on_graph(graph,buttons)
+                answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
+                number_of_successful_runs= number_of_successful_runs+answer
                 #sucsess_marker = sucsess_marker + answer
-                f.write("stpes"+str(buttons)+"nodes"+str(answer)+"\n")
-                if sucsess_marker > 1:
+                f.write("stpes"+str(buttons)+"- #seen nodes"+str(number_of_nodes_seen)+"\n")
+                #if sucsess_marker > 1:
                     #steps = ""
-                    sucsess_marker = 0
-                    break
+#                    sucsess_marker = 0
+                 #   break
                 #if answer ==1:
                     #steps = buttons
             #if sucsess_marker== 1:
+            f.write ("number of succesful runs = {0}\n".format(number_of_successful_runs))
             sucsess_marker =1
 
 class DummyScreen:
@@ -62,7 +61,8 @@ class DummyScreen:
 
 
 def run_buttons_on_graph(graph, buttons):
-    log = get_logger()
+    log = logging.getLogger()
+    log.setLevel(LOG_LEVEL)
     dummy_screen = DummyScreen(graph)
     game = GraphTabletGame(dummy_screen)
     #game.run()
@@ -75,7 +75,8 @@ def run_buttons_on_graph(graph, buttons):
         data_handler.add_view_to_db(game.get_info_from_screen())
 
     print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
-    return data_handler.get_number_of_known_nodes()
+    answer = (data_handler.get_number_of_known_nodes() == len(graph.node_list))
+    return answer,data_handler.get_number_of_known_nodes()
 
 
 def view_graph(graph_xml_path):
