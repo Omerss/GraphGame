@@ -5,7 +5,7 @@ import logging
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.SaveGraph import save_graph
 from GameData.GameDataHandler import GameDataHandler
-from SupplementaryFiles.LoadGraph import load_graph_from_file
+#from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 from kivyFiles.KivyGraphTester import MyGameLayout
 # get the full graph that seen
@@ -13,7 +13,7 @@ from kivyFiles.KivyGraphTester import MyGameLayout
 # put 0 if the #of node seen < #nodes in the graph
 CONFIG_FILE_PATH = "./config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
-LOG_LEVEL = logging.ERROR
+LOG_LEVEL = logging.INFO
 
 def main ():
     iter = itertools.product('1234', repeat=6)
@@ -70,11 +70,11 @@ def run_buttons_on_graph(graph, buttons):
     data_handler.add_view_to_db(game.get_info_from_screen())
     max_steps = 6
     for i in range(0, max_steps):
-        log.info("doing a step {}/{}".format(i, max_steps))
+        log.debug("doing a step {}/{}".format(i, max_steps))
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
 
-    print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
+    #print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
     answer = (data_handler.get_number_of_known_nodes() == len(graph.node_list))
     return answer,data_handler.get_number_of_known_nodes()
 

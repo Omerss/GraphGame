@@ -4,7 +4,7 @@ import xml.etree.cElementTree as E
 import Enums
 from GraphObj import GraphObject
 from NodeObject import NodeObject
-
+from Questions.QuestionObject import QuestionObject
 
 def load_graph_from_file(file_name):
     tree = E.parse(file_name)
@@ -18,7 +18,7 @@ def load_graph_from_file(file_name):
     new_graph.line_colour = from_name_to_color(graph_xml.find("line_colour").text)
     new_graph.node_count = int(graph_xml.find("node_count").text)
     new_graph.connections = ast.literal_eval(graph_xml.find("connections").text)
-
+    question_object_list = graph_xml.find("question_object_list")
 
 
     # get the node list from the tree
@@ -38,7 +38,14 @@ def load_graph_from_file(file_name):
         new_node.possible_neighbors=possible_neighbors
         new_graph.node_list.append(new_node)
         i=i+1
-
+#question_string, question_type_number, question_id, *args
+    while (question_object_list.find("question_id_")!=None):
+        question_type_number = int(question_object_list.find("question_type_number_").text)
+        question_string = question_object_list.find("question_string_").text
+        question_id = int(question_object_list.find("question_id_").text)
+        args = set (eval(question_object_list.find("args_").text))
+        question_object = QuestionObject (question_string, question_type_number, question_id, args)
+        new_graph.question_object_list.append(question_object)
     return new_graph
 
 
@@ -55,3 +62,5 @@ def from_name_to_shape(name):
     if name == "Circle":
         return Enums.Shapes.circle
 
+#new_loaded_graph = load_graph_from_file("testSavingGraph2.xml")
+q = QuestionObject ('hello',1, 2)
