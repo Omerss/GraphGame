@@ -9,6 +9,7 @@ class QuestionObject:
     """
 
     def __init__(self, question_string, question_type_number, question_id, *args):
+<<<<<<< Updated upstream
 
 
         """
@@ -18,6 +19,9 @@ class QuestionObject:
         :param question_id: The id of the question as referenced in the QuestionsAnswers class
         :param args:
         """
+
+=======
+>>>>>>> Stashed changes
 #        self.question_string = question_string.format(*tuple([item['name'] for item in args])) - this line cause problems
         self.question_string = question_string
         self.question_type_number = question_type_number
