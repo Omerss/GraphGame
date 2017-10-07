@@ -58,11 +58,12 @@ class GraphGameMainApp(App):
         self.current_graph = None
         self.discovered_graph = None
         self.user_answers = []
-        self.question_list = []
+        self.question_list = None
         self.button_presses = []
 
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
+            self.question_list = graph_data.question_object_list
             self.game_screen.append(GraphGameScreen(name='game_graph_' + str(i_net)))
             self.game_screen[-1].setup(number=i_net,
                                        main_app=self,
@@ -77,8 +78,7 @@ class GraphGameMainApp(App):
             self.game_screen.append(QuestionnaireScreen(name='game_questionnaire_' + str(i_net)))
             self.game_screen[-1].setup(number=i_net,
                                        main_app=self,
-                                       real_user=self.real_user,
-                                       question_list=self.question_list)
+                                       real_user=self.real_user)
             self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
 
             # Step 3 - Results

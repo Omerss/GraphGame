@@ -1,18 +1,20 @@
 import time
 import unittest
 
-from mock import patch
+from mock import patch, Mock
+from os import path, getcwd
 
 from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
+from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
+from main_kivy import CONFIG_FILE_PATH
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1
 
 
 class TestGameDataHandler(unittest.TestCase):
-
     def setUp(self):
         self.node_1_real = NodeObject(serial=10, location={'x': 100, 'y': 100}, size=1, real=True)
         self.node_1_unreal = NodeObject(serial=11, location={'x': 100, 'y': 100}, size=1, real=False)
@@ -131,7 +133,7 @@ class TestGameDataHandler(unittest.TestCase):
         mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
         self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
 
-    def test_data_collection(self,):
+    def test_data_collection(self, ):
         # WIP
         return
         # Assemble
@@ -148,9 +150,9 @@ class TestGameDataHandler(unittest.TestCase):
                         if friend in [item.serial_num for item in nodes_list]:
                             tmp_node = graph.get_node_by_serial(friend)
                             fake_node_1 = NodeObject(serial=None, location={'x': node.x, 'y': node.y},
-                                                   size=node.size, real=False)
+                                                     size=node.size, real=False)
                             fake_node_2 = NodeObject(serial=None, location={'x': tmp_node.x, 'y': tmp_node.y},
-                                                   size=tmp_node.size, real=False)
+                                                     size=tmp_node.size, real=False)
                             edges_list.append((fake_node_1, fake_node_2))
                             return
 
@@ -168,7 +170,8 @@ class TestGameDataHandler(unittest.TestCase):
                     edges.append((node, new_graph.get_node_by_serial(friend)))
                 else:
                     origin_node = new_graph.get_node_by_serial(friend)
-                    fake_node = NodeObject(serial=None, location={'x':origin_node.x,'y':origin_node.y}, size=origin_node.size, real=False)
+                    fake_node = NodeObject(serial=None, location={'x': origin_node.x, 'y': origin_node.y},
+                                           size=origin_node.size, real=False)
                     edges.append((node, fake_node))
 
         # clean nodes
@@ -187,3 +190,23 @@ class TestGameDataHandler(unittest.TestCase):
         gamer.do_move()
         time.sleep(1)
 
+    def test_trim_data(self):
+        data_handler = GameDataHandler(path.join("../", "GraphsData", "config.ini"))
+        data_handler.graph.add_node(self.node_1_real.x, self.node_1_real.y, serial=self.node_1_real.serial_num)
+        data_handler.graph.add_node(self.node_2_real.x, self.node_2_real.y, serial=self.node_2_real.serial_num)
+        data_handler.graph.add_node(self.node_3_real.x, self.node_3_real.y, serial=self.node_3_real.serial_num)
+        data_handler.graph.add_node(self.node_4_real.x, self.node_4_real.y, serial=self.node_4_real.serial_num)
+        edge_1 = (self.node_1_real, self.node_2_real, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_1_real, edge2=self.node_2_real))
+        edge_2 = (self.node_2_real, self.node_3_real, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_2_real, edge2=self.node_3_real))
+        edge_3 = (self.node_3_real, self.node_4_real, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_3_real, edge2=self.node_4_real))
+        edge_4 = (self.node_1_real, self.node_4_real, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_1_real, edge2=self.node_4_real))
+        data_handler.extra_edges = [edge_1, edge_2, edge_3]
+
+        data_handler.trim_data()
+        self.assertEquals(len(data_handler.edges_to_add), 1)
+        self.assertEquals(data_handler.edges_to_add[0][0].serial_num, edge_4[0].serial_num)
+        self.assertEquals(data_handler.edges_to_add[0][1].serial_num, edge_4[1].serial_num)

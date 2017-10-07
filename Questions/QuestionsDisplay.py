@@ -6,6 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle
 
+from Questions.AnswerObject import AnswerObject
 from Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
 from SupplementaryFiles.Enums import QuestionTypes
 
@@ -38,7 +39,7 @@ class QuestionnaireWidget(GridLayout):
         self.question_list = self.main_app.question_list
         self.questionsArray = []
         self.main_app.user_answers = []
-        self.set_questions(self.main_app.question_list)
+        self.set_questions(self.question_list)
         self.submit_button = Button(text='submit')
         self.submit_button.bind(on_press=self.submit_action)
         self.add_widget(self.submit_button)
@@ -53,8 +54,9 @@ class QuestionnaireWidget(GridLayout):
                 go_to_answers = False
                 bad_answers.append(question)
             else:
-                self.main_app.user_answers.append(question)
-
+                self.main_app.user_answers.append(AnswerObject(question,
+                                                               user_seen_graph=self.main_app.discovered_graph,
+                                                               real_graph=self.main_app.current_graph))
         if go_to_answers:
             self.parent_screen.end_questionnaire()
         else:

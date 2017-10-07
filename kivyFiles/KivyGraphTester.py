@@ -13,7 +13,7 @@ from GraphButton import MultiButton
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.NodeObject import NodeObject
 from GraphLayout import GraphLayout
-from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.Enums import Colours, QuestionTypes
 from GameLayout import GameLayout
 
 from kivy.uix.floatlayout import FloatLayout
@@ -151,7 +151,24 @@ class MyGameLayout(FloatLayout):
         graph.connections = [(640, 188), (-55, 206), (-55, 186), (-67, 640),
                              (-67, 206), (640, 206), (-67, 186), (640, 186)]
         graph.center_node = 188
+        graph.question_object_list = MyGameLayout.create_questions()
         return graph
+
+    @staticmethod
+    def create_questions():
+        """
+        Creates a list of QuestionObject
+        """
+        from Questions.QuestionObject import QuestionObject
+        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+
+        question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
+
+        return question_list
 
     @staticmethod
     def get_graph_obj1():

@@ -105,15 +105,22 @@ class GameDataHandler:
                 # Removing all edges from list. We add only the relevant ones later on
                 for item in edges_to_check:
                     self.extra_edges.remove(item)
-
-                for edge_pair in list(itertools.combinations(edges_to_check, 2)):
-                    if self.two_edges_are_one(edge_pair[0], edge_pair[1]):
-                        self.log.info("two edges are one")
-                        self.connect_edges(edge_pair[0], edge_pair[1])
-                    else:
-                        self.log.info("edges are not the same. re-adding them")
-                        self.edges_to_add.append(edge_pair[0])
-                        self.edges_to_add.append(edge_pair[1])
+                while True:
+                    first_edge = edges_to_check.pop()
+                    edge_reconstructed = False
+                    for second_edge in edges_to_check:
+                        if self.two_edges_are_one(first_edge, second_edge):
+                            self.log.info("two edges are one")
+                            edge_reconstructed = True
+                            edges_to_check.remove(second_edge)
+                            edges_to_check.append(self.connect_edges(first_edge, second_edge))
+                            break
+                    if not edge_reconstructed:
+                        # edge does not match any other on the list. We can leave it alone
+                        self.edges_to_add.append(first_edge)
+                    if len(edges_to_check) <= 1:
+                        self.edges_to_add.append(edges_to_check[0])
+                        break
 
     def two_edges_are_one(self, edge_1, edge_2):
         """
@@ -147,6 +154,7 @@ class GameDataHandler:
         The longest distance in an edge is the distance between the real nodes of that edge.
         We clean all existing connections and then connect the two nodes that are furthest from each other.
         :param edge_1, edge_2: An edge defined by a tuple of NodeObjects
+        :returns the new edge created
         """
         # Cleaning all existing connection
         # self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
@@ -173,9 +181,17 @@ class GameDataHandler:
         # connect the right nodes
         self.connect_nodes(node_1, node_2)
         if node_1.x < node_2.x:
-            self.edges_to_add.append((node_1, node_2, edge_1[2],  edge_1[3]))
+            new_edge = (node_1, node_2, edge_1[2],  LineEquation(slope=edge_1[3].slope,
+                                                                 const=edge_1[3].const,
+                                                                 edge1=node_1,
+                                                                 edge2=node_2))
         else:
-            self.edges_to_add.append((node_2, node_1, edge_1[2], edge_1[3]))
+            new_edge = (node_2, node_1, edge_1[2],  LineEquation(slope=edge_1[3].slope,
+                                                                 const=edge_1[3].const,
+                                                                 edge1=node_2,
+                                                                 edge2=node_1))
+        #self.edges_to_add.append(new_edge)
+        return new_edge
 
     def clean_connection(self, main_node, node_to_remove):
         """

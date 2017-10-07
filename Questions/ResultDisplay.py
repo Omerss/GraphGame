@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.app import App
 from kivy.uix.label import Label
 
+from Questions.AnswerObject import AnswerObject
 from kivyFiles.GraphLayout import GraphLayout
 
 
@@ -63,16 +64,17 @@ class ResultWidget(GridLayout):
 
     @staticmethod
     def get_question_result_grid(main_app_data):
-        question_list = main_app_data.user_answers
+
         current_graph = main_app_data.current_graph
         discovered_graph = main_app_data.discovered_graph
+        graph_answers = [AnswerObject(item, discovered_graph, current_graph) for item in main_app_data.question_list]
         user_answers = main_app_data.user_answers
 
-        question_result_grid = GridLayout(rows=len(question_list), cols=1)
+        question_result_grid = GridLayout(rows=len(graph_answers), cols=1)
 
-        for item in question_list:
+        for item in graph_answers:
             new_question = GridLayout(rows=3, cols=1)
-            new_question.add_widget(Label(text=item.question_data.question_string))
+            new_question.add_widget(Label(text=item.question_string))
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text="User Answer"))
