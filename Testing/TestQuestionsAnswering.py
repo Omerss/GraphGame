@@ -6,7 +6,7 @@ from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from Questions import questionsAnswering
+from Questions import QuestionsAnswers
 import unittest
 import threading
 
@@ -54,9 +54,9 @@ class TestGraph(unittest.TestCase):
 
         #Act question 1
        # how many nodes of color X there is?
-       answer_color_red = questionsAnswering.question_one(new_graph, Colours['red'])
-       answer_color_blue = questionsAnswering.question_one(new_graph, Colours['blue'])
-       answer_color_yellow = questionsAnswering.question_one(new_graph, Colours['yellow'])
+       answer_color_red = QuestionsAnswers.question_one(new_graph, Colours['red'])
+       answer_color_blue = QuestionsAnswers.question_one(new_graph, Colours['blue'])
+       answer_color_yellow = QuestionsAnswers.question_one(new_graph, Colours['yellow'])
     #   print (answer_color_blue)
        #assert
        self.assertEqual(answer_color_blue, 4)
@@ -67,12 +67,12 @@ class TestGraph(unittest.TestCase):
        # Act question 2
        ## how many nodes of color X have links to nodes of color Y?
 
-       answer_color_red_red = questionsAnswering.question_two(new_graph, Colours['red'],  Colours['red'])
-       answer_color_blue_red = questionsAnswering.question_two(new_graph, Colours['red'], Colours['blue'])
-       answer_color_yellow_red = questionsAnswering.question_two(new_graph, Colours['yellow'],  Colours['red'])
-       answer_color_blue_yellow = questionsAnswering.question_two(new_graph, Colours['blue'], Colours['yellow'])
-       answer_color_blue_blue = questionsAnswering.question_two(new_graph, Colours['blue'], Colours['blue'])
-       answer_color_yellow_yellow = questionsAnswering.question_two(new_graph, Colours['yellow'], Colours['yellow'])
+       answer_color_red_red = QuestionsAnswers.question_two(new_graph, Colours['red'], Colours['red'])
+       answer_color_blue_red = QuestionsAnswers.question_two(new_graph, Colours['red'], Colours['blue'])
+       answer_color_yellow_red = QuestionsAnswers.question_two(new_graph, Colours['yellow'], Colours['red'])
+       answer_color_blue_yellow = QuestionsAnswers.question_two(new_graph, Colours['blue'], Colours['yellow'])
+       answer_color_blue_blue = QuestionsAnswers.question_two(new_graph, Colours['blue'], Colours['blue'])
+       answer_color_yellow_yellow = QuestionsAnswers.question_two(new_graph, Colours['yellow'], Colours['yellow'])
 
        self.assertEqual(answer_color_red_red, 0)
        self.assertEqual(answer_color_blue_red, 3)
@@ -85,23 +85,23 @@ class TestGraph(unittest.TestCase):
 
        # Act question 3
        ## what is the color that contain the node with the maximun links in the graph?
-       answer_max_3 = questionsAnswering.question_three(new_graph)
+       answer_max_3 = QuestionsAnswers.question_three(new_graph)
        self.assertEqual(answer_max_3, 'blue')
 
        # Act question 4
        # what is the color that contain the maximum sum of links in the graph?
-       answer_max_4 = questionsAnswering.question_three(new_graph)
+       answer_max_4 = QuestionsAnswers.question_three(new_graph)
        self.assertEqual(answer_max_4, 'blue')
 
       # Act question 5
        # how many nodes of color X  do not have links to nodes of color Y?
 
-       answer_color_red_red = questionsAnswering.question_five(new_graph, Colours['red'], Colours['red'])
-       answer_color_red_blue = questionsAnswering.question_five(new_graph, Colours['red'], Colours['blue'])
-       answer_color_yellow_red = questionsAnswering.question_five(new_graph, Colours['yellow'], Colours['red'])
-       answer_color_blue_yellow = questionsAnswering.question_five(new_graph, Colours['blue'], Colours['yellow'])
-       answer_color_blue_blue = questionsAnswering.question_five(new_graph, Colours['blue'], Colours['blue'])
-       answer_color_yellow_yellow = questionsAnswering.question_five(new_graph, Colours['yellow'], Colours['yellow'])
+       answer_color_red_red = QuestionsAnswers.question_five(new_graph, Colours['red'], Colours['red'])
+       answer_color_red_blue = QuestionsAnswers.question_five(new_graph, Colours['red'], Colours['blue'])
+       answer_color_yellow_red = QuestionsAnswers.question_five(new_graph, Colours['yellow'], Colours['red'])
+       answer_color_blue_yellow = QuestionsAnswers.question_five(new_graph, Colours['blue'], Colours['yellow'])
+       answer_color_blue_blue = QuestionsAnswers.question_five(new_graph, Colours['blue'], Colours['blue'])
+       answer_color_yellow_yellow = QuestionsAnswers.question_five(new_graph, Colours['yellow'], Colours['yellow'])
 
        self.assertEqual(answer_color_red_red, 3)
        self.assertEqual(answer_color_red_blue, 0)
@@ -114,23 +114,23 @@ class TestGraph(unittest.TestCase):
        # Act question 6
        # what is the color that contain the node with the minimum links in the graph?
 
-       answer_min_6 = questionsAnswering.question_six(new_graph)
+       answer_min_6 = QuestionsAnswers.question_six(new_graph)
 
        self.assertEqual(answer_min_6, 'yellow')
 
 
       # Act question 7
        # what is the color that contain the minimum sum of links in the graph?
-       answer_min_7 = questionsAnswering.question_seven(new_graph)
+       answer_min_7 = QuestionsAnswers.question_seven(new_graph)
 
        self.assertEqual(answer_min_7, 'yellow')
 
        # Act question 8
        # is there a nodes of color X that have a link to another node of color X?
 
-       answer_color_red = questionsAnswering.question_eight(new_graph, Colours['red'])
-       answer_color_blue = questionsAnswering.question_eight(new_graph, Colours['blue'])
-       answer_color_yellow = questionsAnswering.question_eight(new_graph, Colours['yellow'])
+       answer_color_red = QuestionsAnswers.question_eight(new_graph, Colours['red'])
+       answer_color_blue = QuestionsAnswers.question_eight(new_graph, Colours['blue'])
+       answer_color_yellow = QuestionsAnswers.question_eight(new_graph, Colours['yellow'])
 
        #assert
        self.assertEqual(answer_color_blue, True)
@@ -141,12 +141,12 @@ class TestGraph(unittest.TestCase):
        # Act question 9
        # does every node at color X have link to a node of color Y?
 
-       answer_color_red_red = questionsAnswering.question_nine(new_graph, Colours['red'], Colours['red'])
-       answer_color_red_blue = questionsAnswering.question_nine(new_graph, Colours['red'], Colours['blue'])
-       answer_color_yellow_red = questionsAnswering.question_nine(new_graph, Colours['yellow'], Colours['red'])
-       answer_color_blue_yellow = questionsAnswering.question_nine(new_graph, Colours['blue'], Colours['yellow'])
-       answer_color_blue_blue = questionsAnswering.question_nine(new_graph, Colours['blue'], Colours['blue'])
-       answer_color_yellow_yellow = questionsAnswering.question_nine(new_graph, Colours['yellow'], Colours['yellow'])
+       answer_color_red_red = QuestionsAnswers.question_nine(new_graph, Colours['red'], Colours['red'])
+       answer_color_red_blue = QuestionsAnswers.question_nine(new_graph, Colours['red'], Colours['blue'])
+       answer_color_yellow_red = QuestionsAnswers.question_nine(new_graph, Colours['yellow'], Colours['red'])
+       answer_color_blue_yellow = QuestionsAnswers.question_nine(new_graph, Colours['blue'], Colours['yellow'])
+       answer_color_blue_blue = QuestionsAnswers.question_nine(new_graph, Colours['blue'], Colours['blue'])
+       answer_color_yellow_yellow = QuestionsAnswers.question_nine(new_graph, Colours['yellow'], Colours['yellow'])
 
        self.assertEqual(answer_color_red_red, False)
        self.assertEqual(answer_color_red_blue, True)
@@ -160,12 +160,12 @@ class TestGraph(unittest.TestCase):
        # is there more nodes of color X than nodes of color Y?
 
 
-       answer_color_red_red = questionsAnswering.question_ten(new_graph, Colours['red'], Colours['red'])
-       answer_color_red_blue = questionsAnswering.question_ten(new_graph, Colours['red'], Colours['blue'])
-       answer_color_yellow_red = questionsAnswering.question_ten(new_graph, Colours['yellow'], Colours['red'])
-       answer_color_blue_yellow = questionsAnswering.question_ten(new_graph, Colours['blue'], Colours['yellow'])
-       answer_color_blue_blue = questionsAnswering.question_ten(new_graph, Colours['blue'], Colours['blue'])
-       answer_color_yellow_yellow = questionsAnswering.question_ten(new_graph, Colours['yellow'], Colours['yellow'])
+       answer_color_red_red = QuestionsAnswers.question_ten(new_graph, Colours['red'], Colours['red'])
+       answer_color_red_blue = QuestionsAnswers.question_ten(new_graph, Colours['red'], Colours['blue'])
+       answer_color_yellow_red = QuestionsAnswers.question_ten(new_graph, Colours['yellow'], Colours['red'])
+       answer_color_blue_yellow = QuestionsAnswers.question_ten(new_graph, Colours['blue'], Colours['yellow'])
+       answer_color_blue_blue = QuestionsAnswers.question_ten(new_graph, Colours['blue'], Colours['blue'])
+       answer_color_yellow_yellow = QuestionsAnswers.question_ten(new_graph, Colours['yellow'], Colours['yellow'])
 
        self.assertEqual(answer_color_red_red, False)
        self.assertEqual(answer_color_red_blue, False)
@@ -177,9 +177,9 @@ class TestGraph(unittest.TestCase):
        # Act question 11
        # is there a nodes of color X that have at least Number link to another node of color X?
 
-       answer_color_red = questionsAnswering.question_eleven(new_graph, Colours['red'], 1)
-       answer_color_blue = questionsAnswering.question_eleven(new_graph, Colours['blue'])
-       answer_color_yellow = questionsAnswering.question_eleven(new_graph, Colours['yellow'], 3)
+       answer_color_red = QuestionsAnswers.question_eleven(new_graph, Colours['red'], 1)
+       answer_color_blue = QuestionsAnswers.question_eleven(new_graph, Colours['blue'])
+       answer_color_yellow = QuestionsAnswers.question_eleven(new_graph, Colours['yellow'], 3)
 
        #assert
        self.assertEqual(answer_color_blue, False)
@@ -189,9 +189,9 @@ class TestGraph(unittest.TestCase):
        # Act question 12
        # is there a node of color X with odd (flag =1)/ even (flag=0) number of links?
 
-       answer_color_red = questionsAnswering.question_twelve(new_graph, Colours['red'] , 1)
-       answer_color_blue = questionsAnswering.question_twelve(new_graph, Colours['blue'], 1)
-       answer_color_yellow = questionsAnswering.question_twelve(new_graph, Colours['yellow'], 0)
+       answer_color_red = QuestionsAnswers.question_twelve(new_graph, Colours['red'], 1)
+       answer_color_blue = QuestionsAnswers.question_twelve(new_graph, Colours['blue'], 1)
+       answer_color_yellow = QuestionsAnswers.question_twelve(new_graph, Colours['yellow'], 0)
 
        #assert
        self.assertEqual(answer_color_red, False)
@@ -201,9 +201,9 @@ class TestGraph(unittest.TestCase):
        # Act question 13
        # does all the color X nodes have odd (flag =1)/ even (flag=0) number of links?
 
-       answer_color_red = questionsAnswering.question_thirteen(new_graph, Colours['red'] , 1)
-       answer_color_blue = questionsAnswering.question_thirteen(new_graph, Colours['blue'], 0)
-       answer_color_yellow = questionsAnswering.question_thirteen(new_graph, Colours['yellow'], 1)
+       answer_color_red = QuestionsAnswers.question_thirteen(new_graph, Colours['red'], 1)
+       answer_color_blue = QuestionsAnswers.question_thirteen(new_graph, Colours['blue'], 0)
+       answer_color_yellow = QuestionsAnswers.question_thirteen(new_graph, Colours['yellow'], 1)
 
        #assert
        self.assertEqual(answer_color_red, False)
@@ -213,9 +213,9 @@ class TestGraph(unittest.TestCase):
        # Act question 14
        #does the sum of the links in all the nodes at color X is odd (flag =1)/ even (flag=0)?
 
-       answer_color_red = questionsAnswering.question_fourteen(new_graph, Colours['red'] , 0)
-       answer_color_blue = questionsAnswering.question_fourteen(new_graph, Colours['blue'], 1)
-       answer_color_yellow = questionsAnswering.question_fourteen(new_graph, Colours['yellow'], 0)
+       answer_color_red = QuestionsAnswers.question_fourteen(new_graph, Colours['red'], 0)
+       answer_color_blue = QuestionsAnswers.question_fourteen(new_graph, Colours['blue'], 1)
+       answer_color_yellow = QuestionsAnswers.question_fourteen(new_graph, Colours['yellow'], 0)
 
        #assert
        self.assertEqual(answer_color_red, True)
@@ -224,9 +224,9 @@ class TestGraph(unittest.TestCase):
 
        # Act question 15
        #does the number of nodes at color X is odd (flag =1)/ even (flag=0)?
-       answer_color_red = questionsAnswering.question_fifteen(new_graph, Colours['red'] , 0)
-       answer_color_blue = questionsAnswering.question_fifteen(new_graph, Colours['blue'], 1)
-       answer_color_yellow = questionsAnswering.question_fifteen(new_graph, Colours['yellow'], 0)
+       answer_color_red = QuestionsAnswers.question_fifteen(new_graph, Colours['red'], 0)
+       answer_color_blue = QuestionsAnswers.question_fifteen(new_graph, Colours['blue'], 1)
+       answer_color_yellow = QuestionsAnswers.question_fifteen(new_graph, Colours['yellow'], 0)
 
        #assert
        self.assertEqual(answer_color_red, False)
@@ -235,11 +235,11 @@ class TestGraph(unittest.TestCase):
 
        # Act question 16
        # which color has the maximum number of nodes?
-       answer_max_16 = questionsAnswering.question_sixteen(new_graph)
+       answer_max_16 = QuestionsAnswers.question_sixteen(new_graph)
        self.assertEqual(answer_max_16, 'blue')
 
 
        # Act question 17
        # which color has the minimum number of nodes?
-       answer_min_17 = questionsAnswering.question_seventeen(new_graph)
+       answer_min_17 = QuestionsAnswers.question_seventeen(new_graph)
        self.assertEqual(answer_min_17, 'yellow')
