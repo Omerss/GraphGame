@@ -160,13 +160,11 @@ class MyGameLayout(FloatLayout):
         Creates a list of QuestionObject
         """
         from Questions.QuestionObject import QuestionObject
-        questionOne = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionThree = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionFive = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionNine = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        questionTen = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionOne = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
+        questionThree = QuestionObject("how many yellow nodes there are?", QuestionTypes.NUMBER, 1, Colours['yellow'])
+        questionFive = QuestionObject("how many blue nodes there are?", QuestionTypes.NUMBER, 1, Colours['blue'])
 
-        question_list = [questionOne, questionThree, questionFive, questionNine, questionTen]
+        question_list = [questionOne, questionThree, questionFive]
 
         return question_list
 

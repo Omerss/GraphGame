@@ -31,7 +31,7 @@ class ResultWidget(GridLayout):
 
     def on_enter(self):
         self.layout = GridLayout(rows=10, cols=2)
-        self.layout.add_widget(self.get_question_result_grid(main_app_data=self.main_app))
+        self.layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers))
 
         map_grid = GridLayout(rows=2, cols=1)
         graph_discovered = GraphLayout(original_graph=self.main_app.discovered_graph,
@@ -47,8 +47,8 @@ class ResultWidget(GridLayout):
         self.layout.add_widget(map_grid)
 
         self.add_widget(self.layout)
-        res = self.calculate_percentage(self.main_app)
-        self.add_widget(Label(text="possible_success 1: {}; true_success 2: {}; discovery grade: {}"
+        res = self.calculate_percentage(self.main_app.user_answers)
+        self.add_widget(Label(text="Possible success : {};   True success : {};     discovery grade: {}"
                               .format(res['possible_success'],
                                       res['true_success'],
                                       self.game_grade(self.main_app.discovered_graph,
@@ -63,16 +63,11 @@ class ResultWidget(GridLayout):
         self.parent_app.parent_screen.end_results()
 
     @staticmethod
-    def get_question_result_grid(main_app_data):
+    def get_question_result_grid(user_answers):
+        user_answers = user_answers
+        question_result_grid = GridLayout(rows=len(user_answers), cols=1)
 
-        current_graph = main_app_data.current_graph
-        discovered_graph = main_app_data.discovered_graph
-        graph_answers = [AnswerObject(item, discovered_graph, current_graph) for item in main_app_data.question_list]
-        user_answers = main_app_data.user_answers
-
-        question_result_grid = GridLayout(rows=len(graph_answers), cols=1)
-
-        for item in graph_answers:
+        for item in user_answers:
             new_question = GridLayout(rows=3, cols=1)
             new_question.add_widget(Label(text=item.question_string))
 
@@ -83,27 +78,23 @@ class ResultWidget(GridLayout):
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
-            answers.add_widget(Label(text=str(item.get_answer())))
-            answers.add_widget(Label(text=str(item.get_answer())))
-            answers.add_widget(Label(text=str(item.get_answer())))
+            answers.add_widget(Label(text=str(item.user_answer)))
+            answers.add_widget(Label(text=str(item.user_graph_answer)))
+            answers.add_widget(Label(text=str(item.real_answer)))
             new_question.add_widget(answers)
 
             question_result_grid.add_widget(new_question)
 
         return question_result_grid
 
-
-    def calculate_percentage(self, main_app):
-        return {'possible_success': 1,
-                'true_success': 0.5}
-        answer_list = main_app.question_list
+    def calculate_percentage(self, user_answers):
+        answer_list = user_answers
         user_answers_percentage = 0
         user_graph_answer_percentage = 0
         for answer in answer_list:
-            answers_list = answer.get_question_results()
-            if answers_list[0] == answers_list[1]:
+            if str(answer.user_answer) == str(answer.user_graph_answer):
                 user_answers_percentage = user_answers_percentage + 1
-            if answers_list[1] == answers_list[2]:
+            if str(answer.real_answer) == str(answer.user_graph_answer):
                 user_graph_answer_percentage = user_graph_answer_percentage + 1
         num_of_questions = len(answer_list)
         user_possible_success = user_answers_percentage * 100 / float(num_of_questions)
@@ -112,10 +103,9 @@ class ResultWidget(GridLayout):
 
     @staticmethod
     def game_grade(user_seen_graph, real_graph):
-        return 4
         user_graph_num_of_nodes = len(user_seen_graph.node_list)
         real_graph_num_of_nodes = len(real_graph.node_list)
-        return float(user_graph_num_of_nodes) / float(real_graph_num_of_nodes)
+        return 100 *float(user_graph_num_of_nodes / real_graph_num_of_nodes)
 
     def build(self):
         return self.meta_layout
