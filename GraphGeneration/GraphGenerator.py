@@ -23,7 +23,7 @@ def main ():
         #graph = MyGameLayout.get_graph_obj1()
         #graph = create_rand_graph(CONFIG_FILE_PATH)
         #save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
-        graph = load_graph_from_file("testDraftGraph.xml")
+        graph = load_graph_from_file("the_draft_graph.xml")
         with open("saved_steps.txt", 'w') as f:
             #steps = ""
             for i in range(0,4096):
