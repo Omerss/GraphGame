@@ -25,7 +25,7 @@ class GraphLayout(RelativeLayout):
         self.kivy_graph = KivyGraph(center_screen, zoom_rate, self.dim)
         self.get_nodes(original_graph, zoom_rate)
         self.get_edges(original_graph, zoom_rate, edge_size)
-        self.kivy_graph.move_node_to_center(self.kivy_graph.nodes[0], False)
+        self.kivy_graph.move_node_to_center(self.kivy_graph.get_by_serial(original_graph.center_node), False)
 
     def get_center_coor(self):
         """
