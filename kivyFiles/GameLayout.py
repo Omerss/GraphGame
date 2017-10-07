@@ -89,6 +89,8 @@ class GameLayout(FloatLayout):
         self.is_zoomed_out = True
         self.remove_widget(self.button_layout)
         self.add_widget(self.button_layout)
+        self.remove_widget(self.button_hider)
+        self.add_widget(self.button_hider)
 
     def zoom_in(self):
         center_node = self.kivy_graph_in.kivy_graph.get_by_serial(self.kivy_graph_out.kivy_graph.center_node.serial)
@@ -98,6 +100,8 @@ class GameLayout(FloatLayout):
         self.is_zoomed_out = False
         self.remove_widget(self.button_layout)
         self.add_widget(self.button_layout)
+        self.remove_widget(self.button_hider)
+        self.add_widget(self.button_hider)
 
     def centralize_most_connected(self):
         if self.is_zoomed_out:
@@ -118,7 +122,6 @@ class GameLayout(FloatLayout):
             self.kivy_graph_in.kivy_graph.centralize_closest_neighbor_diff_color()
 
     def call_function(self):
-        print "in 'call function', next func is:", self.next_func
         if self.next_func is not None:
             self.next_func()
             self.tablet_game.send_info_from_screen()

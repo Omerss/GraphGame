@@ -147,8 +147,9 @@ class GraphTabletGame:
         real_node = self.original_graph.get_node_by_serial(node.serial)
         node_x = real_node.x
         node_y = real_node.y
-        return screen_edges["bottom_left"].get_x() < node_x < screen_edges["top_right"].get_x() and \
-                screen_edges["bottom_left"].get_y() < node_y < screen_edges["top_right"].get_y()
+        node_r = node.get_radius() * 0.05
+        return (node_x + node_r) > screen_edges["bottom_left"].get_x() and (node_x - node_r) < screen_edges["top_right"].get_x() and \
+                        (node_y + node_r) > screen_edges["bottom_left"].get_y() and (node_y - node_r) < screen_edges["top_right"].get_y()
 
     def get_partly_visible_edge(self, edge, top, bottom, left, right, node, edge_equation):
         """
