@@ -77,9 +77,10 @@ class GameDataHandler:
         for item in self.edges_to_add:
             self.extra_edges.append(item)
         self.clear_empty_nodes()
-        self.log.info(format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
+        self.log.debug(format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
                       num_real_node=(len([item for item in self.graph.node_list if item.is_real()])),
                       num_of_edges=len(self.extra_edges)))
+        self.log.debug(format_log_msg("edge list:", edges=self.extra_edges))
 
     def trim_data(self):
         """
@@ -246,5 +247,19 @@ class GameDataHandler:
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
-
         self.log.info("removed {} nodes".format(len(remove_list)))
+
+    def cleaned_graph(self):
+        """
+        Called at the end of a run. Cleans the graph of none real connections
+        This is really just a patch because we enter bad connections. We should probably fix the source of the issue
+        :return: the cleaned graph
+        """
+        self.graph.connections = []
+        for edge in self.extra_edges:
+            if edge[0].is_real() and edge[1].is_real():
+                self.graph.connections.append((min(edge[0].serial_num, edge[1].serial_num),
+                                               max(edge[0].serial_num, edge[1].serial_num)))
+        # Make sure we see only the same edge once
+        self.graph.connections = list(set(self.graph.connections))
+        return self.graph
