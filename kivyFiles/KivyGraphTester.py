@@ -15,6 +15,7 @@ from SupplementaryFiles.NodeObject import NodeObject
 from GraphLayout import GraphLayout
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 from GameLayout import GameLayout
+from GraphDisplay import GraphDisplay
 
 from kivy.uix.floatlayout import FloatLayout
 from GameData.GameDataHandler import GameDataHandler
@@ -642,3 +643,14 @@ class GraphGameApp(App):
 
     def stop_me(self):
         self.stop()
+
+
+class DisplayApp(App):
+
+    def __init__(self, graph, **kwargs):
+        super(DisplayApp, self).__init__(**kwargs)
+        dim = (800, 600)
+        self.layout = GraphDisplay(graph, dim)
+
+    def build(self):
+        return self.layout
