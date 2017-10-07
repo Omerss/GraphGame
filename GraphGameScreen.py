@@ -60,7 +60,7 @@ class GraphGameScreen(Screen):
         log_str = 'start,'
         log_str += 'turns=' + str(self.graph_game.max_turns) + ','
         KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
-
+        self.main_app.current_graph = self.graph
         self.button_presses = []
 
         self.graph_game.load()
