@@ -19,6 +19,7 @@ class GraphObject:
     max_neighbors = 5
     extra_distance = 25
     inner_node_count = 0
+    question_object_list = []
 
     def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None,
                  extra_distance=None):
@@ -189,7 +190,8 @@ class GraphObject:
     def get_connections(self):
         return self.connections
 
-
+    def get_question_object_list (self):
+        return self.question_object_list
 def get_serial():
     # return str(datetime.now().strftime("%M%S%f"))
     return str(uuid.uuid4())

@@ -8,8 +8,7 @@ class QuestionObject:
     An object used for the questions displaying
     """
 
-    def __init__(self, question_string, question_type_number, question_id, *args)\
-            :
+    def __init__(self, question_string, question_type_number, question_id, *args):
         self.question_string = question_string.format(*tuple([item['name'] for item in args]))
         self.question_type_number = question_type_number
         self.get_question_values()
