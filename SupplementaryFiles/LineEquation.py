@@ -46,7 +46,7 @@ class LineEquation:
     def point_in_between_edges(point, eq1):
         if type(eq1.edge1) != Point and type(eq1.edge1) != NodeObject:
             raise TypeError("Edge must be a NodeObject or Point type! type = {}".format(type(eq1.edge1)))
-        if eq1.edge1.x <= point.x <= eq1.edge2.x or eq1.edge1.x >= point.x >= eq1.edge2.x:
+        if eq1.edge1.x < point.x < eq1.edge2.x or eq1.edge1.x > point.x > eq1.edge2.x:
             return True
         else:
             return False
