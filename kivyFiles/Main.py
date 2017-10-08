@@ -25,9 +25,9 @@ def create_draft_graph2():
     draft_graph.add_node(x_loc=600, y_loc=850, node_colour=Colours['blue'], serial="n8")
     draft_graph.add_node(x_loc=1100, y_loc=850, node_colour=Colours['yellow'], serial="n9")
     draft_graph.add_node(x_loc=300, y_loc=1050, node_colour=Colours['blue'], serial="n10")
-    draft_graph.add_node(x_loc=150, y_loc=800, node_colour=Colours['yellow'], serial="n11")
-    draft_graph.add_node(x_loc=500, y_loc=650, node_colour=Colours['yellow'], serial="n12")
-
+    draft_graph.add_node(x_loc=150, y_loc=800, node_colour=Colours['red'], serial="n11")
+    draft_graph.add_node(x_loc=50, y_loc=1000, node_colour=Colours['yellow'], serial="n12")
+    draft_graph.add_node(x_loc=200, y_loc=1100, node_colour=Colours['blue'], serial="n13")
     draft_graph.center_node = "n2"
 
     for node in draft_graph.node_list:
@@ -42,8 +42,8 @@ def create_draft_graph2():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n9"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n11"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n12"))
-    #draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n12"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n13"))
     # save_graph(draft_graph, "the_draft_graph.xml")
     return draft_graph
 
