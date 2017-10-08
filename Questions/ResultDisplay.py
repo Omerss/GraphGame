@@ -4,7 +4,7 @@ from kivy.app import App
 from kivy.uix.label import Label
 
 from Questions.AnswerObject import AnswerObject
-from kivyFiles.GraphLayout import GraphLayout
+from kivyFiles.GraphDisplay import GraphDisplay
 
 
 class ResultDisplay(App):
@@ -33,17 +33,13 @@ class ResultWidget(GridLayout):
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers))
 
-        map_grid = GridLayout(rows=2, cols=1, padding=100)
-        graph_discovered = GraphLayout(original_graph=self.main_app.discovered_graph,
-                                       dim={'max_x': 200, 'max_y': 200},
-                                       zoom_rate=0.5,
-                                       edge_size=1
-                                       )
+
+        map_grid = GridLayout(rows=2, cols=1)
+        graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
+                                        dim=(100, 100))
         map_grid.add_widget(graph_discovered)
-        graph_true = GraphLayout(self.main_app.true_graph,
-                                 dim={'max_x': 200, 'max_y': 200},
-                                 zoom_rate=0.5,
-                                 edge_size=1)
+        graph_true = GraphDisplay(graph=self.main_app.true_graph,
+                                  dim=(100, 100))
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
 

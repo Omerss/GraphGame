@@ -50,7 +50,7 @@ class GraphGameMainApp(App):
 
         # TODO - Actually get multiple graphs in here
         # graph_list = self.get_graphs()
-        graph_list = [MyGameLayout.get_graph_obj()]
+        # graph_list = [MyGameLayout.get_graph_obj()]
         graph_list = [load_graph_from_file(path.join(".","GraphGeneration", "the_draft_graph.xml"))]
 
         concepts_path = 'items/'
