@@ -53,7 +53,7 @@ class GraphDisplay(RelativeLayout):
             for edge in edges:
                 node1 = self.kivy_graph.get_by_serial(edge[0])
                 node2 = self.kivy_graph.get_by_serial(edge[1])
-                new_edge = KivyEdge(node1, node2, 1)
+                new_edge = KivyEdge(node1, node2, 1.3)
                 self.kivy_graph.add_edge(new_edge)
                 node1.add_neighbor(node2)
                 node2.add_neighbor(node1)
