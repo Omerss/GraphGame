@@ -458,7 +458,12 @@ class GraphGameApp(App):
         return self.layout
 
     def send_info_from_screen(self):
-        self.current_data_handler.add_view_to_db(self.get_info_from_screen())
+        # self.current_data_handler.add_view_to_db(self.get_info_from_screen())
+        view = self.get_info_from_screen()
+        print "nodes: ", view["nodes"]
+        print "edges: "
+        for edge in view["edges"]:
+            print edge[0], ",", edge[1]
 
     def end_game(self):
         self.is_playing = False
@@ -485,7 +490,6 @@ class GraphGameApp(App):
 
         nodes = self.get_onscreen_nodes(graph_nodes, graph_corners)
         edges = self.get_onscreen_edges(graph_edges, graph_corners)
-
         return {'nodes': nodes, 'edges': edges}
 
     def get_onscreen_nodes(self, graph_nodes, graph_corners):
@@ -561,7 +565,6 @@ class GraphGameApp(App):
         return (node_x + node_r) > screen_edges["bottom_left"].get_x() and (node_x - node_r) < screen_edges["top_right"].get_x() and \
                         (node_y + node_r) > screen_edges["bottom_left"].get_y() and (node_y - node_r) < screen_edges["top_right"].get_y()
 
-
     def get_partly_visible_edge(self, edge, top, bottom, left, right, node, edge_equation):
         """
 
@@ -629,7 +632,7 @@ class GraphGameApp(App):
             if first_node is None:
                 return None
             else:
-                raise Exception("Only One viable node for onscreen edge!")
+                raise Exception("Only One viable node for onscreen edge: {}".format(edge.print_by_serial()))
 
         min_dist = edge.node1.get_radius() / 2
         if first_node.distance(second_node) < min_dist:

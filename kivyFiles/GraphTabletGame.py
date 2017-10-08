@@ -219,7 +219,7 @@ class GraphTabletGame:
             if first_node is None:
                 return None
             else:
-                raise Exception("Only One viable node for onscreen edge!")
+                raise Exception("Only One viable node for onscreen edge: {}".format(edge.print_by_serial()))
 
         min_dist = edge.node1.get_radius() / 2
         if first_node.distance(second_node) < min_dist:
