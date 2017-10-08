@@ -24,7 +24,7 @@ def create_draft_graph2():
     draft_graph.add_node(x_loc=550, y_loc=1000, node_colour=Colours['red'], serial="n7")
     draft_graph.add_node(x_loc=600, y_loc=850, node_colour=Colours['blue'], serial="n8")
     draft_graph.add_node(x_loc=1100, y_loc=850, node_colour=Colours['yellow'], serial="n9")
-    draft_graph.add_node(x_loc=300, y_loc=1050, node_colour=Colours['blue'], serial="n10")
+    draft_graph.add_node(x_loc=301, y_loc=1050, node_colour=Colours['blue'], serial="n10")
     draft_graph.add_node(x_loc=150, y_loc=800, node_colour=Colours['red'], serial="n11")
     draft_graph.add_node(x_loc=50, y_loc=1000, node_colour=Colours['yellow'], serial="n12")
     draft_graph.add_node(x_loc=200, y_loc=1100, node_colour=Colours['blue'], serial="n13")
