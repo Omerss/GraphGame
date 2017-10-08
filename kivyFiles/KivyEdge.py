@@ -39,3 +39,6 @@ class KivyEdge(Widget):
 
     def __repr__(self):
         return 'KivyEdge({}, {})'.format(self.node1, self.node2)
+
+    def print_by_serial(self):
+        return 'KivyEdge({}, {})'.format(self.node1.serial, self.node2.serial)
