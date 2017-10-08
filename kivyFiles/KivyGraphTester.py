@@ -421,7 +421,7 @@ class MyGameLayout(FloatLayout):
 
 class TestScreen():
     graph_config = None
-    max_turns = 5
+    max_turns = 6
 
     def __init__(self, graph, button_presses, button_ratio, real_user=True,**kwargs):
         self.graph = graph
