@@ -4,24 +4,11 @@ action_space = 1 of 4 options\
     s_t= a_t-1
 
 
-q_function
-Q()
-
-epsilon gready
-epsilon<1 = 0.1
-if rand < epsilon:
-    a_y = rand
-else:
-    a_t = args_max(Q(a_t-1,a_t))
-
-choice = soft_max
-
 Q(a_t-1, a_t) = Q(a_t-1, a_t) + alpha[reword_t + gamma*max(Q)]
 
 reword_t = number of new item added to system after the action a_t
 
-gamma ~ 0.8
-alpha = 0.01
+
 
 epsiode:
 for t=1: 6

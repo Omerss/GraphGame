@@ -37,6 +37,7 @@ def main():
                 answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
                 number_of_successful_runs = number_of_successful_runs+answer
                 f.write("steps: {} seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
+
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
 
 
