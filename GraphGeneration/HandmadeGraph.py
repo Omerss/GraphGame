@@ -88,7 +88,7 @@ def create_draft_graph2():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
 
-    # save_graph(draft_graph, "the_draft_graph2.xml")
-    return draft_graph
+    save_graph(draft_graph, "the_draft_graph2.xml")
+    # return draft_graph
 
 create_draft_graph2()

@@ -31,8 +31,8 @@ class ResultWidget(GridLayout):
         self.main_app = main_app
 
     def on_enter(self):
-        col_width = kivy.core.window.Window.size[0]/2
-        height = (kivy.core.window.Window.size[1] - 100)/ 2
+        col_width = kivy.core.window.Window.size[0] / 2
+        height = (kivy.core.window.Window.size[1] - 100) / 2
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
 
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
@@ -41,7 +41,7 @@ class ResultWidget(GridLayout):
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
                                         dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
-        graph_true = GraphDisplay(graph=self.main_app.true_graph,
+        graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
