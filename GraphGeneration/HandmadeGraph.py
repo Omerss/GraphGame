@@ -5,7 +5,7 @@ from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 import threading
-
+from kivyFiles.KivyGraphTester import DisplayApp
 
 
 def create_draft_graph_1():
@@ -49,7 +49,8 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
-
+    display = DisplayApp(draft_graph)
+    display.build()
     save_graph(draft_graph, "draft_graph_1.xml")
     # return draft_graph
 
@@ -99,5 +100,5 @@ def create_draft_graph_2():
     # return draft_graph
 
 
-create_draft_graph_1()
+#create_draft_graph_1()
 
