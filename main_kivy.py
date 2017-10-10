@@ -59,7 +59,7 @@ class GraphGameMainApp(App):
         self.question_list = []
         self.button_presses = []
 
-        graph_list = [load_graph_from_file( path.join(getcwd(), self.config['Default']['graphs_folder'], "Graph_1.xml"))]
+        graph_list = [load_graph_from_file( path.join(getcwd(), self.config['Default']['graphs_folder'], "draft_graph2.xml"))]
 
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game

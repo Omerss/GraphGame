@@ -9,7 +9,7 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 
 EPSILON = 0.1
 GAMMA = 0.8
-ALPHA = 0.1
+ALPHA = 0.01
 
 MAIN_CONFIG_FILE_PATH = "../config.ini"
 GRAPH_CONFIG_FILE = "../GraphsData/graph_config.ini"
@@ -68,7 +68,7 @@ class QMatrix:
         rsa = self.reword_arr[self.prev_step][current_step]
         qsa = self.moves_matrix[self.prev_step][current_step]
         # = qsa + ALPHA * (rsa + GAMMA * max(self.moves_arr[current_step][:]) - qsa)
-        new_q = qsa + ALPHA * (improvement_score + GAMMA**self.current_step * max(self.moves_matrix[current_step][:]) - qsa)
+        new_q = qsa + ALPHA * (improvement_score + GAMMA * max(self.moves_matrix[current_step][:]) - qsa)
         self.moves_matrix[self.prev_step][current_step] = new_q
 
         # Normalize
@@ -84,6 +84,7 @@ class QMatrix:
         # self.reword_arr[self.prev_step][current_step] = mean(self.reword_arr[self.prev_step][current_step],
         #                                                      improvement_score)
         self.prev_step = current_step
+        return improvement_score
 
 
 class QPlayer:
@@ -95,8 +96,8 @@ class QPlayer:
         read_config_file(MAIN_CONFIG_FILE_PATH, True)
         log = logging.getLogger()
         log.setLevel(Utils.config['Default']['log_level'])
-        session_length = 100
-        graph_path = "../GraphsData/Graph_1.xml"
+        session_length = 200
+        graph_path = "../GraphsData/draft_graph2.xml"
         graph = load_graph_from_file(graph_path)
         q_matrix = QMatrix(action_space=4, step_count=int(Utils.config['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
         for i in range(session_length):
@@ -104,13 +105,15 @@ class QPlayer:
             game = GraphTabletGame(dummy_screen)
             data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
             data_handler.add_view_to_db(game.get_info_from_screen())
-            log.info("Q session {}:{}".format(i, session_length))
-            for i in range(1, int(Utils.config['Default']['max_turns'])):
-                log.debug("doing a step {}/{}".format(i, Utils.config['Default']['max_turns']))
+
+            rw = 0
+            for j in range(1, int(Utils.config['Default']['max_turns'])):
+                log.debug("doing a step {}/{}".format(j, Utils.config['Default']['max_turns']))
                 btn = q_matrix.choose_action_epsilon_greedy(True)
                 game.press_button(btn + 1)
                 data_handler.add_view_to_db(game.get_info_from_screen())
-                q_matrix.update_matrix(num_nodes=len(data_handler.get_real_nodes()), current_step=btn)
+                rw = q_matrix.update_matrix(num_nodes=len(data_handler.get_real_nodes()), current_step=btn)
+            log.info("Q session {}:{} - reword:{}".format(i, session_length, rw))
         print(q_matrix)
 
 
