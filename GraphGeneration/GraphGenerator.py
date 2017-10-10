@@ -22,7 +22,7 @@ graph_path = ["the_draft_graph2.xml"]
 
 def main():
     read_config_file(MAIN_CONFIG_FILE_PATH, True)
-    max_turns = 6
+    max_turns = int(Utils.config['Default']['max_turns'])
     #iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
     iter = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
