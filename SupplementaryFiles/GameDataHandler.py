@@ -294,3 +294,6 @@ class GameDataHandler:
                                       num_of_connections=len(self.graph.connections)))
         self.graph.node_list = real_nodes
         return self.graph
+
+    def get_real_nodes(self):
+        return [item for item in self.graph.node_list if item.is_real()]
