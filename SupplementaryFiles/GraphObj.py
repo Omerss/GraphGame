@@ -173,7 +173,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        self.log.info(format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
+        self.log.debug(format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:

@@ -52,7 +52,7 @@ class GameDataHandler:
                 node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
                                              serial=edge[0].serial_num)
                 num = self.graph.get_node_by_serial(node_0.serial_num).dummy_num
-                self.log.info(format_log_msg("Adding node",num=num, real=False,
+                self.log.debug(format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num))
 
             if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
@@ -61,7 +61,7 @@ class GameDataHandler:
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
                                              serial=edge[1].serial_num)
                 num = self.graph.get_node_by_serial(node_1.serial_num).dummy_num
-                self.log.info(format_log_msg("Adding node",num=num, real=False,
+                self.log.debug(format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num))
 
             if node_1.serial_num not in node_0.possible_neighbors:
@@ -74,9 +74,9 @@ class GameDataHandler:
                 self.extra_edges.append(edge)
 
         self.edges_to_add = []
-        self.log.info("Triming data from graph")
+        self.log.debug("Triming data from graph")
         self.trim_data()
-        self.log.info("Adding extra edges to edge list")
+        self.log.debug("Adding extra edges to edge list")
         for item in self.edges_to_add:
             self.extra_edges.append(item)
         self.clear_empty_nodes()
@@ -102,7 +102,7 @@ class GameDataHandler:
             for edge in self.extra_edges:
                 if edge[3].slope == slope:
                     edges_to_check.append(edge)
-            self.log.info(format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
+            self.log.debug(format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -113,7 +113,7 @@ class GameDataHandler:
                     edge_reconstructed = False
                     for second_edge in edges_to_check:
                         if self.two_edges_are_one(first_edge, second_edge):
-                            self.log.info("two edges are one")
+                            self.log.debug("two edges are one")
                             edge_reconstructed = True
                             edges_to_check.remove(second_edge)
                             edges_to_check.append(self.connect_edges(first_edge, second_edge))
@@ -143,14 +143,14 @@ class GameDataHandler:
 
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-        self.log.info(format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
+        self.log.debug(format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
         if collision_point == LINES_ALWAYS_MEET:
             # Lines have the same slope + const. Big change they are the same one.
             if LineEquation.check_collision_point(eq1, eq2):
-                self.log.info("Lines meet and intersect with each other - They are the same line")
+                self.log.debug("Lines meet and intersect with each other - They are the same line")
                 return True
             else:
-                self.log.info("Lines have the same parameters but we are not sure if they meet")
+                self.log.debug("Lines have the same parameters but we are not sure if they meet")
                 return False
         return False
 
@@ -268,7 +268,7 @@ class GameDataHandler:
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
-        self.log.info("removed {} nodes".format(len(remove_list)))
+        self.log.debug("removed {} nodes".format(len(remove_list)))
 
     def cleaned_graph(self):
         """
