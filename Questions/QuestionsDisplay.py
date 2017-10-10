@@ -20,7 +20,6 @@ class QuestionDisplay:
         self.the_end = False
 
     def load(self):
-        #self.the_widget.update_background(self.network.background)
         self.is_playing = True
 
 

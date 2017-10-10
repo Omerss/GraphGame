@@ -1,0 +1,14 @@
+<question_id_0 name="question_id_0">1</question_id_0>
+<question_type_number_0 name="question_type_number_0">1</question_type_number_0>
+<question_string_0 name="question_string_0">'how many nodes of yellow color there is?'</question_string_0>
+<args_0 name="args_0">'yellow'</args_0>
+
+<question_id_1 name="question_id_1">3</question_id_1
+><question_type_number_1 name="question_type_number_1">2</question_type_number_1>
+<question_string_1 name="question_string_1">'what is the color that contain the node with the maximun links in the graph?'</question_string_1>
+<args_1 name="args_1">'yellow'</args_1>
+
+<question_id_2 name="question_id_2">8</question_id_2>
+<question_type_number_2 name="question_type_number_2">3</question_type_number_2>
+<question_string_2 name="question_string_2">'is there red node that have a link to another red node?'</question_string_2>
+<args_2 name="args_2">'red'</args_2>

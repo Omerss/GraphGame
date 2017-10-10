@@ -33,12 +33,11 @@ class ResultWidget(GridLayout):
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers))
 
-
         map_grid = GridLayout(rows=2, cols=1)
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
                                         dim=(100, 100))
         map_grid.add_widget(graph_discovered)
-        graph_true = GraphDisplay(graph=self.main_app.true_graph,
+        graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(100, 100))
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
@@ -49,7 +48,7 @@ class ResultWidget(GridLayout):
                               .format(res['possible_success'],
                                       res['true_success'],
                                       self.game_grade(self.main_app.discovered_graph,
-                                                      self.main_app.true_graph)),
+                                                      self.main_app.current_graph)),
                               size_hint_y=None, height=50))
 
         self.submit_button = Button(text='Done', size_hint_y=None, height=50)
@@ -94,15 +93,15 @@ class ResultWidget(GridLayout):
             if str(answer.real_answer) == str(answer.user_graph_answer):
                 user_graph_answer_percentage = user_graph_answer_percentage + 1
         num_of_questions = len(answer_list)
-        user_possible_success = user_answers_percentage * 100 / float(num_of_questions)
-        user_true_success = user_graph_answer_percentage * 100 / float(num_of_questions)
+        user_possible_success = round(user_answers_percentage * 100 / float(num_of_questions), 2)
+        user_true_success = round(user_graph_answer_percentage * 100 / float(num_of_questions), 2)
         return {'possible_success': user_possible_success, 'true_success': user_true_success}
 
     @staticmethod
     def game_grade(user_seen_graph, real_graph):
-        user_graph_num_of_nodes = len(user_seen_graph.node_list)
-        real_graph_num_of_nodes = len(real_graph.node_list)
-        return 100 *float(user_graph_num_of_nodes / real_graph_num_of_nodes)
+        user_graph_num_of_nodes = len([item for item in user_seen_graph.node_list if item.is_real()])
+        real_graph_num_of_nodes = len([item for item in real_graph.node_list if item.is_real()])
+        return round(100 * float(user_graph_num_of_nodes) / float(real_graph_num_of_nodes), 2)
 
     def build(self):
         return self.meta_layout

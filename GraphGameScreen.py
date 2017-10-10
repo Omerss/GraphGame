@@ -41,7 +41,6 @@ class GraphGameScreen(Screen):
         :param graph: The graph used in this specific game
         """
         # Init
-        self.size = (200, 100)
         self.game_number = number
         self.main_app = main_app
         self.real_user = real_user
@@ -70,7 +69,7 @@ class GraphGameScreen(Screen):
         if not self.graph_game.is_playing:
 
             self.main_app.discovered_graph = self.graph_game.current_data_handler.cleaned_graph()
-            self.main_app.true_graph = self.graph
+            self.main_app.current_graph = self.graph
             self.next_game()
 
     def next_game(self):

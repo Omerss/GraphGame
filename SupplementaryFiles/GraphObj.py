@@ -45,6 +45,7 @@ class GraphObject:
         self.log = logging.getLogger()
         self.log.setLevel(LOG_LEVEL)
         self.inner_node_count = 0
+        self.question_object_list = []
 
     def create_graph(self):
         for i in range(self.node_count):

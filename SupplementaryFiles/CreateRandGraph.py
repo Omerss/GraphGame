@@ -92,7 +92,7 @@ def check_collisions(x_location, y_location, graph, node_size, extra_space):
 
 
 def test_random_graph():
-    create_rand_graph("config.ini")
+    create_rand_graph("graph_config.ini")
 
 
 if __name__ == '__main__':

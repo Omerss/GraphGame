@@ -11,7 +11,7 @@ from kivyFiles.KivyGraphTester import MyGameLayout
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
-CONFIG_FILE_PATH = "./config.ini"
+CONFIG_FILE_PATH = "./graph_config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
 LOG_LEVEL = logging.DEBUG
 

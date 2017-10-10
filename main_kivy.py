@@ -28,7 +28,8 @@ class GraphGameMainApp(App):
     game_screen = []
     filename = 'network_new.json'
 
-    true_graph = None
+    # Variables that allow passing information between screens
+    current_graph = None  # The graph the user is currently playing
     discovered_graph = None
     user_answers = []
     question_list = []
@@ -37,7 +38,10 @@ class GraphGameMainApp(App):
     real_user = True
 
     def build(self):
-        self.init_communication()
+        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        self.init_communication(self.config['Cloud']['server_ip'])
+        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
+        graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()
 
         screen = ZeroScreen()
@@ -45,21 +49,12 @@ class GraphGameMainApp(App):
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
 
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
-        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
-
-        # TODO - Actually get multiple graphs in here
-        # graph_list = self.get_graphs()
-        # graph_list = [MyGameLayout.get_graph_obj()]
-        graph_list = [load_graph_from_file(path.join(".","GraphGeneration", "the_draft_graph.xml"))]
-
-        concepts_path = 'items/'
-        graph_config = path.join(getcwd(), "GraphsData", "config.ini")
+        graph_list = self.load_graphs_from_folder()
 
         self.current_graph = None
         self.discovered_graph = None
         self.user_answers = []
-        self.question_list = None
+        self.question_list = []
         self.button_presses = []
 
         for i_net, graph_data in enumerate(graph_list):
@@ -71,7 +66,7 @@ class GraphGameMainApp(App):
                                        max_turns=int(self.config['Default']['max_turns']),
                                        real_user=True,
                                        graph=graph_data,
-                                       graph_config=graph_config,
+                                       graph_config=graph_config_path,
                                        button_presses=self.button_presses)
             self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.layout)
 
@@ -95,26 +90,25 @@ class GraphGameMainApp(App):
         self.sm.current = 'zero_screen'
         return self.sm
 
-    def init_communication(self):
-        KC.start(the_ip='192.168.1.254', the_parents=[self])  # 127.0.0.1
+    def init_communication(self, server_ip):
+        KC.start(the_ip=server_ip, the_parents=[self])
         KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
 
-    def on_connection(self):
+    @staticmethod
+    def on_connection():
         KL.log.insert(action=LogAction.data, obj='GraphGameApp', comment='start')
 
-    def press_start(self, pre_post):
-        # self.game_screen.curiosity_game.filename = 'items_' + pre_post + '.json'
+    def press_start(self):
         self.sm.current = 'game_graph_0'
 
-    def get_graphs(self):
-        graphs = []
-        graph_folder = path.join(getcwd(), self.config['Default']['graphs'])
-        for file in listdir(graph_folder):
-            graph_file_path = path.join(graph_folder, str(file))
+    def load_graphs_from_folder(self):
+        graph_list = []
+        graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
+        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
+            graph_file_path = path.join(".", graph_folder, str(graph_name))
             current_graph = load_graph_from_file(graph_file_path)
-            graphs.append(current_graph)
-
-        return graphs
+            graph_list.append(current_graph)
+        return graph_list
 
 
 if __name__ == '__main__':
