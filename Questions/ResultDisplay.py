@@ -48,9 +48,9 @@ class ResultWidget(GridLayout):
 
         self.add_widget(layout)
         res = self.calculate_percentage(self.main_app.user_answers)
-        self.add_widget(Label(text="Possible success : {};   True success : {};     discovery grade: {}"
-                              .format(res['possible_success'],
-                                      res['true_success'],
+        self.add_widget(Label(text="Possible Score : {};   User Score : {};  Nodes discovery rate: {}"
+                              .format(res['possible_score'],
+                                      res['user_score'],
                                       self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
                               size_hint_y=None, height=50))
@@ -87,7 +87,8 @@ class ResultWidget(GridLayout):
 
         return question_result_grid
 
-    def calculate_percentage(self, user_answers):
+    @staticmethod
+    def calculate_percentage(user_answers):
         answer_list = user_answers
         user_answers_percentage = 0
         user_graph_answer_percentage = 0
@@ -99,7 +100,7 @@ class ResultWidget(GridLayout):
         num_of_questions = len(answer_list)
         user_possible_success = round(user_answers_percentage * 100 / float(num_of_questions), 2)
         user_true_success = round(user_graph_answer_percentage * 100 / float(num_of_questions), 2)
-        return {'possible_success': user_possible_success, 'true_success': user_true_success}
+        return {'possible_score': user_possible_success, 'user_score': user_true_success}
 
     @staticmethod
     def game_grade(user_seen_graph, real_graph):

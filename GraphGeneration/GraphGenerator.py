@@ -1,13 +1,10 @@
 import itertools
-from datetime import datetime
-from os import path, getcwd
 import logging
-from SupplementaryFiles.CreateRandGraph import create_rand_graph
-from SupplementaryFiles.SaveGraph import save_graph
-from GameData.GameDataHandler import GameDataHandler
+
+from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
-from kivyFiles.KivyGraphTester import MyGameLayout
+
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph

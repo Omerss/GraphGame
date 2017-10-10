@@ -18,7 +18,7 @@ from GameLayout import GameLayout
 from GraphDisplay import GraphDisplay
 
 from kivy.uix.floatlayout import FloatLayout
-from GameData.GameDataHandler import GameDataHandler
+from SupplementaryFiles.GameDataHandler import GameDataHandler
 
 MYColours = [{'R': 1, 'G': 0, 'B': 0, 'name': "red"}, {'R': 0, 'G': 1, 'B': 0, 'name': "green"},
            {'R': 0, 'G': 0, 'B': 1, 'name': "blue"}, {'R': 1, 'G': 0, 'B': 1, 'name': "purple"},

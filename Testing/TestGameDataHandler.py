@@ -1,14 +1,13 @@
 import time
 import unittest
+from os import path
 
-from mock import patch, Mock
-from os import path, getcwd
+from mock import patch
 
-from GameData.GameDataHandler import GameDataHandler
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
+from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
-from main_kivy import CONFIG_FILE_PATH
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1
@@ -44,8 +43,8 @@ class TestGameDataHandler(unittest.TestCase):
         self.assertIn(node_4.serial_num, res, "node with serial number {0} was not returned by function."
                                               " Got {1}".format(node_4.serial_num, res))
 
-    @patch('GameData.GameDataHandler.GraphObject.connect_nodes')
-    @patch('GameData.GameDataHandler.GraphObject.get_node_by_serial')
+    @patch('SupplementaryFiles.GameDataHandler.GraphObject.connect_nodes')
+    @patch('SupplementaryFiles.GameDataHandler.GraphObject.get_node_by_serial')
     def test_connect_nodes(self, mock_get_node_by_serial, mock_connect_nodes):
         # Assemble
         node_1 = NodeObject(serial=1, location={'x': 1, 'y': 1}, size=1, real=True)
@@ -83,9 +82,9 @@ class TestGameDataHandler(unittest.TestCase):
         self.assertTrue(res_hit_same_point)
         self.assertTrue(res_same_edge)
 
-    @patch('GameData.GameDataHandler.GameDataHandler.connect_nodes')
-    @patch('GameData.GameDataHandler.GameDataHandler.clean_connection')
-    @patch('GameData.GameDataHandler.GraphObject.get_node_by_serial')
+    @patch('SupplementaryFiles.GameDataHandler.GameDataHandler.connect_nodes')
+    @patch('SupplementaryFiles.GameDataHandler.GameDataHandler.clean_connection')
+    @patch('SupplementaryFiles.GameDataHandler.GraphObject.get_node_by_serial')
     def test_connect_edges_advanced(self, mock_get_node_by_serial, mock_clean, mock_connect):
 
         def mock_get_node(serial):

@@ -1,9 +1,9 @@
-from SupplementaryFiles.GraphObj import get_serial
 from GameLayout import GameLayout
-from SupplementaryFiles.Point import Point
+from SupplementaryFiles.GameDataHandler import GameDataHandler
+from SupplementaryFiles.GraphObj import get_serial
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
-from GameData.GameDataHandler import GameDataHandler
+from SupplementaryFiles.Point import Point
 
 
 class GraphTabletGame:

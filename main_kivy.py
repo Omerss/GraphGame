@@ -30,7 +30,7 @@ class GraphGameMainApp(App):
 
     # Variables that allow passing information between screens
     current_graph = None  # The graph the user is currently playing
-    discovered_graph = None
+    discovered_graph = None  # The graph discovered by the user in the current pipethrough
     user_answers = []
     question_list = []
     button_presses = []
