@@ -50,6 +50,16 @@ class GraphGameMainApp(App):
         self.sm.add_widget(screen)
 
         graph_list = self.load_graphs_from_folder()
+        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
+
+        # TODO - Actually get multiple graphs in here
+        # graph_list = self.get_graphs()
+        # graph_list = [MyGameLayout.get_graph_obj()]
+        # graph_list = [load_graph_from_file(path.join(".","GraphGeneration", "the_draft_graph2.xml"))]
+
+        concepts_path = 'items/'
+        graph_config = path.join(getcwd(), "GraphsData", "config.ini")
 
         self.current_graph = None
         self.discovered_graph = None

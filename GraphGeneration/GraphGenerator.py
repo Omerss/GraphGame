@@ -15,6 +15,7 @@ CONFIG_FILE_PATH = "./graph_config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
 LOG_LEVEL = logging.DEBUG
 
+
 def main ():
     iter = itertools.product('1234', repeat=6)
     number_of_successful_runs = 0
@@ -23,7 +24,7 @@ def main ():
         #graph = MyGameLayout.get_graph_obj1()
         #graph = create_rand_graph(CONFIG_FILE_PATH)
         #save_graph(graph, path.join(SAVED_GRAPH_PATH, "saved_graph_{}.xml".format(datetime.utcnow().strftime("%H%M%S"))))
-        graph = load_graph_from_file("the_draft_graph.xml")
+        graph = load_graph_from_file("the_draft_graph2.xml")
         with open("saved_steps.txt", 'w') as f:
             #steps = ""
             for i in range(0,4096):
@@ -68,7 +69,7 @@ def run_buttons_on_graph(graph, buttons):
     dummy_screen = DummyScreen(graph)
     game = GraphTabletGame(dummy_screen)
     #game.run()
-    data_handler = GameDataHandler(CONFIG_FILE_PATH)
+    data_handler = GameDataHandler(CONFIG_FILE_PATH, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
     max_steps = 6
     for i in range(0, max_steps):

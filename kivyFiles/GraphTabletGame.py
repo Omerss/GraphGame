@@ -17,7 +17,7 @@ class GraphTabletGame:
     def __init__(self, game_screen=None):
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
-        self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
+        self.current_data_handler = GameDataHandler(self.game_screen.graph_config, self.original_graph.size)
         self.max_turns = self.game_screen.max_turns
         self.button_presses = self.game_screen.button_presses
         self.layout = GameLayout(self)
@@ -91,7 +91,7 @@ class GraphTabletGame:
                 real_node = self.original_graph.get_node_by_serial(node.serial)
                 node_x = real_node.x
                 node_y = real_node.y
-                node_r = node.get_radius() * 0.85
+                node_r = node.get_radius() + 0.9
                 if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
                     (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
                     displayed_nodes.append(real_node)

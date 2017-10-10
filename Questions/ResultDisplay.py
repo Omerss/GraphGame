@@ -1,3 +1,4 @@
+import kivy
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.app import App
@@ -30,15 +31,18 @@ class ResultWidget(GridLayout):
         self.main_app = main_app
 
     def on_enter(self):
+        col_width = kivy.core.window.Window.size[0]/2
+        height = (kivy.core.window.Window.size[1] - 100)/ 2
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
-        layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers))
+
+        layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
 
         map_grid = GridLayout(rows=2, cols=1)
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
-                                        dim=(100, 100))
+                                        dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
-        graph_true = GraphDisplay(graph=self.main_app.current_graph,
-                                  dim=(100, 100))
+        graph_true = GraphDisplay(graph=self.main_app.true_graph,
+                                  dim=(col_width, height))
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
 
@@ -59,13 +63,13 @@ class ResultWidget(GridLayout):
         self.parent_app.parent_screen.end_results()
 
     @staticmethod
-    def get_question_result_grid(user_answers):
+    def get_question_result_grid(user_answers, width):
         user_answers = user_answers
-        question_result_grid = GridLayout(rows=len(user_answers), cols=1)
+        question_result_grid = GridLayout(rows=len(user_answers))
 
         for item in user_answers:
             new_question = GridLayout(rows=3, cols=1)
-            new_question.add_widget(Label(text=item.question_string))
+            new_question.add_widget(Label(text=item.question_string, text_size=(width, None)))
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text="User Answer"))

@@ -445,7 +445,7 @@ class GraphGameApp(App):
         super(GraphGameApp, self).__init__(**kwargs)
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
-        self.current_data_handler = GameDataHandler(self.game_screen.graph_config)
+        self.current_data_handler = GameDataHandler(self.game_screen.graph_config, self.original_graph.size)
         self.max_turns = self.game_screen.max_turns
         self.button_presses = self.game_screen.button_presses
         self.layout = GameLayout(self)
@@ -458,12 +458,7 @@ class GraphGameApp(App):
         return self.layout
 
     def send_info_from_screen(self):
-        # self.current_data_handler.add_view_to_db(self.get_info_from_screen())
-        view = self.get_info_from_screen()
-        print "nodes: ", view["nodes"]
-        print "edges: "
-        for edge in view["edges"]:
-            print edge[0], ",", edge[1]
+        self.current_data_handler.add_view_to_db(self.get_info_from_screen())
 
     def end_game(self):
         self.is_playing = False
