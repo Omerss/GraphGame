@@ -50,7 +50,7 @@ class GraphGameMainApp(App):
         self.sm.add_widget(screen)
 
         graph_list = self.load_graphs_from_folder()
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        self.config = Utils.read_config_file(CONFIG_FILE_PATH, True)
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
 
         # TODO - Actually get multiple graphs in here

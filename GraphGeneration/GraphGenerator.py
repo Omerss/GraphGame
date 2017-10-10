@@ -1,10 +1,6 @@
 import itertools
 import logging
 
-import operator
-
-import functools
-
 from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
@@ -15,7 +11,7 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 MAIN_CONFIG_FILE_PATH = "../config.ini"
-GRAPH_CONFIG_FILE = "./config.ini"
+GRAPH_CONFIG_FILE = "./graph_config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
 graph_path = ["draft_graph_2.xml"]
 
