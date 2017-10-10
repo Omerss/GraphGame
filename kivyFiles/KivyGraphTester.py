@@ -438,7 +438,7 @@ class GraphGameApp(App):
     counter2 = 0
     counter3 = 0
     counter4 = 0
-    graph_config = None
+    graph_config = "./config.ini"
     is_playing = True
 
     def __init__(self, game_screen=None, **kwargs):
