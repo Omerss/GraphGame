@@ -27,14 +27,9 @@ def main():
     for current_graph in graph_path:
         graph = load_graph_from_file(current_graph)
         with open("{}_saved_steps.txt".format(current_graph), 'w') as f:
-            buttons = iter.next()
-            while buttons:
+            for buttons in iter:
                 answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
                 number_of_successful_runs = number_of_successful_runs+answer
-                try:
-                    buttons = iter.next()
-                except:
-                    break
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
 
 
