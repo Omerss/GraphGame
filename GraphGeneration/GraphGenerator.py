@@ -22,17 +22,21 @@ graph_path = ["the_draft_graph2.xml"]
 
 def main():
     read_config_file(MAIN_CONFIG_FILE_PATH, True)
-    iter = itertools.product('1234', repeat=int(Utils.config['Default']['max_turns']))
+    max_turns = 6
+    #iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
+    iter = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
     for current_graph in graph_path:
         graph = load_graph_from_file(current_graph)
         with open("{}_saved_steps.txt".format(current_graph), 'w') as f:
-            buttons = iter.next()
-            while buttons:
+            while True:
+                try:
+                    buttons = iter.next()
+                except StopIteration:
+                    break
                 answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
                 number_of_successful_runs = number_of_successful_runs+answer
                 f.write("steps: {} seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
-                buttons = iter == None
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
 
 

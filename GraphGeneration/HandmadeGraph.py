@@ -8,7 +8,7 @@ import threading
 
 
 
-def create_draft_graph2():
+def create_draft_graph_1():
     # Arrange
     max_neighbors = 5
     extra_distance = 1
@@ -53,10 +53,7 @@ def create_draft_graph2():
     save_graph(draft_graph, "draft_graph_1.xml")
     # return draft_graph
 
-create_draft_graph2()
-
-
-def create_draft_graph():
+def create_draft_graph_2():
     # Arrange
     max_neighbors = 5
     extra_distance = 1
@@ -100,4 +97,7 @@ def create_draft_graph():
 
     save_graph(draft_graph, "draft_graph_2.xml")
     # return draft_graph
+
+
+create_draft_graph_1()
 
