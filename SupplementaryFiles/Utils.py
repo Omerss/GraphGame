@@ -1,14 +1,17 @@
 import configparser
 
 config = configparser.ConfigParser()
+config.sections()
 image_folder = "..//Images"
 
-def read_config_file(path):
-    config.sections()
-    config.read(path)
 
-    # assert config file
-    return config
+def read_config_file(path, save_to_main=False):
+    my_config = configparser.ConfigParser()
+    my_config.sections()
+    my_config.read(path)
+    if save_to_main:
+        config.read(path)
+    return my_config
 
 
 def max_nodes_per_size(size):

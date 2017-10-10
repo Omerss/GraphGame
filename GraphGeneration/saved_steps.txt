@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 stpes('4', '4', '4', '4', '4', '4')- #seen nodes3
 stpes('4', '4', '4', '4', '4', '3')- #seen nodes6
 stpes('4', '4', '4', '4', '4', '2')- #seen nodes3
@@ -2842,3 +2843,5 @@ stpes('2', '1', '4', '3', '2', '4')- #seen nodes13
 stpes('2', '1', '4', '3', '2', '3')- #seen nodes14
 stpes('2', '1', '4', '3', '2', '2')- #seen nodes13
 stpes('2', '1', '4', '3', '2', '1')- #seen nodes13
+=======
+>>>>>>> Stashed changes

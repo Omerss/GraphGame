@@ -2,6 +2,8 @@ import sys
 from collections import namedtuple
 import itertools
 import logging
+
+from SupplementaryFiles import Utils
 from SupplementaryFiles.logger_formatter import format_log_msg
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
@@ -22,7 +24,7 @@ class GameDataHandler:
         self.new_edges = []
         self.edges_to_add = []
         self.log = logging.getLogger()
-        self.log.setLevel(LOG_LEVEL)
+        self.log.setLevel(Utils.config['Default']['log_level'])
 
     def get_number_of_known_nodes(self):
         return len([real_node for real_node in self.graph.node_list if real_node.real])
