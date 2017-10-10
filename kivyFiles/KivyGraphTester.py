@@ -647,7 +647,7 @@ class DisplayApp(App):
 
     def __init__(self, graph, **kwargs):
         super(DisplayApp, self).__init__(**kwargs)
-        dim = (800, 600)
+        dim = (kivy.core.window.Window.size[0], kivy.core.window.Window.size[1])
         self.layout = GraphDisplay(graph, dim)
 
     def build(self):
