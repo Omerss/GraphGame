@@ -28,7 +28,7 @@ class GraphGameMainApp(App):
     game_screen = []
     filename = 'network_new.json'
     #a temporary debugger file
-    f = open('/storage/emulated/0/Download/temp_debugger/debug.txt', 'w')
+    f = open('./debug.txt', 'w')
     f.write('in GraphGameMainApp_1 created debug file\n')
     # Variables that allow passing information between screens
     current_graph = None  # The graph the user is currently playing
@@ -41,7 +41,7 @@ class GraphGameMainApp(App):
     f.close()
 
     def build(self):
-        f = open('/storage/emulated/0/Download/temp_debugger/debug.txt', 'a')
+        f = open('./debug.txt', 'a')
         f.write('in build_1\n')
         self.config = Utils.read_config_file(CONFIG_FILE_PATH)
         f.write('in build_2 after reading config file\n')
