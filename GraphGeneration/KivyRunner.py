@@ -5,7 +5,7 @@ from main_kivy import CONFIG_FILE_PATH
 
 kivy.require('1.9.1')
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from KivyGraphTester import *
+from KivyFiles.KivyGraphTester import *
 from GraphGeneration import HandmadeGraph
 
 graph_file_path = "../GraphsData/Graph_1.xml"

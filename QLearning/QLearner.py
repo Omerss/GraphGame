@@ -108,7 +108,7 @@ class QPlayer:
         q_matrix = QMatrix(action_space=4, max_steps=int(Utils.config['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
 
         with open(log_file_path,'w') as f:
-            f.write("run num, episode, score\n")
+            f.write("episode, score\n")
             for i in range(session_length):
                 dummy_screen = DummyScreen(graph)
                 game = GraphTabletGame(dummy_screen)
