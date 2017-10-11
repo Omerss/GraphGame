@@ -1,6 +1,8 @@
 import ast
 import xml.etree.cElementTree as E
 
+from os import path
+
 import Enums
 from GraphObj import GraphObject
 from NodeObject import NodeObject
@@ -8,6 +10,9 @@ from Questions.QuestionObject import QuestionObject
 
 
 def load_graph_from_file(file_name):
+    if not path.exists(file_name):
+        raise IOError("File not found", path=file_name)
+
     tree = E.parse(file_name)
     root = tree.getroot()
     graph_xml = root.find("graph_xml")

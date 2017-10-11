@@ -15,8 +15,8 @@ class GameType(Enum):
     ALLOW_PLAY = 2
 
 
-def main(type, graph_data):
-    if type == GameType.VIEW_ONLY:
+def main(game_type, graph_data):
+    if game_type == GameType.VIEW_ONLY:
         game = DisplayApp(graph_data)
     elif game_type == GameType.ALLOW_PLAY:
         button_presses = []
@@ -26,10 +26,12 @@ def main(type, graph_data):
 
 
 if __name__ == "__main__":
-    game_type = GameType.VIEW_ONLY
-
+    CONFIG_FILE_PATH = "../config.ini"
+    Utils.read_config_file(CONFIG_FILE_PATH, True)
+    game_type = GameType.ALLOW_PLAY
     if game_type == GameType.VIEW_ONLY:
         graph = load_graph_from_file(graph_file_path)
     else:
-        graph = graph_data
+        graph = load_graph_from_file(graph_file_path)
+        #graph = graph_data
     main(game_type, graph)

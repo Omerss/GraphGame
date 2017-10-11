@@ -43,7 +43,7 @@ class GraphGameMainApp(App):
     def build(self):
         f = open('./debug.txt', 'a')
         f.write('in build_1\n')
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        self.config = Utils.read_config_file(CONFIG_FILE_PATH, True)
         f.write('in build_2 after reading config file\n')
         self.init_communication(self.config['Cloud']['server_ip'])
         f.write('in build_3 after init communication\n')
