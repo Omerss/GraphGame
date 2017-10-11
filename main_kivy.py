@@ -27,24 +27,35 @@ class ZeroScreen(Screen):
 class GraphGameMainApp(App):
     game_screen = []
     filename = 'network_new.json'
-
+    #a temporary debugger file
+    f = open('/storage/emulated/0/Download/temp_debugger/debug.txt', 'w')
+    f.write('in GraphGameMainApp_1 created debug file\n')
     # Variables that allow passing information between screens
     current_graph = None  # The graph the user is currently playing
     discovered_graph = None  # The graph discovered by the user in the current pipethrough
     user_answers = []
     question_list = []
     button_presses = []
-
     real_user = True
+    f.write('in GraphGameMainApp_2\n')
+    f.close()
 
     def build(self):
+        f = open('/storage/emulated/0/Download/temp_debugger/debug.txt', 'a')
+        f.write('in build_1\n')
         self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        f.write('in build_2 after reading config file\n')
         self.init_communication(self.config['Cloud']['server_ip'])
+        f.write('in build_3 after init communication\n')
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
+        f.write('in build_4 after Utils.image_folder\n')
         graph_config_path = self.config['Default']['graph_config_path']
+        f.write('in build_5 created graph_config_path\n')
         self.sm = ScreenManager()
-
+        f.write('in build_6 created screen manager\n')
         screen = ZeroScreen()
+        f.write('in build_7 created zero screen\n')
+        f.close()
         screen.start()
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
