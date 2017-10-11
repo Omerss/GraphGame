@@ -10,20 +10,31 @@ from GraphGeneration import HandmadeGraph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 
 
-if __name__ == "__main__":
+import os
+import kivy
+from enum import Enum
 
-    button_presses = []
-    graph_file_path = "../GraphsData/draft_graph2.xml"
-    current_graph = load_graph_from_file(graph_file_path)
-    # kivy.core.window.Window.size = (800, 600)
-    # game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
-    # game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj1(), button_presses, 0.2))
-    game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
-    # game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj1(), button_presses, 0.2, False))
-    #
-    # for button in button_presses:
-    #     game.press_button(button)
+kivy.require('1.9.1')
 
-    # game = DisplayApp(create_draft_graph2())
+from SupplementaryFiles.CreateRandGraph import create_rand_graph
+from GraphTabletGame import GraphTabletGame
+from KivyGraphTester import *
+from random import randint
+from GraphGeneration import HandmadeGraph
+
+graph_file_path = "../GraphsData/draft_graph2.xml"
+
+
+class GameType(Enum):
+    VIEW_ONLY = 1
+    ALLOW_PLAY = 2
+
+
+def main(game_type):
+    if game_type == GameType.VIEW_ONLY:
+        game = load_graph_from_file(graph_file_path)
+    elif game_type == GameType.ALLOW_PLAY:
+        button_presses = []
+        game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
     game.run()
-    print button_presses
+
