@@ -53,19 +53,13 @@ class GraphGameMainApp(App):
         self.config = Utils.read_config_file(CONFIG_FILE_PATH, True)
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
 
-        # TODO - Actually get multiple graphs in here
-        # graph_list = self.get_graphs()
-        # graph_list = [MyGameLayout.get_graph_obj()]
-        # graph_list = [load_graph_from_file(path.join(".","GraphGeneration", "the_draft_graph2.xml"))]
-
-        concepts_path = 'items/'
-        graph_config = path.join(getcwd(), "GraphsData", "config.ini")
-
         self.current_graph = None
         self.discovered_graph = None
         self.user_answers = []
         self.question_list = []
         self.button_presses = []
+
+        graph_list = [load_graph_from_file( path.join(getcwd(), self.config['Default']['graphs_folder'], "draft_graph2.xml"))]
 
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
