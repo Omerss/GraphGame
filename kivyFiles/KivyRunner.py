@@ -1,6 +1,8 @@
 import kivy
 from enum import Enum
 
+from main_kivy import CONFIG_FILE_PATH
+
 kivy.require('1.9.1')
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from KivyGraphTester import *
@@ -26,7 +28,6 @@ def main(game_type, graph_data):
 
 
 if __name__ == "__main__":
-    CONFIG_FILE_PATH = "../config.ini"
     Utils.read_config_file(CONFIG_FILE_PATH, True)
     game_type = GameType.ALLOW_PLAY
     if game_type == GameType.VIEW_ONLY:
