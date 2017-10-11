@@ -1,5 +1,5 @@
 import logging
-from random import random, randrange, randint
+from random import random, randint
 
 from os import path
 
@@ -11,8 +11,7 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 
 # https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
 
-
-EPSILON = 0.1
+CURIOSITY_VALUE = 1  # 1 = random. 0.1 ~ about right for learning
 GAMMA = 0.8
 ALPHA = 0.1
 
@@ -60,7 +59,7 @@ class QMatrix:
         return self.moves_matrix[self.prev_step].index(max(self.moves_matrix[self.prev_step]))
 
     def choose_action_epsilon_greedy(self):
-        if random() < EPSILON:
+        if random() < CURIOSITY_VALUE:
             return randint(1, self.action_space) - 1
         else:
             return self.max_args()
@@ -125,7 +124,7 @@ class QPlayer:
                     data_handler.add_view_to_db(game.get_info_from_screen())
                     rw = q_matrix.update_matrix(num_nodes=len(data_handler.get_real_nodes()), current_step=btn)
                 log.info("Q session {}:{} - reword:{}".format(i, session_length, rw))
-                f.write("{},{}\n".format(i, rw))
+                f.write("{},{}\n".format(i + 1, rw))
 
 
 class DummyScreen:
@@ -151,6 +150,6 @@ class DummyScreen:
 
 file_name = "Graph_1.xml"
 graph_path = path.join("..", "GraphsData", file_name)
-run_log_file = "result_{}.csv".format(file_name[:-4])
+run_log_file = "result_{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE)
 player = QPlayer()
 player.run_q_player(graph_path, run_log_file)
