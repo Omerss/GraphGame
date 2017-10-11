@@ -203,8 +203,8 @@ class GameDataHandler:
     def clean_connection(self, main_node, node_to_remove):
         """
         Removed all connection from main_node regarding node_to_remove
-        :param node_to_remove: The node to remove
-        :param main_node: The node we want to remove data from 
+        :param node_to_remove: The node to remove - node object
+        :param main_node: The node we want to remove data from - node object
         :return: 
         """
         self.log.debug(format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
@@ -283,10 +283,19 @@ class GameDataHandler:
             if edge[0].is_real() and edge[1].is_real():
                 self.graph.connections.append((min(edge[0].serial_num, edge[1].serial_num),
                                                max(edge[0].serial_num, edge[1].serial_num)))
+            else:
+                self.clean_connection(edge[0], edge[1])
+                self.clean_connection(edge[1], edge[0])
         self.extra_edges = []
         real_nodes = []
         for node in self.graph.node_list:
-            if node.is_real:
+            if node.is_real():
+                nodes_to_remove = []
+                for neightbor in node.neighbors:
+                    if not self.graph.get_node_by_serial(neightbor).is_real():
+                        nodes_to_remove.append(self.graph.get_node_by_serial(neightbor))
+                for item in nodes_to_remove:
+                    self.clean_connection(node, item)
                 real_nodes.append(node)
 
         # Make sure we see only the same edge once

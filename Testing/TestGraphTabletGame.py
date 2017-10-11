@@ -1,4 +1,4 @@
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletGame import GraphTabletGame
 import unittest
 
 class TestGraphTabletGame(unittest.TestCase):

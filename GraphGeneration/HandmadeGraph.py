@@ -1,12 +1,16 @@
 import unittest
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
+<<<<<<< HEAD
 import threading
 import kivyFiles.KivyRunner
 from kivyFiles.KivyRunner import GameType
+=======
+
+>>>>>>> 65cfe424ccb2d83fdc7156471b6eb3e63dbb53c3
 
 def create_draft_graph_1():
     # Arrange
@@ -49,10 +53,10 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
-    display = DisplayApp(draft_graph)
-    display.build()
+
     save_graph(draft_graph, "draft_graph_1.xml")
-    return draft_graph
+
+create_draft_graph_1()
 
 def create_draft_graph_2():
     # Arrange
@@ -106,8 +110,6 @@ def create_draft_graph_2():
     # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
 
     save_graph(draft_graph, "draft_graph_2.xml")
-    return draft_graph
 
-
-create_draft_graph_2()
+# create_draft_graph_2()
 

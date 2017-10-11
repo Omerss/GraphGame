@@ -1,14 +1,9 @@
 import unittest
 
-from SupplementaryFiles.GraphObj import GraphObject
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.Questions import QuestionsAnswers
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
-from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.LoadGraph import load_graph_from_file
-from Questions import QuestionsAnswers
-import unittest
-import threading
+
 
 class TestGraph(unittest.TestCase):
     # how many nodes of color X are there?
