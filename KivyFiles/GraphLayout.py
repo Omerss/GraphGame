@@ -1,12 +1,8 @@
-import kivy
-kivy.require('1.9.1')
-
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color
 from KivyNode import KivyNode
 from kivy.uix.relativelayout import RelativeLayout
-from SupplementaryFiles.Enums import Colours
 
 
 class GraphLayout(RelativeLayout):

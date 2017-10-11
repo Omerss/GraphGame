@@ -11,7 +11,6 @@ class GraphTabletDisplay:
     counter2 = 0
     counter3 = 0
     counter4 = 0
-    graph_config = None
     is_playing = True
 
     def __init__(self, game_screen=None):
@@ -32,9 +31,6 @@ class GraphTabletDisplay:
     def end_game(self):
         self.is_playing = False
         self.game_screen.end_graph()
-
-    def set_button_status(self, status):
-        self.layout.set_button_status(status)
 
     def press_button(self, num):
         if num == 1:
@@ -93,7 +89,7 @@ class GraphTabletDisplay:
                 node_y = real_node.y
                 node_r = node.get_radius() + 0.9
                 if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
-                    (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
+                                (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
                     displayed_nodes.append(real_node)
         return displayed_nodes
 
@@ -148,8 +144,10 @@ class GraphTabletDisplay:
         node_x = real_node.x
         node_y = real_node.y
         node_r = node.get_radius() * 0.05
-        return (node_x + node_r) > screen_edges["bottom_left"].get_x() and (node_x - node_r) < screen_edges["top_right"].get_x() and \
-                        (node_y + node_r) > screen_edges["bottom_left"].get_y() and (node_y - node_r) < screen_edges["top_right"].get_y()
+        return (node_x + node_r) > screen_edges["bottom_left"].get_x() and \
+               (node_x - node_r) < screen_edges["top_right"].get_x() and \
+               (node_y + node_r) > screen_edges["bottom_left"].get_y() and \
+               (node_y - node_r) < screen_edges["top_right"].get_y()
 
     def get_partly_visible_edge(self, edge, top, bottom, left, right, node, edge_equation):
         """

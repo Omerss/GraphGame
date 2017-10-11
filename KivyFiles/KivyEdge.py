@@ -1,6 +1,3 @@
-import kivy
-kivy.require('1.9.1')
-
 from kivy.graphics import Line
 from kivy.uix.widget import Widget
 from kivy.animation import Animation
@@ -10,7 +7,6 @@ class KivyEdge(Widget):
     node1 = None
     node2 = None
     line = None
-    colour = "white"
     slope = None
 
     def __init__(self, node1, node2, width, **kwargs):

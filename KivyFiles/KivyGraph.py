@@ -1,6 +1,3 @@
-import kivy
-
-kivy.require('1.9.1')
 from kivy.uix.widget import Widget
 from random import randint
 from KivyNode import KivyNode
@@ -110,7 +107,7 @@ class KivyGraph(Widget):
         for node in self.nodes:
             node.print_node()
 
-    def jump(self, animated=True):
+    def random_jump(self, animated=True):
         """
         function moves the coordinates of all the nodes in the graph by a random difference
         """
@@ -227,51 +224,6 @@ class KivyGraph(Widget):
         new_center = self.get_farthest(node_list, -1)
         if new_center is not None:
             self.move_node_to_center(new_center)
-
-    def zoom_out(self):
-        self.resize_graph(self.min_size['max_x'], self.min_size['max_y'], 35, 1.4)
-
-    def zoom_in(self):
-        self.resize_graph(self.max_size['max_x'], self.max_size['max_y'], 50, 2)
-
-    def resize_graph(self, new_x, new_y, node_size=None, edge_size=None, keep_center_node=True, new_center=None):
-        """
-        function sets the size of the graph to be new_x by new_y
-        :param new_x: the new 'x' size of the graph
-        :param new_y: the new 'y' size of the graph
-        :param node_size: if set, will determine the size of the graph's nodes
-        :param edge_size: if set, will determine the size of the graph's edges
-        :param keep_center_node: if True, the graph's 'center_node' will remain the center node
-        :param new_center: in the form (center_x,center_y). if given will be set as the graph's center coordinates.
-        """
-
-        change_in_x = float(new_x) / self.real_size['max_x']
-        change_in_y = float(new_y) / self.real_size['max_y']
-        for node in self.nodes:
-            if node_size:
-                new_size = node_size
-            else:
-                old_size = node.node_size
-                new_size = min(change_in_x, change_in_y) * old_size
-            node.size = [new_size, new_size]
-            node.node_size = new_size
-            node.relative_move(change_in_x, change_in_y)
-
-        for edge in self.edges:
-            if edge_size:
-                new_size = edge_size
-            else:
-                old_size = edge.line_width
-                new_size = min(change_in_x, change_in_y) * old_size
-            edge.line.width = new_size
-            edge.reset_edge(False)
-
-        self.move_corners(change_in_x, change_in_y)
-
-        if new_center:
-            self.center = new_center
-        if keep_center_node:
-            self.move_node_to_center(self.center_node, False)
 
     def get_onscreen_nodes(self, node_list):
         """

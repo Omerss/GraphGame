@@ -6,7 +6,6 @@ from kivy.uix.gridlayout import GridLayout
 from GraphButton import MultiButton, TextButton
 from GraphLayout import GraphLayout
 from kivy.uix.floatlayout import FloatLayout
-from time import sleep
 from SupplementaryFiles.RepeatedTimer import RepeatedTimer
 from kivy.uix.image import Image
 
@@ -34,11 +33,9 @@ class GameLayout(FloatLayout):
         self.set_button_functions()
         self.button_layout = self.get_buttons()
         self.add_widget(self.button_layout)
-        self.button_layout.pos=(0,0)
         if self.tablet_game.game_screen.real_user:
             self.rt = RepeatedTimer(1, self.call_function)
         self.button_hider = self.get_button_hider()
-        self.button_hider.pos=(0,0)
 
     def set_button_functions(self):
         self.button1_func = [self.zoom_out, self.zoom_in]
@@ -65,6 +62,7 @@ class GameLayout(FloatLayout):
         self.buttons.append(button2)
         self.buttons.append(button3)
         self.buttons.append(button4)
+        layout.pos = (0, 0)
         return layout
 
     def get_button_hider(self):
@@ -81,6 +79,7 @@ class GameLayout(FloatLayout):
         layout.add_widget(im2)
         layout.add_widget(im3)
         layout.add_widget(im4)
+        layout.pos = (0, 0)
         return layout
 
     def zoom_out(self):
@@ -149,10 +148,6 @@ class GameLayout(FloatLayout):
         for button in self.buttons:
             button.disabled = False
         self.remove_widget(self.button_hider)
-
-    def set_button_status(self, status):
-        for item in self.buttons:
-            item.disabled = status
 
     def end_game(self):
         self.rt.stop()

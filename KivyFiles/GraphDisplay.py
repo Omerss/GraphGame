@@ -11,8 +11,7 @@ class GraphDisplay(RelativeLayout):
         super(GraphDisplay, self).__init__(size_hint_x=None, width=dim[0], **kwargs)
         self.kivy_graph = KivyGraph((0, 0), 1, {"min_x": 0, "min_y": 0, "max_x": dim[0], "max_y": dim[1]})
         ratio = self.get_ratio(graph.size, dim)
-        move_nodes = self.get_nodes(graph, ratio)
-        self.reset_nodes(ratio, move_nodes)
+        self.get_nodes(graph, ratio)
         self.get_edges(graph)
 
     def get_ratio(self, graph_size, dim):
@@ -21,30 +20,13 @@ class GraphDisplay(RelativeLayout):
         return x, y
 
     def get_nodes(self, original_graph, zoom):
-        min_x = 0
-        min_y = 0
         with self.canvas:
             for node in original_graph.node_list:
                 colour = node.colour
                 Color(colour['R'], colour['G'], colour['B'])
-                if node.x < min_x:
-                    min_x = node.x
-                if node.y < min_y:
-                    min_y = node.y
                 new_node = KivyNode(node.x, node.y, node.serial_num, zoom[0]*node.size, node.size, colour['name'])
+                new_node.relative_move(zoom[0], zoom[1])
                 self.kivy_graph.add_node(new_node)
-
-        return min_x, min_y, node.size
-
-    def reset_nodes(self, ratio, move_amount):
-        if move_amount[0] < 0:
-            self.kivy_graph.move_right(-(move_amount[0]-move_amount[2]))
-        if move_amount[1] < 0:
-            self.kivy_graph.move_up(-(move_amount[1]-move_amount[2]))
-        for node in self.kivy_graph.nodes:
-            node.relative_move(ratio[0], ratio[1])
-
-
 
     def get_edges(self, graph):
         edges = graph.get_connections()
