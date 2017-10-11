@@ -1,18 +1,9 @@
-import os
-import kivy
-kivy.require('1.9.1')
-
-from SupplementaryFiles.CreateRandGraph import create_rand_graph
-from GraphTabletGame import GraphTabletGame
-from KivyGraphTester import *
-from random import randint
-from GraphGeneration import HandmadeGraph
-from SupplementaryFiles.LoadGraph import load_graph_from_file
-
 
 import os
 import kivy
 from enum import Enum
+
+from SupplementaryFiles.LoadGraph import load_graph_from_file
 
 kivy.require('1.9.1')
 
@@ -37,4 +28,3 @@ def main(game_type):
         button_presses = []
         game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
     game.run()
-

@@ -12,18 +12,19 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 
 EPSILON = 0.1
 GAMMA = 0.8
-ALPHA = 0.01
+ALPHA = 0.1
 
 MAIN_CONFIG_FILE_PATH = "../config.ini"
 GRAPH_CONFIG_FILE = "../GraphsData/graph_config.ini"
 
+log = logging.getLogger()
+
 
 class QMatrix:
     moves_matrix = []
-    reword_arr = []
 
     action_space = 4
-    first_step = 0  # The first step taken by the QMatrix
+    first_step = 0  # The first step taken by the QMatrix, press button 1
     prev_step = 0  # The previous step taken by the matrix
     num_old_nodes = 0
     nodes_in_graph = 10
@@ -33,22 +34,18 @@ class QMatrix:
         self.action_space = action_space
         self.prev_step = 0
         self.num_old_nodes = 0
-        self.current_step = 0
         self.max_steps = step_count
         self.nodes_in_graph = nodes_in_graph
-        self.reword_arr = []
         self.moves_matrix = []
         for i in range(4):
             self.moves_matrix.append([])
-            self.reword_arr.append([])
             for _ in range(4):
                 self.moves_matrix[i].append(0)
-                self.reword_arr[i].append(0)
 
     def init_q_array(self):
         pass
 
-    def init_reqord_array(self):
+    def init_record_array(self):
         pass
 
     def max_args(self):
@@ -57,18 +54,22 @@ class QMatrix:
         """
         return self.moves_matrix[self.prev_step].index(max(self.moves_matrix[self.prev_step]))
 
-    def choose_action_epsilon_greedy(self, force_random=False):
-        if force_random or random() < EPSILON:
+    def choose_action_epsilon_greedy(self):
+        if random() < EPSILON:
             return randint(1, self.action_space) - 1
         else:
             return self.max_args()
         # Maybe not use greedy??
 
     def update_matrix(self, num_nodes, current_step):
-        self.current_step += 1
+        """
+
+        :param num_nodes:
+        :param current_step:
+        :return:
+        """
 
         improvement_score = float(num_nodes)/float(self.nodes_in_graph)
-        rsa = self.reword_arr[self.prev_step][current_step]
         qsa = self.moves_matrix[self.prev_step][current_step]
         # = qsa + ALPHA * (rsa + GAMMA * max(self.moves_arr[current_step][:]) - qsa)
         new_q = qsa + ALPHA * (improvement_score + GAMMA * max(self.moves_matrix[current_step][:]) - qsa)
@@ -91,13 +92,13 @@ class QMatrix:
 
 
 class QPlayer:
+    auto_first_press = 0  # the first button press is predetermined
 
     def __init__(self):
         pass
 
-    def main(self):
+    def run_q_player(self):
         read_config_file(MAIN_CONFIG_FILE_PATH, True)
-        log = logging.getLogger()
         log.setLevel(Utils.config['Default']['log_level'])
         session_length = 200
         graph_path = "../GraphsData/draft_graph2.xml"
@@ -110,14 +111,15 @@ class QPlayer:
             data_handler.add_view_to_db(game.get_info_from_screen())
 
             rw = 0
+            game.press_button(self.auto_first_press + 1)
             for j in range(1, int(Utils.config['Default']['max_turns'])):
                 log.debug("doing a step {}/{}".format(j, Utils.config['Default']['max_turns']))
-                btn = q_matrix.choose_action_epsilon_greedy(True)
-                game.press_button(btn + 1)
+                btn = q_matrix.choose_action_epsilon_greedy() + 1
+                game.press_button(btn)
                 data_handler.add_view_to_db(game.get_info_from_screen())
                 rw = q_matrix.update_matrix(num_nodes=len(data_handler.get_real_nodes()), current_step=btn)
             log.info("Q session {}:{} - reword:{}".format(i, session_length, rw))
-        print(q_matrix)
+        print(q_matrix.moves_matrix)
 
 
 class DummyScreen:
@@ -142,4 +144,4 @@ class DummyScreen:
 
 
 player = QPlayer()
-player.main()
+player.run_q_player()
