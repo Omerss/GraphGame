@@ -1,11 +1,9 @@
 import os
-from Queue import Queue
 
-from QuestionObject import QuestionObject
-from Questions.AnswerObject import AnswerObject
-from Questions.QuestionWidgets import IntInput
-from Questions.QuestionsDisplay import QuestionDisplay
-from Questions.ResultDisplay import ResultDisplay
+from KivyFiles.Questions.AnswerObject import AnswerObject
+from KivyFiles.Questions.QuestionObject import QuestionObject
+from KivyFiles.Questions.QuestionWidgets import IntInput
+from KivyFiles.Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 

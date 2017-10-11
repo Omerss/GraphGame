@@ -1,12 +1,10 @@
 #!/usr/bin/kivy
 # -*- coding: utf-8 -*-
-from kivy.clock import Clock
-from kivy_communication import *
+
 from kivy.uix.screenmanager import Screen
 
-from Questions.QuestionObject import QuestionObject
-from Questions.QuestionsDisplay import QuestionDisplay
-from SupplementaryFiles.Enums import QuestionTypes, Colours
+from KivyCommunication import *
+from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
 
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 

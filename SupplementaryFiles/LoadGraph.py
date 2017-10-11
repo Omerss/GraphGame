@@ -1,12 +1,11 @@
 import ast
 import xml.etree.cElementTree as E
-
 from os import path
 
 import Enums
 from GraphObj import GraphObject
+from KivyFiles.Questions.QuestionObject import QuestionObject
 from NodeObject import NodeObject
-from Questions.QuestionObject import QuestionObject
 
 
 def load_graph_from_file(file_name):

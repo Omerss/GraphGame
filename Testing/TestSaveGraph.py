@@ -1,5 +1,5 @@
 import unittest
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletGame import GraphTabletGame
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph

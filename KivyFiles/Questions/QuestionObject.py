@@ -1,5 +1,3 @@
-import QuestionsAnswers
-from SupplementaryFiles import Utils
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
 

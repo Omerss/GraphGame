@@ -1,13 +1,11 @@
-from kivy.uix.gridlayout import GridLayout
+from kivy.graphics import Rectangle
 from kivy.uix.button import Button
-from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-from kivy.uix.floatlayout import FloatLayout
-from kivy.graphics import Rectangle
 
-from Questions.AnswerObject import AnswerObject
-from Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
+from KivyFiles.Questions.AnswerObject import AnswerObject
+from KivyFiles.Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
 from SupplementaryFiles.Enums import QuestionTypes
 
 

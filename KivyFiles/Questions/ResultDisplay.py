@@ -1,11 +1,10 @@
 import kivy
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 
-from Questions.AnswerObject import AnswerObject
-from kivyFiles.GraphDisplay import GraphDisplay
+from KivyFiles.GraphDisplay import GraphDisplay
 
 
 class ResultDisplay(App):

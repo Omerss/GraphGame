@@ -7,10 +7,10 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
 from SupplementaryFiles import Utils
-from kivy_communication import *
+from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from kivyFiles.KivyGraphTester import MyGameLayout
+from KivyFiles.KivyGraphTester import MyGameLayout
 
 CONFIG_FILE_PATH = "./config.ini"
 

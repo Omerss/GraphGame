@@ -7,7 +7,7 @@ from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletGame import GraphTabletGame
 
 # https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
 
@@ -19,6 +19,8 @@ MAIN_CONFIG_FILE_PATH = "../config.ini"
 GRAPH_CONFIG_FILE = "../GraphsData/graph_config.ini"
 
 log = logging.getLogger()
+
+consecutive_runs = 30
 
 
 class QMatrix:
@@ -106,7 +108,7 @@ class QPlayer:
         q_matrix = QMatrix(action_space=4, max_steps=int(Utils.config['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
 
         with open(log_file_path,'w') as f:
-            f.write("run number, score\n")
+            f.write("run num, episode, score\n")
             for i in range(session_length):
                 dummy_screen = DummyScreen(graph)
                 game = GraphTabletGame(dummy_screen)
@@ -150,6 +152,7 @@ class DummyScreen:
 
 file_name = "Graph_1.xml"
 graph_path = path.join("..", "GraphsData", file_name)
-run_log_file = "result_{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE)
-player = QPlayer()
-player.run_q_player(graph_path, run_log_file)
+for run_index in range(consecutive_runs):
+    run_log_file = "result_{}__{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE, run_index)
+    player = QPlayer()
+    player.run_q_player(graph_path, run_log_file)

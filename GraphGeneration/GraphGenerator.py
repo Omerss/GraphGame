@@ -5,7 +5,7 @@ from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
-from kivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletGame import GraphTabletGame
 from os import path, listdir
 
 # get the full graph that seen

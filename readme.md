@@ -1,15 +1,43 @@
-The experiment is comprised of three phases.
-Each one of the phases uses the CET in order to get a ‘curiosity level’ score. At the end of the experiment,
- all ‘curiosity level’ scores are calculated into the final curiosity estimation.
+## Directory Structure
+
+#### Fonts
+Folder used to store fonts for lab use - mainly to allow for hebrew text
+
+#### GraphGeneration
+Contains tools to allow us to create a tests graphs manually.
+* [GraphGenerator](GraphGeneration/GraphGenerator.py) - Allow enumerating over all steps to make sure the graph has only a single solution.
+* [HandmadeGraph](GraphGeneration/HandmadeGraph.py) - Allows creating graphs manually
+
+#### GraphsData
+Contains all the graphs used in the main game. All graphs are in xml format.
+* [graph_config](GraphsData/graph_config.txt) -
+ A config files used by all the graphs when they are loaded.
+ Parameters about the structure of the graphs
+* [graph_config](GraphsData/questions_format.txt) - A guide on how to insert questions into the graph xml
+
+#### Images
+Contains images used in the project and game
+
+#### KivyCommunication
+Communication modules used by the lab. External code to program
+* [kivy_logger](KivyCommunication/kivy_logger.py) - Main logger file. Sends data to server in lab
+* [logged_widgets](KivyCommunication/logged_widgets.py) - Used for logging specific actions of widgets
+* [twisted_client](KivyCommunication/twisted_client.py)  - Used by my logger for client-server interactions
+
+#### KivyFiles
 
 
-Stage 0 - Setting up the program:
-The user activates the program and gives his/her identification number. This id will be used for all files created by the program.
-All other parameters should be set within the config files attached to the program. 
+#### QLearning
+#### Questions
+#### ScrapPad
+#### SupplementaryFiles
+#### Testing
+#### TestingGraphs
+#### Main
 
 ./main_kivy
 
-**User Workflow - How to use the Program**\
+## User Workflow - How to use the Program
 ***Stage 1***\
 The user sees a screen split into two parts. 
 On the left side is a column consisting of four buttons. The rest of the screen contains part of a graph.

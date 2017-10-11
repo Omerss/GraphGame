@@ -1,7 +1,8 @@
 from Queue import Queue
-from QuestionObject import QuestionObject
-from Questions.QuestionsDisplay import QuestionDisplay
-from SupplementaryFiles.Enums import Colours, QuestionTypes
+
+from KivyFiles.Questions.QuestionObject import QuestionObject
+from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
+from SupplementaryFiles.Enums import QuestionTypes
 
 
 def main():
