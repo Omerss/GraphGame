@@ -11,7 +11,7 @@ from kivyFiles.GraphTabletGame import GraphTabletGame
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 MAIN_CONFIG_FILE_PATH = "../config.ini"
-GRAPH_CONFIG_FILE = "./graph_config.ini"
+GRAPH_CONFIG_FILE = "./config.ini"
 SAVED_GRAPH_PATH = "../../Saved_Graphs"
 graph_path = ["draft_graph_2.xml"]
 
@@ -30,10 +30,8 @@ def main():
                     buttons = iter.next()
                 except StopIteration:
                     break
-                print ("2")
                 answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
                 number_of_successful_runs = number_of_successful_runs+answer
-                print ("3")
                 f.write("steps: {} seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
 
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
@@ -65,7 +63,6 @@ def run_buttons_on_graph(graph, buttons):
     log.setLevel(Utils.config['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletGame(dummy_screen)
-    print ("r4")
     #game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
