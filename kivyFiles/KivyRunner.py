@@ -7,10 +7,14 @@ from GraphTabletGame import GraphTabletGame
 from KivyGraphTester import *
 from random import randint
 from GraphGeneration import HandmadeGraph
+from SupplementaryFiles.LoadGraph import load_graph_from_file
+
 
 if __name__ == "__main__":
 
     button_presses = []
+    graph_file_path = "../GraphsData/draft_graph2.xml"
+    current_graph = load_graph_from_file(graph_file_path)
     # kivy.core.window.Window.size = (800, 600)
     # game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
     # game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj1(), button_presses, 0.2))
