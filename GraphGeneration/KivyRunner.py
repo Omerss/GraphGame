@@ -8,8 +8,8 @@ from SupplementaryFiles.LoadGraph import load_graph_from_file
 from KivyFiles.KivyGraphTester import *
 from GraphGeneration import HandmadeGraph
 
-graph_file_path = "../GraphsData/Graph_1.xml"
-graph_data = HandmadeGraph.create_draft_graph_2()
+# graph_file_path = "../GraphsData/Graph_1.xml"
+graph_file_path = "../TestingGraphs/draft_graph_3.xml"
 
 
 class GameType(Enum):
@@ -28,11 +28,11 @@ def main(game_type, graph_data):
 
 
 if __name__ == "__main__":
+    HandmadeGraph.create_draft_graph_3()
+    CONFIG_FILE_PATH = "../config.ini"
     Utils.read_config_file(CONFIG_FILE_PATH, True)
-    game_type = GameType.ALLOW_PLAY
-    if game_type == GameType.VIEW_ONLY:
-        graph = load_graph_from_file(graph_file_path)
-    else:
-        graph = load_graph_from_file(graph_file_path)
-        #graph = graph_data
+    # game_type = GameType.ALLOW_PLAY
+    game_type = GameType.VIEW_ONLY
+    graph = load_graph_from_file(graph_file_path)
+
     main(game_type, graph)

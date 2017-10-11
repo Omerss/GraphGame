@@ -14,7 +14,7 @@ from os import path, listdir
 MAIN_CONFIG_FILE_PATH = "../config.ini"
 GRAPH_CONFIG_FILE = "./config.ini"
 SAVED_GRAPH_PATH = "../TestingGraphs"
-graphs_names = ["draft_graph_1.xml"]
+graphs_names = ["draft_graph_3.xml"]
 
 
 def main():
@@ -23,6 +23,7 @@ def main():
     # iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
     iter = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
+    # use line 27 to test all the graphs in SAVED_GRAPH_PATH; use line 28 to only test the graphs specified on line 17
     # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
     for current_graph in graphs_names:
         curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
@@ -37,7 +38,7 @@ def main():
                     break
                 answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
                 number_of_successful_runs = number_of_successful_runs+answer
-                f.write("steps: {} seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
+                f.write("steps: {}, seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
 
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
 
@@ -80,11 +81,10 @@ def run_buttons_on_graph(graph, buttons):
     answer = (data_handler.get_number_of_known_nodes() == len(graph.node_list))
     return answer, data_handler.get_number_of_known_nodes()
 
-
-def view_graph(graph_xml_path):
-    from Old.GameHandler import GameHandler
-    game = GameHandler()
-    new_score = game.run_single_game(graph_xml_path, None)
+# def view_graph(graph_xml_path):
+#     from Old.GameHandler import GameHandler
+#     game = GameHandler()
+#     new_score = game.run_single_game(graph_xml_path, None)
 
 
 if __name__ == "__main__":

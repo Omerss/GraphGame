@@ -4,13 +4,7 @@ from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-<<<<<<< HEAD
-import threading
-import kivyFiles.KivyRunner
-from kivyFiles.KivyRunner import GameType
-=======
 
->>>>>>> 65cfe424ccb2d83fdc7156471b6eb3e63dbb53c3
 
 def create_draft_graph_1():
     # Arrange
@@ -57,6 +51,7 @@ def create_draft_graph_1():
     save_graph(draft_graph, "draft_graph_1.xml")
 
 create_draft_graph_1()
+
 
 def create_draft_graph_2():
     # Arrange
@@ -113,3 +108,46 @@ def create_draft_graph_2():
 
 # create_draft_graph_2()
 
+
+def create_draft_graph_3():
+
+    draft_graph = GraphObject(max_x=1250, max_y=1600, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=26, y_loc=50, node_colour=Colours['yellow'], serial="n1")
+    draft_graph.add_node(x_loc=451, y_loc=400, node_colour=Colours['blue'], serial="n2")
+    draft_graph.add_node(x_loc=201, y_loc=520, node_colour=Colours['red'], serial="n3")
+    draft_graph.add_node(x_loc=750, y_loc=320, node_colour=Colours['blue'], serial="n4")
+    draft_graph.add_node(x_loc=660, y_loc=748, node_colour=Colours['yellow'], serial="n5")
+    draft_graph.add_node(x_loc=1200, y_loc=400, node_colour=Colours['red'], serial="n6")
+    draft_graph.add_node(x_loc=790, y_loc=50, node_colour=Colours['yellow'], serial="n7")
+    draft_graph.add_node(x_loc=870, y_loc=1050, node_colour=Colours['yellow'], serial="n8")
+    draft_graph.add_node(x_loc=1040, y_loc=680, node_colour=Colours['blue'], serial="n9")
+    draft_graph.add_node(x_loc=470, y_loc=1100, node_colour=Colours['red'], serial="n10")
+    draft_graph.add_node(x_loc=1220, y_loc=1352, node_colour=Colours['red'], serial="n11")
+    draft_graph.add_node(x_loc=55, y_loc=910, node_colour=Colours['blue'], serial="n12")
+    draft_graph.add_node(x_loc=202, y_loc=1437, node_colour=Colours['yellow'], serial="n13")
+    draft_graph.add_node(x_loc=611, y_loc=1300, node_colour=Colours['red'], serial="n14")
+    draft_graph.add_node(x_loc=992, y_loc=1544, node_colour=Colours['blue'], serial="n15")
+
+    draft_graph.center_node = "n2"
+
+    for node in draft_graph.node_list:
+        draft_graph.get_possible_connections(node.serial_num)
+
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n3"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n4"), draft_graph.get_node_by_serial("n5"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n4"), draft_graph.get_node_by_serial("n6"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n7"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n5"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n9"), draft_graph.get_node_by_serial("n11"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n12"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n13"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n15"), draft_graph.get_node_by_serial("n14"))
+
+    save_graph(draft_graph, "draft_graph_3.xml")
+
+create_draft_graph_3()
