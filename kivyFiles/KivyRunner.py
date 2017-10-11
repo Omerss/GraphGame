@@ -1,5 +1,10 @@
+
 import os
 import kivy
+from enum import Enum
+
+from SupplementaryFiles.LoadGraph import load_graph_from_file
+
 kivy.require('1.9.1')
 
 from SupplementaryFiles.CreateRandGraph import create_rand_graph
@@ -8,18 +13,18 @@ from KivyGraphTester import *
 from random import randint
 from GraphGeneration import HandmadeGraph
 
-if __name__ == "__main__":
+graph_file_path = "../GraphsData/draft_graph2.xml"
 
-    button_presses = []
-    # kivy.core.window.Window.size = (800, 600)
-    # game = GraphTabletGame(create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd())), None, None)
-    # game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj1(), button_presses, 0.2))
-    game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
-    # game = GraphTabletGame(TestScreen(MyGameLayout.get_graph_obj1(), button_presses, 0.2, False))
-    #
-    # for button in button_presses:
-    #     game.press_button(button)
 
-    # game = DisplayApp(create_draft_graph2())
+class GameType(Enum):
+    VIEW_ONLY = 1
+    ALLOW_PLAY = 2
+
+
+def main(game_type):
+    if game_type == GameType.VIEW_ONLY:
+        game = load_graph_from_file(graph_file_path)
+    elif game_type == GameType.ALLOW_PLAY:
+        button_presses = []
+        game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
     game.run()
-    print button_presses
