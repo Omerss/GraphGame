@@ -7,9 +7,11 @@ from Enums import Colours, Shapes
 from GraphObj import GraphObject
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 import xml.etree.cElementTree as E
+SAVED_GRAPH_PATH = "../TestingGraphs"
 
 
 def save_graph(graph, file_name):
+    file_path = path.join(SAVED_GRAPH_PATH, file_name)
 
     root = E.Element("root")
     graph_xml = E.SubElement(root, "graph_xml")
@@ -24,12 +26,12 @@ def save_graph(graph, file_name):
     E.SubElement(graph_xml,"question_object_list",name="question_object_list").text=str(graph.question_object_list)
 
 
-    if not path.exists(path.dirname(file_name)):
+    if not path.exists(path.dirname(file_path)):
         try:
-            makedirs(path.dirname(file_name))
+            makedirs(path.dirname(file_path))
         except:
             pass
-    with open(file_name, 'w+') as f:
+    with open(file_path, 'w+') as f:
         pass
     for i in range(0, len(graph.node_list)):
         E.SubElement(node_list,"node_serial_num_{}".format(i), name="node_serial_num_{}".format(i)).text = graph.node_list[i].serial_num
@@ -43,5 +45,5 @@ def save_graph(graph, file_name):
         E.SubElement(node_list, "node_real_{}".format(i), name="node_real_{}".format(i)).text = str(graph.node_list[i].real)
 
         tree = E.ElementTree(root)
-        tree.write(file_name)
+        tree.write(file_path)
 

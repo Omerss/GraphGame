@@ -6,25 +6,30 @@ from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
+from os import path, listdir
 
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 MAIN_CONFIG_FILE_PATH = "../config.ini"
 GRAPH_CONFIG_FILE = "./config.ini"
-SAVED_GRAPH_PATH = "../../Saved_Graphs"
-graph_path = ["draft_graph_2.xml"]
+SAVED_GRAPH_PATH = "../TestingGraphs"
+graphs_names = ["draft_graph_1.xml"]
 
 
 def main():
     read_config_file(MAIN_CONFIG_FILE_PATH, True)
     max_turns = int(Utils.config['Default']['max_turns'])
-    #iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
+    # iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
     iter = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
-    for current_graph in graph_path:
-        graph = load_graph_from_file(current_graph)
-        with open("{}_saved_steps.txt".format(current_graph), 'w') as f:
+    # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
+    for current_graph in graphs_names:
+        curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
+        graph = load_graph_from_file(curr_path)
+        with open("{}_saved_steps.txt".format(curr_path[:-4]), 'w') as f:
+            num_of_graph_nodes = len(graph.node_list)
+            f.write("The graph contains {} nodes\n".format(str(num_of_graph_nodes)))
             while True:
                 try:
                     buttons = iter.next()
