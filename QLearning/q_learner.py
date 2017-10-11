@@ -7,6 +7,9 @@ from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
 from kivyFiles.GraphTabletGame import GraphTabletGame
 
+# https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
+
+
 EPSILON = 0.1
 GAMMA = 0.8
 ALPHA = 0.01
