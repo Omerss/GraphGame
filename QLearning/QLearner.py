@@ -7,7 +7,7 @@ from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
-from KivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 
 # https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
 
@@ -111,7 +111,7 @@ class QPlayer:
             f.write("episode, score\n")
             for i in range(session_length):
                 dummy_screen = DummyScreen(graph)
-                game = GraphTabletGame(dummy_screen)
+                game = GraphTabletDisplay(dummy_screen)
                 data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
                 data_handler.add_view_to_db(game.get_info_from_screen())
 

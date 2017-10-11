@@ -1,5 +1,5 @@
 import unittest
-from KivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
@@ -46,7 +46,7 @@ class TestSaveGraph(unittest.TestCase):
         #assert
        # button_event = threading.Event()
 
-        #display = GraphTabletGame([],new_graph , button_event)
+        #display = GraphTabletDisplay([],new_graph , button_event)
 
     #    display.build()
         size = 0

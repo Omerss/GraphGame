@@ -1,7 +1,7 @@
 import kivy
 from enum import Enum
 
-from main_kivy import CONFIG_FILE_PATH
+from Main import CONFIG_FILE_PATH
 
 kivy.require('1.9.1')
 from SupplementaryFiles.LoadGraph import load_graph_from_file

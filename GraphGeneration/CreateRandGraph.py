@@ -1,11 +1,11 @@
 import logging
 import random
 
-import LineEquation
-import Utils
-from Enums import Colours, Shapes
-from GraphObj import GraphObject
-from NodeObject import NodeObject
+import SupplementaryFiles.LineEquation
+import SupplementaryFiles.Utils
+from SupplementaryFiles.Enums import Colours, Shapes
+from SupplementaryFiles.GraphObj import GraphObject
+from SupplementaryFiles.NodeObject import NodeObject
 
 
 def create_rand_graph(config_file):
@@ -15,7 +15,7 @@ def create_rand_graph(config_file):
     :return:
     """
     new_graph = GraphObject(config_file)
-    config = Utils.read_config_file(config_file)
+    config = SupplementaryFiles.Utils.read_config_file(config_file)
 
     for i in range(config.getint("GeneralParams", "NodeCount")):
         while True:
@@ -68,7 +68,7 @@ def check_cross(graph, serial1, serial2):
         new_equation = graph.create_equation(graph.get_node_by_serial(connection[0]),
                                              graph.get_node_by_serial(connection[1]))
         print(line_equation.edge1, line_equation.edge2, new_equation.edge1, new_equation.edge2)
-        if LineEquation.check_collision_point(line_equation, new_equation):
+        if SupplementaryFiles.LineEquation.check_collision_point(line_equation, new_equation):
             return True
     return cross
 

@@ -1,10 +1,10 @@
-from KivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 import unittest
 
 class TestGraphTabletGame(unittest.TestCase):
 
     def test_buttons(self):
-        game = GraphTabletGame()
+        game = GraphTabletDisplay()
         game.build()
         game.layout.kivy_graph.print_graph_nodes()
         game.press_button(1)
@@ -28,7 +28,7 @@ class TestGraphTabletGame(unittest.TestCase):
         print "finished checking buttons"
 
     def test_screen_visibility(self):
-        game = GraphTabletGame()
+        game = GraphTabletDisplay()
         game.build()
         nodes = game.get_onscreen_nodes()
         print nodes

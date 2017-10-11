@@ -4,7 +4,7 @@ from os import path
 
 from mock import patch
 
-from SupplementaryFiles.CreateRandGraph import create_rand_graph
+from GraphGeneration.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject

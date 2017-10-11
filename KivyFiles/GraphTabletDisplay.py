@@ -6,7 +6,7 @@ from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.Point import Point
 
 
-class GraphTabletGame:
+class GraphTabletDisplay:
     counter1 = 0
     counter2 = 0
     counter3 = 0

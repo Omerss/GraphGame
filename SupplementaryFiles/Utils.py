@@ -1,11 +1,15 @@
-image_folder = "..//Images"
+from os import path
+
+image_folder = path.join("..", "Images")
 config = None
+
 
 def read_config_file(path, save_to_main=False):
     my_config = read_file(path)
     if save_to_main:
         config = my_config
     return my_config
+
 
 def read_file(path):
     config_dict = {}
@@ -18,6 +22,7 @@ def read_file(path):
             inner_key = new_line[key[0]].keys()
             config_dict[key[0]][inner_key[0]] = new_line[key[0]][inner_key[0]].rstrip()
     return config_dict
+
 
 def parse_line(line):
     point_index = line.find(".")
@@ -38,3 +43,10 @@ def get_enum_items(enum_object):
     list.remove("__doc__")
     list.remove("__module__")
     return list
+
+
+def format_log_msg(msg, **kwargs):
+    new_message = msg
+    for key, value in kwargs.iteritems():
+        new_message = "{0}, {1}={2}".format(new_message, key, value)
+    return new_message

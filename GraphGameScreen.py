@@ -3,7 +3,7 @@
 from kivy.uix.screenmanager import Screen
 
 from KivyCommunication import *
-from KivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
@@ -47,7 +47,7 @@ class GraphGameScreen(Screen):
         self.button_presses = button_presses
         self.button_ratio = button_ratio
 
-        self.graph_game = GraphTabletGame(self)
+        self.graph_game = GraphTabletDisplay(self)
 
     def on_enter(self, *args):
         log_str = 'start,'

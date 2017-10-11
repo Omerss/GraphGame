@@ -5,7 +5,7 @@ from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import read_config_file
-from KivyFiles.GraphTabletGame import GraphTabletGame
+from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
 
 # get the full graph that seen
@@ -67,7 +67,7 @@ def run_buttons_on_graph(graph, buttons):
     log = logging.getLogger()
     log.setLevel(Utils.config['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
-    game = GraphTabletGame(dummy_screen)
+    game = GraphTabletDisplay(dummy_screen)
     #game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())

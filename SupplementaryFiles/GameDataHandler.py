@@ -4,7 +4,7 @@ import itertools
 import logging
 
 from SupplementaryFiles import Utils
-from SupplementaryFiles.logger_formatter import format_log_msg
+from SupplementaryFiles.Utils import format_log_msg
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET

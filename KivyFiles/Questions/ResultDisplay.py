@@ -7,7 +7,7 @@ from kivy.uix.label import Label
 from KivyFiles.GraphDisplay import GraphDisplay
 
 
-class ResultDisplay(App):
+class ResultDisplay:
     parent_screen = None
 
     def __init__(self, parent_screen=None):

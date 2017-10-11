@@ -1,8 +1,8 @@
 import time
 
-from GraphTabletGame import GraphTabletGame
+from GraphTabletDisplay import GraphTabletDisplay
 
-a = GraphTabletGame()
+a = GraphTabletDisplay()
 a.build()
 time.sleep(4)
 a.press_button(3)

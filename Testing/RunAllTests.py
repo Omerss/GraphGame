@@ -8,8 +8,7 @@ from unittest import TestSuite
 
 
 loader = unittest.TestLoader()
-start_dir = "{}\\Testing\\".format(os.getcwd())
-suite = loader.discover(start_dir, pattern='Test*.py')
+suite = loader.discover(".", pattern='Test*.py')
 
 runner = unittest.TextTestRunner()
 runner.run(suite)

@@ -1,9 +1,9 @@
 import os
 
+from GraphGeneration.CreateRandGraph import create_rand_graph
 from KivyFiles.Questions.AnswerObject import AnswerObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from KivyFiles.Questions.QuestionWidgets import IntInput
-from SupplementaryFiles.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.Enums import QuestionTypes, Colours
 
 

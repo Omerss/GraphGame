@@ -1,7 +1,7 @@
 import logging
 import os
 import uuid
-from SupplementaryFiles.logger_formatter import format_log_msg
+from SupplementaryFiles.Utils import format_log_msg
 
 from structlog import get_logger
 
@@ -198,6 +198,8 @@ class GraphObject:
 
     def set_center_node (self,serial):
         self.center_node = serial
+
+
 def get_serial():
     # return str(datetime.now().strftime("%M%S%f"))
     return str(uuid.uuid4())
