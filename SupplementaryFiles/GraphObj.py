@@ -27,11 +27,11 @@ class GraphObject:
         if config_file:
             assert (os.path.exists(config_file))
             self.config = Utils.read_config_file(config_file)
-            self.size = {"max_x": self.config.getint('GeneralParams', 'GraphSizeX'),
-                         "max_y": self.config.getint('GeneralParams', 'GraphSizeY')}
-            self.node_count = self.config.getint("GeneralParams", "NodeCount")
-            self.max_neighbors = self.config.getint('NodeData', 'MaxNeighbors')
-            self.extra_distance = self.config.getint('NodeData', 'ExtraDistance')
+            self.size = {"max_x": int(self.config['GeneralParams']['GraphSizeX']),
+                         "max_y": int(self.config['GeneralParams']['GraphSizeY'])},
+            self.node_count = int(self.config["GeneralParams"]["NodeCount"])
+            self.max_neighbors = int(self.config['NodeData']['MaxNeighbors'])
+            self.extra_distance = int(self.config['NodeData']['ExtraDistance'])
         else:
             # Creating graph by parameters and not config
             self.size = {"max_x": max_x,

@@ -9,6 +9,7 @@ from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
 LOG_LEVEL = logging.DEBUG
+CONFIG_FILE_PATH = "./config.txt"
 """
 Handles all data return from the window. Constructs a new graph based on the supplied data.
 """
@@ -24,7 +25,8 @@ class GameDataHandler:
         self.new_edges = []
         self.edges_to_add = []
         self.log = logging.getLogger()
-        self.log.setLevel(Utils.config['Default']['log_level'])
+        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
+        self.log.setLevel(self.config['Default']['log_level'])
 
     def get_number_of_known_nodes(self):
         return len([real_node for real_node in self.graph.node_list if real_node.real])

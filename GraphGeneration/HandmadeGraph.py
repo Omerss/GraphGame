@@ -5,8 +5,8 @@ from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 import threading
-from kivyFiles.KivyGraphTester import DisplayApp
-
+import kivyFiles.KivyRunner
+from kivyFiles.KivyRunner import GameType
 
 def create_draft_graph_1():
     # Arrange
