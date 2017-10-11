@@ -1,19 +1,13 @@
-
-import os
 import kivy
 from enum import Enum
 
-from SupplementaryFiles.LoadGraph import load_graph_from_file
-
 kivy.require('1.9.1')
-
-from SupplementaryFiles.CreateRandGraph import create_rand_graph
-from GraphTabletGame import GraphTabletGame
+from SupplementaryFiles.LoadGraph import load_graph_from_file
 from KivyGraphTester import *
-from random import randint
 from GraphGeneration import HandmadeGraph
 
 graph_file_path = "../GraphsData/draft_graph2.xml"
+graph_data = HandmadeGraph.create_draft_graph_2()
 
 
 class GameType(Enum):
@@ -21,10 +15,15 @@ class GameType(Enum):
     ALLOW_PLAY = 2
 
 
-def main(game_type):
+def main(game_type, graph):
     if game_type == GameType.VIEW_ONLY:
-        game = load_graph_from_file(graph_file_path)
+        game = load_graph_from_file(graph)
     elif game_type == GameType.ALLOW_PLAY:
         button_presses = []
-        game = GraphGameApp(TestScreen(HandmadeGraph.create_draft_graph_2(), button_presses, 0.2))
+        # This needs to be more versatile
+        game = GraphGameApp(TestScreen(graph, button_presses, 0.2))
     game.run()
+
+
+if __name__ == "__main__":
+    main(GameType.VIEW_ONLY, graph_file_path)
