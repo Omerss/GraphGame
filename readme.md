@@ -40,13 +40,13 @@ about a question and the answers given to it.
 * [ResultDisplay](KivyFiles/Questions/ResultDisplay.py) - Holds ResultDisplay and ResultWidget. Used to display the result screen.
 
 ***Main Folder***\
-* [GameLayout](KivyFiles/GameLayout.py) -
-* [GraphButton](KivyFiles/GraphButton.py) - Graph buttons a sophisticated WidgetButton the allow greater functionality in the application
-* [GraphDisplay](KivyFiles/GraphDisplay.py) -
-* [GraphLayout](KivyFiles/GraphLayout.py) -
-* [GraphTabletGame](KivyFiles/GraphTabletGame.py) -
+* [GameLayout](KivyFiles/GameLayout.py) - Controls the displaying of the entire game. Contains the GraphLayout and the buttons.
+* [GraphButton](KivyFiles/GraphButton.py) - Graph buttons a sophisticated WidgetButton that allows greater functionality in the application.
+* [GraphDisplay](KivyFiles/GraphDisplay.py) - A layout that allows the entire graph to be displayed onscreen.
+* [GraphLayout](KivyFiles/GraphLayout.py) - A kivy layout that contains the graph in a format that can be displayed.
+* [GraphTabletDisplay](KivyFiles/GraphTabletDisplay.py) - Controls the game playing, also responsible for sending out the information seen onscreen.
 * [KivyEdge](KivyFiles/KivyEdge.py) - A connection between two kivy nodes is a KivyEdge.
-* [KivyGraph](KivyFiles/KivyGraph.py) -
+* [KivyGraph](KivyFiles/KivyGraph.py) - Graph object use by the graph layout to hold information about the graph.
 * [KivyNode](KivyFiles/KivyNode.py) - Node objects use by the kivy graph to hold information about each node.
 
 #### QLearning
