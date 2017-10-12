@@ -101,6 +101,8 @@ class QPlayer:
     def run_q_player(self, graph_file_path, log_file_path):
         Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
+        Utils.image_folder = path.join("..", Utils.image_folder)
+
         log.setLevel(Utils.game_config_data['Default']['log_level'])
         session_length = 1000
 
