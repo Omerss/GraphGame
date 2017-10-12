@@ -1,10 +1,10 @@
 from kivy.uix.button import Button
 
 
-class TextButton(Button):
-    def __init__(self, text, func, **kwargs):
-        super(TextButton, self).__init__(**kwargs)
-        self.text = text
+class EndButton(Button):
+    def __init__(self, func, **kwargs):
+        super(EndButton, self).__init__(**kwargs)
+        self.text = 'End Game.'
         self.on_press = func
 
 
