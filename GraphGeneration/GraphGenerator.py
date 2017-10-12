@@ -12,7 +12,7 @@ from os import path, listdir
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
 MAIN_CONFIG_FILE_PATH = "../game_config.txt"
-GRAPH_CONFIG_FILE = "./game_config.txt"
+GRAPH_CONFIG_FILE = "./graph_config.txt"
 SAVED_GRAPH_PATH = "../TestingGraphs"
 graphs_names = ["draft_graph_3.xml"]
 
