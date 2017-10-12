@@ -68,7 +68,7 @@ class GraphGameMainApp(App):
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
         #graph_list = self.load_graphs_from_folder()
-        graph_list = load_py_graph('graph_1')
+        graph_list = [load_py_graph('graph_1')]
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
         self.current_graph = None
         self.discovered_graph = None
