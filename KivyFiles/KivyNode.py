@@ -69,7 +69,7 @@ class KivyNode(Widget):
         """
         :param delta_x: a distance to move the node's x_coor by
         :param delta_y: a distance to move the node's y_coor by
-        :param animated: if True, node's movement will be visually displayed
+        :param animated: boolean, indicates whether the node's movement should be visually displayed
         """
         self.x_coor = self.x_coor + delta_x
         self.y_coor = self.y_coor + delta_y
@@ -93,7 +93,7 @@ class KivyNode(Widget):
 
     def jump_to_location(self, new_x, new_y):
         """
-        sets self's location to (newX,newY)
+        sets self's location to (new_x, new_y)
         :param new_x: new value for node's x_coor
         :param new_y: new value for node's y_coor
         """

@@ -12,8 +12,8 @@ from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import *
 from SupplementaryFiles.LoadGraph import load_py_graph
 
-CONFIG_FILE_PATH = path.join(getcwd(), "game_config.txt")
-GRAPH_CONFIG_PATH = path.join(getcwd(), "graph_config.txt")
+CONFIG_FILE_PATH = "game_config.txt"
+GRAPH_CONFIG_PATH = "graph_config.txt"
 
 
 class ZeroScreen(Screen):

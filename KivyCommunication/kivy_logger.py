@@ -32,13 +32,10 @@ class DataMode:
 class LogAction:
     none = 'none'
     press = 'press'
-    play = 'play'
-    stop = 'stop'
     move = 'move'
     down = 'down'
     up = 'up'
     text = 'text'
-    spinner = 'spinner'
     data = 'data'
 
     def __init__(self):

@@ -24,6 +24,10 @@ class KivyEdge(Widget):
                              width=self.line_width)
 
     def reset_edge(self, animated):
+        """
+        move the edge so it is drawn between its nodes
+        :param animated: boolean indicating whether to show the movement of the edge
+        """
         if animated:
             anim = Animation(points=[self.node1.get_x(), self.node1.get_y(), self.node2.get_x(), self.node2.get_y()])
             anim.start(self.line)

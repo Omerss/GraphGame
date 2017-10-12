@@ -1,3 +1,9 @@
+## The Curiosity Evaluation Tool
+The Curiosity Evaluation Tool (CET) employs a three phase experiment in order to get a measurement of curiosity.
+It is built by Dr. Gordon's curiosity lab and if found valid, could be used at the entrance exams for gifted classes and for job interviews.
+The CET could be used by researchers, educators, human resources and more.
+This application is one of the CETs used by the lab.
+
 ## Directory Structure
 
 #### Fonts
@@ -12,9 +18,6 @@ Contains tools to allow us to create a tests graphs manually.
 
 #### GraphsData
 Contains all the graphs used in the main game. All graphs are in xml format.
-* [graph_config](GraphsData/graph_config.txt) -
- A config files used by all the graphs when they are loaded.
- Parameters about the structure of the graphs
 * [questions_format](GraphsData/questions_format.txt) - A guide on how to insert questions into the graph xml
 
 #### Images
@@ -87,7 +90,10 @@ Graphs that are still under construction
 * [QuestionnaireScreen](QuestionnaireScreen.py) - The screen object that holds the questionnaire part of the app. All questionnaire interactions start here.
 * [ResultsScreen](ResultsScreen.py) - The screen object that holds the result part of the app.
 Building the widget that displayed the results to the user are constructed under this.
-
+* [graph_config](game_config.txt) - General parameters for the application (log levels, steps per game, etc.)
+* [graph_config](graph_config.txt) -
+ A config files used by all the graphs when they are loaded.
+ Parameters about the structure of the graphs
 
 ## Kivy flow
 When setting up the game we need to load all the game screen. Each screen consists of three objects:
@@ -95,3 +101,28 @@ When setting up the game we need to load all the game screen. Each screen consis
 2) A display object. These classes are none kivy objects that connect the screen objects to the kivy layouts
 3) A kivy layout. The layout holds all the widgets that are displayed on the screen.
 We load the objects in sequence: Screen -> Display -> Layout
+
+
+## Back-end
+### Basic infrastructure
+All graphs used by the program will follow a standard build style for information graphs.
+A graph is composed of a list of nodes, each node hold personal parameters, such as color, coordinates etc. and a list of connections - neighbors.
+The graphs used in the program are stored under the GraphObject class and would be referenced as such from this point forward.
+The graph_config file will hold any and all parameters regarding the functionality of the program: button actions, questions to use, graphs etc.
+
+## Data Collection
+#### Reading live data from graph
+At every given time we track how much of the graph the user has seen so far. We do not account for memory as we try to give an optimal view of the graph
+as seen by the user. The data is saved using a standard Graph Object, like the one used in the actual graph.
+The only difference is the fact that our graph dynamically changes as time progresses.
+After each step done by the user we pass the information seen on screen back to the db. This information is passed via a dictionary object.
+The dictionary contains three fields - two list and a metadata class. One list contains all nodes in the current view and the other contains all edges
+in view. An edge is represented by a tuple of two nodes. In case we do not directly see the nodes of the edge, imaginary nodes are created.
+These imaginary node are represented like normal node, except for having “is_real” flag set to false and not having a representation in the node
+list passed from the view. The metadata class holds information needed for post analysis of the data.
+
+## Q Learning
+We use Q-learning algorithms to allow a machine to learn the graphs and to understand the principles behind them. Running multiple episodes allow us
+to see how the machine learns and improves over time. By modifying the learning factor for the machine we can simulate the effectiveness
+of learning an thus create a correlation between the learning curve and the learning factor, e.g. curiosity.
+
