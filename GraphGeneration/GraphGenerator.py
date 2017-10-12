@@ -14,7 +14,7 @@ from os import path, listdir
 MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 SAVED_GRAPH_PATH = "../TestingGraphs"
-graphs_names = ["draft_graph_3.xml"]
+graphs_names = ["draft_graph_4.xml"]
 
 
 def main():

@@ -168,9 +168,9 @@ def create_draft_graph_4():
     draft_graph.add_node(x_loc=1950, y_loc=900, node_colour=Colours['red'], serial="n12")
     draft_graph.add_node(x_loc=1000, y_loc=300, node_colour=Colours['red'], serial="n13")
     draft_graph.add_node(x_loc=1507, y_loc=312, node_colour=Colours['red'], serial="n14")
-    draft_graph.add_node(x_loc=1405, y_loc=13010, node_colour=Colours['red'], serial="n15")
+    draft_graph.add_node(x_loc=1405, y_loc=1310, node_colour=Colours['red'], serial="n15")
 
-    draft_graph.center_node = "n14"
+    draft_graph.center_node = "n1"
 
     for node in draft_graph.node_list:
         draft_graph.get_possible_connections(node.serial_num)

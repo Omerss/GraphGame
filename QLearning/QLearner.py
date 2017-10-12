@@ -153,7 +153,7 @@ class DummyScreen:
 file_name = "Graph_1.xml"
 graph_path = path.join("..", "GraphsData", file_name)
 graph_path = "graph_1"
-for run_index in range(13, consecutive_runs):
+for run_index in range(19, consecutive_runs):
     run_log_file = "result_{}__{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE, run_index)
     player = QPlayer()
     player.run_q_player(graph_path, run_log_file)
