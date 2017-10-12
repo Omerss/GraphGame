@@ -9,7 +9,7 @@ from ResultsScreen import ResultScreen
 
 from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
-from SupplementaryFiles.Utils import *
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.LoadGraph import load_py_graph
 
 CONFIG_FILE_PATH = "game_config.txt"
@@ -17,7 +17,9 @@ GRAPH_CONFIG_PATH = "graph_config.txt"
 
 
 class ZeroScreen(Screen):
-
+    """
+    Zero screen collects the user's id
+    """
     def on_enter(self, *args):
         KL.restart()
 
@@ -107,6 +109,9 @@ class GraphGameMainApp(App):
         return self.sm
 
     def init_communication(self, server_ip):
+        """
+        Initiolize the communication protocol to the server.
+        """
         KC.start(the_ip=server_ip, the_parents=[self])
         KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
 

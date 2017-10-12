@@ -61,7 +61,6 @@ class GraphGameScreen(Screen):
     def end_graph(self):
         self.graph_game.the_end = True
         if not self.graph_game.is_playing:
-
             self.main_app.discovered_graph = self.graph_game.current_data_handler.cleaned_graph()
             self.main_app.current_graph = self.graph
             self.next_game()

@@ -11,7 +11,7 @@ from KivyFiles.KivyGraphTester import *
 from GraphGeneration import HandmadeGraph
 
 # graph_file_path = "../GraphsData/Graph_1.xml"
-graph_file_path = "../TestingGraphs/draft_graph_3.xml"
+graph_file_path = "../TestingGraphs/draft_graph_4.xml"
 
 
 class GameType(Enum):

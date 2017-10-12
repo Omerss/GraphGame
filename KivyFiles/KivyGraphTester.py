@@ -132,7 +132,8 @@ class GraphGameApp(App):
     # Used in order to run the game of a single graph, without the questions or the result screen
     is_playing = True
 
-    def __init__(self, game_screen=None):
+    def __init__(self, game_screen=None, ** kwargs):
+        super(GraphGameApp, self).__init__(**kwargs)
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
         self.current_data_handler = GameDataHandler(self.game_screen.graph_config, self.original_graph.size)
@@ -140,6 +141,9 @@ class GraphGameApp(App):
         self.button_presses = self.game_screen.button_presses
         self.layout = GameLayout(self)
         self.send_info_from_screen()
+
+    def build(self):
+        return self.layout
 
     def load(self):
         pass

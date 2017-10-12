@@ -3,7 +3,7 @@ from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_py_graph
 
 
 def create_draft_graph_1():
@@ -150,4 +150,36 @@ def create_draft_graph_3():
 
     save_graph(draft_graph, "draft_graph_3.xml")
 
-create_draft_graph_3()
+
+def create_draft_graph_4():
+
+    draft_graph = GraphObject(max_x=2000, max_y=2000, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=390, y_loc=920, node_colour=Colours['red'], serial="n1")
+    draft_graph.add_node(x_loc=200, y_loc=1100, node_colour=Colours['yellow'], serial="n2")
+    draft_graph.add_node(x_loc=40, y_loc=500, node_colour=Colours['blue'], serial="n3")
+    draft_graph.add_node(x_loc=690, y_loc=1100, node_colour=Colours['red'], serial="n4")
+    draft_graph.add_node(x_loc=880, y_loc=1000, node_colour=Colours['yellow'], serial="n5")
+    draft_graph.add_node(x_loc=1220, y_loc=1000, node_colour=Colours['yellow'], serial="n6")
+    draft_graph.add_node(x_loc=1000, y_loc=1300, node_colour=Colours['blue'], serial="n7")
+    draft_graph.add_node(x_loc=1400, y_loc=700, node_colour=Colours['red'], serial="n8")
+    draft_graph.add_node(x_loc=700, y_loc=800, node_colour=Colours['blue'], serial="n9")
+
+    draft_graph.center_node = "n1"
+
+    for node in draft_graph.node_list:
+        draft_graph.get_possible_connections(node.serial_num)
+
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n3"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n4"), draft_graph.get_node_by_serial("n5"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n9"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n7"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+
+
+    save_graph(draft_graph, "draft_graph_4.xml")
+
+create_draft_graph_4()
