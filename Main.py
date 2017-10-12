@@ -10,7 +10,7 @@ from SupplementaryFiles import Utils
 from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-#from KivyFiles.KivyGraphTester import MyGameLayout
+#from KivyFiles.KivyGraphTester import GraphTester
 
 CONFIG_FILE_PATH = "./config.txt"
 
