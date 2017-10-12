@@ -10,7 +10,7 @@ from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 
 # https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
 
-CURIOSITY_VALUE = 1  # 1 = random. 0.1 ~ about right for learning
+CURIOSITY_VALUE = 0.1  # 1 = random. 0.1 ~ about right for learning
 GAMMA = 0.8
 ALPHA = 0.1
 
@@ -152,7 +152,7 @@ class DummyScreen:
 
 file_name = "Graph_1.xml"
 graph_path = path.join("..", "GraphsData", file_name)
-for run_index in range(consecutive_runs):
+for run_index in range(15, consecutive_runs):
     run_log_file = "result_{}__{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE, run_index)
     player = QPlayer()
     player.run_q_player(graph_path, run_log_file)
