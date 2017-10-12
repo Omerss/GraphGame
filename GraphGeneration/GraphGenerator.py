@@ -1,26 +1,28 @@
 import itertools
 import logging
 
-from SupplementaryFiles import Utils
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from SupplementaryFiles.Utils import read_config_file
+
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
 
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
-MAIN_CONFIG_FILE_PATH = "../config.ini"
-GRAPH_CONFIG_FILE = "./config.ini"
+MAIN_CONFIG_FILE_PATH = "../game_config_data.txt"
+GRAPH_CONFIG_FILE = "./game_config_data.txt"
 SAVED_GRAPH_PATH = "../TestingGraphs"
 graphs_names = ["draft_graph_3.xml"]
 
 
 def main():
-    read_config_file(MAIN_CONFIG_FILE_PATH, True)
-    max_turns = int(Utils.config['Default']['max_turns'])
-    # iter = itertools.product('1234', repeat=int(Utils.config['Default']['MaxTurns']))
+    Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
+    Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
+
+    max_turns = int(Utils.game_config_data['Default']['max_turns'])
+    # iter = itertools.product('1234', repeat=int(Utils.game_config_data['Default']['MaxTurns']))
     iter = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
     # use line 27 to test all the graphs in SAVED_GRAPH_PATH; use line 28 to only test the graphs specified on line 17
@@ -53,7 +55,7 @@ class DummyScreen:
     def __init__(self, graph):
         self.graph = graph
         self.real_user = False
-        self.max_turns = int(Utils.config['Default']['max_turns'])
+        self.max_turns = int(Utils.game_config_data['Default']['max_turns'])
 
     def end_graph(self):
         self.graph_game.the_end = True
@@ -66,14 +68,14 @@ class DummyScreen:
 
 def run_buttons_on_graph(graph, buttons):
     log = logging.getLogger()
-    log.setLevel(Utils.config['Default']['log_level'])
+    log.setLevel(Utils.game_config_data['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletDisplay(dummy_screen)
     #game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
-    for i in range(int(Utils.config['Default']['max_turns'])):
-        log.debug("doing a step {}/{}".format(i, Utils.config['Default']['max_turns']))
+    for i in range(int(Utils.game_config_data['Default']['max_turns'])):
+        log.debug("doing a step {}/{}".format(i, Utils.game_config_data['Default']['max_turns']))
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
 

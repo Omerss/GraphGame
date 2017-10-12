@@ -6,7 +6,7 @@ from os import path
 from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-from SupplementaryFiles.Utils import read_config_file
+from SupplementaryFiles.Utils import Utils
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 
 # https://gist.github.com/kastnerkyle/d127197dcfdd8fb888c2
@@ -15,8 +15,8 @@ CURIOSITY_VALUE = 1  # 1 = random. 0.1 ~ about right for learning
 GAMMA = 0.8
 ALPHA = 0.1
 
-MAIN_CONFIG_FILE_PATH = "../config.ini"
-GRAPH_CONFIG_FILE = "../GraphsData/graph_config.ini"
+MAIN_CONFIG_FILE_PATH = "../game_config_data.txt"
+GRAPH_CONFIG_FILE = "../GraphsData/graph_config.txt"
 
 log = logging.getLogger()
 
@@ -100,7 +100,7 @@ class QPlayer:
         pass
 
     def run_q_player(self, graph_file_path, log_file_path):
-        read_config_file(MAIN_CONFIG_FILE_PATH, True)
+        Utils.read_config_file(MAIN_CONFIG_FILE_PATH, True)
         log.setLevel(Utils.config['Default']['log_level'])
         session_length = 1000
 

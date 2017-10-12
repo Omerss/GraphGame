@@ -1,15 +1,15 @@
-import sys
+
 from collections import namedtuple
-import itertools
 import logging
 
-from SupplementaryFiles import Utils
-from SupplementaryFiles.Utils import format_log_msg
+from os import path
+
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.LineEquation import LineEquation, LINES_ALWAYS_MEET
 LOG_LEVEL = logging.DEBUG
-CONFIG_FILE_PATH = "./config.txt"
+GRAPH_CONFIG_PATH = path.join("..", "GraphsData", "graph_config.txt")
 """
 Handles all data return from the window. Constructs a new graph based on the supplied data.
 """
@@ -25,8 +25,8 @@ class GameDataHandler:
         self.new_edges = []
         self.edges_to_add = []
         self.log = logging.getLogger()
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
-        self.log.setLevel(self.config['Default']['log_level'])
+        self.config = Utils.graph_config_data
+        self.log.setLevel(Utils.game_config_data['Default']['log_level'])
 
     def get_number_of_known_nodes(self):
         return len([real_node for real_node in self.graph.node_list if real_node.real])
@@ -54,7 +54,7 @@ class GameDataHandler:
                 node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
                                              serial=edge[0].serial_num)
                 num = self.graph.get_node_by_serial(node_0.serial_num).dummy_num
-                self.log.debug(format_log_msg("Adding node",num=num, real=False,
+                self.log.debug(Utils.format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num))
 
             if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
@@ -63,7 +63,7 @@ class GameDataHandler:
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
                                              serial=edge[1].serial_num)
                 num = self.graph.get_node_by_serial(node_1.serial_num).dummy_num
-                self.log.debug(format_log_msg("Adding node",num=num, real=False,
+                self.log.debug(Utils.format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num))
 
             if node_1.serial_num not in node_0.possible_neighbors:
@@ -82,10 +82,10 @@ class GameDataHandler:
         for item in self.edges_to_add:
             self.extra_edges.append(item)
         self.clear_empty_nodes()
-        self.log.debug(format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
+        self.log.debug(Utils.format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
                       num_real_node=(len([item for item in self.graph.node_list if item.is_real()])),
                       num_of_edges=len(self.extra_edges)))
-        self.log.debug(format_log_msg("edge list:", edges=self.extra_edges))
+        self.log.debug(Utils.format_log_msg("edge list:", edges=self.extra_edges))
 
     def trim_data(self):
         """
@@ -104,7 +104,7 @@ class GameDataHandler:
             for edge in self.extra_edges:
                 if edge[3].slope == slope:
                     edges_to_check.append(edge)
-            self.log.debug(format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
+            self.log.debug(Utils.format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -145,7 +145,7 @@ class GameDataHandler:
 
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-        self.log.debug(format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
+        self.log.debug(Utils.format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
         if collision_point == LINES_ALWAYS_MEET:
             # Lines have the same slope + const. Big change they are the same one.
             if LineEquation.check_collision_point(eq1, eq2):
@@ -207,7 +207,7 @@ class GameDataHandler:
         :param main_node: The node we want to remove data from - node object
         :return: 
         """
-        self.log.debug(format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
+        self.log.debug(Utils.format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
                        node_to_remove=node_to_remove.dummy_num))
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
@@ -266,7 +266,7 @@ class GameDataHandler:
         self.log.debug("removing nodes with no neighbors")
         for node in self.graph.node_list:
             if len(node.neighbors) == 0:
-                self.log.debug(format_log_msg("Found node with no neighbors - deleting:", serial=node.serial_num, real=node.is_real()))
+                self.log.debug(Utils.format_log_msg("Found node with no neighbors - deleting:", serial=node.serial_num, real=node.is_real()))
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
@@ -300,7 +300,7 @@ class GameDataHandler:
 
         # Make sure we see only the same edge once
         self.graph.connections = list(set(self.graph.connections))
-        self.log.debug(format_log_msg("Finished cleaning graph before continuing:", num_of_nodes=len(self.graph.node_list),
+        self.log.debug(Utils.format_log_msg("Finished cleaning graph before continuing:", num_of_nodes=len(self.graph.node_list),
                                       num_real_nodes=(len([item for item in self.graph.node_list if item.is_real()])),
                                       num_of_connections=len(self.graph.connections)))
         self.graph.node_list = real_nodes

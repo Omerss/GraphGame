@@ -91,7 +91,7 @@ class KivyLogger:
     @staticmethod
     def configure():
         try:
-            the_file = KL.log.pathname + '/../KivyCommunication/config.json'
+            the_file = KL.log.pathname + '/../KivyCommunication/game_config_data.json'
             print(the_file)
             with open(the_file) as json_file:
                 json_data = json.load(json_file)

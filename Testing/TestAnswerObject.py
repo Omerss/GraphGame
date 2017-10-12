@@ -23,6 +23,3 @@ def main():
     answer = AnswerObject(question_object=question, user_seen_graph=graph_user, real_graph=graph_real)
 
     print(answer)
-
-if __name__ == "__main__":
-    main()

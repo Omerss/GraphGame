@@ -1,7 +1,9 @@
 import kivy
 from enum import Enum
+from os import path, getcwd
 
-from Main import CONFIG_FILE_PATH
+CONFIG_FILE_PATH = path.join("..", "game_config.txt")
+GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
 
 kivy.require('1.9.1')
 from SupplementaryFiles.LoadGraph import load_graph_from_file
@@ -23,16 +25,17 @@ def main(game_type, graph_data):
     elif game_type == GameType.ALLOW_PLAY:
         button_presses = []
         # This needs to be more versatile
-        game = GraphGameApp(TestScreen(graph_data, button_presses, 0.2))
+        test_screen = TestScreen(graph_data, button_presses, 0.2)
+        test_screen.graph_config = "../GraphsData/graph_config.txt"
+        game = GraphGameApp(test_screen)
     game.run()
 
 
 if __name__ == "__main__":
     HandmadeGraph.create_draft_graph_3()
-    CONFIG_FILE_PATH = "../config.ini"
-    Utils.read_config_file(CONFIG_FILE_PATH, True)
+    Utils.read_game_config_file(CONFIG_FILE_PATH)
+    Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
     # game_type = GameType.ALLOW_PLAY
-    game_type = GameType.VIEW_ONLY
+    game_type = GameType.ALLOW_PLAY
     graph = load_graph_from_file(graph_file_path)
-
     main(game_type, graph)

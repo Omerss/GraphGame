@@ -41,7 +41,7 @@ about a question and the answers given to it.
 
 ***Main Folder***\
 * [GameLayout](KivyFiles/GameLayout.py) -
-* [GraphButton](KivyFiles/GraphButton.py) -
+* [GraphButton](KivyFiles/GraphButton.py) - Graph buttons a sophisticated WidgetButton the allow greater functionality in the application
 * [GraphDisplay](KivyFiles/GraphDisplay.py) -
 * [GraphLayout](KivyFiles/GraphLayout.py) -
 * [GraphTabletGame](KivyFiles/GraphTabletGame.py) -

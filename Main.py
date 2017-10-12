@@ -6,13 +6,19 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
-from SupplementaryFiles import Utils
+
 from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
+from SupplementaryFiles.Utils import *
 from SupplementaryFiles.LoadGraph import load_graph_from_file
+<<<<<<< HEAD
 #from KivyFiles.KivyGraphTester import GraphTester
+=======
+>>>>>>> Config files are now loaded at the start
 
-CONFIG_FILE_PATH = "./config.txt"
+CONFIG_FILE_PATH = path.join(getcwd(), "game_config.txt")
+GRAPH_CONFIG_PATH = path.join(getcwd(), "graph_config.txt")
+
 
 class ZeroScreen(Screen):
 
@@ -43,6 +49,7 @@ class GraphGameMainApp(App):
     f.close()
 
     def build(self):
+<<<<<<< HEAD
         f = open('/storage/emulated/0/Download/debug.txt', 'w')
         f.write('in build_1\n')
         self.config = Utils.read_config_file(CONFIG_FILE_PATH)
@@ -51,6 +58,15 @@ class GraphGameMainApp(App):
         f.write('in build_3 after init communication\n')
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
         f.write('in build_4 after Utils.image_folder\n')
+=======
+        self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
+        Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
+
+        self.init_communication(self.config['Cloud']['server_ip'])
+   #     f.write('in build_3 after init communication\n')
+
+    #    f.write('in build_4 after Utils.image_folder\n')
+>>>>>>> Config files are now loaded at the start
         graph_config_path = self.config['Default']['graph_config_path']
         f.write('in build_5 created graph_config_path\n')
         self.sm = ScreenManager()
@@ -62,7 +78,7 @@ class GraphGameMainApp(App):
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
         graph_list = self.load_graphs_from_folder()
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH, True)
+
         Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
         self.current_graph = None
         self.discovered_graph = None

@@ -1,7 +1,7 @@
 import kivy
 kivy.require('1.9.1')
 
-from SupplementaryFiles import Utils
+from SupplementaryFiles.Utils import *
 from kivy.uix.gridlayout import GridLayout
 from GraphButton import MultiButton, TextButton
 from GraphLayout import GraphLayout

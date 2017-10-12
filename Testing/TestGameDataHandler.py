@@ -136,8 +136,8 @@ class TestGameDataHandler(unittest.TestCase):
         # WIP
         return
         # Assemble
-        new_graph = create_rand_graph("../graph_config.ini")
-        gamer = GameDataHandler("../graph_config.ini")
+        new_graph = create_rand_graph("../graph_config.txt")
+        gamer = GameDataHandler("../graph_config.txt")
 
         nodes_list = []
         edges = []
@@ -190,7 +190,7 @@ class TestGameDataHandler(unittest.TestCase):
         time.sleep(1)
 
     def test_trim_data(self):
-        data_handler = GameDataHandler(path.join("../", "GraphsData", "graph_config.ini"))
+        data_handler = GameDataHandler(path.join("../", "GraphsData", "graph_config.txt"))
         data_handler.graph.add_node(self.node_1_real.x, self.node_1_real.y, serial=self.node_1_real.serial_num)
         data_handler.graph.add_node(self.node_2_real.x, self.node_2_real.y, serial=self.node_2_real.serial_num)
         data_handler.graph.add_node(self.node_3_real.x, self.node_3_real.y, serial=self.node_3_real.serial_num)

@@ -1,10 +1,15 @@
 import unittest
+from unittest import skip
+
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 import threading
+
+
+@skip
 class TestSaveGraph(unittest.TestCase):
     def test_save_and_load_graph(self):
         # Arrange

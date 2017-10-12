@@ -1,6 +1,7 @@
 import kivy
 kivy.require('1.9.1')
 
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GraphObj import get_serial
 from SupplementaryFiles.Point import Point
 from SupplementaryFiles.LineEquation import LineEquation

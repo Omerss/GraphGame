@@ -1,11 +1,10 @@
 import logging
 import os
 import uuid
-from SupplementaryFiles.Utils import format_log_msg
 
 from structlog import get_logger
 
-from SupplementaryFiles import Utils
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.NodeObject import NodeObject
 
@@ -25,15 +24,14 @@ class GraphObject:
     def __init__(self, config_file=None, max_x=None, max_y=None, node_count=None, max_neighbors=None,
                  extra_distance=None):
         if config_file:
-            assert (os.path.exists(config_file))
-            self.config = Utils.read_config_file(config_file)
+            self.config = Utils.graph_config_data
             self.size = {"max_x": int(self.config['GeneralParams']['GraphSizeX']),
                          "max_y": int(self.config['GeneralParams']['GraphSizeY'])},
             self.node_count = int(self.config["GeneralParams"]["NodeCount"])
             self.max_neighbors = int(self.config['NodeData']['MaxNeighbors'])
             self.extra_distance = int(self.config['NodeData']['ExtraDistance'])
         else:
-            # Creating graph by parameters and not config
+            # Creating graph by parameters and not game_config_data
             self.size = {"max_x": max_x,
                          "max_y": max_y}
             self.node_count = node_count
@@ -173,7 +171,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        self.log.debug(format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
+        self.log.debug(Utils.format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:

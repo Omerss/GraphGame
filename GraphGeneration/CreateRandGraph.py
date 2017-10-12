@@ -2,7 +2,7 @@ import logging
 import random
 
 import SupplementaryFiles.LineEquation
-import SupplementaryFiles.Utils
+from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.NodeObject import NodeObject
@@ -15,7 +15,7 @@ def create_rand_graph(config_file):
     :return:
     """
     new_graph = GraphObject(config_file)
-    config = SupplementaryFiles.Utils.read_config_file(config_file)
+    config = Utils.read_game_config_file(config_file)
 
     for i in range(config.getint("GeneralParams", "NodeCount")):
         while True:
@@ -92,7 +92,7 @@ def check_collisions(x_location, y_location, graph, node_size, extra_space):
 
 
 def test_random_graph():
-    create_rand_graph("graph_config.ini")
+    create_rand_graph("graph_config.txt")
 
 
 if __name__ == '__main__':
