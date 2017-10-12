@@ -11,8 +11,8 @@ from os import path, listdir
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
-MAIN_CONFIG_FILE_PATH = "../game_config.txt"
-GRAPH_CONFIG_FILE = "./graph_config.txt"
+MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
+GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 SAVED_GRAPH_PATH = "../TestingGraphs"
 graphs_names = ["draft_graph_3.xml"]
 
@@ -20,6 +20,7 @@ graphs_names = ["draft_graph_3.xml"]
 def main():
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
+    Utils.image_folder = path.join("..", Utils.image_folder)
 
     max_turns = int(Utils.game_config_data['Default']['max_turns'])
     # iter = itertools.product('1234', repeat=int(Utils.game_config_data['Default']['MaxTurns']))

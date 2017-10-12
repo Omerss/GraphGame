@@ -4,7 +4,7 @@ from random import random, randint
 from os import path
 
 from SupplementaryFiles.GameDataHandler import GameDataHandler
-from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_py_graph
 from SupplementaryFiles.Utils import Utils
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 
@@ -15,7 +15,7 @@ GAMMA = 0.8
 ALPHA = 0.1
 
 CONFIG_FILE_PATH = path.join("..", "game_config.txt")
-GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
+GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 
 log = logging.getLogger()
 
@@ -106,7 +106,7 @@ class QPlayer:
         log.setLevel(Utils.game_config_data['Default']['log_level'])
         session_length = 1000
 
-        graph = load_graph_from_file(graph_file_path)
+        graph = load_py_graph(graph_file_path)
         q_matrix = QMatrix(action_space=4, max_steps=int(Utils.game_config_data['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
 
         with open(log_file_path,'w') as f:
@@ -152,6 +152,7 @@ class DummyScreen:
 
 file_name = "Graph_1.xml"
 graph_path = path.join("..", "GraphsData", file_name)
+graph_path = "graph_1"
 for run_index in range(17, consecutive_runs):
     run_log_file = "result_{}__{}__{}.csv".format(file_name[:-4], CURIOSITY_VALUE, run_index)
     player = QPlayer()
