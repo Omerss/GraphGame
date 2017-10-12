@@ -37,7 +37,7 @@ if __name__ == "__main__":
     Utils.read_game_config_file(CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
     Utils.image_folder = path.join("..", Utils.image_folder)
-    game_type = GameType.VIEW_ONLY
-    # game_type = GameType.ALLOW_PLAY
+    # game_type = GameType.VIEW_ONLY
+    game_type = GameType.ALLOW_PLAY
     graph = load_graph_from_file(graph_file_path)
     main(game_type, graph)

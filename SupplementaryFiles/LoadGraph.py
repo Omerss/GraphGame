@@ -2,8 +2,10 @@
 from GraphObj import GraphObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from NodeObject import NodeObject
-from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.GraphObj import GraphObject
+
+
 def load_py_graph (graph_name):
 
     if (graph_name== 'graph_1'):
@@ -26,7 +28,6 @@ def load_py_graph (graph_name):
         return create_graph_9()
     if (graph_name == 'graph_10'):
         return create_graph_10()
-
 
 
 def create_graph_1():
@@ -164,8 +165,6 @@ def load_graph_from_file(file_name):
         new_graph.question_object_list.append(question_object)
         i = i + 1
     return new_graph
-
-
 
 
 def from_name_to_color(name):
