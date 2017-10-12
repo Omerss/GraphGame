@@ -5,6 +5,10 @@ class Utils:
     game_config_data = None
     graph_config_data = None
     image_folder = path.join("..", "Images")
+    btn_1_img = 'button1.jpg'
+    btn_2_img = 'button2.jpg'
+    btn_3_img = 'button3.jpg'
+    btn_4_img = 'button4.jpg'
 
     btn_1_img = 'button1.jpg'
     btn_2_img = 'button2.jpg'

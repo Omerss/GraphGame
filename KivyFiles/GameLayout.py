@@ -39,9 +39,9 @@ class GameLayout(FloatLayout):
         self.button_hider = self.get_button_hider()
 
     def set_button_functions(self):
-        '''
+        """
         This function is used in order to determine the functionality of the buttons
-        '''
+        """
         self.button1_func = [self.zoom_out, self.zoom_in]
         self.button2_func = [self.centralize_most_connected]
         self.button3_func = [self.centralize_closest_same_color]
@@ -74,10 +74,10 @@ class GameLayout(FloatLayout):
         return layout
 
     def get_button_hider(self):
-        '''
+        """
         Creates a GridLayout that looks similar to the button layout but is invisible. This is used in order to
         'disable' the buttons after pressing (disallowing double press)
-        '''
+        """
         layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
         im1 = Image(source=path.join(Utils.image_folder, Utils.btn_1_img), allow_stretch=True, keep_ratio=False,
                     color=[0.8, 0.8, 0.8, 1])
@@ -95,10 +95,10 @@ class GameLayout(FloatLayout):
         return layout
 
     def call_function(self):
-        '''
+        """
         Function checks if any button put a new argument in 'next_func' variable, if so said argument is called and
          variable is reset, otherwise all buttons are enabled
-        '''
+        """
         if self.next_func is not None:
             self.next_func()
             self.tablet_game.send_info_from_screen()
@@ -118,26 +118,26 @@ class GameLayout(FloatLayout):
             self.enable_buttons()
 
     def disable_buttons(self):
-        '''
+        """
         function renders the buttons unpressable
-        '''
+        """
         self.add_widget(self.button_hider)
         for button in self.buttons:
                 button.disabled = True
 
     def enable_buttons(self):
-        '''
+        """
         function renders the buttons pressable
-        '''
+        """
         for button in self.buttons:
             button.disabled = False
         self.remove_widget(self.button_hider)
 
     def end_game(self):
-        '''
+        """
         function should be called after all moves are done. finished current graph diaplay inorder to move to the
         question screen
-        '''
+        """
         self.rt.stop()
         self.tablet_game.end_game()
 
