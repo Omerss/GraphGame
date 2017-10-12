@@ -12,7 +12,7 @@ class GraphLayout(RelativeLayout):
 
         :param original_graph: the graph we want to display
         :param dim: screen's dimensions
-        :param zoom_rate: percentage by which to enlarge/compress the graph
+        :param zoom_rate: percentage by which to enlarge/compress the graph (used for zoom)
         :param edge_size: size of the graph's edges
         """
         super(GraphLayout, self).__init__(size_hint_x=None, width=dim['max_x'], **kwargs)

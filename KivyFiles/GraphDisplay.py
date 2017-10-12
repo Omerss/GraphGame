@@ -8,6 +8,12 @@ from kivy.uix.relativelayout import RelativeLayout
 class GraphDisplay(RelativeLayout):
 
     def __init__(self, graph, dim, **kwargs):
+        """
+        Sets the entire graph to fit in a dimensions of dim[0] X dim[1]
+        Used in order to display the entire graph onscreen
+        :param graph: The graph to be displayed
+        :param dim: A tuple in the format of (new_x, new_y)
+        """
         super(GraphDisplay, self).__init__(size_hint_x=None, width=dim[0], **kwargs)
         self.kivy_graph = KivyGraph((0, 0), 1, {"min_x": 0, "min_y": 0, "max_x": dim[0], "max_y": dim[1]})
         ratio = self.get_ratio(graph.size, dim)
@@ -15,11 +21,17 @@ class GraphDisplay(RelativeLayout):
         self.get_edges(graph)
 
     def get_ratio(self, graph_size, dim):
+        """
+        calculated the resize rate
+        """
         x = dim[0] / float(graph_size['max_x'])
         y = dim[1] / float(graph_size['max_y'])
         return x, y
 
     def get_nodes(self, original_graph, zoom):
+        """
+        loads the graph's nodes
+        """
         with self.canvas:
             for node in original_graph.node_list:
                 colour = node.colour
@@ -29,6 +41,9 @@ class GraphDisplay(RelativeLayout):
                 self.kivy_graph.add_node(new_node)
 
     def get_edges(self, graph):
+        """
+        loads the graph's edges
+        """
         edges = graph.get_connections()
         with self.canvas:
             Color(1, 1, 1)

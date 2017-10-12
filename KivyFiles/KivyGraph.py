@@ -36,20 +36,20 @@ class KivyGraph(Widget):
 
     def add_node(self, node):
         """
-        function adds a given node to graph's nodes list
+        function adds a given node to the graph's nodes list
         """
         self.nodes.append(node)
 
     def add_edge(self, edge):
         """
-        function adds a given edge to graph's list of edges
+        function adds a given edge to the graph's edges list
         """
         self.edges.append(edge)
 
     def get_by_serial(self, serial):
         """
-        :param serial:
-        :return: a node from graph's nodes list associated with given serial
+        :param serial: a serial associated with the desired node
+        :return: a node from the graph's nodes list associated with the given serial
         """
         for node in self.nodes:
             if node.serial == serial:
@@ -74,6 +74,7 @@ class KivyGraph(Widget):
             node.move_y(amount)
         for edge in self.edges:
             edge.reset_edge(False)
+
         self.corners["top_right"].move_y(-amount)
         self.corners["top_left"].move_y(-amount)
         self.corners["bottom_right"].move_y(-amount)
@@ -127,7 +128,7 @@ class KivyGraph(Widget):
         """
         moves the graph so that a given node's coordinates are now 'center_coor' and sets given node as 'center_node'
         :param new_center: a node to be moved to the center of the screen
-        :param animated: if false, graph's movement will not be shown visually
+        :param animated: boolean. indicates whether the graph's movement should be shown visually
         """
         delta_x = self.center_coor[0] - new_center.get_x()
         delta_y = self.center_coor[1] - new_center.get_y()
@@ -153,6 +154,11 @@ class KivyGraph(Widget):
         self.move_node_to_center(self.nodes[i], animated)
 
     def get_most_connected(self, node_list):
+        """
+        :param node_list: a list of nodes to be checked
+        :return: the node (other than the graph's current 'center_node') out of 'node_list' that has the most neighbors
+        """
+
         max_connections = 0
         most_connected_node = None
         for node in node_list:
@@ -164,6 +170,13 @@ class KivyGraph(Widget):
         return most_connected_node
 
     def get_closest(self, node_list, same_color):
+        """
+        finds the node out of node_list that is closest to the graph's current center_node
+        :param node_list: a list of nodes to be checked
+        :param same_color: indicates the color of desired node; -1: any color, 0: different color from center_node,
+        1: same color as center_node.
+        :return: The node from node_list that is closest to graph's center_node, in accordance with same_color flag
+        """
         min_distance = -1
         closest_node = None
         color = self.center_node.get_colour()
@@ -177,6 +190,13 @@ class KivyGraph(Widget):
         return closest_node
 
     def get_farthest(self, node_list, same_color):
+        """
+        finds the node out of node_list that is farthest from the graph's current center_node
+        :param node_list: a list of nodes to be checked
+        :param same_color: indicates the color of desired node; -1: any color, 0: different color from center_node,
+        1: same color as center_node.
+        :return: The node from node_list that is farthest from graph's center_node, in accordance with same_color flag
+        """
         max_distance = 0
         farthest_node = None
         color = self.center_node.get_colour()
@@ -190,36 +210,59 @@ class KivyGraph(Widget):
         return farthest_node
 
     def centralize_most_connected(self):
+        """
+        Finds, out of the nodes onscreen, the nodes with most neighbors and moves it to the center of the screen
+        """
         node_list = self.get_onscreen_nodes(self.nodes)
         new_center = self.get_most_connected(node_list)
         if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_most_connected_neighbor(self):
+        """
+        Finds, out of the center_node's onscreen neighbors, the nodes with most neighbors and moves it to the center
+        of the screen
+        """
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbors())
         new_center = self.get_most_connected(node_list)
         if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_neighbor_same_color(self):
+        """
+        Finds, out of the center_node's onscreen neighbors, the node that is the closest to the center_node and has the
+        same color as the center_node, and moves it to the center of the screen
+        """
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbors())
         new_center = self.get_closest(node_list, 1)
         if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_same_color(self):
+        """
+        Finds, out of the nodes onscreen, the node that is the closest to the center_node and has the same
+        color as the center_node, and moves it to the center of the screen
+        """
         node_list = self.get_onscreen_nodes(self.nodes)
         new_center = self.get_closest(node_list, 1)
         if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_closest_neighbor_diff_color(self):
+        """
+        Finds, out of the center_node's onscreen neighbors, the node that is closest to the center_node and has a
+        different color than the center_node, and moves it to the center of the screen
+        """
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbors())
         new_center = self.get_closest(node_list, 0)
         if new_center is not None:
             self.move_node_to_center(new_center)
 
     def centralize_farthest_neighbor(self):
+        """
+        Finds, out of the center_node's onscreen neighbors, the node that is the farthest from the center_node and moves
+        it to the center of the screen
+        """
         node_list = self.get_onscreen_nodes(self.center_node.get_neighbors())
         new_center = self.get_farthest(node_list, -1)
         if new_center is not None:
@@ -227,8 +270,9 @@ class KivyGraph(Widget):
 
     def get_onscreen_nodes(self, node_list):
         """
-        Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
-        :return: A list containing the nodes that are at least partially displayed onscreen.
+        Function goes over node_list and checks which ones are displayed onscreen
+        :param node_list: a list containing the nodes to be checked
+        :return: A list containing the nodes from node_list that are at least partially displayed onscreen.
         """
         bl = self.corners['bottom_left']
         tr = self.corners['top_right']

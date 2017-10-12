@@ -33,6 +33,10 @@ class GraphTabletDisplay:
         self.game_screen.end_graph()
 
     def press_button(self, num):
+        """
+        simulated the pressing of a button
+        :param num: int 1-4, the number of the button to be presses
+        """
         if num == 1:
             f = self.counter1 % len(self.layout.button1_func)
             self.layout.button1_func[f]()
@@ -77,7 +81,7 @@ class GraphTabletDisplay:
     def get_onscreen_nodes(self, graph_nodes, graph_corners):
         """
         Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
-        :return: A list containing the nodes that are at least partially displayed onscreen.
+        :return: A list containing the graph's nodes that are at least partially displayed onscreen.
         """
         bottom_left = graph_corners["bottom_left"]
         top_right = graph_corners["top_right"]
@@ -89,7 +93,7 @@ class GraphTabletDisplay:
                 node_y = real_node.y
                 node_r = node.get_radius() + 0.9
                 if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
-                                (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
+                            (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
                     displayed_nodes.append(real_node)
         return displayed_nodes
 
@@ -99,9 +103,11 @@ class GraphTabletDisplay:
         :return: A list representing the edges that are at least partially displayed onscreen. Each edge is represented
                  by a tuple containing the edge's nodes, the edge's original slope and the edge's equation. If one of
                  the nodes is not onscreen, a new NodeObject is created where the x,y coordinates represent the
-                 intersection between the edge and the screen.
+                 intersection between the edge and the screen, a new serial is created, size is set to 0 and real is
+                 set to False.
         """
 
+        # create equations representing the screen's boarders
         top_left = Point(graph_corners["top_left"].get_x(), graph_corners["top_left"].get_y())
         top_right = Point(graph_corners["top_right"].get_x() + 0.001, graph_corners["top_right"].get_y())
         bottom_left = Point(graph_corners["bottom_left"].get_x() + 0.001, graph_corners["bottom_left"].get_y())
@@ -123,15 +129,19 @@ class GraphTabletDisplay:
 
             if self.is_node_onscreen(edge.node1, graph_corners):
                 if self.is_node_onscreen(edge.node2, graph_corners):
+                    # both of edge's node are onscreen
                     if edge.node1.get_x() < edge.node2.get_x():
                         curr_edge = (real_node1, real_node2, edge.slope, edge_equation)
                     else:
                         curr_edge = (real_node2, real_node1, edge.slope, edge_equation)
                 else:
+                    # only the edge's first node in onscreen
                     curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1, edge_equation)
             elif self.is_node_onscreen(edge.node2, graph_corners):
+                # only the edge's second node is onscreen
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2, edge_equation)
             else:
+                # neither of the edge's nodes are onscreen
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None, edge_equation)
 
             if curr_edge is not None:
@@ -140,6 +150,12 @@ class GraphTabletDisplay:
         return displayed_edges
 
     def is_node_onscreen(self, node, screen_edges):
+        """
+        checks if a given node is onscreen
+        :param node: the node to be checked
+        :param screen_edges: boarders of the screen
+        :return: boolean indicating if the node is/isn't onscreen
+        """
         real_node = self.original_graph.get_node_by_serial(node.serial)
         node_x = real_node.x
         node_y = real_node.y
@@ -158,9 +174,10 @@ class GraphTabletDisplay:
         :param left: equation representing the left border of the screen
         :param right: equation representing the right border of the screen
         :param node: the visible node connected to the edge, or None if no node is visible
-        :return: A tuple of two NodeObjects, each representing a one of the edge's nodes. If one of the nodes is not
-        onscreen, the x,y coordinates represent the intersection between the edge and the screen and the serial and
-        size are set to None.
+        :param edge_equation: the equation of the checked edge
+        :return: A tuple containing two NodeObjects, each representing a one of the edge's nodes, the edge's slope and
+        the edge's equation. If one of the edge's nodes is not onscreen, the x,y coordinates represent the intersection
+        between the edge and the screen, a new serial is created, size is set to 0 and real is set to False.
         """
         first_node = None
         second_node = None

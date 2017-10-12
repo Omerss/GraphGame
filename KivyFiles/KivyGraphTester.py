@@ -14,7 +14,15 @@ from GraphDisplay import GraphDisplay
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 
 
+# This File contains classes used for testing throughout the development of the app
+
 class GraphTester:
+    """
+    Class contains graphs and question used for testing
+    """
+
+    def __init__(self):
+        pass
 
     @staticmethod
     def tester_graph_1():
@@ -106,6 +114,7 @@ class GraphTester:
 
 
 class TestScreen:
+    # A test screen to be used during testing
     graph_config = None
     max_turns = 6
 
@@ -120,14 +129,10 @@ class TestScreen:
 
 
 class GraphGameApp(App):
-    counter1 = 0
-    counter2 = 0
-    counter3 = 0
-    counter4 = 0
+    # Used in order to run the game of a single graph, without the questions or the result screen
     is_playing = True
 
-    def __init__(self, game_screen=None, **kwargs):
-        super(GraphGameApp, self).__init__(**kwargs)
+    def __init__(self, game_screen=None):
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph
         self.current_data_handler = GameDataHandler(self.game_screen.graph_config, self.original_graph.size)
@@ -138,9 +143,6 @@ class GraphGameApp(App):
 
     def load(self):
         pass
-
-    def build(self):
-        return self.layout
 
     def send_info_from_screen(self):
         self.current_data_handler.add_view_to_db(self.get_info_from_screen())
@@ -170,12 +172,13 @@ class GraphGameApp(App):
 
         nodes = self.get_onscreen_nodes(graph_nodes, graph_corners)
         edges = self.get_onscreen_edges(graph_edges, graph_corners)
+
         return {'nodes': nodes, 'edges': edges}
 
     def get_onscreen_nodes(self, graph_nodes, graph_corners):
         """
         Function goes over the list of nodes in the graph and checks which ones are displayed onscreen
-        :return: A list containing the nodes that are at least partially displayed onscreen.
+        :return: A list containing the graph's nodes that are at least partially displayed onscreen.
         """
         bottom_left = graph_corners["bottom_left"]
         top_right = graph_corners["top_right"]
@@ -185,9 +188,9 @@ class GraphGameApp(App):
                 real_node = self.original_graph.get_node_by_serial(node.serial)
                 node_x = real_node.x
                 node_y = real_node.y
-                node_r = node.get_radius() * 0.85
+                node_r = node.get_radius() + 0.9
                 if (node_x + node_r) > bottom_left.get_x() and (node_x - node_r) < top_right.get_x() and \
-                    (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
+                            (node_y + node_r) > bottom_left.get_y() and (node_y - node_r) < top_right.get_y():
                     displayed_nodes.append(real_node)
         return displayed_nodes
 
@@ -197,9 +200,11 @@ class GraphGameApp(App):
         :return: A list representing the edges that are at least partially displayed onscreen. Each edge is represented
                  by a tuple containing the edge's nodes, the edge's original slope and the edge's equation. If one of
                  the nodes is not onscreen, a new NodeObject is created where the x,y coordinates represent the
-                 intersection between the edge and the screen.
+                 intersection between the edge and the screen, a new serial is created, size is set to 0 and real is
+                 set to False.
         """
 
+        # create equations representing the screen's boarders
         top_left = Point(graph_corners["top_left"].get_x(), graph_corners["top_left"].get_y())
         top_right = Point(graph_corners["top_right"].get_x() + 0.001, graph_corners["top_right"].get_y())
         bottom_left = Point(graph_corners["bottom_left"].get_x() + 0.001, graph_corners["bottom_left"].get_y())
@@ -210,6 +215,7 @@ class GraphGameApp(App):
         right = LineEquation.create_equation(bottom_right, top_right)
 
         displayed_edges = []
+
         for edge in graph_edges:
             real_node1 = self.original_graph.get_node_by_serial(edge.node1.serial)
             real_node2 = self.original_graph.get_node_by_serial(edge.node2.serial)
@@ -220,16 +226,19 @@ class GraphGameApp(App):
 
             if self.is_node_onscreen(edge.node1, graph_corners):
                 if self.is_node_onscreen(edge.node2, graph_corners):
+                    # both of edge's node are onscreen
                     if edge.node1.get_x() < edge.node2.get_x():
                         curr_edge = (real_node1, real_node2, edge.slope, edge_equation)
                     else:
                         curr_edge = (real_node2, real_node1, edge.slope, edge_equation)
                 else:
-                    curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1,
-                                                             edge_equation)
+                    # only the edge's first node in onscreen
+                    curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node1, edge_equation)
             elif self.is_node_onscreen(edge.node2, graph_corners):
+                # only the edge's second node is onscreen
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, edge.node2, edge_equation)
             else:
+                # neither of the edge's nodes are onscreen
                 curr_edge = self.get_partly_visible_edge(edge, top, bottom, left, right, None, edge_equation)
 
             if curr_edge is not None:
@@ -238,11 +247,17 @@ class GraphGameApp(App):
         return displayed_edges
 
     def is_node_onscreen(self, node, screen_edges):
+        """
+        checks if a given node is onscreen
+        :param node: the node to be checked
+        :param screen_edges: boarders of the screen
+        :return: boolean indicating if the node is/isn't onscreen
+        """
         real_node = self.original_graph.get_node_by_serial(node.serial)
         node_x = real_node.x
         node_y = real_node.y
         node_r = node.get_radius() * 0.05
-        return (node_x + node_r) > screen_edges["bottom_left"].get_x() and\
+        return (node_x + node_r) > screen_edges["bottom_left"].get_x() and \
                (node_x - node_r) < screen_edges["top_right"].get_x() and \
                (node_y + node_r) > screen_edges["bottom_left"].get_y() and \
                (node_y - node_r) < screen_edges["top_right"].get_y()
@@ -256,15 +271,17 @@ class GraphGameApp(App):
         :param left: equation representing the left border of the screen
         :param right: equation representing the right border of the screen
         :param node: the visible node connected to the edge, or None if no node is visible
-        :return: A tuple of two NodeObjects, each representing a one of the edge's nodes. If one of the nodes is not
-        onscreen, the x,y coordinates represent the intersection between the edge and the screen and the serial and
-        size are set to None.
+        :param edge_equation: the equation of the checked edge
+        :return: A tuple containing two NodeObjects, each representing a one of the edge's nodes, the edge's slope and
+        the edge's equation. If one of the edge's nodes is not onscreen, the x,y coordinates represent the intersection
+        between the edge and the screen, a new serial is created, size is set to 0 and real is set to False.
         """
         first_node = None
         second_node = None
 
         if node:
             first_node = self.original_graph.get_node_by_serial(node.serial)
+
         # check if edge collides with top border
         if LineEquation.check_collision_point(edge_equation, top):
             col_point = LineEquation.get_equation_collision_point(edge_equation, top)
@@ -324,6 +341,7 @@ class GraphGameApp(App):
             curr_edge = (first_node, second_node, edge.slope, edge_equation)
         else:
             curr_edge = (second_node, first_node, edge.slope, edge_equation)
+
         return curr_edge
 
     def stop_me(self):
@@ -331,6 +349,7 @@ class GraphGameApp(App):
 
 
 class DisplayApp(App):
+    # Used in order to view an entire graph onscreen
 
     def __init__(self, graph, **kwargs):
         super(DisplayApp, self).__init__(**kwargs)
