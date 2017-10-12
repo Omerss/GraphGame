@@ -23,10 +23,10 @@ def main():
     Utils.image_folder = path.join("..", Utils.image_folder)
 
     max_turns = int(Utils.game_config_data['Default']['max_turns'])
-    # iter = itertools.product('1234', repeat=int(Utils.game_config_data['Default']['MaxTurns']))
-    iter = itertools.product('1234', repeat=max_turns)
+    # it = itertools.product('1234', repeat=int(Utils.game_config_data['Default']['MaxTurns']))
+    it = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
-    # use line 27 to test all the graphs in SAVED_GRAPH_PATH; use line 28 to only test the graphs specified on line 17
+    # use line 30 to test all the graphs in SAVED_GRAPH_PATH; use line 31 to only test the graphs specified on line 17
     # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
     for current_graph in graphs_names:
         curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
@@ -36,11 +36,12 @@ def main():
             f.write("The graph contains {} nodes\n".format(str(num_of_graph_nodes)))
             while True:
                 try:
-                    buttons = iter.next()
+                    # buttons = tuple('4') + it.next()
+                    buttons = it.next()
                 except StopIteration:
                     break
-                answer, number_of_nodes_seen = run_buttons_on_graph(graph,buttons)
-                number_of_successful_runs = number_of_successful_runs+answer
+                answer, number_of_nodes_seen = run_buttons_on_graph(graph, buttons)
+                number_of_successful_runs += answer
                 f.write("steps: {}, seen nodes: {} \n".format(str(buttons), str(number_of_nodes_seen)))
 
             f.write("number of successful runs = {0}\n".format(number_of_successful_runs))
@@ -72,7 +73,7 @@ def run_buttons_on_graph(graph, buttons):
     log.setLevel(Utils.game_config_data['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletDisplay(dummy_screen)
-    #game.run()
+    # game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
     for i in range(int(Utils.game_config_data['Default']['max_turns'])):
@@ -80,7 +81,7 @@ def run_buttons_on_graph(graph, buttons):
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
 
-    #print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
+    # print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
     answer = (data_handler.get_number_of_known_nodes() == len(graph.node_list))
     return answer, data_handler.get_number_of_known_nodes()
 
