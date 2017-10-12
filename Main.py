@@ -11,10 +11,6 @@ from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import *
 from SupplementaryFiles.LoadGraph import load_graph_from_file
-<<<<<<< HEAD
-#from KivyFiles.KivyGraphTester import GraphTester
-=======
->>>>>>> Config files are now loaded at the start
 
 CONFIG_FILE_PATH = path.join(getcwd(), "game_config.txt")
 GRAPH_CONFIG_PATH = path.join(getcwd(), "graph_config.txt")
@@ -36,8 +32,8 @@ class GraphGameMainApp(App):
     game_screen = []
     filename = 'network_new.json'
     #a temporary debugger file
-    f = open('/storage/emulated/0/Download/debug.txt', 'w')
-    f.write('in GraphGameMainApp_1 created debug file\n')
+#    f = open('/storage/emulated/0/Download/debug.txt', 'w')
+#    f.write('in GraphGameMainApp_1 created debug file\n')
     # Variables that allow passing information between screens
     current_graph = None  # The graph the user is currently playing
     discovered_graph = None  # The graph discovered by the user in the current pipethrough
@@ -45,20 +41,10 @@ class GraphGameMainApp(App):
     question_list = []
     button_presses = []
     real_user = True
-    f.write('in GraphGameMainApp_2\n')
-    f.close()
+ #   f.write('in GraphGameMainApp_2\n')
+ #   f.close()
 
     def build(self):
-<<<<<<< HEAD
-        f = open('/storage/emulated/0/Download/debug.txt', 'w')
-        f.write('in build_1\n')
-        self.config = Utils.read_config_file(CONFIG_FILE_PATH)
-        f.write('in build_2 after reading config file\n')
-        self.init_communication(self.config['Cloud']['server_ip'])
-        f.write('in build_3 after init communication\n')
-        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
-        f.write('in build_4 after Utils.image_folder\n')
-=======
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
 
@@ -66,14 +52,13 @@ class GraphGameMainApp(App):
    #     f.write('in build_3 after init communication\n')
 
     #    f.write('in build_4 after Utils.image_folder\n')
->>>>>>> Config files are now loaded at the start
         graph_config_path = self.config['Default']['graph_config_path']
-        f.write('in build_5 created graph_config_path\n')
+     #   f.write('in build_5 created graph_config_path\n')
         self.sm = ScreenManager()
-        f.write('in build_6 created screen manager\n')
+      #  f.write('in build_6 created screen manager\n')
         screen = ZeroScreen()
-        f.write('in build_7 created zero screen\n')
-        f.close()
+       # f.write('in build_7 created zero screen\n')
+        #f.close()
         screen.start()
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)

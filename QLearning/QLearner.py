@@ -3,7 +3,6 @@ from random import random, randint
 
 from os import path
 
-from SupplementaryFiles import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.Utils import Utils
@@ -15,8 +14,8 @@ CURIOSITY_VALUE = 1  # 1 = random. 0.1 ~ about right for learning
 GAMMA = 0.8
 ALPHA = 0.1
 
-MAIN_CONFIG_FILE_PATH = "../game_config_data.txt"
-GRAPH_CONFIG_FILE = "../GraphsData/graph_config.txt"
+CONFIG_FILE_PATH = path.join("..", "game_config.txt")
+GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
 
 log = logging.getLogger()
 
@@ -100,27 +99,28 @@ class QPlayer:
         pass
 
     def run_q_player(self, graph_file_path, log_file_path):
-        Utils.read_config_file(MAIN_CONFIG_FILE_PATH, True)
-        log.setLevel(Utils.config['Default']['log_level'])
+        Utils.read_game_config_file(CONFIG_FILE_PATH)
+        Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
+        log.setLevel(Utils.game_config_data['Default']['log_level'])
         session_length = 1000
 
         graph = load_graph_from_file(graph_file_path)
-        q_matrix = QMatrix(action_space=4, max_steps=int(Utils.config['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
+        q_matrix = QMatrix(action_space=4, max_steps=int(Utils.game_config_data['Default']['max_turns']), nodes_in_graph=len(graph.node_list))
 
         with open(log_file_path,'w') as f:
             f.write("episode, score\n")
             for i in range(session_length):
                 dummy_screen = DummyScreen(graph)
                 game = GraphTabletDisplay(dummy_screen)
-                data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
+                data_handler = GameDataHandler(GRAPH_CONFIG_PATH, graph.size)
                 data_handler.add_view_to_db(game.get_info_from_screen())
 
                 rw = 0
                 game.press_button(self.auto_first_press + 1)
                 data_handler.add_view_to_db(game.get_info_from_screen())
                 q_matrix.reinit(known_nodes=len(data_handler.get_real_nodes()))
-                for j in range(1, int(Utils.config['Default']['max_turns'])):
-                    log.debug("doing a step {}/{}".format(j, Utils.config['Default']['max_turns']))
+                for j in range(1, int(Utils.game_config_data['Default']['max_turns'])):
+                    log.debug("doing a step {}/{}".format(j, Utils.game_config_data['Default']['max_turns']))
                     btn = q_matrix.choose_action_epsilon_greedy()
                     game.press_button(btn + 1)
                     data_handler.add_view_to_db(game.get_info_from_screen())
@@ -131,7 +131,7 @@ class QPlayer:
 
 class DummyScreen:
     graph = None
-    graph_config = GRAPH_CONFIG_FILE
+    graph_config = GRAPH_CONFIG_PATH
     max_turns = 0
     button_presses = []
     button_ratio = 0.2
@@ -139,12 +139,10 @@ class DummyScreen:
     def __init__(self, graph):
         self.graph = graph
         self.real_user = False
-        self.max_turns = int(Utils.config['Default']['max_turns'])
+        self.max_turns = int(Utils.game_config_data['Default']['max_turns'])
 
     def end_graph(self):
-        self.graph_game.the_end = True
-        if not self.graph_game.is_playing:
-            pass
+        pass
 
     def end_game(self):
         print ("end game \n")
