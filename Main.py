@@ -10,7 +10,7 @@ from ResultsScreen import ResultScreen
 from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import *
-from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_py_graph
 
 CONFIG_FILE_PATH = path.join(getcwd(), "game_config.txt")
 GRAPH_CONFIG_PATH = path.join(getcwd(), "graph_config.txt")
@@ -119,7 +119,7 @@ class GraphGameMainApp(App):
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
         for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
-            current_graph = load_graph_from_file(graph_file_path)
+            current_graph = load_py_graph(graph_name)
             graph_list.append(current_graph)
         return graph_list
 
