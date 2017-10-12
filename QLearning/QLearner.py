@@ -15,7 +15,7 @@ GAMMA = 0.8
 ALPHA = 0.1
 
 CONFIG_FILE_PATH = path.join("..", "game_config.txt")
-GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
+GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
 
 log = logging.getLogger()
 
