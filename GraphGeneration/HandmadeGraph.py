@@ -4,6 +4,7 @@ from SupplementaryFiles.SaveGraph import save_graph
 from KivyFiles.Questions.QuestionObject import QuestionObject
 
 CREATE_QUESTIONS = False
+CREATE_FILES = False
 
 
 def create_draft_graph_1():
@@ -45,26 +46,24 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
 
     if CREATE_QUESTIONS:
-        question_one = QuestionObject("how many red nodes are there?",
+        question_one = QuestionObject("How many red nodes are there?",
                                       QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("how many blue nodes do not have links to yellow nodes",
+        question_two = QuestionObject("How many blue nodes do not have links to yellow nodes",
                                       QuestionTypes['NUMBER'], 5, Colours['blue'], Colours['yellow'])
-        question_three = QuestionObject("which color has the largest number of nodes?",
+        question_three = QuestionObject("Which color has the largest number of nodes?",
                                         QuestionTypes['MULTIPLE_CHOICE'], 16)
-        question_four = QuestionObject("is there a blue node that has at least 2 links to another blue node?",
+        question_four = QuestionObject("Is there a blue node that has at least 2 links to another blue node?",
                                        QuestionTypes['BOOLEAN'], 11, Colours['blue'], 2)
         question_five = QuestionObject("What is the color of the node with the largest number of links?",
                                        QuestionTypes['MULTIPLE_CHOICE'], 3)
-        question_six = QuestionObject("is every blue node linked to a red node?",
-                                       QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['red'])
-        question_seven = QuestionObject("is there an even number of yellow nodes?",
-                                       QuestionTypes['BOOLEAN'], 15, Colours['yellow'], 0)
+        question_six = QuestionObject("Is every blue node linked to a red node?",
+                                      QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['red'])
+        question_seven = QuestionObject("Is there an even number of yellow nodes?",
+                                        QuestionTypes['BOOLEAN'], 15, Colours['yellow'], 0)
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
     save_graph(draft_graph, "draft_graph_1.xml")
-
-create_draft_graph_1()
 
 
 def create_draft_graph_2():
@@ -107,12 +106,22 @@ def create_draft_graph_2():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
 
     if CREATE_QUESTIONS:
-        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+        question_one = QuestionObject("How many red nodes do not have links to yellow nodes?",
+                                      QuestionTypes['NUMBER'], 5, Colours['red'], Colours['yellow'])
+        question_two = QuestionObject("Is the number of red nodes even?",
+                                      QuestionTypes['BOOLEAN'], 15, Colours['red'], 0)
+        question_three = QuestionObject("Does all the blue nodes have an odd number of links?",
+                                        QuestionTypes['BOOLEAN'], 13, Colours['blue'], 1)
+        question_four = QuestionObject("What is the color that contains the smallest total number of links?",
+                                       QuestionTypes['MULTIPLE_CHOICE'], 7)
+        question_five = QuestionObject("Does every yellow node have a link to a red node?",
+                                       QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
+        question_six = QuestionObject("Are there more blue nodes than yellow nodes?",
+                                      QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
+        question_seven = QuestionObject("Is there a red nodes that has a link to another red node?",
+                                        QuestionTypes['BOOLEAN'], 8, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                            question_six, question_seven]
 
     save_graph(draft_graph, "draft_graph_2.xml")
 
@@ -157,12 +166,22 @@ def create_draft_graph_3():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n15"), draft_graph.get_node_by_serial("n14"))
 
     if CREATE_QUESTIONS:
-        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+        question_one = QuestionObject('Is there a red node with an odd number of links?',
+                                      QuestionTypes['BOOLEAN'], 12, Colours['red'], 1)
+        question_two = QuestionObject('Which color has the smallest number of nodes?',
+                                      QuestionTypes['MULTIPLE_CHOICE'], 17)
+        question_three = QuestionObject('How many blue nodes are there?',
+                                        QuestionTypes['NUMBER'], 1, Colours['blue'])
+        question_four = QuestionObject('What is the color of the node with the largest number of links?',
+                                       QuestionTypes['MULTIPLE_CHOICE'], 3)
+        question_five = QuestionObject('Does every red node have a link to a yellow node?',
+                                       QuestionTypes['BOOLEAN'], 9, Colours['red'], Colours['yellow'])
+        question_six = QuestionObject('Does all the blue nodes have an even number of links?',
+                                      QuestionTypes['BOOLEAN'], 13, Colours['blue'], 0)
+        question_seven = QuestionObject('Are there more red nodes than blue nodes?',
+                                        QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['blue'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                            question_six, question_seven]
 
     save_graph(draft_graph, "draft_graph_3.xml")
 
@@ -216,12 +235,22 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
     if CREATE_QUESTIONS:
-        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+        question_one = QuestionObject('Is there a red node that has at least two links to another red node?',
+                                      QuestionTypes['BOOLEAN'], 11, Colours['red'], 2)
+        question_two = QuestionObject('Is the sum of the links of all the red nodes even?',
+                                      QuestionTypes['BOOLEAN'], 14, Colours['red'], 0)
+        question_three = QuestionObject('Which color has the largest number of nodes?',
+                                        QuestionTypes['MULTIPLE_CHOICE'], 16)
+        question_four = QuestionObject('How many blue nodes have links to yellow nodes?',
+                                       QuestionTypes['NUMBER'], 2, Colours['blue'], Colours['yellow'])
+        question_five = QuestionObject('What is the color that contains the largest total number of links?',
+                                       QuestionTypes['MULTIPLE_CHOICE'], 4)
+        question_six = QuestionObject('Does every yellow node have a link to a red node?',
+                                      QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
+        question_seven = QuestionObject('Are there more blue nodes than yellow nodes?',
+                                        QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                            question_six, question_seven]
 
     save_graph(draft_graph, "draft_graph_4.xml")
 
@@ -266,11 +295,28 @@ def create_draft_graph_5():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n12"))
 
     if CREATE_QUESTIONS:
-        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+        question_one = QuestionObject('Is there a yellow node that has at least 3 links to another yellow node?',
+                                      QuestionTypes['BOOLEAN'], 11, Colours['yellow'], 3)
+        question_two = QuestionObject('Does all the red nodes have an odd number of links?',
+                                      QuestionTypes['BOOLEAN'], 13, Colours['red'], 1)
+        question_three = QuestionObject('How many yellow nodes are there?',
+                                        QuestionTypes['NUMBER'], 1, Colours['yellow'])
+        question_four = QuestionObject('What is the color that contains the smallest total number of links?',
+                                       QuestionTypes['MULTIPLE_CHOICE'], 7)
+        question_five = QuestionObject('Does every blue node have a link to a yellow node?',
+                                       QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['yellow'])
+        question_six = QuestionObject('Is the number of blue nodes even?',
+                                      QuestionTypes['BOOLEAN'], 15, Colours['blue'], 0)
+        question_seven = QuestionObject('How many yellow nodes do not have links to red nodes?',
+                                        QuestionTypes['NUMBER'], 5, Colours['yellow'], Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                            question_six, question_seven]
 
     save_graph(draft_graph, "draft_graph_5.xml")
+
+if CREATE_FILES:
+    create_draft_graph_1()
+    create_draft_graph_2()
+    create_draft_graph_3()
+    create_draft_graph_4()
+    create_draft_graph_5()
