@@ -2,7 +2,6 @@ import logging
 import os
 import uuid
 
-from structlog import get_logger
 
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
