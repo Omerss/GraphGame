@@ -5,6 +5,7 @@ from kivy.uix.screenmanager import Screen
 
 from KivyCommunication import *
 from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
+from SupplementaryFiles.Utils import Utils
 
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
@@ -39,6 +40,8 @@ class QuestionnaireScreen(Screen):
         self.questionnaire.load()
 
     def end_questionnaire(self):
+        KL.log.insert(action=LogAction.press, obj="Graph {} - Questions - {}"
+                      .format(self.game_screen.main_app.sm.current, self.main_app.user_answers), comment=Utils.user_id)
         self.next_game()
 
     def next_game(self):

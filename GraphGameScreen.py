@@ -50,6 +50,7 @@ class GraphGameScreen(Screen):
         self.graph_game = GraphTabletDisplay(self)
 
     def on_enter(self, *args):
+        self.main_app.get_subject_id()
         log_str = 'start,'
         log_str += 'turns=' + str(self.graph_game.max_turns) + ','
         KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)

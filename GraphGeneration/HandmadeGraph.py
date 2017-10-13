@@ -183,7 +183,7 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n15"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
-    save_graph(draft_graph, "draft_graph_4.xml")
+    save_graph(draft_graph, "Graph_4.xml")
 
 create_draft_graph_4()
 
