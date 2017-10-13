@@ -73,7 +73,7 @@ def load_graph_from_file(file_name):
 # serial, location, size, colour=Colours['red'], shape=Shapes['circle'], real=True, dummy_num=None
     while True:
         if ('node{0}'.format(i) in graph_dict):
-            serial = graph_dict['node{0}'.format(i)]["serial"]
+            serial_num = graph_dict['node{0}'.format(i)]["serial_num"]
             location =  {'x': int(graph_dict['node{0}'.format(i)]["node_x"]),
                          'y': int(graph_dict['node{0}'.format(i)]["node_y"])}
             node_size = int(graph_dict['node{0}'.format(i)]["node_size"])
@@ -83,7 +83,7 @@ def load_graph_from_file(file_name):
             dummy_num = int(graph_dict['node{0}'.format(i)]["dummy_num"])
             neighbors = set(eval(graph_dict['node{0}'.format(i)]["neighbors"]))
             possible_neighbors = set(eval(graph_dict['node{0}'.format(i)]["possible_neighbors"]))
-            node = NodeObject(serial, location, node_size, colour, shape, real, dummy_num)
+            node = NodeObject(serial_num, location, node_size, colour, shape, real, dummy_num)
             node.neighbors = neighbors
             node.possible_neighbors= possible_neighbors
             new_graph.node_list.append(node)

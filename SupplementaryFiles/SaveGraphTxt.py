@@ -11,8 +11,8 @@ SAVED_GRAPH_PATH = "../TestingGraphs"
 
 
 def save_graph(graph, file_name):
-    file_path = path.join(SAVED_GRAPH_PATH, file_name,'.txt')
-    with open (file_path, 'w') as output:
+    #file_path = path.join(SAVED_GRAPH_PATH, file_name)
+    with open (file_name, 'w') as output:
         output.write("graph.center_node={0}\n".format(graph.center_node))
         output.write("graph.size={0}\n".format(graph.size))
         output.write("graph.extra_distance={0}\n".format(graph.extra_distance))
@@ -30,11 +30,13 @@ def save_graph(graph, file_name):
 
         #node list
         for i in range(len(graph.node_list)):
-            output.write("node{0}.serial={1}\n".format(i,graph.node_list[i].serial))
+            output.write("node{0}.serial_num={1}\n".format(i,graph.node_list[i].serial_num))
             output.write("node{0}.node_x={1}\n".format(i,graph.node_list[i].x))
             output.write("node{0}.node_y={1}\n".format(i,graph.node_list[i].y))
             output.write("node{0}.node_size={1}\n".format(i,graph.node_list[i].size))
-            output.write("node{0}.colour={1}\n".format(i,graph.node_list[i].colour))
+            output.write("node{0}.colour={1}\n".format(i,graph.node_list[i].colour['name']))
             output.write("node{0}.shape={1}\n".format(i,graph.node_list[i].shape))
             output.write("node{0}.real={1}\n".format(i,graph.node_list[i].real))
             output.write("node{0}.dummy_num={1}\n".format(i,graph.node_list[i].dummy_num))
+            output.write("node{0}.neighbors={1}\n".format(i, graph.node_list[i].neighbors))
+            output.write("node{0}.possible_neighbors={1}\n".format(i, graph.node_list[i].possible_neighbors))
