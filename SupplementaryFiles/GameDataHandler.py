@@ -16,11 +16,13 @@ Handles all data return from the window. Constructs a new graph based on the sup
 
 
 class GameDataHandler:
-    def __init__(self, config, graph_size):
+    graph = None
+
+    def __init__(self, config, graph_size=None):
         # basic_config -
         self.edges = []
         self.graph = GraphObject(config)
-        self.graph.size = graph_size
+        self.graph.size = graph_size if graph_size is not None else self.graph.size
         self.extra_edges = []
         self.new_edges = []
         self.edges_to_add = []

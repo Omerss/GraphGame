@@ -10,6 +10,7 @@ from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.Utils import Utils
+from main import CONFIG_FILE_PATH, GRAPH_CONFIG_PATH
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1
@@ -21,8 +22,10 @@ class TestGameDataHandler(unittest.TestCase):
         self.node_1_unreal = NodeObject(serial=11, location={'x': 100, 'y': 100}, size=1, real=False)
         self.node_2_real = NodeObject(serial=20, location={'x': 200, 'y': 200}, size=1, real=True)
         self.node_2_unreal = NodeObject(serial=21, location={'x': 200, 'y': 200}, size=1, real=False)
+        self.node_2_unreal_moved = NodeObject(serial=22, location={'x': 205, 'y': 205}, size=1, real=False)
         self.node_3_real = NodeObject(serial=30, location={'x': 300, 'y': 300}, size=1, real=True)
         self.node_3_unreal = NodeObject(serial=31, location={'x': 300, 'y': 300}, size=1, real=False)
+        self.node_3_unreal_moved = NodeObject(serial=32, location={'x': 305, 'y': 305}, size=1, real=False)
         self.node_4_real = NodeObject(serial=40, location={'x': 400, 'y': 400}, size=1, real=True)
         self.node_4_unreal = NodeObject(serial=41, location={'x': 400, 'y': 400}, size=1, real=False)
 
@@ -78,11 +81,16 @@ class TestGameDataHandler(unittest.TestCase):
         mock_utils.game_config_data = {'Default': {'log_level': 'ERROR'}}
         data_handler = GameDataHandler(None, None)
 
-        edge_35 = (node_3, node_5, node_3.slope(node_5), LineEquation(slope=node_3.slope(node_5), const=1, edge1=node_3, edge2=node_5))
-        edge_24 = (node_2, node_4, node_2.slope(node_4), LineEquation(slope=node_2.slope(node_4), const=1, edge1=node_2, edge2=node_4))
-        edge_12 = (node_1, node_2, node_1.slope(node_2), LineEquation(slope=node_1.slope(node_2), const=1, edge1=node_1, edge2=node_2))
-        edge_13 = (node_1, node_3, node_1.slope(node_3), LineEquation(slope=node_1.slope(node_3), const=1, edge1=node_1, edge2=node_3))
-        edge_34 = (node_3, node_4, node_3.slope(node_4), LineEquation(slope=node_3.slope(node_4), const=1, edge1=node_3, edge2=node_4))
+        edge_35 = (node_3, node_5, node_3.slope(node_5),
+                   LineEquation(slope=node_3.slope(node_5), const=1, edge1=node_3, edge2=node_5))
+        edge_24 = (node_2, node_4, node_2.slope(node_4),
+                   LineEquation(slope=node_2.slope(node_4), const=1, edge1=node_2, edge2=node_4))
+        edge_12 = (node_1, node_2, node_1.slope(node_2),
+                   LineEquation(slope=node_1.slope(node_2), const=1, edge1=node_1, edge2=node_2))
+        edge_13 = (node_1, node_3, node_1.slope(node_3),
+                   LineEquation(slope=node_1.slope(node_3), const=1, edge1=node_1, edge2=node_3))
+        edge_34 = (node_3, node_4, node_3.slope(node_4),
+                   LineEquation(slope=node_3.slope(node_4), const=1, edge1=node_3, edge2=node_4))
 
         # Act
 
@@ -99,10 +107,11 @@ class TestGameDataHandler(unittest.TestCase):
         self.assertTrue(res_hit_same_point)
         self.assertTrue(res_same_edge)
 
+    @patch('SupplementaryFiles.GameDataHandler.Utils')
     @patch('SupplementaryFiles.GameDataHandler.GameDataHandler.connect_nodes')
     @patch('SupplementaryFiles.GameDataHandler.GameDataHandler.clean_connection')
     @patch('SupplementaryFiles.GameDataHandler.GraphObject.get_node_by_serial')
-    def test_connect_edges_advanced(self, mock_get_node_by_serial, mock_clean, mock_connect):
+    def test_connect_edges_advanced(self, mock_get_node_by_serial, mock_clean, mock_connect, mock_utils):
 
         def mock_get_node(serial):
             for node in self.node_list:
@@ -112,44 +121,68 @@ class TestGameDataHandler(unittest.TestCase):
 
         # Assemble
         mock_get_node_by_serial.side_effect = mock_get_node
-        data_handler = GameDataHandler(None)
+        mock_utils.graph_config_data = None
+        mock_utils.game_config_data = {'Default': {'log_level': 'ERROR'}}
+        data_handler = GameDataHandler(None, None)
 
-        edge_two_real_14 = (self.node_1_real, self.node_4_real)
-        edge_left_real_13 = (self.node_1_real, self.node_3_unreal)
-        edge_left_real_12 = (self.node_1_real, self.node_2_unreal)
-        edge_right_real_24 = (self.node_2_unreal, self.node_4_real)
-        edge_two_unreal_23 = (self.node_2_unreal, self.node_3_unreal)
-        edge_two_unreal_13 = (self.node_1_unreal, self.node_2_unreal)
+        edge_two_real_14 = (self.node_1_real, self.node_4_real, self.node_1_real.slope(self.node_4_real),
+                            LineEquation(slope=self.node_1_real.slope(self.node_4_real),
+                                         const=1, edge1=self.node_1_real,
+                                         edge2=self.node_4_real))
+        edge_left_real_13 = (self.node_1_real, self.node_3_unreal, self.node_1_real.slope(self.node_3_unreal),
+                             LineEquation(slope=self.node_1_real.slope(self.node_3_unreal),
+                                          const=1, edge1=self.node_1_real,
+                                          edge2=self.node_3_unreal))
+        edge_left_real_12 = (self.node_1_real, self.node_2_unreal, self.node_1_real.slope(self.node_2_unreal),
+                             LineEquation(slope=self.node_1_real.slope(self.node_2_unreal),
+                                          const=1, edge1=self.node_1_real,
+                                          edge2=self.node_2_unreal))
+        edge_right_real_24 = (self.node_2_unreal, self.node_4_real, self.node_2_unreal.slope(self.node_4_real),
+                              LineEquation(slope=self.node_2_unreal.slope(self.node_4_real),
+                                           const=1, edge1=self.node_2_unreal,
+                                           edge2=self.node_4_real))
+        edge_two_unreal_23 = (self.node_2_unreal, self.node_3_unreal, self.node_2_unreal.slope(self.node_3_unreal),
+                              LineEquation(slope=self.node_2_unreal.slope(self.node_3_unreal),
+                                           const=1, edge1=self.node_2_unreal,
+                                           edge2=self.node_3_unreal))
+        edge_two_unreal_13 = (self.node_1_unreal, self.node_3_unreal, self.node_1_unreal.slope(self.node_3_unreal),
+                              LineEquation(slope=self.node_1_unreal.slope(self.node_3_unreal),
+                                           const=1, edge1=self.node_1_unreal,
+                                           edge2=self.node_3_unreal))
 
         # Act + Assert
 
         # Case 1 - One edge is connected to two real nodes. Other edge only connects to one real node and the other
         #  to a fake node
-        data_handler.connect_edges(edge_two_real_14, edge_left_real_13)
+        edge = data_handler.connect_edges(edge_two_real_14, edge_left_real_13)
         mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
-        self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
+        self.assertEquals(edge_two_real_14[3].edge1, edge[3].edge1)
+        self.assertEquals(edge_two_real_14[3].edge2, edge[3].edge2)
 
         # Case 2 - Both edges each connect to one real node and one fake node. Both real nodes are different
-        data_handler.connect_edges(edge_left_real_13, edge_right_real_24)
-        mock_connect.assert_called_with(self.node_1_real, self.node_4_real)
-        self.assertIn((self.node_1_real, self.node_4_real), data_handler.extra_edges)
+        edge = data_handler.connect_edges(edge_left_real_13, edge_right_real_24)
+        self.assertEquals(edge_two_real_14[3].edge1, edge[3].edge1)
+        self.assertEquals(edge_two_real_14[3].edge2, edge[3].edge2)
 
         # Case 3 - Both edges connect to the same real node. Both edge's other node is  different fake one
-        data_handler.connect_edges(edge_left_real_13, edge_left_real_12)
+        edge = data_handler.connect_edges(edge_left_real_13, edge_left_real_12)
         mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
-        self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
+        self.assertEquals(edge_left_real_13[3].edge1, edge[3].edge1)
+        self.assertEquals(edge_left_real_13[3].edge2, edge[3].edge2)
 
         # Case 4 - One edge is connected to a real node and to a fake node. Other edge connects to two fake nodes.
-        data_handler.connect_edges(edge_left_real_12, edge_two_unreal_23)
+        edge = data_handler.connect_edges(edge_left_real_12, edge_two_unreal_23)
         mock_connect.assert_called_with(self.node_1_real, self.node_3_unreal)
-        self.assertIn((self.node_1_real, self.node_3_unreal), data_handler.extra_edges)
+        self.assertEquals(edge_left_real_13[3].edge1, edge[3].edge1)
+        self.assertEquals(edge_left_real_13[3].edge2, edge[3].edge2)
 
         # Case 5 - Both edge have two fake nodes.
-        data_handler.connect_edges(edge_two_unreal_13, edge_two_unreal_23)
+        edge = data_handler.connect_edges(edge_two_unreal_13, edge_two_unreal_23)
         mock_connect.assert_called_with(self.node_1_unreal, self.node_3_unreal)
-        self.assertIn((self.node_1_unreal, self.node_3_unreal), data_handler.extra_edges)
+        self.assertEquals(edge_two_unreal_13[3].edge1, edge[3].edge1)
+        self.assertEquals(edge_two_unreal_13[3].edge2, edge[3].edge2)
 
-    def test_data_collection(self, ):
+    def test_data_collection(self):
         # WIP
         return
         # Assemble
@@ -206,18 +239,25 @@ class TestGameDataHandler(unittest.TestCase):
         gamer.do_move()
         time.sleep(1)
 
-    def test_trim_data(self):
-        data_handler = GameDataHandler(path.join("../", "GraphsData", "graph_config.txt"))
+    @patch('SupplementaryFiles.GameDataHandler.Utils')
+    def test_trim_data(self, mock_utils):
+        mock_utils.graph_config_data = None
+        mock_utils.game_config_data = {'Default': {'log_level': 'ERROR'}}
+        Utils.read_game_config_file(path.join("..", CONFIG_FILE_PATH))
+        Utils.read_graph_config_file(path.join("..", GRAPH_CONFIG_PATH))
+        data_handler = GameDataHandler(path.join("../", "graph_config.txt"), None)
         data_handler.graph.add_node(self.node_1_real.x, self.node_1_real.y, serial=self.node_1_real.serial_num)
-        data_handler.graph.add_node(self.node_2_real.x, self.node_2_real.y, serial=self.node_2_real.serial_num)
-        data_handler.graph.add_node(self.node_3_real.x, self.node_3_real.y, serial=self.node_3_real.serial_num)
+        data_handler.graph.add_node(self.node_2_unreal.x, self.node_2_unreal.y, serial=self.node_2_unreal.serial_num)
+        data_handler.graph.add_node(self.node_2_unreal_moved.x, self.node_2_unreal_moved.y, serial=self.node_2_unreal_moved.serial_num)
+        data_handler.graph.add_node(self.node_3_unreal.x, self.node_3_unreal.y, serial=self.node_3_unreal.serial_num)
+        data_handler.graph.add_node(self.node_3_unreal_moved.x, self.node_3_unreal_moved.y, serial=self.node_3_unreal_moved.serial_num)
         data_handler.graph.add_node(self.node_4_real.x, self.node_4_real.y, serial=self.node_4_real.serial_num)
-        edge_1 = (self.node_1_real, self.node_2_real, 1,
-                  LineEquation(slope=1, const=0, edge1=self.node_1_real, edge2=self.node_2_real))
-        edge_2 = (self.node_2_real, self.node_3_real, 1,
-                  LineEquation(slope=1, const=0, edge1=self.node_2_real, edge2=self.node_3_real))
-        edge_3 = (self.node_3_real, self.node_4_real, 1,
-                  LineEquation(slope=1, const=0, edge1=self.node_3_real, edge2=self.node_4_real))
+        edge_1 = (self.node_1_real, self.node_2_unreal_moved, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_1_real, edge2=self.node_2_unreal_moved))
+        edge_2 = (self.node_2_unreal, self.node_3_unreal_moved, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_2_unreal, edge2=self.node_3_unreal_moved))
+        edge_3 = (self.node_3_unreal, self.node_4_real, 1,
+                  LineEquation(slope=1, const=0, edge1=self.node_3_unreal, edge2=self.node_4_real))
         edge_4 = (self.node_1_real, self.node_4_real, 1,
                   LineEquation(slope=1, const=0, edge1=self.node_1_real, edge2=self.node_4_real))
         data_handler.extra_edges = [edge_1, edge_2, edge_3]
