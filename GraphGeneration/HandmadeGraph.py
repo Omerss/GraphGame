@@ -7,12 +7,8 @@ from SupplementaryFiles.LoadGraph import load_py_graph
 
 
 def create_draft_graph_1():
-    # Arrange
-    max_neighbors = 5
-    extra_distance = 1
 
-    draft_graph = GraphObject(max_x=1050, max_y=1800, node_count=15 , max_neighbors=max_neighbors,
-                              extra_distance=extra_distance)
+    draft_graph = GraphObject(max_x=1050, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=60, y_loc=1250, node_colour=Colours['blue'], serial="n1")
     draft_graph.add_node(x_loc=211, y_loc=1400, node_colour=Colours['yellow'], serial="n2")
     draft_graph.add_node(x_loc=510, y_loc=1140, node_colour=Colours['blue'], serial="n3")
@@ -54,55 +50,43 @@ create_draft_graph_1()
 
 
 def create_draft_graph_2():
-    # Arrange
-    max_neighbors = 5
-    extra_distance = 1
 
-    draft_graph = GraphObject(max_x=1050, max_y=1800, node_count=15 , max_neighbors=max_neighbors,
-                              extra_distance=extra_distance)
-    draft_graph.add_node(x_loc=1004, y_loc=1621, node_colour=Colours['yellow'], serial="n1")
-    draft_graph.add_node(x_loc=1021, y_loc=1707, node_colour=Colours['red'], serial="n2")
-    draft_graph.add_node(x_loc=653, y_loc=1607, node_colour=Colours['blue'], serial="n3")
-    draft_graph.add_node(x_loc=943, y_loc=1202, node_colour=Colours['blue'], serial="n4")
-    draft_graph.add_node(x_loc=422, y_loc=1367, node_colour=Colours['red'], serial="n5")
-    draft_graph.add_node(x_loc=303, y_loc=1006, node_colour=Colours['red'], serial="n6")
-    draft_graph.add_node(x_loc=233, y_loc=1307, node_colour=Colours['yellow'], serial="n7")
-    draft_graph.add_node(x_loc=473, y_loc=602, node_colour=Colours['blue'], serial="n8")
-    draft_graph.add_node(x_loc=244, y_loc=659, node_colour=Colours['red'], serial="n9")
-    draft_graph.add_node(x_loc=431, y_loc=1003, node_colour=Colours['red'], serial="n10")
-    draft_graph.add_node(x_loc=743, y_loc=603, node_colour=Colours['blue'], serial="n11")
-    draft_graph.add_node(x_loc=854, y_loc=406, node_colour=Colours['red'], serial="n12")
+    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=904, y_loc=1191, node_colour=Colours['yellow'], serial="n1")
+    draft_graph.add_node(x_loc=1021, y_loc=1537, node_colour=Colours['red'], serial="n2")
+    draft_graph.add_node(x_loc=523, y_loc=1407, node_colour=Colours['blue'], serial="n3")
+    draft_graph.add_node(x_loc=783, y_loc=1052, node_colour=Colours['blue'], serial="n4")
+    draft_graph.add_node(x_loc=322, y_loc=1167, node_colour=Colours['red'], serial="n5")
+    draft_graph.add_node(x_loc=143, y_loc=802, node_colour=Colours['red'], serial="n6")
+    draft_graph.add_node(x_loc=133, y_loc=1107, node_colour=Colours['yellow'], serial="n7")
+    draft_graph.add_node(x_loc=376, y_loc=408, node_colour=Colours['blue'], serial="n8")
+    draft_graph.add_node(x_loc=144, y_loc=459, node_colour=Colours['red'], serial="n9")
+    draft_graph.add_node(x_loc=551, y_loc=843, node_colour=Colours['red'], serial="n10")
+    draft_graph.add_node(x_loc=836, y_loc=483, node_colour=Colours['blue'], serial="n11")
+    draft_graph.add_node(x_loc=954, y_loc=206, node_colour=Colours['red'], serial="n12")
+    draft_graph.add_node(x_loc=631, y_loc=613, node_colour=Colours['yellow'], serial="n13")
+    draft_graph.add_node(x_loc=1115, y_loc=596, node_colour=Colours['yellow'], serial="n14")
+    draft_graph.add_node(x_loc=312, y_loc=1340, node_colour=Colours['blue'], serial="n15")
 
-    # draft_graph.add_node(x_loc=25, y_loc=910, node_colour=Colours['yellow'], serial="n12")
-    # draft_graph.add_node(x_loc=212, y_loc=940, node_colour=Colours['blue'], serial="n13")
-    # draft_graph.add_node(x_loc=82, y_loc=1780, node_colour=Colours['blue'], serial="n15")
     draft_graph.center_node = "n1"
 
     for node in draft_graph.node_list:
         draft_graph.get_possible_connections(node.serial_num)
-    print ("4")
+
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
-    print ("5")
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n3"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
-    print ("5.4")
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n5"))
-    print ("5.7")
-
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n7"))
-    print ("6")
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n9"))
-    print ("7")
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
-    print ("8")
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n11"))
-
-
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n11"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n12"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n13"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n6"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n13"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
 
     save_graph(draft_graph, "draft_graph_2.xml")
 
@@ -196,3 +180,45 @@ def create_draft_graph_4():
     save_graph(draft_graph, "draft_graph_4.xml")
 
 create_draft_graph_4()
+
+
+def create_draft_graph_5():
+
+    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=169, y_loc=1534, node_colour=Colours['red'], serial='n1')
+    draft_graph.add_node(x_loc=142, y_loc=243, node_colour=Colours['red'], serial='n2')
+    draft_graph.add_node(x_loc=274, y_loc=1047, node_colour=Colours['red'], serial='n3')
+    draft_graph.add_node(x_loc=78, y_loc=1383, node_colour=Colours['blue'], serial='n4')
+    draft_graph.add_node(x_loc=140, y_loc=635, node_colour=Colours['blue'], serial='n5')
+    draft_graph.add_node(x_loc=729, y_loc=1622, node_colour=Colours['blue'], serial='n6')
+    draft_graph.add_node(x_loc=754, y_loc=283, node_colour=Colours['blue'], serial='n7')
+    draft_graph.add_node(x_loc=769, y_loc=1194, node_colour=Colours['blue'], serial='n8')
+    draft_graph.add_node(x_loc=469, y_loc=1312, node_colour=Colours['blue'], serial='n9')
+    draft_graph.add_node(x_loc=701, y_loc=894, node_colour=Colours['yellow'], serial='n10')
+    draft_graph.add_node(x_loc=607, y_loc=84, node_colour=Colours['blue'], serial='n11')
+    draft_graph.add_node(x_loc=839, y_loc=820, node_colour=Colours['red'], serial='n12')
+    draft_graph.add_node(x_loc=837, y_loc=190, node_colour=Colours['yellow'], serial='n13')
+    draft_graph.add_node(x_loc=605, y_loc=1647, node_colour=Colours['red'], serial='n14')
+    draft_graph.add_node(x_loc=957, y_loc=467, node_colour=Colours['red'], serial='n15')
+
+    draft_graph.center_node = "n5"
+
+    for node in draft_graph.node_list:
+        draft_graph.get_possible_connections(node.serial_num)
+
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n3"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n9"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n9"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n11"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n13"))
+    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
+    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n13"))
+    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
+    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
+
+    save_graph(draft_graph, "draft_graph_5.xml")
