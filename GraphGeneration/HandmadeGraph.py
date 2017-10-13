@@ -1,14 +1,14 @@
-import unittest
-from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
-from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.Enums import Colours, QuestionTypes
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.LoadGraph import load_py_graph
+from KivyFiles.Questions.QuestionObject import QuestionObject
+
+CREATE_QUESTIONS = False
 
 
 def create_draft_graph_1():
 
-    draft_graph = GraphObject(max_x=1050, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph = GraphObject(max_x=1050, max_y=1800, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=60, y_loc=1250, node_colour=Colours['blue'], serial="n1")
     draft_graph.add_node(x_loc=211, y_loc=1400, node_colour=Colours['yellow'], serial="n2")
     draft_graph.add_node(x_loc=510, y_loc=1140, node_colour=Colours['blue'], serial="n3")
@@ -21,9 +21,9 @@ def create_draft_graph_1():
     draft_graph.add_node(x_loc=990, y_loc=350, node_colour=Colours['yellow'], serial="n9")
     draft_graph.add_node(x_loc=311, y_loc=550, node_colour=Colours['blue'], serial="n10")
     draft_graph.add_node(x_loc=150, y_loc=852, node_colour=Colours['red'], serial="n11")
-    draft_graph.add_node(x_loc=25, y_loc=910, node_colour=Colours['yellow'], serial="n12")
+    draft_graph.add_node(x_loc=30, y_loc=910, node_colour=Colours['yellow'], serial="n12")
     draft_graph.add_node(x_loc=212, y_loc=940, node_colour=Colours['blue'], serial="n13")
-    draft_graph.add_node(x_loc=82, y_loc=1780, node_colour=Colours['blue'], serial="n15")
+    draft_graph.add_node(x_loc=82, y_loc=1720, node_colour=Colours['blue'], serial="n15")
     draft_graph.center_node = "n2"
 
     for node in draft_graph.node_list:
@@ -44,6 +44,14 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
 
+    if CREATE_QUESTIONS:
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+
     save_graph(draft_graph, "draft_graph_1.xml")
 
 create_draft_graph_1()
@@ -51,7 +59,7 @@ create_draft_graph_1()
 
 def create_draft_graph_2():
 
-    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=904, y_loc=1191, node_colour=Colours['yellow'], serial="n1")
     draft_graph.add_node(x_loc=1021, y_loc=1537, node_colour=Colours['red'], serial="n2")
     draft_graph.add_node(x_loc=523, y_loc=1407, node_colour=Colours['blue'], serial="n3")
@@ -88,14 +96,20 @@ def create_draft_graph_2():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
 
-    save_graph(draft_graph, "draft_graph_2.xml")
+    if CREATE_QUESTIONS:
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
 
-# create_draft_graph_2()
+    save_graph(draft_graph, "draft_graph_2.xml")
 
 
 def create_draft_graph_3():
 
-    draft_graph = GraphObject(max_x=1250, max_y=1600, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph = GraphObject(max_x=1250, max_y=1600, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=26, y_loc=50, node_colour=Colours['yellow'], serial="n1")
     draft_graph.add_node(x_loc=451, y_loc=400, node_colour=Colours['blue'], serial="n2")
     draft_graph.add_node(x_loc=201, y_loc=520, node_colour=Colours['blue'], serial="n3")
@@ -132,12 +146,20 @@ def create_draft_graph_3():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n15"), draft_graph.get_node_by_serial("n14"))
 
+    if CREATE_QUESTIONS:
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
+
     save_graph(draft_graph, "draft_graph_3.xml")
 
 
 def create_draft_graph_4():
 
-    draft_graph = GraphObject(max_x=2000, max_y=1500, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph = GraphObject(max_x=2000, max_y=1500, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=390, y_loc=920, node_colour=Colours['blue'], serial="n1")
     draft_graph.add_node(x_loc=200, y_loc=1100, node_colour=Colours['yellow'], serial="n2")
     draft_graph.add_node(x_loc=40, y_loc=500, node_colour=Colours['blue'], serial="n3")
@@ -183,20 +205,26 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n15"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
-    save_graph(draft_graph, "Graph_4.xml")
+    if CREATE_QUESTIONS:
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
 
-create_draft_graph_4()
+    save_graph(draft_graph, "draft_graph_4.xml")
 
 
 def create_draft_graph_5():
 
-    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15 , max_neighbors=5, extra_distance=1)
+    draft_graph = GraphObject(max_x=1250, max_y=1800, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=169, y_loc=1534, node_colour=Colours['red'], serial='n1')
     draft_graph.add_node(x_loc=142, y_loc=243, node_colour=Colours['red'], serial='n2')
     draft_graph.add_node(x_loc=274, y_loc=1047, node_colour=Colours['red'], serial='n3')
     draft_graph.add_node(x_loc=78, y_loc=1383, node_colour=Colours['blue'], serial='n4')
     draft_graph.add_node(x_loc=140, y_loc=635, node_colour=Colours['blue'], serial='n5')
-    draft_graph.add_node(x_loc=729, y_loc=1622, node_colour=Colours['blue'], serial='n6')
+    draft_graph.add_node(x_loc=728, y_loc=1521, node_colour=Colours['yellow'], serial='n6')
     draft_graph.add_node(x_loc=754, y_loc=283, node_colour=Colours['blue'], serial='n7')
     draft_graph.add_node(x_loc=769, y_loc=1194, node_colour=Colours['blue'], serial='n8')
     draft_graph.add_node(x_loc=469, y_loc=1312, node_colour=Colours['blue'], serial='n9')
@@ -204,8 +232,8 @@ def create_draft_graph_5():
     draft_graph.add_node(x_loc=607, y_loc=84, node_colour=Colours['blue'], serial='n11')
     draft_graph.add_node(x_loc=839, y_loc=820, node_colour=Colours['red'], serial='n12')
     draft_graph.add_node(x_loc=837, y_loc=190, node_colour=Colours['yellow'], serial='n13')
-    draft_graph.add_node(x_loc=605, y_loc=1647, node_colour=Colours['red'], serial='n14')
-    draft_graph.add_node(x_loc=957, y_loc=467, node_colour=Colours['red'], serial='n15')
+    draft_graph.add_node(x_loc=604, y_loc=1648, node_colour=Colours['red'], serial='n14')
+    draft_graph.add_node(x_loc=957, y_loc=447, node_colour=Colours['red'], serial='n15')
 
     draft_graph.center_node = "n5"
 
@@ -221,10 +249,19 @@ def create_draft_graph_5():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n10"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n11"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n13"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n13"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
-    # draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n13"), draft_graph.get_node_by_serial("n15"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n13"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n12"))
+
+    if CREATE_QUESTIONS:
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_two = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_four = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_five = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five]
 
     save_graph(draft_graph, "draft_graph_5.xml")
+    
