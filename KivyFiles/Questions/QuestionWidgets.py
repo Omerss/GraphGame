@@ -8,6 +8,9 @@ from kivy.uix.button import Button
 
 
 class IntInput(TextInput):
+    """
+    IntInput only excepts numbers
+    """
     def __init__(self, question):
         super(IntInput, self).__init__(text='', multiline=False)
         self.question_data = question
@@ -16,7 +19,10 @@ class IntInput(TextInput):
     pat = re.compile('[^0-9]')
 
     def insert_text(self, substring, from_undo=False):
-        s = re.sub(self.pat, '', substring)
+        if len(self.text) > 1:
+            s = ""
+        else:
+            s = re.sub(self.pat, '', substring)
         return super(IntInput, self).insert_text(s, from_undo=from_undo)
 
     def get_answer(self):
@@ -30,6 +36,7 @@ class UntoggbleToggle(ToggleButtonBehavior, Button):
 
 class MultipleAnswersObj(GridLayout):
     """
+    Allows the user to answer one of many questions
     See https://kivy.org/docs/api-kivy.uix.dropdown.html
     """
     def __init__(self, question):
@@ -50,7 +57,9 @@ class MultipleAnswersObj(GridLayout):
 
 
 class BooleanQuestion(GridLayout):
-
+    """
+    A yes\no questionn
+    """
     def __init__(self, question):
         super(BooleanQuestion, self).__init__(rows=1, cols=2)
         self.question_data = question

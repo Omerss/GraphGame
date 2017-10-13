@@ -1,7 +1,5 @@
 import logging
-import os
 import uuid
-
 
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.Enums import Colours, Shapes

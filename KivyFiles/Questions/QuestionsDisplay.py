@@ -1,4 +1,3 @@
-from kivy.graphics import Rectangle
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -10,6 +9,9 @@ from SupplementaryFiles.Enums import QuestionTypes
 
 
 class QuestionDisplay:
+    """
+    This object lies between the screen and the widget. It is used as a buffer between the two.
+    """
     parent_screen = None
 
     def __init__(self, parent_screen=None):
@@ -43,11 +45,16 @@ class QuestionnaireWidget(GridLayout):
 
     # DO NOT REMOVE instance
     def submit_action(self, instance):
+        """
+        Called when the user presses the submit button. Saves the user's answers in the main app for future screens.
+        :param instance: DO NOT REMOVE instance
+        """
         go_to_answers = True
         bad_answers = []
         self.main_app.user_answers = []
         for question in self.questionsArray:
             if question.get_answer() is None:
+                # At least one of the questions was left unanswered.
                 go_to_answers = False
                 bad_answers.append(question)
             else:
@@ -66,6 +73,9 @@ class QuestionnaireWidget(GridLayout):
             popup.open()
 
     def set_questions(self, question_list):
+        """
+        Goes over the question list, creates a new widget for each question and sets in in the window.
+        """
         for question in question_list:
             new_question_label = Label(text=question.question_string)
             if question.question_type_number == QuestionTypes['NUMBER']:
@@ -80,13 +90,3 @@ class QuestionnaireWidget(GridLayout):
             self.questionsArray.append(new_question)
             self.add_widget(new_question_label)
             self.add_widget(new_question)
-
-    def update_background(self, filename):
-        with self.canvas.before:
-            self.rect = Rectangle(source=filename, size=self.size)
-            self.bind(size=self._update_rect, pos=self._update_rect)
-
-    def _update_rect(self, instance, value):
-        self.rect.pos = instance.pos
-        self.rect.size = instance.size
-        self.the_game.network.update_pos_size(instance.size)

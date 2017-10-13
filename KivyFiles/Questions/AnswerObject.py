@@ -8,6 +8,12 @@ class AnswerObject:
     real_answer = ""
 
     def __init__(self, question_object, user_seen_graph, real_graph):
+        """
+        Answers questions for two graphs at once.
+        :param question_object: A QuestionObject
+        :param user_seen_graph: Graph 1
+        :param real_graph: Graph 2
+        """
         self.question_id = question_object.question_data.question_id
         self.question_string = question_object.question_data.question_string
         self.user_answer = question_object.get_answer()

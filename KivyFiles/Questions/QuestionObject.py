@@ -21,6 +21,10 @@ class QuestionObject:
         self.args = args
 
     def get_question_values(self):
+        """
+        Set parameters in the Question Obejcet that determin the type of answers it could receive.
+        """
+        # self.list_of_possible_answers Must only be created here!
         if self.question_type_number == QuestionTypes['NUMBER']:
             self.open_question = True
 

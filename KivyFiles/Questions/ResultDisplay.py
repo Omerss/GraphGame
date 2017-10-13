@@ -1,5 +1,4 @@
 import kivy
-from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -8,6 +7,9 @@ from KivyFiles.GraphDisplay import GraphDisplay
 
 
 class ResultDisplay:
+    """
+        This object lies between the screen and the widget. It is used as a buffer between the two.
+    """
     parent_screen = None
 
     def __init__(self, parent_screen=None):
@@ -27,6 +29,7 @@ class ResultWidget(GridLayout):
     graph_spacing = 50
 
     def __init__(self, parent_app, main_app):
+        # The result window is split to 3 parts - information, scoreboard and button
         super(ResultWidget, self).__init__(rows=3, cols=1)
 
         self.parent_app = parent_app
@@ -36,6 +39,8 @@ class ResultWidget(GridLayout):
         col_width = kivy.core.window.Window.size[0] / 2
         height_spacing = self.score_label_height + self.submit_button_height + self.graph_spacing
         height = (kivy.core.window.Window.size[1] - height_spacing) / 2
+
+        # First part of the result screen is split in two - questions and graphs
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
 
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
@@ -67,6 +72,13 @@ class ResultWidget(GridLayout):
 
     @staticmethod
     def get_question_result_grid(user_answers, width):
+        """
+        Here we create the question grid.
+        Each question has the question itself and the three categories of answers:
+        The answers the user gave
+        The answers the user would have given if they had a perfect memory
+        The true answer in the graph.
+        """
         user_answers = user_answers
         question_result_grid = GridLayout(rows=len(user_answers))
 
@@ -76,7 +88,7 @@ class ResultWidget(GridLayout):
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text="User Answer"))
-            keys.add_widget(Label(text="User Graph Answer"))
+            keys.add_widget(Label(text="Discovered Graph Answer"))
             keys.add_widget(Label(text="True Answer"))
             new_question.add_widget(keys)
 
@@ -92,6 +104,11 @@ class ResultWidget(GridLayout):
 
     @staticmethod
     def calculate_percentage(user_answers):
+        """
+        Calculate the score of the user and the user's graph as compared to the truth.
+        :param user_answers:
+        :return:
+        """
         answer_list = user_answers
         user_answers_percentage = 0
         user_graph_answer_percentage = 0
@@ -108,6 +125,9 @@ class ResultWidget(GridLayout):
 
     @staticmethod
     def game_grade(user_seen_graph, real_graph):
+        """
+        Returns the final grade for the graph. Num nodes seen vs num nodes existing.
+        """
         user_graph_num_of_nodes = len([item for item in user_seen_graph.node_list if item.is_real()])
         real_graph_num_of_nodes = len([item for item in real_graph.node_list if item.is_real()])
         return round(100 * float(user_graph_num_of_nodes) / float(real_graph_num_of_nodes), 2)
