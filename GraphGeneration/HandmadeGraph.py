@@ -146,13 +146,13 @@ def create_draft_graph_4():
     draft_graph.add_node(x_loc=1240, y_loc=1005, node_colour=Colours['yellow'], serial="n6")
     draft_graph.add_node(x_loc=997, y_loc=1297, node_colour=Colours['blue'], serial="n7")
     draft_graph.add_node(x_loc=1400, y_loc=700, node_colour=Colours['blue'], serial="n8")
-    draft_graph.add_node(x_loc=745, y_loc=800, node_colour=Colours['blue'], serial="n9")
+    draft_graph.add_node(x_loc=745, y_loc=800, node_colour=Colours['red'], serial="n9")
     draft_graph.add_node(x_loc=1850, y_loc=705, node_colour=Colours['blue'], serial="n10")
     draft_graph.add_node(x_loc=1500, y_loc=955, node_colour=Colours['yellow'], serial="n11")
     draft_graph.add_node(x_loc=1950, y_loc=900, node_colour=Colours['red'], serial="n12")
     draft_graph.add_node(x_loc=200, y_loc=760, node_colour=Colours['red'], serial="n13")
     draft_graph.add_node(x_loc=1200, y_loc=312, node_colour=Colours['red'], serial="n14")
-    draft_graph.add_node(x_loc=1405, y_loc=1310, node_colour=Colours['red'], serial="n15")
+    draft_graph.add_node(x_loc=1405, y_loc=1100, node_colour=Colours['red'], serial="n15")
 
     draft_graph.center_node = "n1"
 
