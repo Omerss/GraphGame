@@ -9,6 +9,7 @@ kivy.require('1.9.1')
 from SupplementaryFiles.LoadGraph import load_graph_from_file
 from KivyFiles.KivyGraphTester import *
 from GraphGeneration import HandmadeGraph
+from SupplementaryFiles.Utils import Utils
 
 # graph_file_path = "../GraphsData/Graph_1.xml"
 graph_file_path = "../TestingGraphs/draft_graph_4.xml"
@@ -36,7 +37,12 @@ if __name__ == "__main__":
     Utils.read_game_config_file(CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
     Utils.image_folder = path.join("..", Utils.image_folder)
-    # game_type = GameType.ALLOW_PLAY
+<<<<<<< Updated upstream
+    # game_type = GameType.VIEW_ONLY
     game_type = GameType.ALLOW_PLAY
+=======
+    # game_type = GameType.ALLOW_PLAY
+    game_type = GameType.VIEW_ONLY
+>>>>>>> Stashed changes
     graph = load_graph_from_file(graph_file_path)
     main(game_type, graph)

@@ -1,7 +1,6 @@
 import kivy
 kivy.require('1.9.1')
 
-from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GraphObj import get_serial
 from SupplementaryFiles.Point import Point
 from SupplementaryFiles.LineEquation import LineEquation
@@ -12,6 +11,7 @@ from SupplementaryFiles.Enums import Colours, QuestionTypes
 from GameLayout import GameLayout
 from GraphDisplay import GraphDisplay
 from SupplementaryFiles.GameDataHandler import GameDataHandler
+from kivy.core.window import Window
 
 
 # This File contains classes used for testing throughout the development of the app
@@ -132,7 +132,7 @@ class GraphGameApp(App):
     # Used in order to run the game of a single graph, without the questions or the result screen
     is_playing = True
 
-    def __init__(self, game_screen=None, ** kwargs):
+    def __init__(self, game_screen=None, **kwargs):
         super(GraphGameApp, self).__init__(**kwargs)
         self.game_screen = game_screen
         self.original_graph = self.game_screen.graph

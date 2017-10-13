@@ -3,11 +3,13 @@ from kivy.app import App #We need to import the bits of kivy we need as we need 
 from kivy.uix.widget import Widget #this is a thing that you want the App to display
 from kivy.uix.label import Label #this will import the code for the label in which we want to display Hello World!
 from kivy.core.window import Window
+import LabelB2
+from LabelB2 import LabelB2
 
 class Lesson1App(App):
     def build(self):
         dim = Window.size
-        lbl=Label(text=str(dim)) #lbl is a variable name being assigned the Label definition
+        lbl=LabelB2(text=str(dim)) #lbl is a variable name being assigned the Label definition
         return lbl #This  must match the name of the Widget you want to appear on screen
 
 if __name__ == '__main__': #Documentation suggests that each program file should be called main.py but I think that only matters if you're creating the final App to go onto a phone or tablet we're a long way off from that yet

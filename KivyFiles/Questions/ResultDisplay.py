@@ -22,6 +22,9 @@ class ResultWidget(GridLayout):
     question_list = None
     main_app = None
     parent_app = None
+    score_label_height = 50
+    submit_button_height = 50
+    graph_spacing = 50
 
     def __init__(self, parent_app, main_app):
         super(ResultWidget, self).__init__(rows=3, cols=1)
@@ -31,7 +34,8 @@ class ResultWidget(GridLayout):
 
     def on_enter(self):
         col_width = kivy.core.window.Window.size[0] / 2
-        height = (kivy.core.window.Window.size[1] - 100) / 2
+        height_spacing = self.score_label_height + self.submit_button_height + self.graph_spacing
+        height = (kivy.core.window.Window.size[1] - height_spacing) / 2
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
 
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
@@ -52,9 +56,9 @@ class ResultWidget(GridLayout):
                                       res['user_score'],
                                       self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
-                              size_hint_y=None, height=50))
+                              size_hint_y=None, height=self.score_label_height))
 
-        self.submit_button = Button(text='Done', size_hint_y=None, height=50)
+        self.submit_button = Button(text='Done', size_hint_y=None, height=self.submit_button_height)
         self.submit_button.bind(on_press=self.stop_me)
         self.add_widget(self.submit_button)
 
