@@ -20,6 +20,7 @@ class ZeroScreen(Screen):
     """
     Zero screen collects the user's id
     """
+
     def on_enter(self, *args):
         KL.restart()
 
