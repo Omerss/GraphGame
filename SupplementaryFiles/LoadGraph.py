@@ -1,8 +1,7 @@
-
 from GraphObj import GraphObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from NodeObject import NodeObject
-from SupplementaryFiles.Enums import Colours
+from SupplementaryFiles.Enums import Colours, QuestionTypes
 from SupplementaryFiles.GraphObj import GraphObject
 
 
@@ -51,7 +50,7 @@ def create_graph_1():
     draft_graph.add_node(x_loc=150, y_loc=852, node_colour=Colours['red'], serial="n11")
     draft_graph.add_node(x_loc=25, y_loc=910, node_colour=Colours['yellow'], serial="n12")
     draft_graph.add_node(x_loc=212, y_loc=940, node_colour=Colours['blue'], serial="n13")
-    draft_graph.add_node(x_loc=82, y_loc=1780, node_colour=Colours['blue'], serial="n15")
+    draft_graph.add_node(x_loc=82, y_loc=1720, node_colour=Colours['blue'], serial="n15")
     draft_graph.center_node = "n2"
 
     for node in draft_graph.node_list:
@@ -71,6 +70,23 @@ def create_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
+
+    question_one = QuestionObject("how many red nodes are there?",
+                                  QuestionTypes['NUMBER'], 1, Colours['red'])
+    question_two = QuestionObject("how many blue nodes do not have links to yellow nodes",
+                                  QuestionTypes['NUMBER'], 5, Colours['blue'], Colours['yellow'])
+    question_three = QuestionObject("which color has the largest number of nodes?",
+                                    QuestionTypes['MULTIPLE_CHOICE'], 16)
+    question_four = QuestionObject("is there a blue node that has at least 2 links to another blue node?",
+                                   QuestionTypes['BOOLEAN'], 11, Colours['blue'], 2)
+    question_five = QuestionObject("What is the color of the node with the largest number of links?",
+                                   QuestionTypes['MULTIPLE_CHOICE'], 3)
+    question_six = QuestionObject("is every blue node linked to a red node?",
+                                  QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['red'])
+    question_seven = QuestionObject("is there an even number of yellow nodes?",
+                                    QuestionTypes['BOOLEAN'], 15, Colours['yellow'], 0)
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
     return draft_graph
 
