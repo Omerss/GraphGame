@@ -51,9 +51,9 @@ class ResultWidget(GridLayout):
 
         self.add_widget(layout)
         res = self.calculate_percentage(self.main_app.user_answers)
-        self.add_widget(Label(text="Possible Score : {};   User Score : {};  Nodes discovery rate: {}"
-                              .format(res['possible_score'],
-                                      res['user_score'],
+        self.add_widget(Label(text="Subject Score : {}%; Discovered Graph Score : {}%; Nodes Discovered: {}%"
+                              .format(res['user_score'],
+                                      res['possible_score'],
                                       self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
                               size_hint_y=None, height=self.score_label_height))
