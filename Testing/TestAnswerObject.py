@@ -8,7 +8,7 @@ from SupplementaryFiles.Enums import QuestionTypes, Colours
 
 
 def main():
-    question_data = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+    question_data = QuestionObject("how many {} nodes there are?", QuestionTypes['NUMBER'], 1, Colours.red)
     question = IntInput(question=question_data)
     question.text = '6'
     graph_user = create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd()))

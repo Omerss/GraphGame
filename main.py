@@ -10,7 +10,7 @@ from ResultsScreen import ResultScreen
 from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import Utils
-from SupplementaryFiles.LoadGraph import load_py_graph
+from SupplementaryFiles.LoadGraph import load_py_graph, load_graph_from_file
 
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
@@ -48,23 +48,12 @@ class GraphGameMainApp(App):
  #   f.close()
 
     def build(self):
-        #    f = open('/storage/emulated/0/Download/debug.txt', 'w')
-        #    f.write("meow\n")
-
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
-
         self.init_communication(self.config['Cloud']['server_ip'])
-   #     f.write('in build_3 after init communication\n')
-
-    #    f.write('in build_4 after Utils.image_folder\n')
         graph_config_path = self.config['Default']['graph_config_path']
-     #   f.write('in build_5 created graph_config_path\n')
         self.sm = ScreenManager()
-      #  f.write('in build_6 created screen manager\n')
         screen = ZeroScreen()
-       # f.write('in build_7 created zero screen\n')
-        #f.close()
         screen.start()
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
@@ -128,7 +117,7 @@ class GraphGameMainApp(App):
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
         for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
-            current_graph = load_py_graph(graph_name)
+            current_graph = load_py_graph(graph_file_path)
             graph_list.append(current_graph)
         return graph_list
 

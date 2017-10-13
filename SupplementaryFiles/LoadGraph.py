@@ -183,4 +183,4 @@ def from_name_to_shape(name):
     from SupplementaryFiles import Enums
 
     if name == "Circle":
-        return Enums.Shapes.circle
+        return Enums.Shapes['circle']

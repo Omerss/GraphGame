@@ -104,9 +104,9 @@ class GraphTester:
         Creates a list of QuestionObject
         """
         from KivyFiles.Questions.QuestionObject import QuestionObject
-        question_one = QuestionObject("how many red nodes there are?", QuestionTypes.NUMBER, 1, Colours['red'])
-        question_three = QuestionObject("how many yellow nodes there are?", QuestionTypes.NUMBER, 1, Colours['yellow'])
-        question_five = QuestionObject("how many blue nodes there are?", QuestionTypes.NUMBER, 1, Colours['blue'])
+        question_one = QuestionObject("how many red nodes there are?", QuestionTypes['NUMBER'], 1, Colours['red'])
+        question_three = QuestionObject("how many yellow nodes there are?", QuestionTypes['NUMBER'], 1, Colours['yellow'])
+        question_five = QuestionObject("how many blue nodes there are?", QuestionTypes['NUMBER'], 1, Colours['blue'])
 
         question_list = [question_one, question_three, question_five]
 

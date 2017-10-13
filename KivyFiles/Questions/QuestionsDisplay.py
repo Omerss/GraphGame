@@ -68,13 +68,13 @@ class QuestionnaireWidget(GridLayout):
     def set_questions(self, question_list):
         for question in question_list:
             new_question_label = Label(text=question.question_string)
-            if question.question_type_number == QuestionTypes.NUMBER:
+            if question.question_type_number == QuestionTypes['NUMBER']:
                 new_question = IntInput(question=question)
 
-            elif question.question_type_number == QuestionTypes.MULTIPLE_CHOICE:
+            elif question.question_type_number == QuestionTypes['MULTIPLE_CHOICE']:
                 new_question = MultipleAnswersObj(question=question)
 
-            elif question.question_type_number == QuestionTypes.BOOLEAN:
+            elif question.question_type_number == QuestionTypes['BOOLEAN']:
                 new_question = BooleanQuestion(question=question)
 
             self.questionsArray.append(new_question)

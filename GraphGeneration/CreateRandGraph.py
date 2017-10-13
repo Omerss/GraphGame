@@ -31,7 +31,7 @@ def create_rand_graph(config_file):
                                     config.getint("NodeData", "ExtraDistance")):
                 break
         randColor = random.choice(Colours.values())
-        new_graph.add_node(xRandom, yRandom, randColor, Shapes.circle, config.getint("NodeData", "NodeSize"))
+        new_graph.add_node(xRandom, yRandom, randColor, Shapes['circle'], config.getint("NodeData", "NodeSize"))
     connect_graph(new_graph, config.getint("NodeData", "MaxNeighbors"), config.getint("NodeData", "MinNeighbors"))
     return new_graph
 

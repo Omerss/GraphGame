@@ -22,7 +22,7 @@ def main():
     answer_list = []
 
     for i in range(10):
-        question_data = QuestionObject("how many {} nodes there are?", QuestionTypes.NUMBER, 1, Colours.red)
+        question_data = QuestionObject("how many {} nodes there are?", QuestionTypes['NUMBER'], 1, Colours.red)
         question = IntInput(question=question_data)
         question.text = '6'
         answer = AnswerObject(question_object=question, user_seen_graph=user_graph, real_graph=true_graph)

@@ -49,7 +49,7 @@ class GraphObject:
         for i in range(self.node_count):
             self.nodeList.append(NodeObject())
 
-    def add_node(self, x_loc, y_loc, node_colour=Colours['red'], node_shape=Shapes.circle, node_size=50, serial=None,
+    def add_node(self, x_loc, y_loc, node_colour=Colours['red'], node_shape=Shapes['circle'], node_size=50, serial=None,
                  real=True):
         """
         :param serial: A specific serial for the node.

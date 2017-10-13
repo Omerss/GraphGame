@@ -21,16 +21,16 @@ class QuestionObject:
         self.args = args
 
     def get_question_values(self):
-        if self.question_type_number == QuestionTypes.NUMBER:
+        if self.question_type_number == QuestionTypes['NUMBER']:
             self.open_question = True
 
-        elif self.question_type_number == QuestionTypes.MULTIPLE_CHOICE:
+        elif self.question_type_number == QuestionTypes['MULTIPLE_CHOICE']:
             self.open_question = False
             self.list_of_possible_answers = []
             for colour in Colours:
                 self.list_of_possible_answers.append(colour)
 
-        elif self.question_type_number == QuestionTypes.BOOLEAN:
+        elif self.question_type_number == QuestionTypes['BOOLEAN']:
             self.open_question = False
             self.list_of_possible_answers = []
             self.list_of_possible_answers.append(True)
