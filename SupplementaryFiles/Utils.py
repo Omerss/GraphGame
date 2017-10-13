@@ -2,6 +2,7 @@ from os import path
 
 
 class Utils:
+    user_id = None
     game_config_data = None
     graph_config_data = None
     image_folder = path.join("..", "Images")

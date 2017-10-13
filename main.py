@@ -27,7 +27,6 @@ class ZeroScreen(Screen):
     def start(self):
         self.ids['subject_id'].bind(text=self.ids['subject_id'].on_text_change)
 
-
 class GraphGameMainApp(App):
 #    f = open('/storage/emulated/0/Download/debug.txt', 'w')
 #    f.write("meow\n")
@@ -44,6 +43,8 @@ class GraphGameMainApp(App):
     question_list = []
     button_presses = []
     real_user = True
+    user_id = None
+
  #   f.write('in GraphGameMainApp_2\n')
  #   f.close()
 
@@ -57,9 +58,10 @@ class GraphGameMainApp(App):
         screen.start()
         screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
         self.sm.add_widget(screen)
+
         #graph_list = self.load_graphs_from_folder()
         graph_list = [load_py_graph('graph_1')]
-        Utils.image_folder = path.join(getcwd(), self.config['Default']['image_folder'])
+
         self.current_graph = None
         self.discovered_graph = None
         self.user_answers = []
@@ -111,6 +113,10 @@ class GraphGameMainApp(App):
 
     def press_start(self):
         self.sm.current = 'game_graph_0'
+
+    def get_subject_id(self):
+        # Workaround to Goren's odd way of doing things
+        Utils.user_id = str(self.sm.screens[0].ids.subject_id._lines[0])
 
     def load_graphs_from_folder(self):
         graph_list = []
