@@ -2,7 +2,7 @@
 from GraphObj import GraphObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from NodeObject import NodeObject
-from SupplementaryFiles.Enums import Colours, Shapes
+from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 
 

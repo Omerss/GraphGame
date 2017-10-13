@@ -11,7 +11,7 @@ Folder used to store fonts for lab use - mainly to allow for hebrew text
 
 #### GraphGeneration
 Contains tools to allow us to create a tests graphs manually.
-* [GraphGenerator](GraphGeneration/GraphGenerator.py) - Allow enumerating over all steps to make sure the graph has only a single solution.
+* [GraphValidator](GraphGeneration/GraphValidator.py) - Allow enumerating over all steps to make sure the graph has only a single solution.
 * [HandmadeGraph](GraphGeneration/HandmadeGraph.py) - Allows creating graphs manually.
 * [KivyRunner](GraphGeneration/KivyRunner.py) - Allows to view a graph or play it without any other functionality.
 * [CreateRandGraph](GraphGeneration/CreateRandGraph.py) - Creates random graphs.

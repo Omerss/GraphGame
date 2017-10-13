@@ -2,12 +2,14 @@ import time
 import unittest
 from os import path
 
-from mock import patch
+from bunch import Bunch
+from mock import patch, MagicMock, Mock
 
 from GraphGeneration.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
+from SupplementaryFiles.Utils import Utils
 
 MIN_VALUE = 0.0001
 MAX_VALUE = 1
@@ -43,24 +45,28 @@ class TestGameDataHandler(unittest.TestCase):
         self.assertIn(node_4.serial_num, res, "node with serial number {0} was not returned by function."
                                               " Got {1}".format(node_4.serial_num, res))
 
+    @patch('SupplementaryFiles.GameDataHandler.Utils')
     @patch('SupplementaryFiles.GameDataHandler.GraphObject.connect_nodes')
     @patch('SupplementaryFiles.GameDataHandler.GraphObject.get_node_by_serial')
-    def test_connect_nodes(self, mock_get_node_by_serial, mock_connect_nodes):
+    def test_connect_nodes(self, mock_get_node_by_serial, mock_connect_nodes, mock_utils):
         # Assemble
         node_1 = NodeObject(serial=1, location={'x': 1, 'y': 1}, size=1, real=True)
         node_2 = NodeObject(serial=2, location={'x': 2, 'y': 2}, size=1, real=True)
 
         mock_get_node_by_serial.side_effect = [node_1, node_2]
         mock_connect_nodes.return_value = None
-        data_handler = GameDataHandler(None)
+        mock_utils.graph_config_data = None
+        mock_utils.game_config_data = {'Default': {'log_level': 'ERROR'}}
+        data_handler = GameDataHandler(None, None)
 
         # Act
         data_handler.connect_nodes(node_1, node_1)
 
         # Assert
-        self.assertIn((node_1, node_2), data_handler.extra_edges)
+        mock_connect_nodes.called_once(node_1, node_1, allow_overflow=True)
 
-    def test_two_edges_are_one(self):
+    @patch('SupplementaryFiles.GameDataHandler.Utils')
+    def test_two_edges_are_one(self, mock_utils):
         # Assemble
         node_1 = NodeObject(serial=1, location={'x': 100, 'y': 100}, size=1, real=True)
         node_2 = NodeObject(serial=2, location={'x': 200, 'y': 200}, size=1, real=True)
@@ -68,12 +74,23 @@ class TestGameDataHandler(unittest.TestCase):
         node_4 = NodeObject(serial=4, location={'x': 400, 'y': 400}, size=1, real=True)
         node_5 = NodeObject(serial=4, location={'x': 100, 'y': 400}, size=1, real=True)
 
+        mock_utils.graph_config_data = None
+        mock_utils.game_config_data = {'Default': {'log_level': 'ERROR'}}
+        data_handler = GameDataHandler(None, None)
+
+        edge_35 = (node_3, node_5, node_3.slope(node_5), LineEquation(slope=node_3.slope(node_5), const=1, edge1=node_3, edge2=node_5))
+        edge_24 = (node_2, node_4, node_2.slope(node_4), LineEquation(slope=node_2.slope(node_4), const=1, edge1=node_2, edge2=node_4))
+        edge_12 = (node_1, node_2, node_1.slope(node_2), LineEquation(slope=node_1.slope(node_2), const=1, edge1=node_1, edge2=node_2))
+        edge_13 = (node_1, node_3, node_1.slope(node_3), LineEquation(slope=node_1.slope(node_3), const=1, edge1=node_1, edge2=node_3))
+        edge_34 = (node_3, node_4, node_3.slope(node_4), LineEquation(slope=node_3.slope(node_4), const=1, edge1=node_3, edge2=node_4))
+
         # Act
-        res_miss = GameDataHandler.two_edges_are_one((node_3, node_5), (node_2, node_4))
-        res_not_sure = GameDataHandler.two_edges_are_one((node_1, node_2), (node_3, node_4))
-        res_hit = GameDataHandler.two_edges_are_one((node_1, node_3), (node_2, node_4))
-        res_hit_same_point = GameDataHandler.two_edges_are_one((node_1, node_2), (node_1, node_3))
-        res_same_edge = GameDataHandler.two_edges_are_one((node_1, node_2), (node_1, node_2))
+
+        res_miss = data_handler.two_edges_are_one(edge_35, edge_24)
+        res_not_sure = data_handler.two_edges_are_one(edge_12, edge_34)
+        res_hit = data_handler.two_edges_are_one(edge_13, edge_24)
+        res_hit_same_point = data_handler.two_edges_are_one(edge_12, edge_13)
+        res_same_edge = data_handler.two_edges_are_one(edge_12, edge_12)
 
         # Assert
         self.assertFalse(res_not_sure)

@@ -28,6 +28,9 @@ class LineEquation:
         if point is None:
             return False
 
+        if eq1.edge1 == eq2.edge1 and eq1.edge2 == eq2.edge2:
+            return True
+
         if point == LINES_ALWAYS_MEET:
             if LineEquation.point_in_between_edges(eq1.edge1, eq2) \
                     or LineEquation.point_in_between_edges(eq1.edge2, eq2) \
