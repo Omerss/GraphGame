@@ -1,3 +1,5 @@
+from unittest import skip
+
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 import unittest
 
