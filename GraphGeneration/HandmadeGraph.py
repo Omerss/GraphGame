@@ -3,9 +3,10 @@ from SupplementaryFiles.GraphObj import GraphObject
 # from SupplementaryFiles.SaveGraph import save_graph
 from SupplementaryFiles.SaveGraphTxt import save_graph, save_graph_json
 from KivyFiles.Questions.QuestionObject import QuestionObject
-
+from SupplementaryFiles.GLogger import *
 
 def create_draft_graph_1():
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
 
     draft_graph = GraphObject(max_x=2450, max_y=3200, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=144, y_loc=2252, node_colour=Colours['blue'], serial='n1')
@@ -64,7 +65,7 @@ def create_draft_graph_1():
 
 
 def create_draft_graph_2():
-
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
     draft_graph = GraphObject(max_x=2750, max_y=2850, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=2169, y_loc=2163, node_colour=Colours['yellow'], serial='n1')
     draft_graph.add_node(x_loc=2450, y_loc=2792, node_colour=Colours['red'], serial='n2')
@@ -122,7 +123,7 @@ def create_draft_graph_2():
 
 
 def create_draft_graph_3():
-
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
     draft_graph = GraphObject(max_x=2950, max_y=2850, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=62, y_loc=90, node_colour=Colours['yellow'], serial='n1')
     draft_graph.add_node(x_loc=1082, y_loc=726, node_colour=Colours['blue'], serial='n2')
@@ -180,7 +181,7 @@ def create_draft_graph_3():
 
 
 def create_draft_graph_4():
-
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
     draft_graph = GraphObject(max_x=4750, max_y=2400, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=936, y_loc=1671, node_colour=Colours['blue'], serial='n1')
     draft_graph.add_node(x_loc=480, y_loc=1998, node_colour=Colours['yellow'], serial='n2')
@@ -247,7 +248,7 @@ def create_draft_graph_4():
 
 
 def create_draft_graph_5():
-
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
     draft_graph = GraphObject(max_x=2350, max_y=3050, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=405, y_loc=2786, node_colour=Colours['red'], serial='n1')
     draft_graph.add_node(x_loc=340, y_loc=441, node_colour=Colours['red'], serial='n2')
