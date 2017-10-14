@@ -33,7 +33,8 @@ class GraphTabletDisplay:
     def end_game(self):
         self.is_playing = False
         KL.log.insert(action=LogAction.press, obj="Graph {} - Button - {}"
-                      .format(self.game_screen.main_app.sm.current, self.button_presses), comment=Utils.user_id)
+                      .format(self.game_screen.main_app.sm.current, self.button_presses),
+                      comment=self.game_screen.main_app.user_id)
         self.game_screen.end_graph()
 
     def press_button(self, num):
