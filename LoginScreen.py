@@ -43,15 +43,15 @@ class LoginLayout(GridLayout):
 
     def __init__(self, parent_app, main_app):
         # The result window is split to 3 parts - information, scoreboard and button
-        super(LoginLayout, self).__init__(rows=1, cols=3, row_default_height=40, row_force_default=True, padding=[0, 100, 0, 0])
+        super(LoginLayout, self).__init__(rows=1, cols=3, row_default_height=80, row_force_default=True, padding=[0, 300, 0, 0])
 
         self.parent_app = parent_app
         self.main_app = main_app
 
-        self.add_widget(Label(text="Subject ID", font_size='20sp', size_hint=(10, 0.2)))
-        self.user_id_text = TextInput(font_size='20sp', size_hint=(40, 0.2))
+        self.add_widget(Label(text="Subject ID", font_size='20sp', size_hint=(10, 10)))
+        self.user_id_text = TextInput(font_size='20sp', size_hint=(40, 10))
         self.add_widget(self.user_id_text)
-        submit_button = Button(text='Start', size_hint_y=None, font_size='20sp', size_hint=(10, 0.2))
+        submit_button = Button(text='Start', font_size='20sp', size_hint=(10, 10))
         submit_button.bind(on_press=self.stop_me)
         self.add_widget(submit_button)
 

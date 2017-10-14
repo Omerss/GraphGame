@@ -17,6 +17,7 @@ from os.path import join
 from twisted_client import *
 
 
+
 # Enum DataMode: file, encrupted, communication
 class DataMode:
     file = 'file'

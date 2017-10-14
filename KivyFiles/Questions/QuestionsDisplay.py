@@ -69,7 +69,7 @@ class QuestionnaireWidget(GridLayout):
                           content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
                           auto_dismiss=True,
                           size_hint=(None, None),
-                          size=(600, 150))
+                          size=(1000, 150))
             popup.open()
 
     def set_questions(self, question_list):

@@ -1,33 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from kivy.app import App
 from os import path, getcwd, listdir
 
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
-
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager
 from LoginScreen import LoginScreen
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
-
-from KivyCommunication import *
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import Utils
-from SupplementaryFiles.LoadGraph import load_py_graph, load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_py_graph
+from SupplementaryFiles.LoadGraphTxt import load_graph_from_file
 
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
 
 
 class GraphGameMainApp(App):
-#    f = open('/storage/emulated/0/Download/debug.txt', 'w')
-#    f.write("meow\n")
 
     game_screen = []
     filename = 'network_new.json'
-    #a temporary debugger file
-#    f = open('/storage/emulated/0/Download/debug.txt', 'w')
-#    f.write('in GraphGameMainApp_1 created debug file\n')
+
     # Variables that allow passing information between screens
     current_graph = None  # The graph the user is currently playing
     discovered_graph = None  # The graph discovered by the user in the current pipethrough
@@ -36,9 +29,6 @@ class GraphGameMainApp(App):
     button_presses = []
     real_user = True
     user_id = None
-
- #   f.write('in GraphGameMainApp_2\n')
- #   f.close()
 
     def build(self):
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
@@ -52,15 +42,14 @@ class GraphGameMainApp(App):
         login_screen.add_widget(login_screen.display.layout)
         self.sm.add_widget(login_screen)
 
-        #graph_list = self.load_graphs_from_folder()
-        graph_list = [load_py_graph('graph_1')]
+        graph_list = self.load_graphs_from_folder()
+        # graph_list = [load_py_graph('graph_1'), load_py_graph('graph_2')]
 
         self.current_graph = None
         self.discovered_graph = None
         self.user_answers = []
         self.question_list = []
         self.button_presses = []
-
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
             self.question_list = graph_data.question_object_list
@@ -97,12 +86,14 @@ class GraphGameMainApp(App):
         """
         Initiolize the communication protocol to the server.
         """
-        KC.start(the_ip=server_ip, the_parents=[self])
-        KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
+        # KC.start(the_ip=server_ip, the_parents=[self])
+        # KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
+        pass
 
     @staticmethod
     def on_connection():
-        KL.log.insert(action=LogAction.data, obj='GraphGameApp', comment='start')
+        # KL.log.insert(action=LogAction.data, obj='GraphGameApp', comment='start')
+        pass
 
     def press_start(self):
         self.sm.current = 'game_graph_0'
@@ -110,9 +101,9 @@ class GraphGameMainApp(App):
     def load_graphs_from_folder(self):
         graph_list = []
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
-        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
+        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".txt")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
-            current_graph = load_py_graph(graph_file_path)
+            current_graph = load_graph_from_file(graph_file_path)
             graph_list.append(current_graph)
         return graph_list
 

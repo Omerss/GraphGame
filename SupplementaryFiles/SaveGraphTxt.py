@@ -7,12 +7,14 @@ from Enums import Colours, Shapes
 from GraphObj import GraphObject
 from xml.etree.ElementTree import Element, SubElement, Comment, tostring
 import xml.etree.cElementTree as E
-SAVED_GRAPH_PATH = "../TestingGraphs"
+
+# SAVED_GRAPH_PATH = "../TestingGraphs"
+SAVED_GRAPH_PATH = "../GraphsData"
 
 
 def save_graph(graph, file_name):
-    #file_path = path.join(SAVED_GRAPH_PATH, file_name)
-    with open (file_name, 'w') as output:
+    file_path = path.join(SAVED_GRAPH_PATH, file_name)
+    with open (file_path, 'w') as output:
         output.write("graph.center_node={0}\n".format(graph.center_node))
         output.write("graph.size={0}\n".format(graph.size))
         output.write("graph.extra_distance={0}\n".format(graph.extra_distance))
@@ -22,7 +24,7 @@ def save_graph(graph, file_name):
         output.write("graph.connections={0}\n".format(graph.connections))
 
         #question_object_list
-        for i in range(len((graph.question_object_list))):
+        for i in range(len(graph.question_object_list)):
             output.write("question{0}.question_string={1}\n".format(i,graph.question_object_list[i].question_string))
             output.write("question{0}.question_type_number={1}\n".format(i,graph.question_object_list[i].question_type_number))
             output.write("question{0}.question_id={1}\n".format(i,graph.question_object_list[i].question_id))

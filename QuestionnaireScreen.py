@@ -1,11 +1,5 @@
-#!/usr/bin/kivy
-# -*- coding: utf-8 -*-
-
 from kivy.uix.screenmanager import Screen
-
-from KivyCommunication import *
 from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
-from SupplementaryFiles.Utils import Utils
 
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
@@ -35,21 +29,21 @@ class QuestionnaireScreen(Screen):
 
     def on_enter(self, *args):
         log_str = 'start,'
-        KL.log.insert(action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
-
+        # KL.log.insert(action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
         self.questionnaire.load()
 
     def end_questionnaire(self):
-        KL.log.insert(action=LogAction.press, obj="Graph {} - Questions - {}"
-                      .format(self.main_app.sm.current, self.main_app.user_answers), comment=self.main_app.user_id)
+        # KL.log.insert(action=LogAction.press, obj="Graph {} - Questions - {}"
+        #               .format(self.main_app.sm.current, self.main_app.user_answers), comment=Utils.user_id)
         self.next_game()
 
     def next_game(self):
         log_str = 'end game'
-        KL.log.insert(action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
+        # KL.log.insert(action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
 
         try:
             self.main_app.sm.current = 'game_results_' + str(self.game_number)
 
         except Exception as e:
-            KL.log.insert(action=LogAction.data, obj='game_questionnaire_', comment='the_end - {}'.format(e), sync=True)
+            pass
+            # KL.log.insert(action=LogAction.data, obj='game_questionnaire_', comment='the_end - {}'.format(e), sync=True)

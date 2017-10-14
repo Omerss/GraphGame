@@ -90,6 +90,8 @@ Graphs that are still under construction
 * [QuestionnaireScreen](QuestionnaireScreen.py) - The screen object that holds the questionnaire part of the app. All questionnaire interactions start here.
 * [ResultsScreen](ResultsScreen.py) - The screen object that holds the result part of the app.
 Building the widget that displayed the results to the user are constructed under this.
+* [LoginScreen](LoginScreen.py) - The screen object that holds the login part of the app.
+Building the widget that displayed the results to the user are constructed under this.
 * [graph_config](game_config.txt) - General parameters for the application (log levels, steps per game, etc.)
 * [graph_config](graph_config.txt) -
  A config files used by all the graphs when they are loaded.
