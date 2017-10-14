@@ -7,8 +7,9 @@ class server_logger ():
         self.ip = writing_location
 
     def log_write (self,**kwargs):
-        from KivyCommunication import *
-        KL.log.insert(**kwargs)
+        pass
+        # from KivyCommunication import *
+        # KL.log.insert(**kwargs)
 
 
     def init_communication(self, server_ip):
