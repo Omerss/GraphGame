@@ -13,7 +13,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,txt
+source.include_exts = py,png,jpg,kv,atlas,txt,json
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = hostpython2,kivy,twisted,pycrypto
+requirements = hostpython2,kivy,twisted
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = INTERNET,ACCESS_WIFI_STATE,CHANGE_WIFI_STATE,CHANGE_NETWORK_STATE,ACCESS_NETWORK_STATE,CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
+# android.permissions = INTERNET,ACCESS_WIFI_STATE,CHANGE_WIFI_STATE,CHANGE_NETWORK_STATE,ACCESS_NETWORK_STATE,CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
 
 # (int) Android API to use
 #android.api = 19
