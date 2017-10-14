@@ -1,4 +1,6 @@
-from GraphObj import GraphObject
+from os import path
+import json
+
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from NodeObject import NodeObject
 from SupplementaryFiles.Enums import Colours, QuestionTypes
@@ -16,16 +18,6 @@ def load_py_graph(graph_name):
         return create_graph_4()
     if graph_name == 'graph_5':
         return create_graph_5()
-    if graph_name == 'graph_6':
-        return create_graph_6()
-    if graph_name == 'graph_7':
-        return create_graph_7()
-    if graph_name == 'graph_8':
-        return create_graph_8()
-    if graph_name == 'graph_9':
-        return create_graph_9()
-    if graph_name == 'graph_10':
-        return create_graph_10()
 
 
 def create_graph_1():
@@ -332,22 +324,6 @@ def create_graph_5():
     return draft_graph
 
 
-def create_graph_6():
-    pass
-
-
-def create_graph_7():
-    pass
-
-
-def create_graph_8():
-    pass
-
-
-def create_graph_9():
-    pass
-
-
 def create_graph_10():
     draft_graph = GraphObject(max_x=2450, max_y=3200, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=144, y_loc=2252, node_colour=Colours['blue'], serial='n1')
@@ -466,6 +442,49 @@ def load_graph_from_file(file_name):
         question_object = QuestionObject(question_string, question_type_number, question_id, *function_args)
         new_graph.question_object_list.append(question_object)
         i += 1
+    return new_graph
+
+
+def load_graph_from_json(file_name):
+
+    if not path.exists(file_name):
+        raise IOError("File not found", path=file_name)
+
+    new_graph = GraphObject()
+    with open(file_name) as f:
+        data = json.loads(f.read())
+        new_graph.size["max_x"] = data["size"]["max_x"]
+        new_graph.size["max_y"] = data["size"]["max_y"]
+        new_graph.extra_distance = data["extra_distance"]
+        new_graph.center_node = data["center_node"]
+        new_graph.max_neighbors = data["max_neighbors"]
+        new_graph.line_colour = data["line_colour"]
+        new_graph.node_count = data["node_count"]
+        new_graph.connections = [(str(item[0]), str(item[1])) for item in data["connections"]]
+        new_graph.question_object_list = []
+        new_graph.node_list = []
+
+        for node in data["node_list"]:
+            node_shape = data["node_list"][node]["shape"]
+            node_size = data["node_list"][node]["node_size"]
+            node_location = {'x': data["node_list"][node]["node_x"],
+                             'y': data["node_list"][node]["node_y"]}
+            node_colour = Colours[data["node_list"][node]["colour"]]
+            node_neighbors = set(json.loads(data["node_list"][node]["neighbors"]))
+            possible_neighbors = set(json.loads(data["node_list"][node]["possible_neighbors"]))
+            new_node = NodeObject(node, node_location, node_size, node_colour, node_shape)
+            new_node.neighbors = node_neighbors
+            new_node.possible_neighbors = possible_neighbors
+            new_graph.node_list.append(new_node)
+
+        for question in data["question_object_list"]:
+            question_type_number = data["question_object_list"][question]["question_type_number"]
+            question_string = data["question_object_list"][question]["question_string"]
+            question_id = data["question_object_list"][question]["question_id"]
+            args = json.loads(data["question_object_list"][question]["args"])
+
+            question_object = QuestionObject(question_string, question_type_number, question_id, *args)
+            new_graph.question_object_list.append(question_object)
     return new_graph
 
 

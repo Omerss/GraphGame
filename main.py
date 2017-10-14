@@ -1,16 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from os import path, getcwd, listdir
-import logging
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from LoginScreen import LoginScreen
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
 from GraphGameScreen import GraphGameScreen
+from SupplementaryFiles.LoadGraph import load_graph_from_json
 from SupplementaryFiles.Utils import Utils
-from SupplementaryFiles.LoadGraph import load_py_graph
-from SupplementaryFiles.LoadGraph import load_graph_from_file
 from SupplementaryFiles.GLogger import *
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
@@ -34,7 +33,6 @@ class GraphGameMainApp(App):
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
         self.logger = GLogger(self.config['Default']['logger_output_type'], self.config['Default']['logger_writing_location'],self.config['Default']['log_level'])
-        #self.init_communication(self.config['Cloud']['server_ip'])
         graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()
 
@@ -44,8 +42,7 @@ class GraphGameMainApp(App):
         login_screen.add_widget(login_screen.display.layout)
         self.sm.add_widget(login_screen)
 
-        # graph_list = self.load_graphs_from_folder()
-        graph_list = [load_py_graph('graph_10'), load_py_graph('graph_2')]
+        graph_list = self.load_graphs_from_folder()
 
         self.current_graph = None
         self.discovered_graph = None
@@ -104,13 +101,9 @@ class GraphGameMainApp(App):
     def load_graphs_from_folder(self):
         graph_list = []
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
-        print ("in graph load from folder\n")
-        print ("{}\n".format(graph_folder))
-        #for graph_name in [item for item in listdir(graph_folder) if item.endswith(".txt")]:
-        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
-            print ("in graph load from folder loop\n")
+        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".json")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
-            current_graph = load_graph_from_file(graph_file_path)
+            current_graph = load_graph_from_json(graph_file_path)
             graph_list.append(current_graph)
         return graph_list
 

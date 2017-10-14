@@ -1,7 +1,7 @@
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 from SupplementaryFiles.GraphObj import GraphObject
 # from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.SaveGraphTxt import save_graph
+from SupplementaryFiles.SaveGraphTxt import save_graph, save_graph_json
 from KivyFiles.Questions.QuestionObject import QuestionObject
 
 CREATE_QUESTIONS = True
@@ -64,7 +64,7 @@ def create_draft_graph_1():
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
-    save_graph(draft_graph, "draft_graph_1.txt")
+    save_graph_json(draft_graph, "draft_graph_1.json")
 
 
 def create_draft_graph_2():
@@ -124,7 +124,7 @@ def create_draft_graph_2():
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
-    save_graph(draft_graph, "draft_graph_2.txt")
+    save_graph_json(draft_graph, "draft_graph_2.json")
 
 
 def create_draft_graph_3():
@@ -184,7 +184,7 @@ def create_draft_graph_3():
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
-    save_graph(draft_graph, "draft_graph_3.txt")
+    save_graph_json(draft_graph, "draft_graph_3.json")
 
 
 def create_draft_graph_4():
@@ -253,7 +253,7 @@ def create_draft_graph_4():
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
-    save_graph(draft_graph, "draft_graph_4.txt")
+    save_graph_json(draft_graph, "draft_graph_4.json")
 
 
 def create_draft_graph_5():
@@ -313,7 +313,7 @@ def create_draft_graph_5():
         draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                             question_six, question_seven]
 
-    save_graph(draft_graph, "draft_graph_5.txt")
+    save_graph_json(draft_graph, "draft_graph_5.json")
 
 
 def create_tablet_graph_1():

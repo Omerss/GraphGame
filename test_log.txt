@@ -1,1 +1,0 @@
-, action=data, comment=start,turns=6,, obj=game_graph_0

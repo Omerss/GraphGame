@@ -29,8 +29,6 @@ def read_file(config_path):
 
 
 def load_graph_from_file(file_name):
-
-
     import Enums
     if not path.exists(file_name):
         raise IOError("File not found", path=file_name)
@@ -47,21 +45,21 @@ def load_graph_from_file(file_name):
     i=0
     question = ''
     while True:
-        if ('question{0}'.format(i) in graph_dict):
+        if 'question{0}'.format(i) in graph_dict:
             question_string = graph_dict['question{0}'.format(i)]["question_string"]
             question_type_number = int(graph_dict['question{0}'.format(i)]["question_type_number"])
             question_id = int(graph_dict['question{0}'.format(i)]["question_id"])
             args = graph_dict['question{0}'.format(i)]["args"]
-            # function_args = []
-            # if args is not None:
-            #     graph_args = eval(args.text).split(',')
-            #     for item in args:
-            #         tmp = from_name_to_color(item)
-            #         if tmp == -1:
-            #             function_args.append(int(item))
-            #         else:
-            #             function_args.append(tmp)
-            # question = QuestionObject(question_string, question_type_number, question_id, *function_args)
+            function_args = []
+            if len(args) > 0:
+                graph_args = eval(args.text).split(',')
+                for item in args:
+                    tmp = from_name_to_color(item)
+                    if tmp == -1:
+                        function_args.append(int(item))
+                    else:
+                        function_args.append(tmp)
+            question = QuestionObject(question_string, question_type_number, question_id, *function_args)
             question = QuestionObject(question_string, question_type_number, question_id, args)
             new_graph.question_object_list.append(question)
             i = i+1
@@ -92,6 +90,7 @@ def load_graph_from_file(file_name):
         else:
             break
     return new_graph
+
 
 def from_name_to_color(name):
     from SupplementaryFiles import Enums
