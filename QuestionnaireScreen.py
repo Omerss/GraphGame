@@ -35,8 +35,8 @@ class QuestionnaireScreen(Screen):
         self.questionnaire.load()
 
     def end_questionnaire(self):
-        GLogger.log(logging.INFO,action=LogAction.press, obj="Graph {} - Questions - {}"
-                       .format(self.main_app.sm.current, self.main_app.user_answers), comment=Utils.user_id)
+        GLogger.log(logging.INFO,"",action=LogAction.press, obj="Graph {} - Questions - {}"
+                       .format(self.main_app.sm.current, self.main_app.user_answers), comment=self.main_app.user_id)
         self.next_game()
 
     def next_game(self):
