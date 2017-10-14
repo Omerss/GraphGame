@@ -8,7 +8,7 @@ from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
 from kivy.core.window import Window
 from GraphGeneration import HandmadeGraph
-
+from SupplementaryFiles.GLogger import *
 # get the full graph that seen
 # get the number of node seen
 # put 0 if the #of node seen < #nodes in the graph
@@ -20,6 +20,7 @@ graphs_names = ["draft_graph_5.xml"]
 
 
 def main():
+    GLogger('file', 'graph_validator_logger.txt', 'ERROR')
     Window.size = (1920, 1090)
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
