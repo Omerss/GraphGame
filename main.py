@@ -38,6 +38,7 @@ class GraphGameMainApp(App):
         graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()
 
+        # Setting up the login screen separately
         login_screen = LoginScreen(name='LoginScreen')
         login_screen.setup(main_app=self)
         login_screen.add_widget(login_screen.display.layout)
@@ -51,6 +52,7 @@ class GraphGameMainApp(App):
         self.user_answers = []
         self.question_list = []
         self.button_presses = []
+        # Enumerate over all the graphs in the folder
         for i_net, graph_data in enumerate(graph_list):
             # Step 1 - Graph Game
             self.question_list = graph_data.question_object_list
