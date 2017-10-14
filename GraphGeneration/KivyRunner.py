@@ -1,12 +1,12 @@
 from enum import Enum
 from os import path
-from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.LoadGraph import load_graph_from_json
 from KivyFiles.KivyGraphTester import *
 from SupplementaryFiles.Utils import Utils
 
 CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
-graph_file_path = "../GraphsData/Graph_1.xml"
+graph_file_path = "../GraphsData/Graph_1.json"
 
 
 class GameType(Enum):
@@ -34,5 +34,5 @@ if __name__ == "__main__":
     # ALLOW_PLAY, VIEW_ONLY
     game_type = GameType.ALLOW_PLAY
 
-    graph = load_graph_from_file(graph_file_path)
+    graph = load_graph_from_json(graph_file_path)
     main(game_type, graph)
