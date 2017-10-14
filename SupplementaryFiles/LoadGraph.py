@@ -349,22 +349,22 @@ def create_graph_9():
 
 
 def create_graph_10():
-    draft_graph = GraphObject(max_x=2350, max_y=3500, node_count=15, max_neighbors=5, extra_distance=1)
-    draft_graph.add_node(x_loc=138, y_loc=2500, node_colour=Colours['blue'], serial='n1')
-    draft_graph.add_node(x_loc=487, y_loc=2800, node_colour=Colours['yellow'], serial='n2')
-    draft_graph.add_node(x_loc=1178, y_loc=2280, node_colour=Colours['blue'], serial='n3')
-    draft_graph.add_node(x_loc=1640, y_loc=2700, node_colour=Colours['blue'], serial='n4')
-    draft_graph.add_node(x_loc=1755, y_loc=1700, node_colour=Colours['red'], serial='n5')
-    draft_graph.add_node(x_loc=1986, y_loc=1200, node_colour=Colours['red'], serial='n6')
-    draft_graph.add_node(x_loc=1293, y_loc=1000, node_colour=Colours['red'], serial='n7')
-    draft_graph.add_node(x_loc=1409, y_loc=700, node_colour=Colours['blue'], serial='n8')
-    draft_graph.add_node(x_loc=1180, y_loc=200, node_colour=Colours['red'], serial='n14')
-    draft_graph.add_node(x_loc=2286, y_loc=700, node_colour=Colours['yellow'], serial='n9')
-    draft_graph.add_node(x_loc=718, y_loc=1100, node_colour=Colours['blue'], serial='n10')
-    draft_graph.add_node(x_loc=346, y_loc=1704, node_colour=Colours['red'], serial='n11')
-    draft_graph.add_node(x_loc=69, y_loc=1820, node_colour=Colours['yellow'], serial='n12')
-    draft_graph.add_node(x_loc=489, y_loc=1880, node_colour=Colours['blue'], serial='n13')
-    draft_graph.add_node(x_loc=189, y_loc=3440, node_colour=Colours['blue'], serial='n15')
+    draft_graph = GraphObject(max_x=2450, max_y=3200, node_count=15, max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=144, y_loc=2252, node_colour=Colours['blue'], serial='n1')
+    draft_graph.add_node(x_loc=506, y_loc=2525, node_colour=Colours['yellow'], serial='n2')
+    draft_graph.add_node(x_loc=1224, y_loc=2052, node_colour=Colours['blue'], serial='n3')
+    draft_graph.add_node(x_loc=1704, y_loc=2434, node_colour=Colours['blue'], serial='n4')
+    draft_graph.add_node(x_loc=1824, y_loc=1526, node_colour=Colours['red'], serial='n5')
+    draft_graph.add_node(x_loc=2064, y_loc=1071, node_colour=Colours['red'], serial='n6')
+    draft_graph.add_node(x_loc=1344, y_loc=890, node_colour=Colours['red'], serial='n7')
+    draft_graph.add_node(x_loc=1464, y_loc=617, node_colour=Colours['blue'], serial='n8')
+    draft_graph.add_node(x_loc=2376, y_loc=617, node_colour=Colours['yellow'], serial='n9')
+    draft_graph.add_node(x_loc=746, y_loc=981, node_colour=Colours['blue'], serial='n10')
+    draft_graph.add_node(x_loc=360, y_loc=1529, node_colour=Colours['red'], serial='n11')
+    draft_graph.add_node(x_loc=72, y_loc=1635, node_colour=Colours['yellow'], serial='n12')
+    draft_graph.add_node(x_loc=508, y_loc=1689, node_colour=Colours['blue'], serial='n13')
+    draft_graph.add_node(x_loc=1226, y_loc=163, node_colour=Colours['red'], serial='n14')
+    draft_graph.add_node(x_loc=196, y_loc=3161, node_colour=Colours['blue'], serial='n15')
     draft_graph.center_node = "n2"
 
     for node in draft_graph.node_list:
