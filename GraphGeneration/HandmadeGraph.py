@@ -1,7 +1,6 @@
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 from SupplementaryFiles.GraphObj import GraphObject
-# from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.SaveGraphTxt import save_graph, save_graph_json
+from SupplementaryFiles.GraphSaveLoad import load_graph_from_json, save_graph_json
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from SupplementaryFiles.GLogger import *
 

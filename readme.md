@@ -17,8 +17,7 @@ Contains tools to allow us to create a tests graphs manually.
 * [CreateRandGraph](GraphGeneration/CreateRandGraph.py) - Creates random graphs.
 
 #### GraphsData
-Contains all the graphs used in the main game. All graphs are in xml format.
-* [questions_format](GraphsData/questions_format.txt) - A guide on how to insert questions into the graph xml
+Contains all the graphs used in the main game. All graphs are in json format.
 
 #### Images
 Contains images used in the project and game
@@ -67,8 +66,7 @@ Used for personal files
 connections, false nodes, partial knowledge etc.
 * [GraphObj](SupplementaryFiles/GraphObj.py) - Graph Objects hold all the data about a graph.
  All actions on the graph itself are done through this object
-* [LoadGraph](SupplementaryFiles/LoadGraph.py) - Loads a graph from an xml file. Returns a GraphObj
-* [SaveGraph](SupplementaryFiles/SaveGraph.py) - Saves a GraphObj into a readable xml file
+* [GraphSaveLoad](SupplementaryFiles/GraphSaveLoad.py) - Loads\Saves a graph from and to a json file.
 * [NodeObject](SupplementaryFiles/NodeObject.py) - Node Objects as the basis of all graphs.
  Any action taken by or on a node is done through this object
 * [Point](SupplementaryFiles/Point.py) - Inherited by the NodeObject. A point with functionality.
@@ -76,13 +74,10 @@ connections, false nodes, partial knowledge etc.
 Used to understand how nodes connect to each other in space.
 * [RepeatedTimer](SupplementaryFiles/RepeatedTimer.py) - Used by GameLayout to run threads
 * [Utils](SupplementaryFiles/Utils.py) - Contains general functions used all around the repository
+* [GLogger](SupplementaryFiles/GLogger.py) - Personal logging library used to integrate with the lab's logging style
 
 #### Testing
-Contains testers for the projects
-* [RunAllTests](Testing/RunAllTests.py) - The starting point of the application.
-
-#### TestingGraphs
-Graphs that are still under construction
+Contains testers for the project
 
 #### Main Folder
 * [Main](Main.py) - The starting point of the application.

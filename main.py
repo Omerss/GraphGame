@@ -8,8 +8,9 @@ from LoginScreen import LoginScreen
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
 from GraphGameScreen import GraphGameScreen
-from SupplementaryFiles.LoadGraph import load_graph_from_json
+from SupplementaryFiles.GraphSaveLoad import load_graph_from_json
 from SupplementaryFiles.Utils import Utils
+
 from SupplementaryFiles.GLogger import *
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
@@ -84,18 +85,9 @@ class GraphGameMainApp(App):
         self.sm.current = 'LoginScreen'
         return self.sm
 
-    def init_communication(self, server_ip):
-        """
-        Initiolize the communication protocol to the server.
-        """
-        # KC.start(the_ip=server_ip, the_parents=[self])
-        # KL.start(mode=[DataMode.file], pathname=self.user_data_dir)
-        pass
-
     @staticmethod
     def on_connection():
         GLogger.log(logging.INFO,"", action=LogAction.data, obj='GraphGameApp', comment='start')
-        pass
 
     def press_start(self):
         self.sm.current = 'game_graph_0'
