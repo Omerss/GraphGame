@@ -1,6 +1,6 @@
 from enum import Enum
 from os import path
-from SupplementaryFiles.LoadGraph import load_graph_from_json
+from SupplementaryFiles.GraphSaveLoad import load_graph_from_json
 from KivyFiles.KivyGraphTester import *
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GLogger import *
@@ -16,7 +16,11 @@ class GameType(Enum):
 
 
 def main(game_type, graph_data):
+<<<<<<< HEAD
     GLogger('file', 'graph_runner_logger.txt', 'ERROR')
+=======
+    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
+>>>>>>> bca4af350d766f985124dbb380c7c0994191974f
     if game_type == GameType.VIEW_ONLY:
         game = DisplayApp(graph_data)
     elif game_type == GameType.ALLOW_PLAY:
