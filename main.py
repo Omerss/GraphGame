@@ -11,7 +11,7 @@ from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.LoadGraph import load_py_graph
 from SupplementaryFiles.LoadGraphTxt import load_graph_from_file
-
+from SupplementaryFiles.GLogger import GLogger
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
 
@@ -29,11 +29,12 @@ class GraphGameMainApp(App):
     button_presses = []
     real_user = True
     user_id = None
-
+    logger = None
     def build(self):
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
-        self.init_communication(self.config['Cloud']['server_ip'])
+        self.logger = GLogger(self.config['Default']['logger_output_type'], self.config['Default']['logger_writing_location'],self.config['Default']['log_level'])
+        #self.init_communication(self.config['Cloud']['server_ip'])
         graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()
 
