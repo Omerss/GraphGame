@@ -3,9 +3,10 @@ import logging
 
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
-
+from SupplementaryFiles.LoadGraph import load_graph_from_json
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
+
 
 # get the full graph that seen
 # get the number of node seen
@@ -14,10 +15,11 @@ MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 SAVED_GRAPH_PATH = "../GraphsData"
 
-graphs_names = ["draft_graph_5.xml"]
+graphs_names = ["Graph_3.json"]
 
 
 def main():
+
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
     Utils.image_folder = path.join("..", Utils.image_folder)
@@ -29,8 +31,8 @@ def main():
     # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
     for current_graph in graphs_names:
         curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
-        graph = load_graph_from_file(curr_path)
-        with open("{}_saved_steps.txt".format(curr_path[:-4]), 'w') as f:
+        graph = load_graph_from_json(curr_path)
+        with open("{}_saved_steps.txt".format(curr_path[:-5]), 'w') as f:
             num_of_graph_nodes = len(graph.node_list)
             f.write("The graph contains {} nodes\n".format(str(num_of_graph_nodes)))
             while True:

@@ -27,6 +27,7 @@ class ResultWidget(GridLayout):
     score_label_height = 50
     submit_button_height = 50
     graph_spacing = 50
+    graph_title_size = 30
 
     def __init__(self, parent_app, main_app):
         # The result window is split to 3 parts - information, scoreboard and button
@@ -37,7 +38,8 @@ class ResultWidget(GridLayout):
 
     def on_enter(self):
         col_width = kivy.core.window.Window.size[0] / 2
-        height_spacing = self.score_label_height + self.submit_button_height + self.graph_spacing
+        height_spacing = self.score_label_height + self.submit_button_height + self.graph_spacing + \
+                         (2 * self.graph_title_size)
         height = (kivy.core.window.Window.size[1] - height_spacing) / 2
 
         # First part of the result screen is split in two - questions and graphs
@@ -45,10 +47,12 @@ class ResultWidget(GridLayout):
 
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
 
-        map_grid = GridLayout(rows=2, cols=1)
+        map_grid = GridLayout(rows=4, cols=1)
+        map_grid.add_widget(Label(text="Discvered Graph:", size_hint_y=None, height=self.graph_title_size))
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
                                         dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
+        map_grid.add_widget(Label(text="Real Graph:", size_hint_y=None, height=self.graph_title_size))
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
         map_grid.add_widget(graph_true)

@@ -29,6 +29,7 @@ class GraphGameMainApp(App):
     real_user = True
     user_id = None
     logger = None
+
     def build(self):
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
