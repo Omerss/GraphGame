@@ -1,12 +1,69 @@
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 from SupplementaryFiles.GraphObj import GraphObject
-# from SupplementaryFiles.SaveGraph import save_graph
-from SupplementaryFiles.SaveGraphTxt import save_graph, save_graph_json
+from SupplementaryFiles.GraphSaveLoad import load_graph_from_json, save_graph_json
 from KivyFiles.Questions.QuestionObject import QuestionObject
 from SupplementaryFiles.GLogger import *
 
 def create_draft_graph_1():
     GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
+
+    draft_graph = GraphObject(max_x=2750, max_y=2850, node_count=15, max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=2169, y_loc=2163, node_colour=Colours['yellow'], serial='n1')
+    draft_graph.add_node(x_loc=2450, y_loc=2792, node_colour=Colours['red'], serial='n2')
+    draft_graph.add_node(x_loc=1255, y_loc=2556, node_colour=Colours['blue'], serial='n3')
+    draft_graph.add_node(x_loc=1879, y_loc=1911, node_colour=Colours['blue'], serial='n4')
+    draft_graph.add_node(x_loc=772, y_loc=2120, node_colour=Colours['red'], serial='n5')
+    draft_graph.add_node(x_loc=343, y_loc=1456, node_colour=Colours['red'], serial='n6')
+    draft_graph.add_node(x_loc=319, y_loc=2011, node_colour=Colours['yellow'], serial='n7')
+    draft_graph.add_node(x_loc=902, y_loc=741, node_colour=Colours['blue'], serial='n8')
+    draft_graph.add_node(x_loc=345, y_loc=833, node_colour=Colours['red'], serial='n9')
+    draft_graph.add_node(x_loc=1322, y_loc=1531, node_colour=Colours['red'], serial='n10')
+    draft_graph.add_node(x_loc=2006, y_loc=877, node_colour=Colours['blue'], serial='n11')
+    draft_graph.add_node(x_loc=2289, y_loc=374, node_colour=Colours['red'], serial='n12')
+    draft_graph.add_node(x_loc=1514, y_loc=1113, node_colour=Colours['yellow'], serial='n13')
+    draft_graph.add_node(x_loc=2676, y_loc=1082, node_colour=Colours['yellow'], serial='n14')
+    draft_graph.add_node(x_loc=748, y_loc=2434, node_colour=Colours['blue'], serial='n15')
+    draft_graph.center_node = "n1"
+
+    for node in draft_graph.node_list:
+        draft_graph.get_possible_connections(node.serial_num)
+
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n3"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n5"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n7"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n9"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n11"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n6"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n13"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
+
+    question_one = QuestionObject("How many red nodes do not have links to yellow nodes?",
+                                  QuestionTypes['NUMBER'], 5, Colours['red'], Colours['yellow'])
+    question_two = QuestionObject("Is the number of red nodes even?",
+                                  QuestionTypes['BOOLEAN'], 15, Colours['red'], 0)
+    question_three = QuestionObject("Does all the blue nodes have an odd number of links?",
+                                    QuestionTypes['BOOLEAN'], 13, Colours['blue'], 1)
+    question_four = QuestionObject("What is the color that contains the smallest total number of links?",
+                                   QuestionTypes['MULTIPLE_CHOICE'], 7)
+    question_five = QuestionObject("Does every yellow node have a link to a red node?",
+                                   QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
+    question_six = QuestionObject("Are there more blue nodes than yellow nodes?",
+                                  QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
+    question_seven = QuestionObject("Is there a red nodes that has a link to another red node?",
+                                    QuestionTypes['BOOLEAN'], 8, Colours['red'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
+
+    save_graph_json(draft_graph, "Graph_1.json")
+
+
+def create_draft_graph_2():
 
     draft_graph = GraphObject(max_x=2450, max_y=3200, node_count=15, max_neighbors=5, extra_distance=1)
     draft_graph.add_node(x_loc=144, y_loc=2252, node_colour=Colours['blue'], serial='n1')
@@ -61,64 +118,6 @@ def create_draft_graph_1():
     draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
                                         question_six, question_seven]
 
-    save_graph_json(draft_graph, "Graph_1.json")
-
-
-def create_draft_graph_2():
-    GLogger('file', 'handmade_graph_logger.txt', 'ERROR')
-    draft_graph = GraphObject(max_x=2750, max_y=2850, node_count=15, max_neighbors=5, extra_distance=1)
-    draft_graph.add_node(x_loc=2169, y_loc=2163, node_colour=Colours['yellow'], serial='n1')
-    draft_graph.add_node(x_loc=2450, y_loc=2792, node_colour=Colours['red'], serial='n2')
-    draft_graph.add_node(x_loc=1255, y_loc=2556, node_colour=Colours['blue'], serial='n3')
-    draft_graph.add_node(x_loc=1879, y_loc=1911, node_colour=Colours['blue'], serial='n4')
-    draft_graph.add_node(x_loc=772, y_loc=2120, node_colour=Colours['red'], serial='n5')
-    draft_graph.add_node(x_loc=343, y_loc=1456, node_colour=Colours['red'], serial='n6')
-    draft_graph.add_node(x_loc=319, y_loc=2011, node_colour=Colours['yellow'], serial='n7')
-    draft_graph.add_node(x_loc=902, y_loc=741, node_colour=Colours['blue'], serial='n8')
-    draft_graph.add_node(x_loc=345, y_loc=833, node_colour=Colours['red'], serial='n9')
-    draft_graph.add_node(x_loc=1322, y_loc=1531, node_colour=Colours['red'], serial='n10')
-    draft_graph.add_node(x_loc=2006, y_loc=877, node_colour=Colours['blue'], serial='n11')
-    draft_graph.add_node(x_loc=2289, y_loc=374, node_colour=Colours['red'], serial='n12')
-    draft_graph.add_node(x_loc=1514, y_loc=1113, node_colour=Colours['yellow'], serial='n13')
-    draft_graph.add_node(x_loc=2676, y_loc=1082, node_colour=Colours['yellow'], serial='n14')
-    draft_graph.add_node(x_loc=748, y_loc=2434, node_colour=Colours['blue'], serial='n15')
-    draft_graph.center_node = "n1"
-
-    for node in draft_graph.node_list:
-        draft_graph.get_possible_connections(node.serial_num)
-
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n3"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n5"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n7"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n9"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n11"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n6"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n8"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n13"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
-
-    question_one = QuestionObject("How many red nodes do not have links to yellow nodes?",
-                                  QuestionTypes['NUMBER'], 5, Colours['red'], Colours['yellow'])
-    question_two = QuestionObject("Is the number of red nodes even?",
-                                  QuestionTypes['BOOLEAN'], 15, Colours['red'], 0)
-    question_three = QuestionObject("Does all the blue nodes have an odd number of links?",
-                                    QuestionTypes['BOOLEAN'], 13, Colours['blue'], 1)
-    question_four = QuestionObject("What is the color that contains the smallest total number of links?",
-                                   QuestionTypes['MULTIPLE_CHOICE'], 7)
-    question_five = QuestionObject("Does every yellow node have a link to a red node?",
-                                   QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
-    question_six = QuestionObject("Are there more blue nodes than yellow nodes?",
-                                  QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
-    question_seven = QuestionObject("Is there a red nodes that has a link to another red node?",
-                                    QuestionTypes['BOOLEAN'], 8, Colours['red'])
-    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                        question_six, question_seven]
-
     save_graph_json(draft_graph, "Graph_2.json")
 
 
@@ -134,7 +133,7 @@ def create_draft_graph_3():
     draft_graph.add_node(x_loc=1896, y_loc=90, node_colour=Colours['yellow'], serial='n7')
     draft_graph.add_node(x_loc=2090, y_loc=1911, node_colour=Colours['yellow'], serial='n8')
     draft_graph.add_node(x_loc=2496, y_loc=1235, node_colour=Colours['blue'], serial='n9')
-    draft_graph.add_node(x_loc=1130, y_loc=2187, node_colour=Colours['red'], serial='n10')
+    draft_graph.add_node(x_loc=1130, y_loc=2147, node_colour=Colours['red'], serial='n10')
     draft_graph.add_node(x_loc=2904, y_loc=2328, node_colour=Colours['red'], serial='n11')
     draft_graph.add_node(x_loc=132, y_loc=1653, node_colour=Colours['blue'], serial='n12')
     draft_graph.add_node(x_loc=484, y_loc=2610, node_colour=Colours['yellow'], serial='n13')
@@ -225,7 +224,6 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n12"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n15"))
-    #draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
     question_one = QuestionObject('Is there a red node that has at least two links to another red node?',
                                   QuestionTypes['BOOLEAN'], 11, Colours['red'], 2)
@@ -259,9 +257,9 @@ def create_draft_graph_5():
     draft_graph.add_node(x_loc=1809, y_loc=514, node_colour=Colours['blue'], serial='n7')
     draft_graph.add_node(x_loc=1845, y_loc=2169, node_colour=Colours['blue'], serial='n8')
     draft_graph.add_node(x_loc=1125, y_loc=2383, node_colour=Colours['blue'], serial='n9')
-    draft_graph.add_node(x_loc=1682, y_loc=1624, node_colour=Colours['yellow'], serial='n10')
+    draft_graph.add_node(x_loc=1681, y_loc=1621, node_colour=Colours['yellow'], serial='n10')
     draft_graph.add_node(x_loc=1456, y_loc=152, node_colour=Colours['blue'], serial='n11')
-    draft_graph.add_node(x_loc=2013, y_loc=1489, node_colour=Colours['red'], serial='n12')
+    draft_graph.add_node(x_loc=2011, y_loc=1486, node_colour=Colours['red'], serial='n12')
     draft_graph.add_node(x_loc=2008, y_loc=345, node_colour=Colours['yellow'], serial='n13')
     draft_graph.add_node(x_loc=1449, y_loc=2993, node_colour=Colours['red'], serial='n14')
     draft_graph.add_node(x_loc=2296, y_loc=812, node_colour=Colours['red'], serial='n15')

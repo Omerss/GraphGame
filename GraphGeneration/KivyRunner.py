@@ -3,6 +3,7 @@ from os import path
 from SupplementaryFiles.LoadGraph import load_graph_from_json
 from KivyFiles.KivyGraphTester import *
 from SupplementaryFiles.Utils import Utils
+from SupplementaryFiles.GLogger import *
 
 CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_PATH = path.join("..", "graph_config.txt")
@@ -15,6 +16,7 @@ class GameType(Enum):
 
 
 def main(game_type, graph_data):
+    GLogger('file', 'graph_runner_logger.txt', 'ERROR')
     if game_type == GameType.VIEW_ONLY:
         game = DisplayApp(graph_data)
     elif game_type == GameType.ALLOW_PLAY:
