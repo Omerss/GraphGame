@@ -3,7 +3,6 @@ import logging
 
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
-from SupplementaryFiles.LoadGraph import load_graph_from_file
 
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
@@ -15,7 +14,7 @@ from GraphGeneration import HandmadeGraph
 # put 0 if the #of node seen < #nodes in the graph
 MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
-SAVED_GRAPH_PATH = "../TestingGraphs"
+SAVED_GRAPH_PATH = "../GraphsData"
 
 graphs_names = ["draft_graph_5.xml"]
 
@@ -90,11 +89,6 @@ def run_buttons_on_graph(graph, buttons):
     # print ("known nodes-"+str(data_handler.get_number_of_known_nodes())+"\n")
     answer = (data_handler.get_number_of_known_nodes() == len(graph.node_list))
     return answer, data_handler.get_number_of_known_nodes()
-
-# def view_graph(graph_xml_path):
-#     from Old.GameHandler import GameHandler
-#     game = GameHandler()
-#     new_score = game.run_single_game(graph_xml_path, None)
 
 
 if __name__ == "__main__":
