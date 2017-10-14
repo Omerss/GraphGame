@@ -7,6 +7,8 @@ from SupplementaryFiles.LoadGraph import load_graph_from_file
 
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
+from kivy.core.window import Window
+from GraphGeneration import HandmadeGraph
 
 # get the full graph that seen
 # get the number of node seen
@@ -19,6 +21,7 @@ graphs_names = ["draft_graph_5.xml"]
 
 
 def main():
+    Window.size = (1920, 1090)
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
     Utils.image_folder = path.join("..", Utils.image_folder)
@@ -28,11 +31,13 @@ def main():
     it = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
     # use line 31 to test all the graphs in SAVED_GRAPH_PATH; use line 32 to only test the graphs specified on line 17
-    for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
-    # for current_graph in graphs_names:
-        curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
-        graph = load_graph_from_file(curr_path)
-        with open("{}_saved_steps.txt".format(curr_path[:-4]), 'w') as f:
+    # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
+    for current_graph in graphs_names:
+        # curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
+        # graph = load_graph_from_file(curr_path)
+        # with open("{}_saved_steps.txt".format(curr_path[:-4]), 'w') as f:
+        graph = HandmadeGraph.create_tablet_graph_1()
+        with open("{}_saved_steps.txt".format("test_graph_1"), 'w') as f:
             num_of_graph_nodes = len(graph.node_list)
             f.write("The graph contains {} nodes\n".format(str(num_of_graph_nodes)))
             while True:
