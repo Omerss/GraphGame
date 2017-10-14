@@ -3,7 +3,8 @@ import logging
 
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.GameDataHandler import GameDataHandler
-from SupplementaryFiles.LoadGraph import load_graph_from_json
+from SupplementaryFiles.GraphSaveLoad import load_graph_from_json
+from SupplementaryFiles.GLogger import *
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from os import path, listdir
 from kivy.core.window import Window
@@ -22,8 +23,11 @@ graphs_names = ["Graph_3.json"]
 
 def main():
     GLogger('file', 'graph_validator_logger.txt', 'ERROR')
+<<<<<<< HEAD
     Window.size = (1920, 1090)
 
+=======
+>>>>>>> 76736550df006da5f7d5b5135cfdce3f6bf5ac08
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
     Utils.image_folder = path.join("..", Utils.image_folder)
