@@ -36,11 +36,14 @@ class GLogger ():
         return new_message
 
     @staticmethod
-    def log (log_level, msg , **kwargs):
+    def log(log_level, msg , **kwargs):
         if log_level < log_level:
             return
         elif isinstance(GLogger.logger, server_logger):
-            GLogger.logger.log_write(**kwargs)
+            if not kwargs:
+                GLogger.logger.log_write(action=LogAction.none, obj='', comment=msg)
+            else:
+                GLogger.logger.log_write(**kwargs)
         else:
             msg = GLogger.format_log_msg(msg, **kwargs)
             GLogger.logger.log_write(msg)

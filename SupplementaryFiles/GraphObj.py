@@ -4,7 +4,7 @@ import uuid
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.Enums import Colours, Shapes
 from SupplementaryFiles.NodeObject import NodeObject
-
+from SupplementaryFiles.GLogger import *
 
 class GraphObject:
     node_list = []
@@ -88,7 +88,7 @@ class GraphObject:
         main_node = self.get_node_by_serial(node_serial)
         # print "Node '{}' has '{}' neighbors".format(main_node.serial_num, len(main_node.neighbors))
         if len(main_node.neighbors) < self.max_neighbors or allow_overflow:
-            self.log.debug("Working with Node '{}'.".format(node_serial))
+            GLogger.log(logging.DEBUG,"Working with Node '{}'.".format(node_serial))
             for node_to_connect in self.node_list:
                 # Node is not the main one
                 if node_to_connect != main_node and \
@@ -111,7 +111,7 @@ class GraphObject:
                             # Line between Main and node_to_connect does't cut any nodes
                             main_node.possible_neighbors.add(node_to_connect.serial_num)
                             node_to_connect.possible_neighbors.add(main_node.serial_num)
-        self.log.debug(
+        GLogger.log(logging.DEBUG,
             "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors))
         return main_node.possible_neighbors
 
@@ -132,7 +132,7 @@ class GraphObject:
             if len(check_node.neighbors) < connection_count:
                 best_node = check_node
                 connection_count = len(best_node.neighbors)
-        logging.debug("Choose node {0} with {1} connections".format(best_node.serial_num, connection_count))
+        GLogger.log(logging.DEBUG,"Choose node {0} with {1} connections".format(best_node.serial_num, connection_count))
         return best_node.serial_num
 
     def get_node_by_serial(self, serial):
@@ -168,7 +168,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        self.log.debug(Utils.format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
+        GLogger.log(logging.DEBUG,Utils.format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:

@@ -3,7 +3,7 @@ from collections import namedtuple
 import logging
 
 from os import path
-
+from SupplementaryFiles.GLogger import *
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.GraphObj import GraphObject
@@ -56,7 +56,7 @@ class GameDataHandler:
                 node_0 = self.graph.add_node(edge[0].x, edge[0].y, node_size=1, real=False,
                                              serial=edge[0].serial_num)
                 num = self.graph.get_node_by_serial(node_0.serial_num).dummy_num
-                self.log.debug(Utils.format_log_msg("Adding node",num=num, real=False,
+                GLogger.log(logging.DEBUG,Utils.format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_0.x, node_0.y), serial=node_0.serial_num))
 
             if self.graph.get_node_by_serial(edge[1].serial_num) is not None:
@@ -65,7 +65,7 @@ class GameDataHandler:
                 node_1 = self.graph.add_node(edge[1].x, edge[1].y, node_size=1, real=False,
                                              serial=edge[1].serial_num)
                 num = self.graph.get_node_by_serial(node_1.serial_num).dummy_num
-                self.log.debug(Utils.format_log_msg("Adding node",num=num, real=False,
+                GLogger.log(logging.DEBUG, Utils.format_log_msg("Adding node",num=num, real=False,
                               location="{}:{}".format(node_1.x, node_1.y), serial=node_1.serial_num))
 
             if node_1.serial_num not in node_0.possible_neighbors:
@@ -78,16 +78,16 @@ class GameDataHandler:
                 self.extra_edges.append(edge)
 
         self.edges_to_add = []
-        self.log.debug("Triming data from graph")
+        GLogger.log(logging.DEBUG, "Triming data from graph")
         self.trim_data()
-        self.log.debug("Adding extra edges to edge list")
+        GLogger.log(logging.DEBUG, "Adding extra edges to edge list")
         for item in self.edges_to_add:
             self.extra_edges.append(item)
         self.clear_empty_nodes()
-        self.log.debug(Utils.format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
+        GLogger.log(logging.DEBUG, Utils.format_log_msg("Finished triming data:", num_of_node=len(self.graph.node_list),
                       num_real_node=(len([item for item in self.graph.node_list if item.is_real()])),
                       num_of_edges=len(self.extra_edges)))
-        self.log.debug(Utils.format_log_msg("edge list:", edges=self.extra_edges))
+        GLogger.log(logging.DEBUG, Utils.format_log_msg("edge list:", edges=self.extra_edges))
 
     def trim_data(self):
         """
@@ -100,13 +100,13 @@ class GameDataHandler:
             slope_set.add(edge[3].slope)
 
         sorted(slope_set)
-        self.log.debug("Number of slops found = {}".format(len(slope_set)))
+        GLogger.log(logging.DEBUG,"Number of slops found = {}".format(len(slope_set)))
         for slope in list(slope_set):
             edges_to_check = []
             for edge in self.extra_edges:
                 if edge[3].slope == slope:
                     edges_to_check.append(edge)
-            self.log.debug(Utils.format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
+            GLogger.log(logging.DEBUG,Utils.format_log_msg("Number of edges in slope: ",slope="{} = {}".format(slope, len(edges_to_check)), edges=edges_to_check))
             if len(edges_to_check) > 1:
                 # we have two edges with the same slope!
                 # Removing all edges from list. We add only the relevant ones later on
@@ -117,7 +117,7 @@ class GameDataHandler:
                     edge_reconstructed = False
                     for second_edge in edges_to_check:
                         if self.two_edges_are_one(first_edge, second_edge):
-                            self.log.debug("two edges are one")
+                            GLogger.log(logging.DEBUG, "two edges are one")
                             edge_reconstructed = True
                             edges_to_check.remove(second_edge)
                             edges_to_check.append(self.connect_edges(first_edge, second_edge))
@@ -147,14 +147,14 @@ class GameDataHandler:
 
         # Check collision point
         collision_point = LineEquation.get_equation_collision_point(eq1, eq2)
-        self.log.debug(Utils.format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
+        GLogger.log(logging.DEBUG, Utils.format_log_msg("Found collision point of both edges", point=collision_point, eq1=eq1, eq2=eq2))
         if collision_point == LINES_ALWAYS_MEET:
             # Lines have the same slope + const. Big change they are the same one.
             if LineEquation.check_collision_point(eq1, eq2):
-                self.log.debug("Lines meet and intersect with each other - They are the same line")
+                GLogger.log(logging.DEBUG, "Lines meet and intersect with each other - They are the same line")
                 return True
             else:
-                self.log.debug("Lines have the same parameters but we are not sure if they meet")
+                GLogger.log(logging.DEBUG, "Lines have the same parameters but we are not sure if they meet")
                 return False
         return False
 
@@ -168,10 +168,10 @@ class GameDataHandler:
         # Cleaning all existing connection
         # self.log.debug("Connecting edges", edge1=edge_1, edge2=edge_2)
         if edge_1 in self.extra_edges:
-            self.log.debug("Removing edge from extra edges", removed_edge=edge_1)
+            GLogger.log(logging.DEBUG, "Removing edge from extra edges", removed_edge=edge_1)
             self.extra_edges.remove(edge_1)
         if edge_2 in self.extra_edges:
-            self.log.debug("Removing edge from extra edges", removed_edge=edge_2)
+            GLogger.log(logging.DEBUG, "Removing edge from extra edges", removed_edge=edge_2)
             self.extra_edges.remove(edge_2)
 
         if edge_1[0] is None or edge_1[1] is None or edge_2[0] is None or edge_2[1] is None:
@@ -209,7 +209,7 @@ class GameDataHandler:
         :param main_node: The node we want to remove data from - node object
         :return: 
         """
-        self.log.debug(Utils.format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
+        GLogger.log(logging.DEBUG, Utils.format_log_msg("Cleaning connection to another node", main_node=main_node.dummy_num,
                        node_to_remove=node_to_remove.dummy_num))
         node = self.graph.get_node_by_serial(main_node.serial_num)
         if node is None:
@@ -265,14 +265,14 @@ class GameDataHandler:
         :return: 
         """
         remove_list = []
-        self.log.debug("removing nodes with no neighbors")
+        GLogger.log(logging.DEBUG, "removing nodes with no neighbors")
         for node in self.graph.node_list:
             if len(node.neighbors) == 0:
-                self.log.debug(Utils.format_log_msg("Found node with no neighbors - deleting:", serial=node.serial_num, real=node.is_real()))
+                GLogger.log(logging.DEBUG, Utils.format_log_msg("Found node with no neighbors - deleting:", serial=node.serial_num, real=node.is_real()))
                 remove_list.append(node.serial_num)
         for serial in remove_list:
             self.graph.node_list.remove(self.graph.get_node_by_serial(serial))
-        self.log.debug("removed {} nodes".format(len(remove_list)))
+        GLogger.log(logging.DEBUG, "removed {} nodes".format(len(remove_list)))
 
     def cleaned_graph(self):
         """
@@ -302,7 +302,7 @@ class GameDataHandler:
 
         # Make sure we see only the same edge once
         self.graph.connections = list(set(self.graph.connections))
-        self.log.debug(Utils.format_log_msg("Finished cleaning graph before continuing:", num_of_nodes=len(self.graph.node_list),
+        GLogger.log(logging.DEBUG, Utils.format_log_msg("Finished cleaning graph before continuing:", num_of_nodes=len(self.graph.node_list),
                                       num_real_nodes=(len([item for item in self.graph.node_list if item.is_real()])),
                                       num_of_connections=len(self.graph.connections)))
         self.graph.node_list = real_nodes
