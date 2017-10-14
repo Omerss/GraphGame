@@ -31,7 +31,7 @@ class QuestionnaireScreen(Screen):
     def on_enter(self, *args):
         log_str = 'start,'
         from KivyCommunication import LogAction
-        GLogger.log(logging.INFO,"",action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
+        GLogger.log(logging.INFO, "", action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
         self.questionnaire.load()
 
     def end_questionnaire(self):
