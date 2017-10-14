@@ -25,11 +25,11 @@ def main():
 
     max_turns = int(Utils.game_config_data['Default']['max_turns'])
     # it = itertools.product('1234', repeat=int(Utils.game_config_data['Default']['MaxTurns']))
-    it = itertools.product('4321', repeat=max_turns)
+    it = itertools.product('1234', repeat=max_turns)
     number_of_successful_runs = 0
-    # use line 30 to test all the graphs in SAVED_GRAPH_PATH; use line 31 to only test the graphs specified on line 17
-    # for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
-    for current_graph in graphs_names:
+    # use line 31 to test all the graphs in SAVED_GRAPH_PATH; use line 32 to only test the graphs specified on line 17
+    for current_graph in [item for item in listdir(SAVED_GRAPH_PATH) if item.endswith(".xml")]:
+    # for current_graph in graphs_names:
         curr_path = path.join(SAVED_GRAPH_PATH, current_graph)
         graph = load_graph_from_file(curr_path)
         with open("{}_saved_steps.txt".format(curr_path[:-4]), 'w') as f:
