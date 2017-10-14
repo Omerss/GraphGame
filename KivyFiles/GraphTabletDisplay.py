@@ -5,8 +5,8 @@ from SupplementaryFiles.LineEquation import LineEquation
 from SupplementaryFiles.NodeObject import NodeObject
 from SupplementaryFiles.Point import Point
 from SupplementaryFiles.Utils import Utils
-
-
+from SupplementaryFiles.GLogger import *
+import logging
 class GraphTabletDisplay:
     counter1 = 0
     counter2 = 0
@@ -31,8 +31,8 @@ class GraphTabletDisplay:
 
     def end_game(self):
         self.is_playing = False
-        # KL.log.insert(action=LogAction.press, obj="Graph {} - Button - {}"
-        #               .format(self.game_screen.main_app.sm.current, self.button_presses), comment=Utils.user_id)
+        GLogger.log(logging.INFO, "",action=LogAction.press, obj="Graph {} - Button - {}"
+                       .format(self.game_screen.main_app.sm.current, self.button_presses), comment=Utils.user_id)
         self.game_screen.end_graph()
 
     def press_button(self, num):
