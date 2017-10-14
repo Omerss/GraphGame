@@ -43,3 +43,16 @@ class GLogger ():
             GLogger.logger.log_write(GLogger.format_log_msg(msg, **kwargs))
 
 
+# Enum: LogAction: non, press, play, stop, move, down, up, text, spinner, data
+class LogAction:
+    none = 'none'
+    press = 'press'
+    move = 'move'
+    down = 'down'
+    up = 'up'
+    text = 'text'
+    data = 'data'
+
+    def __init__(self):
+        pass
+

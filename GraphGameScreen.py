@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from kivy.uix.screenmanager import Screen
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
-
+from SupplementaryFiles.GLogger import *
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
@@ -50,7 +50,7 @@ class GraphGameScreen(Screen):
     def on_enter(self, *args):
         log_str = 'start,'
         log_str += 'turns=' + str(self.graph_game.max_turns) + ','
-        # KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
+        GLogger.log(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
         self.main_app.current_graph = self.graph
         self.button_presses = []
 
@@ -65,9 +65,9 @@ class GraphGameScreen(Screen):
 
     def next_game(self):
         log_str = 'end game'
-        # KL.log.insert(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
+        GLogger.log(action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
         try:
             self.main_app.sm.current = 'game_questionnaire_' + str(self.game_number)
         except Exception as e:
-            # KL.log.insert(action=LogAction.data, obj='game_graph_', comment='the_end - {}'.format(e), sync=True)
+            GLogger.log(action=LogAction.data, obj='game_graph_', comment='the_end - {}'.format(e), sync=True)
             self.graph_game.is_playing = True
