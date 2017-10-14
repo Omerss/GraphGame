@@ -30,7 +30,7 @@ class ResultScreen(Screen):
 
     def on_enter(self, *args):
         log_str = 'start,'
-        GLogger.log(action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
+        GLogger.log(logging.INFO, "", action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
         self.result_app.load()
 
@@ -40,13 +40,13 @@ class ResultScreen(Screen):
 
     def next_game(self):
         log_str = 'end game'
-        GLogger.log(action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
+        GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
         try:
             self.main_app.sm.current = 'game_graph_' + str(self.game_number + 1)
 
         except Exception as e:
-            GLogger.log(action=LogAction.data, obj='game_results_', comment='the_end - {}'.format(e), sync=True)
+            GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_results_', comment='the_end - {}'.format(e), sync=True)
             self.end_subject()
 
     def end_subject(self):

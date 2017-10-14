@@ -1,0 +1,3 @@
+, action=data, comment=start,turns=6,, obj=game_graph_0
+, action=data, comment=end game, obj=game_graph_0
+, action=data, comment=start,, obj=game_questionnaire_0

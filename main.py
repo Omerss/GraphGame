@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from os import path, getcwd, listdir
-
+import logging
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from LoginScreen import LoginScreen
@@ -10,8 +10,8 @@ from ResultsScreen import ResultScreen
 from GraphGameScreen import GraphGameScreen
 from SupplementaryFiles.Utils import Utils
 from SupplementaryFiles.LoadGraph import load_py_graph
-from SupplementaryFiles.LoadGraphTxt import load_graph_from_file
-from SupplementaryFiles.GLogger import GLogger
+from SupplementaryFiles.LoadGraph import load_graph_from_file
+from SupplementaryFiles.GLogger import *
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
 
@@ -93,7 +93,7 @@ class GraphGameMainApp(App):
 
     @staticmethod
     def on_connection():
-        # KL.log.insert(action=LogAction.data, obj='GraphGameApp', comment='start')
+        GLogger.log(logging.INFO,"", action=LogAction.data, obj='GraphGameApp', comment='start')
         pass
 
     def press_start(self):
@@ -102,7 +102,11 @@ class GraphGameMainApp(App):
     def load_graphs_from_folder(self):
         graph_list = []
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
-        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".txt")]:
+        print ("in graph load from folder\n")
+        print ("{}\n".format(graph_folder))
+        #for graph_name in [item for item in listdir(graph_folder) if item.endswith(".txt")]:
+        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".xml")]:
+            print ("in graph load from folder loop\n")
             graph_file_path = path.join(".", graph_folder, str(graph_name))
             current_graph = load_graph_from_file(graph_file_path)
             graph_list.append(current_graph)
