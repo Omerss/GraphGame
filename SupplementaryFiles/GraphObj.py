@@ -111,8 +111,8 @@ class GraphObject:
                             # Line between Main and node_to_connect does't cut any nodes
                             main_node.possible_neighbors.add(node_to_connect.serial_num)
                             node_to_connect.possible_neighbors.add(main_node.serial_num)
-        #GLogger.log(logging.DEBUG,
-         #   "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors))
+        GLogger.log(logging.DEBUG,
+            "Node '{}' has these possible neighbors: {}".format(main_node.serial_num, main_node.possible_neighbors))
         return main_node.possible_neighbors
 
     def get_best_connection(self, node, allow_overflow=False):
@@ -132,7 +132,7 @@ class GraphObject:
             if len(check_node.neighbors) < connection_count:
                 best_node = check_node
                 connection_count = len(best_node.neighbors)
-        #GLogger.log(logging.DEBUG,"Choose node {0} with {1} connections".format(best_node.serial_num, connection_count))
+        GLogger.log(logging.DEBUG,"Choose node {0} with {1} connections".format(best_node.serial_num, connection_count))
         return best_node.serial_num
 
     def get_node_by_serial(self, serial):
@@ -168,7 +168,7 @@ class GraphObject:
         :return: True if nodes were connected,
         Raise exception if problem accrued
         """
-        #GLogger.log(logging.DEBUG,Utils.format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
+        GLogger.log(logging.DEBUG,Utils.format_log_msg("Creating edge", edge="{}:{} - {}:{}".format(node1.x, node1.y, node2.x, node2.y)))
         if (len(node1.neighbors) >= self.max_neighbors or
                     len(node2.neighbors) >= self.max_neighbors) \
                 and not allow_overflow:

@@ -224,7 +224,7 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n12"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n15"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
+    #draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
     question_one = QuestionObject('Is there a red node that has at least two links to another red node?',
                                   QuestionTypes['BOOLEAN'], 11, Colours['red'], 2)
