@@ -39,6 +39,8 @@ class GLogger ():
     def log (log_level, msg , **kwargs):
         if log_level < log_level:
             return
+        elif type(GLogger.logger) is server_logger:
+            GLogger.logger.log_write(**kwargs)
         else:
             GLogger.logger.log_write(GLogger.format_log_msg(msg, **kwargs))
 
