@@ -1,5 +1,5 @@
 import logging
-
+from SupplementaryFiles.file_logger import file_logger
 class GLogger ():
     logger = None
     log_output_type = ""
@@ -10,14 +10,14 @@ class GLogger ():
     # 2 = INFO
     # 3 = DEBUG
 
-    def __init__(self,output_type, writing_location,level = "INFO" ):
-        pass
+    def __init__(self,output_type, writing_location,level="INFO"):
+        self.log_level =logging.getLevelName(level)
+        self.set_logger(output_type,writing_location)
 
 
-
-    def set_logger(self, output_type):
+    def set_logger(self, output_type, writing_location):
         if output_type == "file" :
-            self.logger =
+            self.logger = file_logger(writing_location)
 
         # elif output_type== "server":
         #     self.logger =
