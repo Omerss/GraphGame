@@ -7,7 +7,7 @@ from kivy.uix.relativelayout import RelativeLayout
 
 class GraphDisplay(RelativeLayout):
 
-    def __init__(self, graph, dim, **kwargs):
+    def __init__(self, graph, dim, edge_size=2,**kwargs):
         """
         Sets the entire graph to fit in a dimensions of dim[0] X dim[1]
         Used in order to display the entire graph onscreen
@@ -18,7 +18,7 @@ class GraphDisplay(RelativeLayout):
         self.kivy_graph = KivyGraph((0, 0), 1, {"min_x": 0, "min_y": 0, "max_x": dim[0], "max_y": dim[1]})
         ratio = self.get_ratio(graph.size, dim)
         self.get_nodes(graph, ratio)
-        self.get_edges(graph)
+        self.get_edges(graph, max(ratio[0], ratio[1]), edge_size)
 
     def get_ratio(self, graph_size, dim):
         """
@@ -40,7 +40,7 @@ class GraphDisplay(RelativeLayout):
                 new_node.relative_move(zoom[0], zoom[1])
                 self.kivy_graph.add_node(new_node)
 
-    def get_edges(self, graph):
+    def get_edges(self, graph, zoom_rate, edge_size):
         """
         loads the graph's edges
         """
@@ -50,7 +50,7 @@ class GraphDisplay(RelativeLayout):
             for edge in edges:
                 node1 = self.kivy_graph.get_by_serial(edge[0])
                 node2 = self.kivy_graph.get_by_serial(edge[1])
-                new_edge = KivyEdge(node1, node2, 1.3)
+                new_edge = KivyEdge(node1, node2, zoom_rate*edge_size)
                 self.kivy_graph.add_edge(new_edge)
                 node1.add_neighbor(node2)
                 node2.add_neighbor(node1)
