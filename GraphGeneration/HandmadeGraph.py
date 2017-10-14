@@ -4,9 +4,6 @@ from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.SaveGraphTxt import save_graph, save_graph_json
 from KivyFiles.Questions.QuestionObject import QuestionObject
 
-CREATE_QUESTIONS = False
-CREATE_FILES = True
-
 
 def create_draft_graph_1():
 
@@ -46,25 +43,24 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
 
-    if CREATE_QUESTIONS:
-        question_one = QuestionObject("How many red nodes are there?",
-                                      QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_two = QuestionObject("How many blue nodes do not have links to yellow nodes",
-                                      QuestionTypes['NUMBER'], 5, Colours['blue'], Colours['yellow'])
-        question_three = QuestionObject("Which color has the largest number of nodes?",
-                                        QuestionTypes['MULTIPLE_CHOICE'], 16)
-        question_four = QuestionObject("Is there a blue node that has at least 2 links to another blue node?",
-                                       QuestionTypes['BOOLEAN'], 11, Colours['blue'], 2)
-        question_five = QuestionObject("What is the color of the node with the largest number of links?",
-                                       QuestionTypes['MULTIPLE_CHOICE'], 3)
-        question_six = QuestionObject("Is every blue node linked to a red node?",
-                                      QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['red'])
-        question_seven = QuestionObject("Is there an even number of yellow nodes?",
-                                        QuestionTypes['BOOLEAN'], 15, Colours['yellow'], 0)
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                            question_six, question_seven]
+    question_one = QuestionObject("How many red nodes are there?",
+                                  QuestionTypes['NUMBER'], 1, Colours['red'])
+    question_two = QuestionObject("How many blue nodes do not have links to yellow nodes",
+                                  QuestionTypes['NUMBER'], 5, Colours['blue'], Colours['yellow'])
+    question_three = QuestionObject("Which color has the largest number of nodes?",
+                                    QuestionTypes['MULTIPLE_CHOICE'], 16)
+    question_four = QuestionObject("Is there a blue node that has at least 2 links to another blue node?",
+                                   QuestionTypes['BOOLEAN'], 11, Colours['blue'], 2)
+    question_five = QuestionObject("What is the color of the node with the largest number of links?",
+                                   QuestionTypes['MULTIPLE_CHOICE'], 3)
+    question_six = QuestionObject("Is every blue node linked to a red node?",
+                                  QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['red'])
+    question_seven = QuestionObject("Is there an even number of yellow nodes?",
+                                    QuestionTypes['BOOLEAN'], 15, Colours['yellow'], 0)
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
-    save_graph_json(draft_graph, "draft_graph_1.json")
+    save_graph_json(draft_graph, "Graph_1.json")
 
 
 def create_draft_graph_2():
@@ -105,25 +101,24 @@ def create_draft_graph_2():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
 
-    if CREATE_QUESTIONS:
-        question_one = QuestionObject("How many red nodes do not have links to yellow nodes?",
-                                      QuestionTypes['NUMBER'], 5, Colours['red'], Colours['yellow'])
-        question_two = QuestionObject("Is the number of red nodes even?",
-                                      QuestionTypes['BOOLEAN'], 15, Colours['red'], 0)
-        question_three = QuestionObject("Does all the blue nodes have an odd number of links?",
-                                        QuestionTypes['BOOLEAN'], 13, Colours['blue'], 1)
-        question_four = QuestionObject("What is the color that contains the smallest total number of links?",
-                                       QuestionTypes['MULTIPLE_CHOICE'], 7)
-        question_five = QuestionObject("Does every yellow node have a link to a red node?",
-                                       QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
-        question_six = QuestionObject("Are there more blue nodes than yellow nodes?",
-                                      QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
-        question_seven = QuestionObject("Is there a red nodes that has a link to another red node?",
-                                        QuestionTypes['BOOLEAN'], 8, Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                            question_six, question_seven]
+    question_one = QuestionObject("How many red nodes do not have links to yellow nodes?",
+                                  QuestionTypes['NUMBER'], 5, Colours['red'], Colours['yellow'])
+    question_two = QuestionObject("Is the number of red nodes even?",
+                                  QuestionTypes['BOOLEAN'], 15, Colours['red'], 0)
+    question_three = QuestionObject("Does all the blue nodes have an odd number of links?",
+                                    QuestionTypes['BOOLEAN'], 13, Colours['blue'], 1)
+    question_four = QuestionObject("What is the color that contains the smallest total number of links?",
+                                   QuestionTypes['MULTIPLE_CHOICE'], 7)
+    question_five = QuestionObject("Does every yellow node have a link to a red node?",
+                                   QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
+    question_six = QuestionObject("Are there more blue nodes than yellow nodes?",
+                                  QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
+    question_seven = QuestionObject("Is there a red nodes that has a link to another red node?",
+                                    QuestionTypes['BOOLEAN'], 8, Colours['red'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
-    save_graph_json(draft_graph, "draft_graph_2.json")
+    save_graph_json(draft_graph, "Graph_2.json")
 
 
 def create_draft_graph_3():
@@ -164,25 +159,24 @@ def create_draft_graph_3():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n15"), draft_graph.get_node_by_serial("n14"))
 
-    if CREATE_QUESTIONS:
-        question_one = QuestionObject('Is there a red node with an odd number of links?',
-                                      QuestionTypes['BOOLEAN'], 12, Colours['red'], 1)
-        question_two = QuestionObject('Which color has the smallest number of nodes?',
-                                      QuestionTypes['MULTIPLE_CHOICE'], 17)
-        question_three = QuestionObject('How many blue nodes are there?',
-                                        QuestionTypes['NUMBER'], 1, Colours['blue'])
-        question_four = QuestionObject('What is the color of the node with the largest number of links?',
-                                       QuestionTypes['MULTIPLE_CHOICE'], 3)
-        question_five = QuestionObject('Does every red node have a link to a yellow node?',
-                                       QuestionTypes['BOOLEAN'], 9, Colours['red'], Colours['yellow'])
-        question_six = QuestionObject('Does all the blue nodes have an even number of links?',
-                                      QuestionTypes['BOOLEAN'], 13, Colours['blue'], 0)
-        question_seven = QuestionObject('Are there more red nodes than blue nodes?',
-                                        QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['blue'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                            question_six, question_seven]
+    question_one = QuestionObject('Is there a red node with an odd number of links?',
+                                  QuestionTypes['BOOLEAN'], 12, Colours['red'], 1)
+    question_two = QuestionObject('Which color has the smallest number of nodes?',
+                                  QuestionTypes['MULTIPLE_CHOICE'], 17)
+    question_three = QuestionObject('How many blue nodes are there?',
+                                    QuestionTypes['NUMBER'], 1, Colours['blue'])
+    question_four = QuestionObject('What is the color of the node with the largest number of links?',
+                                   QuestionTypes['MULTIPLE_CHOICE'], 3)
+    question_five = QuestionObject('Does every red node have a link to a yellow node?',
+                                   QuestionTypes['BOOLEAN'], 9, Colours['red'], Colours['yellow'])
+    question_six = QuestionObject('Does all the blue nodes have an even number of links?',
+                                  QuestionTypes['BOOLEAN'], 13, Colours['blue'], 0)
+    question_seven = QuestionObject('Are there more red nodes than blue nodes?',
+                                    QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['blue'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
-    save_graph_json(draft_graph, "draft_graph_3.json")
+    save_graph_json(draft_graph, "Graph_3.json")
 
 
 def create_draft_graph_4():
@@ -232,25 +226,24 @@ def create_draft_graph_4():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n15"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n12"), draft_graph.get_node_by_serial("n15"))
 
-    if CREATE_QUESTIONS:
-        question_one = QuestionObject('Is there a red node that has at least two links to another red node?',
-                                      QuestionTypes['BOOLEAN'], 11, Colours['red'], 2)
-        question_two = QuestionObject('Is the sum of the links of all the red nodes even?',
-                                      QuestionTypes['BOOLEAN'], 14, Colours['red'], 0)
-        question_three = QuestionObject('Which color has the largest number of nodes?',
-                                        QuestionTypes['MULTIPLE_CHOICE'], 16)
-        question_four = QuestionObject('How many blue nodes have links to yellow nodes?',
-                                       QuestionTypes['NUMBER'], 2, Colours['blue'], Colours['yellow'])
-        question_five = QuestionObject('What is the color that contains the largest total number of links?',
-                                       QuestionTypes['MULTIPLE_CHOICE'], 4)
-        question_six = QuestionObject('Does every yellow node have a link to a red node?',
-                                      QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
-        question_seven = QuestionObject('Are there more blue nodes than yellow nodes?',
-                                        QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                            question_six, question_seven]
+    question_one = QuestionObject('Is there a red node that has at least two links to another red node?',
+                                  QuestionTypes['BOOLEAN'], 11, Colours['red'], 2)
+    question_two = QuestionObject('Is the sum of the links of all the red nodes even?',
+                                  QuestionTypes['BOOLEAN'], 14, Colours['red'], 0)
+    question_three = QuestionObject('Which color has the largest number of nodes?',
+                                    QuestionTypes['MULTIPLE_CHOICE'], 16)
+    question_four = QuestionObject('How many blue nodes have links to yellow nodes?',
+                                   QuestionTypes['NUMBER'], 2, Colours['blue'], Colours['yellow'])
+    question_five = QuestionObject('What is the color that contains the largest total number of links?',
+                                   QuestionTypes['MULTIPLE_CHOICE'], 4)
+    question_six = QuestionObject('Does every yellow node have a link to a red node?',
+                                  QuestionTypes['BOOLEAN'], 9, Colours['yellow'], Colours['red'])
+    question_seven = QuestionObject('Are there more blue nodes than yellow nodes?',
+                                    QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
-    save_graph_json(draft_graph, "draft_graph_4.json")
+    save_graph_json(draft_graph, "Graph_4.json")
 
 
 def create_draft_graph_5():
@@ -291,70 +284,28 @@ def create_draft_graph_5():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n8"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n12"))
 
-    if CREATE_QUESTIONS:
-        question_one = QuestionObject('Is there a yellow node that has at least 3 links to another yellow node?',
-                                      QuestionTypes['BOOLEAN'], 11, Colours['yellow'], 3)
-        question_two = QuestionObject('Does all the red nodes have an odd number of links?',
-                                      QuestionTypes['BOOLEAN'], 13, Colours['red'], 1)
-        question_three = QuestionObject('How many yellow nodes are there?',
-                                        QuestionTypes['NUMBER'], 1, Colours['yellow'])
-        question_four = QuestionObject('What is the color that contains the smallest total number of links?',
-                                       QuestionTypes['MULTIPLE_CHOICE'], 7)
-        question_five = QuestionObject('Does every blue node have a link to a yellow node?',
-                                       QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['yellow'])
-        question_six = QuestionObject('Is the number of blue nodes even?',
-                                      QuestionTypes['BOOLEAN'], 15, Colours['blue'], 0)
-        question_seven = QuestionObject('How many yellow nodes do not have links to red nodes?',
-                                        QuestionTypes['NUMBER'], 5, Colours['yellow'], Colours['red'])
-        draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
-                                            question_six, question_seven]
+    question_one = QuestionObject('Is there a yellow node that has at least 3 links to another yellow node?',
+                                  QuestionTypes['BOOLEAN'], 11, Colours['yellow'], 3)
+    question_two = QuestionObject('Does all the red nodes have an odd number of links?',
+                                  QuestionTypes['BOOLEAN'], 13, Colours['red'], 1)
+    question_three = QuestionObject('How many yellow nodes are there?',
+                                    QuestionTypes['NUMBER'], 1, Colours['yellow'])
+    question_four = QuestionObject('What is the color that contains the smallest total number of links?',
+                                   QuestionTypes['MULTIPLE_CHOICE'], 7)
+    question_five = QuestionObject('Does every blue node have a link to a yellow node?',
+                                   QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['yellow'])
+    question_six = QuestionObject('Is the number of blue nodes even?',
+                                  QuestionTypes['BOOLEAN'], 15, Colours['blue'], 0)
+    question_seven = QuestionObject('How many yellow nodes do not have links to red nodes?',
+                                    QuestionTypes['NUMBER'], 5, Colours['yellow'], Colours['red'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
 
-    save_graph_json(draft_graph, "draft_graph_5.json")
-
-
-def create_tablet_graph_1():
-    draft_graph = GraphObject(max_x=2350, max_y=3500, node_count=15, max_neighbors=5, extra_distance=1)
-    draft_graph.add_node(x_loc=138, y_loc=2500, node_colour=Colours['blue'], serial='n1')
-    draft_graph.add_node(x_loc=487, y_loc=2800, node_colour=Colours['yellow'], serial='n2')
-    draft_graph.add_node(x_loc=1178, y_loc=2280, node_colour=Colours['blue'], serial='n3')
-    draft_graph.add_node(x_loc=1640, y_loc=2700, node_colour=Colours['blue'], serial='n4')
-    draft_graph.add_node(x_loc=1755, y_loc=1700, node_colour=Colours['red'], serial='n5')
-    draft_graph.add_node(x_loc=1986, y_loc=1200, node_colour=Colours['red'], serial='n6')
-    draft_graph.add_node(x_loc=1293, y_loc=1000, node_colour=Colours['red'], serial='n7')
-    draft_graph.add_node(x_loc=1409, y_loc=700, node_colour=Colours['blue'], serial='n8')
-    draft_graph.add_node(x_loc=1180, y_loc=200, node_colour=Colours['red'], serial='n14')
-    draft_graph.add_node(x_loc=2286, y_loc=700, node_colour=Colours['yellow'], serial='n9')
-    draft_graph.add_node(x_loc=718, y_loc=1100, node_colour=Colours['blue'], serial='n10')
-    draft_graph.add_node(x_loc=346, y_loc=1704, node_colour=Colours['red'], serial='n11')
-    draft_graph.add_node(x_loc=69, y_loc=1820, node_colour=Colours['yellow'], serial='n12')
-    draft_graph.add_node(x_loc=489, y_loc=1880, node_colour=Colours['blue'], serial='n13')
-    draft_graph.add_node(x_loc=189, y_loc=3440, node_colour=Colours['blue'], serial='n15')
-    draft_graph.center_node = "n2"
-
-    for node in draft_graph.node_list:
-        draft_graph.get_possible_connections(node.serial_num)
-
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n3"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n5"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n6"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n9"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n11"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n12"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n13"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
-    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
-
-    return draft_graph
+    save_graph_json(draft_graph, "Graph_5.json")
 
 
-if CREATE_FILES:
-    create_draft_graph_1()
-    create_draft_graph_2()
-    create_draft_graph_3()
-    create_draft_graph_4()
-    create_draft_graph_5()
+create_draft_graph_1()
+create_draft_graph_2()
+create_draft_graph_3()
+create_draft_graph_4()
+create_draft_graph_5()
