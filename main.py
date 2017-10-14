@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 from kivy.app import App
 from os import path, getcwd, listdir
+
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+from LoginScreen import LoginScreen
 from QuestionnaireScreen import QuestionnaireScreen
 from ResultsScreen import ResultScreen
 
@@ -15,17 +18,6 @@ from SupplementaryFiles.LoadGraph import load_py_graph, load_graph_from_file
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
 
-
-class ZeroScreen(Screen):
-    """
-    Zero screen collects the user's id
-    """
-
-    def on_enter(self, *args):
-        KL.restart()
-
-    def start(self):
-        self.ids['subject_id'].bind(text=self.ids['subject_id'].on_text_change)
 
 class GraphGameMainApp(App):
 #    f = open('/storage/emulated/0/Download/debug.txt', 'w')
@@ -54,10 +46,11 @@ class GraphGameMainApp(App):
         self.init_communication(self.config['Cloud']['server_ip'])
         graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()
-        screen = ZeroScreen()
-        screen.start()
-        screen.ids['subject_id'].bind(text=screen.ids['subject_id'].on_text_change)
-        self.sm.add_widget(screen)
+
+        login_screen = LoginScreen(name='LoginScreen')
+        login_screen.setup(main_app=self)
+        login_screen.add_widget(login_screen.display.layout)
+        self.sm.add_widget(login_screen)
 
         #graph_list = self.load_graphs_from_folder()
         graph_list = [load_py_graph('graph_1')]
@@ -97,7 +90,7 @@ class GraphGameMainApp(App):
         for gs in self.game_screen:
             self.sm.add_widget(gs)
 
-        self.sm.current = 'zero_screen'
+        self.sm.current = 'LoginScreen'
         return self.sm
 
     def init_communication(self, server_ip):
@@ -113,10 +106,6 @@ class GraphGameMainApp(App):
 
     def press_start(self):
         self.sm.current = 'game_graph_0'
-
-    def get_subject_id(self):
-        # Workaround to Goren's odd way of doing things
-        Utils.user_id = str(self.sm.screens[0].ids.subject_id._lines[0])
 
     def load_graphs_from_folder(self):
         graph_list = []
