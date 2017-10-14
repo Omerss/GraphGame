@@ -11,17 +11,17 @@ class GLogger ():
     # 2 = INFO
     # 3 = DEBUG
 
-    def __init__(self,output_type, writing_location,level="INFO"):
+    def __init__(self,output_type, writing_location,level="INFO", *args):
         GLogger.log_level =logging.getLevelName(level)
-        self.set_logger(output_type,writing_location)
+        self.set_logger(output_type,writing_location,*args)
 
 
-    def set_logger(self, output_type, writing_location):
+    def set_logger(self, output_type, writing_location,*args):
         if output_type == "file" :
             GLogger.logger = file_logger(writing_location)
 
         elif output_type== "server":
-             GLogger.logger = server_logger (writing_location)
+             GLogger.logger = server_logger (writing_location, *args)
 
         # elif output_type == "console":
         #     self.logger =
@@ -39,10 +39,11 @@ class GLogger ():
     def log (log_level, msg , **kwargs):
         if log_level < log_level:
             return
-        elif type(GLogger.logger) is server_logger:
+        elif isinstance(GLogger.logger, server_logger):
             GLogger.logger.log_write(**kwargs)
         else:
-            GLogger.logger.log_write(GLogger.format_log_msg(msg, **kwargs))
+            msg = GLogger.format_log_msg(msg, **kwargs)
+            GLogger.logger.log_write(msg)
 
 
 # Enum: LogAction: non, press, play, stop, move, down, up, text, spinner, data

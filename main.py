@@ -33,7 +33,7 @@ class GraphGameMainApp(App):
     def build(self):
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
-        self.logger = GLogger(self.config['Default']['logger_output_type'], self.config['Default']['logger_writing_location'],self.config['Default']['log_level'])
+        self.logger = GLogger(self.config['Default']['logger_output_type'], self.config['Default']['logger_writing_location'],self.config['Default']['log_level'], self.user_data_dir)
         #self.init_communication(self.config['Cloud']['server_ip'])
         graph_config_path = self.config['Default']['graph_config_path']
         self.sm = ScreenManager()

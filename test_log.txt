@@ -1,1 +1,9 @@
 , action=data, comment=start,turns=6,, obj=game_graph_0
+, action=press, comment=, obj=Graph game_graph_0 - Button - [3, 1, 4, 3, 2, 1]
+, action=data, comment=end game, obj=game_graph_0
+, action=data, comment=start,, obj=game_questionnaire_0
+, action=press, comment=, obj=Graph game_questionnaire_0 - Questions - [<KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x0910EF58>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x0910EF08>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x0910EE18>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x0910EFA8>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x0910EFD0>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x09110030>, <KivyFiles.Questions.AnswerObject.AnswerObject instance at 0x09110058>]
+, action=data, comment=end game, obj=game_questionnaire_0
+, action=data, comment=start,, obj=game_results_0
+, action=data, comment=end game, obj=game_results_0
+, action=data, comment=start,turns=6,, obj=game_graph_1
