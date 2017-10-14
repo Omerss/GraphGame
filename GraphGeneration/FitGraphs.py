@@ -5,8 +5,8 @@
 class FitGraphs():
 
     def __init__(self, graph):
-        zoom_x = 1478.4/float(640)
-        zoom_y = 1200/float(600)
+        zoom_x = 1536.0 / 640
+        zoom_y = 1090.0 / 600
         size_x = graph.size["max_x"] * zoom_x
         size_y = graph.size["max_y"] * zoom_y
         self.get_nodes(graph, zoom_x, zoom_y)
