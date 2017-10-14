@@ -43,8 +43,8 @@ class GraphGameMainApp(App):
         login_screen.add_widget(login_screen.display.layout)
         self.sm.add_widget(login_screen)
 
-        graph_list = self.load_graphs_from_folder()
-        # graph_list = [load_py_graph('graph_1'), load_py_graph('graph_2')]
+        # graph_list = self.load_graphs_from_folder()
+        graph_list = [load_py_graph('graph_10'), load_py_graph('graph_2')]
 
         self.current_graph = None
         self.discovered_graph = None

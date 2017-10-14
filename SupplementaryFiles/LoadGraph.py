@@ -349,7 +349,60 @@ def create_graph_9():
 
 
 def create_graph_10():
-    pass
+    draft_graph = GraphObject(max_x=2350, max_y=3500, node_count=15, max_neighbors=5, extra_distance=1)
+    draft_graph.add_node(x_loc=138, y_loc=2500, node_colour=Colours['blue'], serial='n1')
+    draft_graph.add_node(x_loc=487, y_loc=2800, node_colour=Colours['yellow'], serial='n2')
+    draft_graph.add_node(x_loc=1178, y_loc=2280, node_colour=Colours['blue'], serial='n3')
+    draft_graph.add_node(x_loc=1640, y_loc=2700, node_colour=Colours['blue'], serial='n4')
+    draft_graph.add_node(x_loc=1755, y_loc=1700, node_colour=Colours['red'], serial='n5')
+    draft_graph.add_node(x_loc=1986, y_loc=1200, node_colour=Colours['red'], serial='n6')
+    draft_graph.add_node(x_loc=1293, y_loc=1000, node_colour=Colours['red'], serial='n7')
+    draft_graph.add_node(x_loc=1409, y_loc=700, node_colour=Colours['blue'], serial='n8')
+    draft_graph.add_node(x_loc=1180, y_loc=200, node_colour=Colours['red'], serial='n14')
+    draft_graph.add_node(x_loc=2286, y_loc=700, node_colour=Colours['yellow'], serial='n9')
+    draft_graph.add_node(x_loc=718, y_loc=1100, node_colour=Colours['blue'], serial='n10')
+    draft_graph.add_node(x_loc=346, y_loc=1704, node_colour=Colours['red'], serial='n11')
+    draft_graph.add_node(x_loc=69, y_loc=1820, node_colour=Colours['yellow'], serial='n12')
+    draft_graph.add_node(x_loc=489, y_loc=1880, node_colour=Colours['blue'], serial='n13')
+    draft_graph.add_node(x_loc=189, y_loc=3440, node_colour=Colours['blue'], serial='n15')
+    draft_graph.center_node = "n2"
+
+    for node in draft_graph.node_list:
+        draft_graph.get_possible_connections(node.serial_num)
+
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n1"), draft_graph.get_node_by_serial("n2"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n3"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n4"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n3"), draft_graph.get_node_by_serial("n5"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n5"), draft_graph.get_node_by_serial("n6"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n6"), draft_graph.get_node_by_serial("n9"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n10"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n10"), draft_graph.get_node_by_serial("n11"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n12"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n11"), draft_graph.get_node_by_serial("n13"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n8"), draft_graph.get_node_by_serial("n14"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n8"))
+    draft_graph.connect_nodes(draft_graph.get_node_by_serial("n2"), draft_graph.get_node_by_serial("n15"))
+
+    question_one = QuestionObject('Is there a yellow node that has at least 3 links to another yellow node?',
+                                  QuestionTypes['BOOLEAN'], 11, Colours['yellow'], 3)
+    question_two = QuestionObject('Does all the red nodes have an odd number of links?',
+                                  QuestionTypes['BOOLEAN'], 13, Colours['red'], 1)
+    question_three = QuestionObject('How many yellow nodes are there?',
+                                    QuestionTypes['NUMBER'], 1, Colours['yellow'])
+    question_four = QuestionObject('What is the color that contains the smallest total number of links?',
+                                   QuestionTypes['MULTIPLE_CHOICE'], 7)
+    question_five = QuestionObject('Does every blue node have a link to a yellow node?',
+                                   QuestionTypes['BOOLEAN'], 9, Colours['blue'], Colours['yellow'])
+    question_six = QuestionObject('Is the number of blue nodes even?',
+                                  QuestionTypes['BOOLEAN'], 15, Colours['blue'], 0)
+    question_seven = QuestionObject('How many yellow nodes do not have links to red nodes?',
+                                    QuestionTypes['NUMBER'], 5, Colours['yellow'], Colours['red'])
+    draft_graph.question_object_list = [question_one, question_two, question_three, question_four, question_five,
+                                        question_six, question_seven]
+
+    return draft_graph
 
 
 def load_graph_from_file(file_name):
