@@ -125,7 +125,7 @@ class ResultWidget(GridLayout):
         num_of_questions = num_of_questions if num_of_questions != 0 else 1
         user_possible_success = round(user_answers_percentage * 100 / float(num_of_questions), 2)
         user_true_success = round(user_graph_answer_percentage * 100 / float(num_of_questions), 2)
-        return {'possible_score': user_possible_success, 'user_score': user_true_success}
+        return {'possible_score': user_true_success, 'user_score': user_possible_success}
 
     @staticmethod
     def game_grade(user_seen_graph, real_graph):
