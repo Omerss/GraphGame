@@ -100,10 +100,11 @@ class GameLayout(FloatLayout):
          variable is reset, otherwise all buttons are enabled
         """
         if self.next_func is not None:
-            self.next_func()
+            func = self.next_func
+            self.next_func = None
+            func()
             self.tablet_game.send_info_from_screen()
             self.move_counter += 1
-            self.next_func = None
             if self.move_counter == self.tablet_game.max_turns:
                 # once all the moves are played, removes the buttons from the screen and creates a new button in order
                 # to finish the game
