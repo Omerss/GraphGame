@@ -18,16 +18,13 @@ MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 SAVED_GRAPH_PATH = "../GraphsData"
 
-graphs_names = ["Graph_3.json"]
+graphs_names = ["Graph_4.json"]
 
 
 def main():
     GLogger('file', 'graph_validator_logger.txt', 'ERROR')
-<<<<<<< HEAD
     Window.size = (1920, 1090)
 
-=======
->>>>>>> 76736550df006da5f7d5b5135cfdce3f6bf5ac08
     Utils.read_game_config_file(MAIN_CONFIG_FILE_PATH)
     Utils.read_graph_config_file(GRAPH_CONFIG_FILE)
     Utils.image_folder = path.join("..", Utils.image_folder)
