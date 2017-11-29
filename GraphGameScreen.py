@@ -3,6 +3,7 @@
 from kivy.uix.screenmanager import Screen
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from SupplementaryFiles.GLogger import *
+from KivyCommunication import *
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
@@ -57,6 +58,7 @@ class GraphGameScreen(Screen):
         self.graph_game.load()
 
     def end_graph(self):
+        KL.log.insert(action=LogAction.data, comment='end graph')
         self.graph_game.the_end = True
         if not self.graph_game.is_playing:
             self.main_app.discovered_graph = self.graph_game.current_data_handler.cleaned_graph()

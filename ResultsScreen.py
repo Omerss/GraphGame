@@ -3,6 +3,7 @@
 from kivy.uix.screenmanager import Screen
 from KivyFiles.Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.GLogger import *
+from KivyCommunication import *
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
@@ -39,6 +40,7 @@ class ResultScreen(Screen):
         self.next_game()
 
     def next_game(self):
+        KL.log.insert(action=LogAction.data, comment='end graph')
         log_str = 'end game'
         GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
@@ -50,4 +52,5 @@ class ResultScreen(Screen):
             self.end_subject()
 
     def end_subject(self):
+        KL.log.insert(action=LogAction.data, comment='end game')
         self.main_app.stop()

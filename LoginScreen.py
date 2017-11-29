@@ -3,6 +3,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
+from KivyCommunication import *
 
 
 class LoginScreen(Screen):
@@ -49,13 +50,17 @@ class LoginLayout(GridLayout):
         self.main_app = main_app
 
         self.add_widget(Label(text="Subject ID", font_size='20sp', size_hint=(10, 10)))
-        self.user_id_text = TextInput(font_size='20sp', size_hint=(40, 10))
+        self.user_id_text = LoggedTextInput(font_size='20sp', size_hint=(40, 10))
+        self.user_id_text.bind(text=self.user_id_text.on_text_change)
+        self.user_id_text.name = 'user_id'
         self.add_widget(self.user_id_text)
-        submit_button = Button(text='Start', font_size='20sp', size_hint=(10, 10))
+        submit_button = LoggedButton(text='Start', font_size='20sp', size_hint=(10, 10))
+        submit_button.name = 'login submit'
         submit_button.bind(on_press=self.stop_me)
         self.add_widget(submit_button)
 
     def stop_me(self, instance):
+        KL.log.insert(action=LogAction.data, comment='start game')
         self.parent_app.parent_screen.main_app.user_id = self.user_id_text.text
         self.parent_app.parent_screen.start_game()
 

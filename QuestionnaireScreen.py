@@ -2,9 +2,12 @@ from kivy.uix.screenmanager import Screen
 from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
 from SupplementaryFiles.GLogger import GLogger
 from SupplementaryFiles.GLogger import LogAction
+from KivyCommunication import *
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 from SupplementaryFiles.Utils import *
 import logging
+
+
 class QuestionnaireScreen(Screen):
     real_user = True
     game_number = -1
@@ -30,7 +33,7 @@ class QuestionnaireScreen(Screen):
 
     def on_enter(self, *args):
         log_str = 'start,'
-        from KivyCommunication import LogAction
+
         GLogger.log(logging.INFO, "", action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
         self.questionnaire.load()
 

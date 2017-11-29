@@ -1,14 +1,15 @@
 from kivy.uix.button import Button
+from KivyCommunication import *
 
 
-class EndButton(Button):
+class EndButton(LoggedButton):
     def __init__(self, func, **kwargs):
         super(EndButton, self).__init__(**kwargs)
         self.text = 'End Game.'
         self.on_press = func
 
 
-class MultiButton(Button):
+class MultiButton(LoggedButton):
     funcs = None
     counter = 0
 

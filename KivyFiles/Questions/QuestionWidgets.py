@@ -4,10 +4,12 @@ from kivy.uix.behaviors import ToggleButtonBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 
+from KivyCommunication import *
+
 from kivy.uix.button import Button
 
 
-class IntInput(TextInput):
+class IntInput(LoggedTextInput):
     """
     IntInput only excepts numbers
     """
@@ -29,7 +31,7 @@ class IntInput(TextInput):
         return None if len(self.text) == 0 or int(self.text) < 0 else int(self.text)
 
 
-class UntoggbleToggle(ToggleButtonBehavior, Button):
+class UntoggbleToggle(ToggleButtonBehavior, LoggedButton):
     def __init__(self, **kwargs):
         super(UntoggbleToggle, self).__init__(allow_no_selection=False, **kwargs)
 
@@ -44,6 +46,7 @@ class MultipleAnswersObj(GridLayout):
         self.question_data = question
         for answer in question.list_of_possible_answers:
             btn_answer = UntoggbleToggle(text=answer, group='question_{}'.format(question.question_id))
+            btn_answer.name = 'question_%s_answer_%s' % (format(question.question_id), answer)
             self.add_widget(btn_answer)
 
         self.question_number = question.question_id
@@ -64,7 +67,9 @@ class BooleanQuestion(GridLayout):
         super(BooleanQuestion, self).__init__(rows=1, cols=2)
         self.question_data = question
         btn_yes = UntoggbleToggle(text='yes', group='question_{}'.format(question.question_id))
+        btn_yes.name = 'question_%s_answer_%s' % (format(question.question_id), 'yes')
         btn_no = UntoggbleToggle(text='no', group='question_{}'.format(question.question_id))
+        btn_no.name = 'question_%s_answer_%s' % (format(question.question_id), 'no')
         self.add_widget(btn_yes)
         self.add_widget(btn_no)
 

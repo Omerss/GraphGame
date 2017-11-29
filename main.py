@@ -12,6 +12,7 @@ from SupplementaryFiles.GraphSaveLoad import load_graph_from_json
 from SupplementaryFiles.Utils import Utils
 
 from SupplementaryFiles.GLogger import *
+from KivyCommunication import *
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
 
@@ -32,6 +33,8 @@ class GraphGameMainApp(App):
     logger = None
 
     def build(self):
+        KL.start([DataMode.file], self.user_data_dir) #"/sdcard/curiosity/")  #
+
         self.config = Utils.read_game_config_file(CONFIG_FILE_PATH)
         Utils.read_graph_config_file(GRAPH_CONFIG_PATH)
         self.logger = GLogger(self.config['Default']['logger_output_type'], self.config['Default']['logger_writing_location'],self.config['Default']['log_level'], self.user_data_dir)

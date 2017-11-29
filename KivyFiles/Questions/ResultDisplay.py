@@ -5,6 +5,8 @@ from kivy.uix.label import Label
 
 from KivyFiles.GraphDisplay import GraphDisplay
 
+from KivyCommunication import *
+
 
 class ResultDisplay:
     """
@@ -101,6 +103,9 @@ class ResultWidget(GridLayout):
             answers.add_widget(Label(text=str(item.user_graph_answer)))
             answers.add_widget(Label(text=str(item.real_answer)))
             new_question.add_widget(answers)
+
+            KL.log.insert(action=LogAction.data, comment='results_question_%s_user_%s_discovered_%s_true_%s' % (
+                item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
 
             question_result_grid.add_widget(new_question)
 

@@ -56,12 +56,16 @@ class GameLayout(FloatLayout):
         layout = GridLayout(cols=1, col_default_width=self.button_width, col_force_default=True)
         button1 = MultiButton(img=path.join(Utils.image_folder, Utils.btn_1_img), funcs=self.button1_func,
                               button_num=1, game_layout=self)
+        button1.name = 'button1'
         button2 = MultiButton(img=path.join(Utils.image_folder, Utils.btn_2_img), funcs=self.button2_func,
                               button_num=2, game_layout=self)
+        button2.name = 'button2'
         button3 = MultiButton(img=path.join(Utils.image_folder, Utils.btn_3_img), funcs=self.button3_func,
                               button_num=3, game_layout=self)
+        button3.name = 'button3'
         button4 = MultiButton(img=path.join(Utils.image_folder, Utils.btn_4_img), funcs=self.button4_func,
                               button_num=4, game_layout=self)
+        button4.name = 'button4'
         layout.add_widget(button1)
         layout.add_widget(button2)
         layout.add_widget(button3)
