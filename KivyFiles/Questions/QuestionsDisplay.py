@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 
 from KivyFiles.Questions.AnswerObject import AnswerObject
-from KivyFiles.Questions.QuestionWidgets import MultipleAnswersObj, IntInput, BooleanQuestion
+from KivyFiles.Questions.QuestionWidgets import MultipleAnswersObj, IntSpinner, BooleanQuestion
 from SupplementaryFiles.Enums import QuestionTypes
 
 from KivyCommunication import *
@@ -82,8 +82,7 @@ class QuestionnaireWidget(GridLayout):
         for question in question_list:
             new_question_label = Label(text=question.question_string)
             if question.question_type_number == QuestionTypes['NUMBER']:
-                new_question = IntInput(question=question)
-                new_question.bind(text=new_question.on_text_change)
+                new_question = IntSpinner(question=question)
 
             elif question.question_type_number == QuestionTypes['MULTIPLE_CHOICE']:
                 new_question = MultipleAnswersObj(question=question)

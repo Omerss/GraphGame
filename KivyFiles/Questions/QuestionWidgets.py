@@ -9,26 +9,18 @@ from KivyCommunication import *
 from kivy.uix.button import Button
 
 
-class IntInput(LoggedTextInput):
+class IntSpinner(Spinner):
     """
     IntInput only excepts numbers
     """
     def __init__(self, question):
-        super(IntInput, self).__init__(text='', multiline=False)
+        super(IntSpinner, self).__init__(text='0', values=('0', '1', '2', '3', '4', '5','6', '7', '8', '9'))
         self.question_data = question
         self.question_number = question.question_id
 
-    pat = re.compile('[^0-9]')
-
-    def insert_text(self, substring, from_undo=False):
-        if len(self.text) > 1:
-            s = ""
-        else:
-            s = re.sub(self.pat, '', substring)
-        return super(IntInput, self).insert_text(s, from_undo=from_undo)
 
     def get_answer(self):
-        return None if len(self.text) == 0 or int(self.text) < 0 else int(self.text)
+        return self.text
 
 
 class UntoggbleToggle(ToggleButtonBehavior, LoggedButton):
