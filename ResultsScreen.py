@@ -16,6 +16,8 @@ class ResultScreen(Screen):
 
     result_app = None
 
+    explanations = None
+
     def setup(self, main_app, number=-1, real_user=True):
         """
         :param real_user: Bool. False if machine player
@@ -39,23 +41,38 @@ class ResultScreen(Screen):
         self.explanation()
 
     def explanation(self):
+        self.explanations = []
         if self.game_number == 0:
-            SoundLoader.load('Sounds/2.wav').play()
-            SoundLoader.load('Sounds/3.wav').play()
+            self.explanations.append(SoundLoader.load('Sounds/2.wav'))
+            self.explanations.append(SoundLoader.load('Sounds/3.wav'))
 
             # user score
             user_score = self.result_app.the_widget.res['user_score']
-            if user_score < 1.0:
-                SoundLoader.load('Sounds/4.wav').play()
+            if user_score < 100.0:
+                self.explanations.append(SoundLoader.load('Sounds/4.wav'))
 
             # possible score
             possible_score = self.result_app.the_widget.res['possible_score']
-            if possible_score < 1.0:
-                SoundLoader.load('Sounds/5.wav').play()
+            if possible_score < 100.0:
+                self.explanations.append(SoundLoader.load('Sounds/5.wav'))
 
             # game grade
             game_grade = self.result_app.the_widget.game_grade(self.result_app.the_widget.main_app.discovered_graph,
                                                                self.result_app.the_widget.main_app.current_graph)
+            for i, s in enumerate(self.explanations):
+                if i < len(self.explanations)-1:
+                    s.bind(on_stop=self.play_explanation)
+
+            self.current_explanation = 0
+            self.play_explanation()
+
+    def play_explanation(self, *args):
+        print(args)
+        try:
+            self.explanations[self.current_explanation].play()
+            self.current_explanation += 1
+        except:
+            pass
 
     def end_results(self):
         if self.game_number == 1:

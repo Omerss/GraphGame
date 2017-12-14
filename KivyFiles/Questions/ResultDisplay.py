@@ -30,6 +30,7 @@ class ResultWidget(GridLayout):
     submit_button_height = 50
     graph_spacing = 50
     graph_title_size = 30
+    res = None
 
     def __init__(self, parent_app, main_app):
         # The result window is split to 3 parts - information, scoreboard and button
@@ -61,10 +62,10 @@ class ResultWidget(GridLayout):
         layout.add_widget(map_grid)
 
         self.add_widget(layout)
-        res = self.calculate_percentage(self.main_app.user_answers)
+        self.res = self.calculate_percentage(self.main_app.user_answers)
         self.add_widget(Label(text="Subject Score : {}%; Discovered Graph Score : {}%; Nodes Discovered: {}%"
-                              .format(res['user_score'],
-                                      res['possible_score'],
+                              .format(self.res['user_score'],
+                                      self.res['possible_score'],
                                       self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
                               size_hint_y=None, height=self.score_label_height))
