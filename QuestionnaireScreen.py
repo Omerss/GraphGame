@@ -6,6 +6,7 @@ from KivyCommunication import *
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 from SupplementaryFiles.Utils import *
 import logging
+from kivy.core.audio import SoundLoader
 
 
 class QuestionnaireScreen(Screen):
@@ -36,6 +37,12 @@ class QuestionnaireScreen(Screen):
 
         GLogger.log(logging.INFO, "", action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
         self.questionnaire.load()
+        self.explanation()
+
+    def explanation(self):
+        if self.game_number == 0:
+            SoundLoader.load('Sounds/1.wav').play()
+
 
     def end_questionnaire(self):
         GLogger.log(logging.INFO,"",action=LogAction.press, obj="Graph {} - Questions - {}"

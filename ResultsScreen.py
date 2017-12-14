@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import Screen
 from KivyFiles.Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.GLogger import *
 from KivyCommunication import *
+from kivy.core.audio import SoundLoader
+
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
@@ -34,8 +36,30 @@ class ResultScreen(Screen):
         GLogger.log(logging.INFO, "", action=LogAction.data, obj='game_results_' + str(self.game_number), comment=log_str)
 
         self.result_app.load()
+        self.explanation()
+
+    def explanation(self):
+        if self.game_number == 0:
+            SoundLoader.load('Sounds/2.wav').play()
+            SoundLoader.load('Sounds/3.wav').play()
+
+            # user score
+            user_score = self.result_app.the_widget.res['user_score']
+            if user_score < 1.0:
+                SoundLoader.load('Sounds/4.wav').play()
+
+            # possible score
+            possible_score = self.result_app.the_widget.res['possible_score']
+            if possible_score < 1.0:
+                SoundLoader.load('Sounds/5.wav').play()
+
+            # game grade
+            game_grade = self.result_app.the_widget.game_grade(self.result_app.the_widget.main_app.discovered_graph,
+                                                               self.result_app.the_widget.main_app.current_graph)
 
     def end_results(self):
+        if self.game_number == 1:
+            SoundLoader.load('Sounds/7.wav').play()
         self.result_app.the_end = True
         self.next_game()
 

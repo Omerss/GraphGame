@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import Screen
 from KivyFiles.GraphTabletDisplay import GraphTabletDisplay
 from SupplementaryFiles.GLogger import *
 from KivyCommunication import *
+from kivy.core.audio import SoundLoader
+
 LANGUAGE = 'Hebrew'  # 'Hebrew'
 
 
@@ -56,6 +58,12 @@ class GraphGameScreen(Screen):
         self.button_presses = []
 
         self.graph_game.load()
+        self.explanation()
+
+    def explanation(self):
+        if self.game_number == 1:
+            SoundLoader.load('Sounds/6.wav').play()
+
 
     def end_graph(self):
         KL.log.insert(action=LogAction.data, comment='end graph')
