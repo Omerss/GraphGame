@@ -38,7 +38,8 @@ class MultipleAnswersObj(GridLayout):
         self.question_data = question
         for answer in question.list_of_possible_answers:
             btn_answer = UntoggbleToggle(text=answer, group='question_{}'.format(question.question_id))
-            btn_answer.name = 'question_%s_answer_%s' % (format(question.question_id), answer)
+            btn_answer.name = 'question_%s_%s_answer_%s' % (format(question.question_id),
+                                                            format(question.question_string), answer)
             self.add_widget(btn_answer)
 
         self.question_number = question.question_id
