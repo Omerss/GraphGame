@@ -74,15 +74,15 @@ class DummyScreen:
 
 
 def run_buttons_on_graph(graph, buttons):
-    log = logging.getLogger()
-    log.setLevel(Utils.game_config_data['Default']['log_level'])
+    #log = logging.getLogger()
+    #log.setLevel(Utils.game_config_data['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletDisplay(dummy_screen)
     # game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
     for i in range(int(Utils.game_config_data['Default']['max_turns'])):
-        log.debug("doing a step {}/{}".format(i, Utils.game_config_data['Default']['max_turns']))
+        #log.debug("doing a step {}/{}".format(i, Utils.game_config_data['Default']['max_turns']))
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
 
