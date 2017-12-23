@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from Point import Point
 from SupplementaryFiles.NodeObject import NodeObject
 

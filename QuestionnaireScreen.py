@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from kivy.uix.screenmanager import Screen
 from KivyFiles.Questions.QuestionsDisplay import QuestionDisplay
 from SupplementaryFiles.GLogger import GLogger

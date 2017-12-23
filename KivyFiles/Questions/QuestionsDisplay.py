@@ -1,11 +1,17 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-
 from KivyFiles.Questions.AnswerObject import AnswerObject
 from KivyFiles.Questions.QuestionWidgets import MultipleAnswersObj, IntSpinner, BooleanQuestion
 from SupplementaryFiles.Enums import QuestionTypes
+from kivy.storage.jsonstore import JsonStore
+#import Json.questions as questionsJson
+
+# store = dictionary with the tree-structure of the json file
+# just try it
 
 from KivyCommunication import *
 
@@ -41,7 +47,8 @@ class QuestionnaireWidget(GridLayout):
         self.questionsArray = []
         self.main_app.user_answers = []
         self.set_questions(self.question_list)
-        self.submit_button = LoggedButton(text='submit')
+        store = JsonStore("Json/questions.json", encoding='utf-8')
+        self.submit_button = LoggedButton(text=store['questionnaire']['next_button'][::-1], font_name="fonts/the_font.ttf",halign='right')
         self.submit_button.name = 'questionnaire submit'
         self.submit_button.bind(on_press=self.submit_action)
         self.add_widget(self.submit_button)
@@ -67,12 +74,13 @@ class QuestionnaireWidget(GridLayout):
         if go_to_answers:
             self.parent_screen.end_questionnaire()
         else:
+            store = JsonStore("Json/questions.json", encoding='utf-8')
             self.main_app.user_answers = []
-            popup = Popup(title='Inappropriate Answers',
-                          content=Label(text='At least one of your answers is invalid. Please recheck you choices'),
+            popup = Popup(title=store['questionnaire']['error_message']['title'][::-1],
+                          content=Label(text=store['questionnaire']['error_message']['message'][::-1]),
                           auto_dismiss=True,
                           size_hint=(None, None),
-                          size=(800, 150))
+                          size=(800, 150), font_name="fonts/the_font.ttf",halign='right')
             popup.open()
 
     def set_questions(self, question_list):

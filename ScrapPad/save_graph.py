@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from GraphGeneration.CreateRandGraph import create_rand_graph
 from SupplementaryFiles.SaveGraph import save_graph
 

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from enum import Enum
 from os import path
 from SupplementaryFiles.GraphSaveLoad import load_graph_from_json

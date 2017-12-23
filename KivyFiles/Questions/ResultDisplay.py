@@ -1,9 +1,13 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import kivy
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.storage.jsonstore import JsonStore
 
 from KivyFiles.GraphDisplay import GraphDisplay
+
 
 from KivyCommunication import *
 
@@ -49,13 +53,15 @@ class ResultWidget(GridLayout):
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
 
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
-
+        store = JsonStore("Json/answers.json", encoding='utf-8')
         map_grid = GridLayout(rows=4, cols=1)
-        map_grid.add_widget(Label(text="Discvered Graph:", size_hint_y=None, height=self.graph_title_size))
-        graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,
-                                        dim=(col_width, height))
+        map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/the_font.ttf",
+            halign='right', size_hint_y=None, height=self.graph_title_size))
+        graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/the_font.ttf",
+            halign='right', dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
-        map_grid.add_widget(Label(text="Real Graph:", size_hint_y=None, height=self.graph_title_size))
+        map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/the_font.ttf",
+            halign='right', size_hint_y=None, height=self.graph_title_size))
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
         map_grid.add_widget(graph_true)
@@ -63,14 +69,12 @@ class ResultWidget(GridLayout):
 
         self.add_widget(layout)
         self.res = self.calculate_percentage(self.main_app.user_answers)
-        self.add_widget(Label(text="Subject Score : {}%; Discovered Graph Score : {}%; Nodes Discovered: {}%"
-                              .format(self.res['user_score'],
-                                      self.res['possible_score'],
-                                      self.game_grade(self.main_app.discovered_graph,
+        self.add_widget(Label(text=store['answers']['scores']['subject_score'][::-1]+" {0}%;".format(self.res['user_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {1}%;".format(self.res['possible_score'])+ store['answers']['scores']['nodes_discovered'][::-1]+" {2}%"
+                              .format(self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
-                              size_hint_y=None, height=self.score_label_height))
+                              size_hint_y=None, height=self.score_label_height, font_name="fonts/the_font.ttf", halign='right'))
 
-        self.submit_button = Button(text='Done', size_hint_y=None, height=self.submit_button_height)
+        self.submit_button = Button(text=store['answers']['next_button'][::-1], size_hint_y=None,font_name="fonts/the_font.ttf", halign='right', height=self.submit_button_height)
         self.submit_button.bind(on_press=self.stop_me)
         self.add_widget(self.submit_button)
 
@@ -88,15 +92,15 @@ class ResultWidget(GridLayout):
         """
         user_answers = user_answers
         question_result_grid = GridLayout(rows=len(user_answers))
-
+        store = JsonStore("Json/answers.json", encoding='utf-8')
         for item in user_answers:
             new_question = GridLayout(rows=3, cols=1)
             new_question.add_widget(Label(text=item.question_string, text_size=(width, None)))
 
             keys = GridLayout(rows=1, cols=3)
-            keys.add_widget(Label(text="User Answer"))
-            keys.add_widget(Label(text="Discovered Graph Answer"))
-            keys.add_widget(Label(text="True Answer"))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1]), font_name="fonts/the_font.ttf", halign='right')
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1]), font_name="fonts/the_font.ttf",halign='right')
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1]), font_name="fonts/the_font.ttf",halign='right')
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)

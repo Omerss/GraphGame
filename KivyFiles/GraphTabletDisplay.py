@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from GameLayout import GameLayout
 from SupplementaryFiles.GameDataHandler import GameDataHandler
 from SupplementaryFiles.GraphObj import get_serial

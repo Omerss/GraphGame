@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import math
 from Point import Point
 from SupplementaryFiles.Enums import Colours, Shapes

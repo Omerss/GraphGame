@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 def slope(dx, dy):
     return round(dy / dx, 3) if dx else None
 

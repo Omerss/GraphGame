@@ -1,8 +1,8 @@
-Adding node, real=False, serial=63ab65b7-ebfc-4f21-94fd-9017e118cc24, num=2, location=2303.05:2463.0
+Adding node, real=False, serial=56de6db7-3fef-43df-bbc5-7d1c629f23ae, num=2, location=2303.05:2463.0
 Creating edge, edge=2169:2163 - 2303.05:2463.0
-Adding node, real=False, serial=eab9c12a-9b3a-4b1f-a3e7-732813e1a5a6, num=3, location=1849.0:2300.58
+Adding node, real=False, serial=6a112d8c-bb9d-47b4-a085-496543b93101, num=3, location=1849.0:2300.58
 Creating edge, edge=1849.0:2300.58 - 2169:2163
-Adding node, real=False, serial=d904c093-416f-46d8-af27-fd98fe9d7370, num=4, location=1849.0:1941.8
+Adding node, real=False, serial=8341ba9f-a427-4b81-9b07-0dd3a6ec1e81, num=4, location=1849.0:1941.8
 Creating edge, edge=1849.0:1941.8 - 1879:1911
 Triming data from graph
 Number of slops found = 3

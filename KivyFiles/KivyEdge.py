@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from kivy.graphics import Line
 from kivy.uix.widget import Widget
 from kivy.animation import Animation

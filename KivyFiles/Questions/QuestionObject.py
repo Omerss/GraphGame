@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 
 

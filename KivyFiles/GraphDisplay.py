@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from KivyGraph import KivyGraph
 from KivyEdge import KivyEdge
 from kivy.graphics import Color

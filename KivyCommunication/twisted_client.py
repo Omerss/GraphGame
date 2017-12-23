@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 #install_twisted_rector must be called before importing the reactor
 from kivy.support import install_twisted_reactor
 install_twisted_reactor()

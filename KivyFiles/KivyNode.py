@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from kivy.graphics import Ellipse
 from kivy.uix.widget import Widget
 import math

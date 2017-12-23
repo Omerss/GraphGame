@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import itertools
 import logging
 
@@ -18,10 +20,11 @@ MAIN_CONFIG_FILE_PATH = path.join("..", "game_config.txt")
 GRAPH_CONFIG_FILE = path.join("..", "graph_config.txt")
 SAVED_GRAPH_PATH = "../GraphsData"
 
-graphs_names = ["Graph_4.json"]
+graphs_names = ["Graph_1_transpose.json"]
 
 
 def main():
+    print ("sdsdsds")
     GLogger('file', 'graph_validator_logger.txt', 'ERROR')
     Window.size = (1920, 1090)
 
@@ -78,11 +81,11 @@ def run_buttons_on_graph(graph, buttons):
     log.setLevel(Utils.game_config_data['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletDisplay(dummy_screen)
-    # game.run()
+    #game.run()
     data_handler = GameDataHandler(GRAPH_CONFIG_FILE, graph.size)
     data_handler.add_view_to_db(game.get_info_from_screen())
     for i in range(int(Utils.game_config_data['Default']['max_turns'])):
-        log.debug("doing a step {}/{}".format(i, Utils.game_config_data['Default']['max_turns']))
+        #log.debug("doing a step {}/{}".format(i, Utils.game_config_data['Default']['max_turns']))
         game.press_button(int(buttons[i]))
         data_handler.add_view_to_db(game.get_info_from_screen())
 
@@ -92,4 +95,5 @@ def run_buttons_on_graph(graph, buttons):
 
 
 if __name__ == "__main__":
+    print ("y")
     main()

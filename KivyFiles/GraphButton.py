@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from kivy.uix.button import Button
 from KivyCommunication import *
 
