@@ -88,7 +88,8 @@ class QuestionnaireWidget(GridLayout):
         Goes over the question list, creates a new widget for each question and sets in in the window.
         """
         for question in question_list:
-            new_question_label = Label(text=question.question_string)
+            new_question_label = Label(text=question.question_string, font_name="fonts/the_font.ttf",
+            halign='right')
             if question.question_type_number == QuestionTypes['NUMBER']:
                 new_question = IntSpinner(question=question)
 

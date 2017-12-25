@@ -98,9 +98,9 @@ class ResultWidget(GridLayout):
             new_question.add_widget(Label(text=item.question_string, text_size=(width, None)))
 
             keys = GridLayout(rows=1, cols=3)
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1]), font_name="fonts/the_font.ttf", halign='right')
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1]), font_name="fonts/the_font.ttf",halign='right')
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1]), font_name="fonts/the_font.ttf",halign='right')
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/the_font.ttf", halign='right'))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1], font_name="fonts/the_font.ttf",halign='right'))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1], font_name="fonts/the_font.ttf",halign='right'))
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
@@ -108,7 +108,9 @@ class ResultWidget(GridLayout):
             answers.add_widget(Label(text=str(item.user_graph_answer)))
             answers.add_widget(Label(text=str(item.real_answer)))
             new_question.add_widget(answers)
-
+            # line 113, in get_question_result_grid
+            #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
+            # UnicodeDecodeError: 'ascii' codec can't decode byte 0xd7 in position 0: ordinal not in range(128)
             KL.log.insert(action=LogAction.data, comment='results_question_%s_user_%s_discovered_%s_true_%s' % (
                 item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
 

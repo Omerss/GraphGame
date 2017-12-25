@@ -16,7 +16,7 @@ from KivyCommunication import *
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
-
+GET_RANDOM_QUESTIONS = 1
 
 class GraphGameMainApp(App):
 
@@ -101,7 +101,8 @@ class GraphGameMainApp(App):
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
         for graph_name in [item for item in listdir(graph_folder) if item.endswith(".json")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
-            self.add_random_questions(5,graph_file_path)
+            if GET_RANDOM_QUESTIONS:
+                self.add_random_questions(5,graph_file_path)
             current_graph = load_graph_from_json(graph_file_path)
             graph_list.append(current_graph)
         return graph_list
@@ -109,41 +110,64 @@ class GraphGameMainApp(App):
     def add_random_questions (self,number_of_random_questios, graph_file_path):
         current_graph = load_graph_from_json(graph_file_path)
         store = JsonStore("Json/questions.json", encoding='utf-8')
-        question_one_red = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", "םודא"),
+        question_one_red = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]),
                                       QuestionTypes['NUMBER'], 1, Colours['red'])
-        question_one_blue = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", "לוחכ"),
+        question_one_blue = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]),
                                       QuestionTypes['NUMBER'], 1, Colours['blue'])
-        question_one_yellow = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", "בוהצ"),
+        question_one_yellow = QuestionObject(store['questionnaire']['ques']['q01'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]),
                                       QuestionTypes['NUMBER'], 1, Colours['yellow'])
         question_two = QuestionObject(store['questionnaire']['ques']['q03'][::-1],
                                       QuestionTypes['MULTIPLE_CHOICE'], 3)
         question_three = QuestionObject(store['questionnaire']['ques']['q06'][::-1],
                                         QuestionTypes['MULTIPLE_CHOICE'], 6)
-        question_four_Y_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "לוחכ").replace("Y", "בוהצ"),
+        question_four_Y_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_yellow'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
-        question_four_B_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "בוהצ").replace("Y", "לוחכ"),
+        question_four_B_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_blue'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['yellow'], Colours['blue'])
-        question_four_Y_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "םודא").replace("Y", "בוהצ"),
+        question_four_Y_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_yellow'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['yellow'])
-        question_four_R_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "בוהצ").replace("Y", "םודא"),
+        question_four_R_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_red'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['yellow'], Colours['red'])
-        question_four_B_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "םודא").replace("Y", "לוחכ"),
+        question_four_B_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_blue'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['blue'])
-        question_four_R_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", "לוחכ").replace("Y", "םודא"),
+        question_four_R_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_red'][::-1]),
                                       QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['red'])
-        question_five_red = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", "םודא"),
+        question_five_red = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]),
                                         QuestionTypes['BOOLEAN'], 8, Colours['red'])
-        question_five_blue = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", "לוכח"),
+        question_five_blue = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]),
                                         QuestionTypes['BOOLEAN'], 8, Colours['blue'])
-        question_five_yellow = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", "בוהצ"),
+        question_five_yellow = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]),
                                         QuestionTypes['BOOLEAN'], 8, Colours['yellow'])
         question_six = QuestionObject(store['questionnaire']['ques']['q16'][::-1],
                                       QuestionTypes['MULTIPLE_CHOICE'], 16)
         question_seven = QuestionObject(store['questionnaire']['ques']['q17'][::-1],
                                         QuestionTypes['MULTIPLE_CHOICE'], 17)
-        all_questions_graph = [question_one_red,question_one_yellow,question_one_blue,question_two,question_three,question_four_B_R,question_four_R_B,question_four_B_Y,question_four_R_Y,question_four_Y_B,question_four_Y_R,question_five_blue,question_five_red,question_five_yellow,question_six,question_seven]
-        shuffle(all_questions_graph)
-        current_graph.question_object_list = [all_questions_graph[i] for i in range(number_of_random_questios)]
+        q_nums = range (7)
+        shuffle(q_nums)
+        all_questions_graph = []
+        for i in range(number_of_random_questios):
+            if q_nums[i] == 0:
+                q1_list = [question_one_red, question_one_blue, question_one_yellow]
+                shuffle(q1_list)
+                all_questions_graph.append(q1_list[0])
+            elif q_nums[i] == 1:
+                all_questions_graph.append(question_two)
+            elif q_nums[i] == 2:
+                all_questions_graph.append(question_three)
+            elif q_nums[i] == 3:
+                q4_list = [question_four_B_R,question_four_R_B,question_four_B_Y,question_four_R_Y,question_four_Y_B,question_four_Y_R]
+                shuffle(q4_list)
+                all_questions_graph.append(q4_list[0])
+            elif q_nums[i] == 4:
+                q5_list = [question_five_yellow, question_five_red, question_five_blue]
+                shuffle(q5_list)
+                all_questions_graph.append(q5_list[0])
+            elif q_nums[i] == 5:
+                all_questions_graph.append(question_six)
+            elif q_nums[i] == 6:
+                all_questions_graph.append(question_seven)
+
+        current_graph.question_object_list = all_questions_graph
         save_graph_json(current_graph, graph_file_path)
 
 if __name__ == '__main__':

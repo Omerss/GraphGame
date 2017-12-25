@@ -69,9 +69,9 @@ class BooleanQuestion(GridLayout):
         super(BooleanQuestion, self).__init__(rows=1, cols=2)
         self.question_data = question
         store = JsonStore("Json/questions.json", encoding='utf-8')
-        btn_yes = UntoggbleToggle(text=store['questionnaire']['ans_type_2']['ans1'][::-1], group='question_{}'.format(question.question_id))
+        btn_yes = UntoggbleToggle(text=store['questionnaire']['ans_type_2']['ans1'][::-1],halign='right',font_name="fonts/the_font.ttf", group='question_{}'.format(question.question_id))
         btn_yes.name = 'question_%s_answer_%s' % (format(question.question_id), 'yes')
-        btn_no = UntoggbleToggle(text=store['questionnaire']['ans_type_2']['ans2'][::-1], group='question_{}'.format(question.question_id))
+        btn_no = UntoggbleToggle(text=store['questionnaire']['ans_type_2']['ans2'][::-1],font_name="fonts/the_font.ttf",halign='right', group='question_{}'.format(question.question_id))
         btn_no.name = 'question_%s_answer_%s' % (format(question.question_id), 'no')
         self.add_widget(btn_yes)
         self.add_widget(btn_no)

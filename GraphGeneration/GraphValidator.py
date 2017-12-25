@@ -77,8 +77,8 @@ class DummyScreen:
 
 
 def run_buttons_on_graph(graph, buttons):
-    log = logging.getLogger()
-    log.setLevel(Utils.game_config_data['Default']['log_level'])
+    #log = logging.getLogger()
+    #log.setLevel(Utils.game_config_data['Default']['log_level'])
     dummy_screen = DummyScreen(graph)
     game = GraphTabletDisplay(dummy_screen)
     #game.run()
