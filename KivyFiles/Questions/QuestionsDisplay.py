@@ -48,7 +48,8 @@ class QuestionnaireWidget(GridLayout):
         self.main_app.user_answers = []
         self.set_questions(self.question_list)
         store = JsonStore("Json/questions.json", encoding='utf-8')
-        self.submit_button = LoggedButton(text=store['questionnaire']['next_button'][::-1], font_name="fonts/the_font.ttf",halign='right')
+        self.submit_button = LoggedButton(text=store['questionnaire']['next_button'][::-1],
+                                          font_name="fonts/the_font.ttf", halign='right', color=[0,0,0,1])
         self.submit_button.name = 'questionnaire submit'
         self.submit_button.bind(on_press=self.submit_action)
         self.add_widget(self.submit_button)
@@ -80,7 +81,7 @@ class QuestionnaireWidget(GridLayout):
                           content=Label(text=store['questionnaire']['error_message']['message'][::-1]),
                           auto_dismiss=True,
                           size_hint=(None, None),
-                          size=(800, 150), font_name="fonts/the_font.ttf",halign='right')
+                          size=(800, 150), font_name="fonts/the_font.ttf",halign='right', color=[0,0,0,1])
             popup.open()
 
     def set_questions(self, question_list):
@@ -89,7 +90,7 @@ class QuestionnaireWidget(GridLayout):
         """
         for question in question_list:
             new_question_label = Label(text=question.question_string, font_name="fonts/the_font.ttf",
-            halign='right')
+            halign='right', color=[0.5,0.0,0.5,1], font_size=50)
             if question.question_type_number == QuestionTypes['NUMBER']:
                 new_question = IntSpinner(question=question)
 
