@@ -55,12 +55,12 @@ class ResultWidget(GridLayout):
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
         store = JsonStore("Json/answers.json", encoding='utf-8')
         map_grid = GridLayout(rows=4, cols=1)
-        map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/the_font.ttf",
+        map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
-        graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/the_font.ttf",
+        graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/Alef-Regular.ttf",
             halign='right', dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
-        map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/the_font.ttf",
+        map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
@@ -72,9 +72,9 @@ class ResultWidget(GridLayout):
         self.add_widget(Label(text=store['answers']['scores']['subject_score'][::-1]+" {0}%;".format(self.res['user_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {1}%;".format(self.res['possible_score'])+ store['answers']['scores']['nodes_discovered'][::-1]+" {2}%"
                               .format(self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
-                              size_hint_y=None, height=self.score_label_height, font_name="fonts/the_font.ttf", halign='right'))
+                              size_hint_y=None, height=self.score_label_height, font_name="fonts/Alef-Regular.ttf", halign='right'))
 
-        self.submit_button = Button(text=store['answers']['next_button'][::-1], size_hint_y=None,font_name="fonts/the_font.ttf", halign='right', height=self.submit_button_height)
+        self.submit_button = Button(text=store['answers']['next_button'][::-1], size_hint_y=None,font_name="fonts/Alef-Regular.ttf", halign='right', height=self.submit_button_height)
         self.submit_button.bind(on_press=self.stop_me)
         self.add_widget(self.submit_button)
 
@@ -98,15 +98,15 @@ class ResultWidget(GridLayout):
             new_question.add_widget(Label(text=item.question_string, text_size=(width, None)))
 
             keys = GridLayout(rows=1, cols=3)
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/the_font.ttf", halign='right'))
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1], font_name="fonts/the_font.ttf",halign='right'))
-            keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1], font_name="fonts/the_font.ttf",halign='right'))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/Alef-Regular.ttf", halign='right'))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
+            keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
-            answers.add_widget(Label(text=str(item.user_answer)))
-            answers.add_widget(Label(text=str(item.user_graph_answer)))
-            answers.add_widget(Label(text=str(item.real_answer)))
+            answers.add_widget(Label(text=str(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=str(item.user_graph_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=str(item.real_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
             new_question.add_widget(answers)
             # line 113, in get_question_result_grid
             #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
