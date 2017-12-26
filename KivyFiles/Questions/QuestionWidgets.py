@@ -5,6 +5,7 @@ import re
 from kivy.uix.behaviors import ToggleButtonBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.checkbox import CheckBox
 
 from KivyCommunication import *
 from kivy.storage.jsonstore import JsonStore
@@ -38,15 +39,19 @@ class MultipleAnswersObj(GridLayout):
     def __init__(self, question):
         super(MultipleAnswersObj, self).__init__(rows=1, cols=len(question.list_of_possible_answers))
         self.question_data = question
+        store = JsonStore("Json/questions.json", encoding='utf-8')
         for answer in question.list_of_possible_answers:
+#            layout = GridLayout(rows=2)
+  #          layout.add_widget(Button(text='Hello 1'))
+ #           layout.add_widget(Button(text='World 1'))
             if "yellow" in answer:
-                btn_answer = UntoggbleToggle(text=answer.replace("yellow","בוהצ"),font_name="fonts/the_font.ttf",
+                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans1'][::-1],font_name="fonts/the_font.ttf",
                 halign='right', group='question_{}'.format(question.question_id))
             elif "red" in answer:
-                btn_answer = UntoggbleToggle(text=answer.replace("red", "םודא"), font_name="fonts/the_font.ttf",
+                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans3'][::-1], font_name="fonts/the_font.ttf",
                 halign='right', group='question_{}'.format(question.question_id))
             else:
-                btn_answer = UntoggbleToggle(text=answer.replace("blue", "לוחכ"),font_name="fonts/the_font.ttf",
+                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans2'][::-1],font_name="fonts/the_font.ttf",
                 halign='right', group='question_{}'.format(question.question_id))
             btn_answer.name = 'question_%s_answer_%s' % (format(question.question_id), answer)
             self.add_widget(btn_answer)
