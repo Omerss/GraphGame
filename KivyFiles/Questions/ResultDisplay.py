@@ -5,12 +5,12 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.storage.jsonstore import JsonStore
-
 from KivyFiles.GraphDisplay import GraphDisplay
-
-
 from KivyCommunication import *
-
+# encoding=utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class ResultDisplay:
     """
@@ -51,7 +51,8 @@ class ResultWidget(GridLayout):
 
         # First part of the result screen is split in two - questions and graphs
         layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
-
+        # !/usr/bin/python
+        # -*- coding: utf-8 -*-
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
         store = JsonStore("Json/answers.json", encoding='utf-8')
         map_grid = GridLayout(rows=4, cols=1)
@@ -69,7 +70,7 @@ class ResultWidget(GridLayout):
 
         self.add_widget(layout)
         self.res = self.calculate_percentage(self.main_app.user_answers)
-        self.add_widget(Label(text=store['answers']['scores']['subject_score'][::-1]+" {0}%;".format(self.res['user_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {1}%;".format(self.res['possible_score'])+ store['answers']['scores']['nodes_discovered'][::-1]+" {2}%"
+        self.add_widget(Label(text=store['answers']['scores']['subject_score'][::-1]+" {}%;".format(self.res['user_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {}%;".format(self.res['possible_score'])+ store['answers']['scores']['nodes_discovered'][::-1]+" {}%"
                               .format(self.game_grade(self.main_app.discovered_graph,
                                                       self.main_app.current_graph)),
                               size_hint_y=None, height=self.score_label_height, font_name="fonts/Alef-Regular.ttf", halign='right'))
@@ -104,9 +105,9 @@ class ResultWidget(GridLayout):
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
-            answers.add_widget(Label(text=str(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
-            answers.add_widget(Label(text=str(item.user_graph_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
-            answers.add_widget(Label(text=str(item.real_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=str(item.user_answer).encode('utf-8'),font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=str(item.user_graph_answer).encode('utf-8'), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=str(item.real_answer).encode('utf-8'), font_name="fonts/Alef-Regular.ttf", halign='right'))
             new_question.add_widget(answers)
             # line 113, in get_question_result_grid
             #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))

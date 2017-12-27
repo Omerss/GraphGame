@@ -2,12 +2,16 @@
 # -*- coding: utf-8 -*-
 from kivy.uix.button import Button
 from KivyCommunication import *
+from kivy.storage.jsonstore import JsonStore
 
 
 class EndButton(LoggedButton):
     def __init__(self, func, **kwargs):
         super(EndButton, self).__init__(**kwargs)
-        self.text = 'End Game.'
+        store = JsonStore("Json/questions.json", encoding='utf-8')
+        self.text = store['questionnaire']['end_game'][::-1]
+        self.font_name = "fonts/Alef-Regular.ttf"
+        self.halign = 'right'
         self.on_press = func
 
 
