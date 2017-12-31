@@ -12,6 +12,20 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
+
+def translate_answers(answers_list):
+    try:
+        int(str(answers_list[0]))
+        return str(answers_list[0])
+    except (TypeError, ValueError) as e:
+        store = JsonStore("Json/questions.json", encoding='utf-8')
+        translated_list = [store['questionnaire']['get_answers'][str(answer)][::-1] for answer in answers_list]
+    if (len(answers_list)) == 1:
+        return str(translated_list[0])
+    else:
+        return str(', '.join(translated_list))
+
 class ResultDisplay:
     """
         This object lies between the screen and the widget. It is used as a buffer between the two.
@@ -24,6 +38,7 @@ class ResultDisplay:
 
     def load(self):
         self.the_widget.on_enter()
+
 
 
 class ResultWidget(GridLayout):
@@ -70,9 +85,9 @@ class ResultWidget(GridLayout):
 
         self.add_widget(layout)
         self.res = self.calculate_percentage(self.main_app.user_answers)
-        self.add_widget(Label(text=store['answers']['scores']['subject_score'][::-1]+" {}%;".format(self.res['user_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {}%;".format(self.res['possible_score'])+ store['answers']['scores']['nodes_discovered'][::-1]+" {}%"
+        self.add_widget(Label(text=" {}%;".format(self.res['user_score'])+store['answers']['scores']['subject_score'][::-1]+" {}%;".format(self.res['possible_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {}%"
                               .format(self.game_grade(self.main_app.discovered_graph,
-                                                      self.main_app.current_graph)),
+                                                      self.main_app.current_graph))+ store['answers']['scores']['nodes_discovered'][::-1],
                               size_hint_y=None, height=self.score_label_height, font_name="fonts/Alef-Regular.ttf", halign='right'))
 
         self.submit_button = Button(text=store['answers']['next_button'][::-1], size_hint_y=None,font_name="fonts/Alef-Regular.ttf", halign='right', height=self.submit_button_height)
@@ -96,7 +111,7 @@ class ResultWidget(GridLayout):
         store = JsonStore("Json/answers.json", encoding='utf-8')
         for item in user_answers:
             new_question = GridLayout(rows=3, cols=1)
-            new_question.add_widget(Label(text=item.question_string, text_size=(width, None)))
+            new_question.add_widget(Label(text=item.question_string, text_size=(width, None), font_name="fonts/Alef-Regular.ttf", halign='right'))
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/Alef-Regular.ttf", halign='right'))
@@ -105,9 +120,9 @@ class ResultWidget(GridLayout):
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
-            answers.add_widget(Label(text=str(item.user_answer).encode('utf-8'),font_name="fonts/Alef-Regular.ttf", halign='right'))
-            answers.add_widget(Label(text=str(item.user_graph_answer).encode('utf-8'), font_name="fonts/Alef-Regular.ttf", halign='right'))
-            answers.add_widget(Label(text=str(item.real_answer).encode('utf-8'), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=translate_answers(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=translate_answers([item.user_graph_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=translate_answers([item.real_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
             new_question.add_widget(answers)
             # line 113, in get_question_result_grid
             #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
@@ -130,7 +145,7 @@ class ResultWidget(GridLayout):
         user_answers_percentage = 0
         user_graph_answer_percentage = 0
         for answer in answer_list:
-            if str(answer.user_answer) == str(answer.user_graph_answer):
+            if str(answer.user_graph_answer) in answer.user_answer:
                 user_answers_percentage = user_answers_percentage + 1
             if str(answer.real_answer) == str(answer.user_graph_answer):
                 user_graph_answer_percentage = user_graph_answer_percentage + 1
@@ -151,3 +166,4 @@ class ResultWidget(GridLayout):
 
     def build(self):
         return self.meta_layout
+

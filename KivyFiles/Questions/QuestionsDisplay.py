@@ -78,11 +78,13 @@ class QuestionnaireWidget(GridLayout):
         else:
             store = JsonStore("Json/questions.json", encoding='utf-8')
             self.main_app.user_answers = []
-            popup = Popup(title=store['questionnaire']['error_message']['title'][::-1],
-                          content=Label(text=store['questionnaire']['error_message']['message'][::-1]),
+            popup = Popup(title=store['questionnaire']['error_message']['title'][::-1],font_name="fonts/Alef-Regular.ttf",
+            halign='right',
+                          content=Label(text=store['questionnaire']['error_message']['message'][::-1], font_name="fonts/Alef-Regular.ttf",
+            halign='right'),
                           auto_dismiss=True,
                           size_hint=(None, None),
-                          size=(800, 150), font_name="fonts/Alef-Regular.ttf",halign='right')
+                          size=(800, 150))
             popup.open()
 
     def set_questions(self, question_list):

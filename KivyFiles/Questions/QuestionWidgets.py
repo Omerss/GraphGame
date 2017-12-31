@@ -23,7 +23,7 @@ class IntSpinner(Spinner):
 
 
     def get_answer(self):
-        return self.text
+        return [self.text]
 
 
 class UntoggbleToggle(ToggleButtonBehavior, LoggedButton):
@@ -45,25 +45,32 @@ class MultipleAnswersObj(GridLayout):
   #          layout.add_widget(Button(text='Hello 1'))
  #           layout.add_widget(Button(text='World 1'))
             if "yellow" in answer:
-                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans1'][::-1],font_name="fonts/Alef-Regular.ttf",
-                halign='right', group='question_{}'.format(question.question_id))
+                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans3'][::-1],font_name="fonts/Alef-Regular.ttf",
+                halign='right', group='question_{}_yellow'.format(question.question_id))
+                btn_answer.name = 'question_%s_answer_%s' % (
+                format(question.question_id), store['questionnaire']['ans_type_1']['ans3'][::-1])
             elif "red" in answer:
-                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans3'][::-1], font_name="fonts/Alef-Regular.ttf",
-                halign='right', group='question_{}'.format(question.question_id))
+                btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans1'][::-1], font_name="fonts/Alef-Regular.ttf",
+                halign='right', group='question_{}_red'.format(question.question_id))
+                btn_answer.name = 'question_%s_answer_%s' % (
+                format(question.question_id), store['questionnaire']['ans_type_1']['ans1'][::-1])
             else:
                 btn_answer = UntoggbleToggle(text=store['questionnaire']['ans_type_1']['ans2'][::-1],font_name="fonts/Alef-Regular.ttf",
-                halign='right', group='question_{}'.format(question.question_id))
-            btn_answer.name = 'question_%s_answer_%s' % (format(question.question_id), answer)
+                halign='right', group='question_{}_blue'.format(question.question_id))
+                btn_answer.name = 'question_%s_answer_%s' % (format(question.question_id), store['questionnaire']['ans_type_1']['ans2'][::-1])
             self.add_widget(btn_answer)
 
         self.question_number = question.question_id
 
     def get_answer(self):
+        answers_list =[]
         for child in self.children:
             if type(child) == UntoggbleToggle:
                 if child.state == 'down':
-                    return child.text
-        return None
+                    answers_list.append(child.group.split('_')[2])
+        if len(answers_list)==0:
+            return None
+        return answers_list
 
 
 class BooleanQuestion(GridLayout):
@@ -87,6 +94,7 @@ class BooleanQuestion(GridLayout):
         for child in self.children:
             if type(child) == UntoggbleToggle:
                 if child.state == 'down':
-                    return child.text == "yes"
+                    print (child.text)
+                    return [child.text == "ןכ"]
         return None
 
