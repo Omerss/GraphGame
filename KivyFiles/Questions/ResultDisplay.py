@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.storage.jsonstore import JsonStore
 from KivyFiles.GraphDisplay import GraphDisplay
 from KivyCommunication import *
+from SupplementaryFiles import WhiteLabel
 # encoding=utf8
 import sys
 reload(sys)
@@ -73,13 +74,16 @@ class ResultWidget(GridLayout):
         map_grid = GridLayout(rows=4, cols=1)
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
+#        map_grid.add_widget(WhiteLabel)
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/Alef-Regular.ttf",
             halign='right', dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
+ #       map_grid.add_widget(WhiteLabel)
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
+  #      map_grid.add_widget(WhiteLabel)
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
 
@@ -115,14 +119,20 @@ class ResultWidget(GridLayout):
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/Alef-Regular.ttf", halign='right'))
+ #           keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
+  #          keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
+   #         keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
             answers.add_widget(Label(text=translate_answers(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
+#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             answers.add_widget(Label(text=translate_answers([item.user_graph_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
+#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             answers.add_widget(Label(text=translate_answers([item.real_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
+#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             new_question.add_widget(answers)
             # line 113, in get_question_result_grid
             #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))

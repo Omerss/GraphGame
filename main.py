@@ -105,6 +105,8 @@ class GraphGameMainApp(App):
                 self.add_random_questions(5,graph_file_path)
             current_graph = load_graph_from_json(graph_file_path)
             graph_list.append(current_graph)
+        #randomize
+        shuffle (graph_list)
         return graph_list
 
     def add_random_questions (self,number_of_random_questios, graph_file_path):
