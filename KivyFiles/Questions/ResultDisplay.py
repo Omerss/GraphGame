@@ -17,14 +17,18 @@ sys.setdefaultencoding('utf8')
 
 def translate_answers(answers_list):
     try:
+
         int(str(answers_list[0]))
+        print (answers_list)
         return str(answers_list[0])
     except (TypeError, ValueError) as e:
         store = JsonStore("Json/questions.json", encoding='utf-8')
         translated_list = [store['questionnaire']['get_answers'][str(answer)][::-1] for answer in answers_list]
     if (len(answers_list)) == 1:
+        print (translated_list)
         return str(translated_list[0])
     else:
+        print (translated_list)
         return str(', '.join(translated_list))
 
 class ResultDisplay:
@@ -66,16 +70,17 @@ class ResultWidget(GridLayout):
         height = (kivy.core.window.Window.size[1] - height_spacing) / 2
 
         # First part of the result screen is split in two - questions and graphs
-        layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=2)
+        layout = GridLayout(rows=len(self.main_app.user_answers) * 2, cols=3)
         # !/usr/bin/python
         # -*- coding: utf-8 -*-
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
+        layout.add_widget(MyLabel(size_hint_x=0.0005))
         store = JsonStore("Json/answers.json", encoding='utf-8')
         map_grid = GridLayout(rows=7, cols=1)
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
 
-        map_grid.add_widget(MyLabel(size_hint_y=0.005))
+        map_grid.add_widget(MyLabel(size_hint_y=0.002))
 
 
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/Alef-Regular.ttf",
@@ -85,16 +90,15 @@ class ResultWidget(GridLayout):
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
 
-        map_grid.add_widget(MyLabel(size_hint_y=0.005))
+        map_grid.add_widget(MyLabel(size_hint_y=0.002))
 
 
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
         map_grid.add_widget(graph_true)
 
-        map_grid.add_widget(MyLabel(size_hint_y=0.005))
+        map_grid.add_widget(MyLabel(size_hint_y=0.002))
         layout.add_widget(map_grid)
-
         self.add_widget(layout)
         self.res = self.calculate_percentage(self.main_app.user_answers)
         self.add_widget(Label(text=" {}%;".format(self.res['user_score'])+store['answers']['scores']['subject_score'][::-1]+" {}%;".format(self.res['possible_score'])+ store['answers']['scores']['discovered_graph_score'][::-1]+" {}%"
@@ -127,24 +131,20 @@ class ResultWidget(GridLayout):
 
             keys = GridLayout(rows=1, cols=3)
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['user_answer'][::-1], font_name="fonts/Alef-Regular.ttf", halign='right'))
- #           keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['discovered_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
-  #          keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             keys.add_widget(Label(text=store['answers']['answer_graph_type']['full_graph_answer'][::-1], font_name="fonts/Alef-Regular.ttf",halign='right'))
-   #         keys.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
             new_question.add_widget(keys)
 
             answers = GridLayout(rows=1, cols=3)
             answers.add_widget(Label(text=translate_answers(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
-#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
+
             answers.add_widget(Label(text=translate_answers([item.user_graph_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
-#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
+
             answers.add_widget(Label(text=translate_answers([item.real_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
-#            answers.add_widget(WhiteLabel(color=[1, 1, 1], size_hint_y=None))
+
+            new_question.add_widget(MyLabel(size_hint_y=0.005))
             new_question.add_widget(answers)
-            # line 113, in get_question_result_grid
-            #    item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
-            # UnicodeDecodeError: 'ascii' codec can't decode byte 0xd7 in position 0: ordinal not in range(128)
+
             KL.log.insert(action=LogAction.data, comment='results_question_%s_user_%s_discovered_%s_true_%s' % (
                 item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
 
