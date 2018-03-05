@@ -122,29 +122,11 @@ class GraphGameMainApp(App):
                                       QuestionTypes['MULTIPLE_CHOICE'], 3)
         question_three = QuestionObject(store['questionnaire']['ques']['q06'][::-1],
                                         QuestionTypes['MULTIPLE_CHOICE'], 6)
-        question_four_Y_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_yellow'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['yellow'])
-        question_four_B_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_blue'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['yellow'], Colours['blue'])
-        question_four_Y_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_yellow'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['yellow'])
-        question_four_R_Y = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_red'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['yellow'], Colours['red'])
-        question_four_B_R = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_blue'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['red'], Colours['blue'])
-        question_four_R_B = QuestionObject(store['questionnaire']['ques']['q10'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]).replace("Y", store['questionnaire']['ques_parameters']['Y_red'][::-1]),
-                                      QuestionTypes['BOOLEAN'], 10, Colours['blue'], Colours['red'])
-        question_five_red = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_red'][::-1]),
-                                        QuestionTypes['BOOLEAN'], 8, Colours['red'])
-        question_five_blue = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_blue'][::-1]),
-                                        QuestionTypes['BOOLEAN'], 8, Colours['blue'])
-        question_five_yellow = QuestionObject(store['questionnaire']['ques']['q08'][::-1].replace("X", store['questionnaire']['ques_parameters']['X_yellow'][::-1]),
-                                        QuestionTypes['BOOLEAN'], 8, Colours['yellow'])
         question_six = QuestionObject(store['questionnaire']['ques']['q16'][::-1],
                                       QuestionTypes['MULTIPLE_CHOICE'], 16)
         question_seven = QuestionObject(store['questionnaire']['ques']['q17'][::-1],
                                         QuestionTypes['MULTIPLE_CHOICE'], 17)
-        q_nums = range (7)
+        q_nums = range (5)
         shuffle(q_nums)
         all_questions_graph = []
         for i in range(number_of_random_questios):
@@ -157,16 +139,8 @@ class GraphGameMainApp(App):
             elif q_nums[i] == 2:
                 all_questions_graph.append(question_three)
             elif q_nums[i] == 3:
-                q4_list = [question_four_B_R,question_four_R_B,question_four_B_Y,question_four_R_Y,question_four_Y_B,question_four_Y_R]
-                shuffle(q4_list)
-                all_questions_graph.append(q4_list[0])
-            elif q_nums[i] == 4:
-                q5_list = [question_five_yellow, question_five_red, question_five_blue]
-                shuffle(q5_list)
-                all_questions_graph.append(q5_list[0])
-            elif q_nums[i] == 5:
                 all_questions_graph.append(question_six)
-            elif q_nums[i] == 6:
+            elif q_nums[i] == 4:
                 all_questions_graph.append(question_seven)
 
         current_graph.question_object_list = all_questions_graph

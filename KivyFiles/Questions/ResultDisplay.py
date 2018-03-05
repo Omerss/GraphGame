@@ -71,19 +71,19 @@ class ResultWidget(GridLayout):
         # -*- coding: utf-8 -*-
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
         store = JsonStore("Json/answers.json", encoding='utf-8')
-        map_grid = GridLayout(rows=4, cols=1)
+        map_grid = GridLayout(rows=5, cols=1)
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
-#        map_grid.add_widget(WhiteLabel)
+        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1,1,1,1)))
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/Alef-Regular.ttf",
             halign='right', dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
- #       map_grid.add_widget(WhiteLabel)
+        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1,1,1,1)))
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
-  #      map_grid.add_widget(WhiteLabel)
+        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1, 1, 1, 1)))
         map_grid.add_widget(graph_true)
         layout.add_widget(map_grid)
 
