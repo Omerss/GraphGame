@@ -7,7 +7,7 @@ from kivy.uix.label import Label
 from kivy.storage.jsonstore import JsonStore
 from KivyFiles.GraphDisplay import GraphDisplay
 from KivyCommunication import *
-from SupplementaryFiles import WhiteLabel
+from kivy.graphics import Color, Rectangle
 # encoding=utf8
 import sys
 reload(sys)
@@ -71,20 +71,28 @@ class ResultWidget(GridLayout):
         # -*- coding: utf-8 -*-
         layout.add_widget(self.get_question_result_grid(user_answers=self.main_app.user_answers, width=col_width))
         store = JsonStore("Json/answers.json", encoding='utf-8')
-        map_grid = GridLayout(rows=5, cols=1)
+        map_grid = GridLayout(rows=7, cols=1)
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['discovered_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
-        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1,1,1,1)))
+
+        map_grid.add_widget(MyLabel(size_hint_y=0.005))
+
+
         graph_discovered = GraphDisplay(graph=self.main_app.discovered_graph,font_name="fonts/Alef-Regular.ttf",
             halign='right', dim=(col_width, height))
         map_grid.add_widget(graph_discovered)
-        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1,1,1,1)))
+
         map_grid.add_widget(Label(text=store['answers']['graphs_types']['real_graph'][::-1],font_name="fonts/Alef-Regular.ttf",
             halign='right', size_hint_y=None, height=self.graph_title_size))
+
+        map_grid.add_widget(MyLabel(size_hint_y=0.005))
+
+
         graph_true = GraphDisplay(graph=self.main_app.current_graph,
                                   dim=(col_width, height))
-        map_grid.add_widget(Button(disabled=True,size_hint_y=0.01, background_color=(1, 1, 1, 1)))
         map_grid.add_widget(graph_true)
+
+        map_grid.add_widget(MyLabel(size_hint_y=0.005))
         layout.add_widget(map_grid)
 
         self.add_widget(layout)
@@ -177,3 +185,12 @@ class ResultWidget(GridLayout):
     def build(self):
         return self.meta_layout
 
+
+
+
+class MyLabel(Label):
+    def on_size(self, *args):
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(1, 1, 1, 0.7)
+            Rectangle(pos=self.pos, size=self.size)
