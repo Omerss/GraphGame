@@ -4,7 +4,7 @@ from SupplementaryFiles.Enums import Colours
 from SupplementaryFiles.GraphObj import GraphObject
 from SupplementaryFiles.NodeObject import NodeObject
 
-
+POS_INF = 9999999
 # question functions:
 
 
@@ -16,7 +16,7 @@ def question_one(graph_object, color_x):
     :return: the number of nodes in graph_object of the color color_x
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_nodes_of_color, 1, color_x)
-    return number_of_nodes
+    return [number_of_nodes]
 
 
 def question_two(graph_object, color_x, color_y):
@@ -30,7 +30,7 @@ def question_two(graph_object, color_x, color_y):
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_link_color_y, 1, color_x, color_y, graph_object)
 
-    return number_of_nodes
+    return [number_of_nodes]
 
 
 def question_three(graph_object):
@@ -41,11 +41,11 @@ def question_three(graph_object):
     """
     dictionary = scan_nodes_colors(graph_object, 3)
     max_value = -1
-    max_key = ''
     for key in dictionary:
         if dictionary.get(key) > max_value:
             max_value = dictionary.get(key)
-            max_key = key
+
+    max_key = [key for key in dictionary if dictionary.get(key) == max_value]
 
     return max_key
 
@@ -59,12 +59,11 @@ def question_four(graph_object):
     """
     dictionary = scan_nodes_colors(graph_object, 2)
     max_value = -1
-    max_key = ''
     for key in dictionary:
         if dictionary.get(key) > max_value:
             max_value = dictionary.get(key)
-            max_key = key
 
+    max_key = [key for key in dictionary if dictionary.get(key) == max_value]
     return max_key
 
 
@@ -79,7 +78,7 @@ def question_five(graph_object, color_x, color_y):
     """
     number_of_nodes = boolean_scan_of_nodes(graph_object, is_color_x_unlink_color_y, 1, color_x, color_y, graph_object)
 
-    return number_of_nodes
+    return [number_of_nodes]
 
 
 # what is the color that contain the node with the minimum links in the graph?
@@ -90,13 +89,13 @@ def question_six(graph_object):
     :return: the Name of the color of the node with the minimum links
     """
     dictionary = scan_nodes_colors(graph_object, 4)
-    min_value = 9999999
-    min_key = ''
+    min_value = POS_INF
+
     for key in dictionary:
         if dictionary.get(key) < min_value:
             min_value = dictionary.get(key)
-            min_key = key
 
+    min_key = [key for key in dictionary if dictionary.get(key) == min_value]
     return min_key
 
 
@@ -108,13 +107,12 @@ def question_seven(graph_object):
     :return: the Name of the color of the nodes with minimum sum of links
     """
     dictionary = scan_nodes_colors(graph_object, 2)
-    min_value = 9999999
-    min_key = ''
+    min_value = POS_INF
     for key in dictionary:
         if dictionary.get(key) < min_value:
             min_value = dictionary.get(key)
-            min_key = key
 
+    min_key = [key for key in dictionary if dictionary.get(key) == min_value]
     return min_key
 
 
@@ -274,12 +272,12 @@ def question_sixteen(graph_object):
 
     dictionary = scan_nodes_colors(graph_object, 1)
     max_value = -1
-    max_key = ''
+
     for key in dictionary:
         if dictionary.get(key) > max_value:
             max_value = dictionary.get(key)
-            max_key = key
 
+    max_key = [key for key in dictionary if dictionary.get(key) == max_value]
     return max_key
 
 
@@ -292,13 +290,11 @@ def question_seventeen(graph_object):
     """
 
     dictionary = scan_nodes_colors(graph_object, 1)
-    min_value = 9999999
-    min_key = ''
+    min_value = POS_INF
     for key in dictionary:
         if dictionary.get(key) < min_value:
             min_value = dictionary.get(key)
-            min_key = key
-
+    min_key = [key for key in dictionary if dictionary.get(key) == min_value]
     return min_key
 
 

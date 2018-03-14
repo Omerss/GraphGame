@@ -6,8 +6,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.storage.jsonstore import JsonStore
 from KivyFiles.GraphDisplay import GraphDisplay
-from KivyCommunication import *
 from kivy.graphics import Color, Rectangle
+from KivyCommunication import *
 # encoding=utf8
 import sys
 reload(sys)
@@ -19,16 +19,16 @@ def translate_answers(answers_list):
     try:
 
         int(str(answers_list[0]))
-        print (answers_list)
+
         return str(answers_list[0])
     except (TypeError, ValueError) as e:
         store = JsonStore("Json/questions.json", encoding='utf-8')
         translated_list = [store['questionnaire']['get_answers'][str(answer)][::-1] for answer in answers_list]
     if (len(answers_list)) == 1:
-        print (translated_list)
+
         return str(translated_list[0])
     else:
-        print (translated_list)
+
         return str(', '.join(translated_list))
 
 class ResultDisplay:
@@ -126,7 +126,7 @@ class ResultWidget(GridLayout):
         question_result_grid = GridLayout(rows=len(user_answers))
         store = JsonStore("Json/answers.json", encoding='utf-8')
         for item in user_answers:
-            new_question = GridLayout(rows=3, cols=1)
+            new_question = GridLayout(rows=4, cols=1)
             new_question.add_widget(Label(text=item.question_string, text_size=(width, None), font_name="fonts/Alef-Regular.ttf", halign='right'))
 
             keys = GridLayout(rows=1, cols=3)
@@ -137,13 +137,11 @@ class ResultWidget(GridLayout):
 
             answers = GridLayout(rows=1, cols=3)
             answers.add_widget(Label(text=translate_answers(item.user_answer),font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=translate_answers(item.user_graph_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
+            answers.add_widget(Label(text=translate_answers(item.real_answer), font_name="fonts/Alef-Regular.ttf", halign='right'))
 
-            answers.add_widget(Label(text=translate_answers([item.user_graph_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
-
-            answers.add_widget(Label(text=translate_answers([item.real_answer]), font_name="fonts/Alef-Regular.ttf", halign='right'))
-
-            new_question.add_widget(MyLabel(size_hint_y=0.005))
             new_question.add_widget(answers)
+            new_question.add_widget(MyLabel(size_hint_y=0.005))
 
             KL.log.insert(action=LogAction.data, comment='results_question_%s_user_%s_discovered_%s_true_%s' % (
                 item.question_string, str(item.user_answer), str(item.user_graph_answer), str(item.real_answer)))
@@ -160,13 +158,31 @@ class ResultWidget(GridLayout):
         :return:
         """
         answer_list = user_answers
-        user_answers_percentage = 0
-        user_graph_answer_percentage = 0
+        user_answers_percentage = 5 #number of questions in each graph
+        user_graph_answer_percentage = 5 #number of questions in each graph
         for answer in answer_list:
-            if str(answer.user_graph_answer) in answer.user_answer:
-                user_answers_percentage = user_answers_percentage + 1
-            if str(answer.real_answer) == str(answer.user_graph_answer):
-                user_graph_answer_percentage = user_graph_answer_percentage + 1
+            print ("user_answer {0},user_graph_answer {1},real_answer {2} ".format(answer.user_answer,answer.user_graph_answer,answer.real_answer))
+            ####calculate better
+            #Goren
+            for ans in answer.user_graph_answer:
+                if ans not in answer.user_answer:
+                    user_answers_percentage = user_answers_percentage - 1
+
+            for ans in answer.user_answer:
+                if ans not in answer.user_graph_answer:
+                    user_answers_percentage = user_answers_percentage - 1
+
+
+            for ans in answer.user_graph_answer:
+                if ans not in answer.real_answer:
+                    user_graph_answer_percentage = user_graph_answer_percentage - 1
+
+            for ans in answer.real_answer:
+                if ans not in answer.user_graph_answer:
+                    user_graph_answer_percentage = user_graph_answer_percentage - 1
+
+
+
         num_of_questions = len(answer_list)
         num_of_questions = num_of_questions if num_of_questions != 0 else 1
         user_possible_success = round(user_answers_percentage * 100 / float(num_of_questions), 2)

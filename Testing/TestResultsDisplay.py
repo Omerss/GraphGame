@@ -1,12 +1,13 @@
 import os
-
+import unittest
 from GraphGeneration.CreateRandGraph import create_rand_graph
 from KivyFiles.Questions.AnswerObject import AnswerObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
-from KivyFiles.Questions.QuestionWidgets import IntInput
+from KivyFiles.Questions.QuestionWidgets import IntSpinner
 from KivyFiles.Questions.ResultDisplay import ResultDisplay
 from SupplementaryFiles.Enums import Colours, QuestionTypes
-
+from GraphGeneration.HandmadeGraph import create_draft_graph_1
+from KivyFiles.Questions.ResultDisplay import ResultWidget
 
 def main():
 
@@ -23,7 +24,7 @@ def main():
 
     for i in range(10):
         question_data = QuestionObject("how many {} nodes there are?", QuestionTypes['NUMBER'], 1, Colours.red)
-        question = IntInput(question=question_data)
+        question = IntSpinner(question=question_data)
         question.text = '6'
         answer = AnswerObject(question_object=question, user_seen_graph=user_graph, real_graph=true_graph)
         answer_list.append(answer)
@@ -31,6 +32,45 @@ def main():
     display = ResultDisplay(answer_list, user_graph, true_graph)
     display.run()
 
-if __name__ == "__main__":
-    main()
+
+class TestCalculatePercentage(unittest.TestCase):
+
+    def test_upper(self):
+        #prepare
+
+        user_graph = create_draft_graph_1()
+        true_graph = create_draft_graph_1()
+        question_data = QuestionObject("how many {} nodes there are?", QuestionTypes['NUMBER'], 1, Colours.get("red"))
+        question = IntSpinner(question=question_data)
+        user_answers = [AnswerObject(question_object=question, user_seen_graph=user_graph, real_graph=true_graph),
+                        AnswerObject(question_object=question, user_seen_graph=user_graph, real_graph=true_graph)]
+        user_answers[0].user_answer = ["1"]
+        user_answers[0].user_graph_answer = ["1"]
+        user_answers[0].real_answer = ["1"]
+        user_answers[1].user_answer = ["yellow", "blue"]
+        user_answers[1].user_graph_answer = ["red"]
+        user_answers[1].real_answer = ["blue", "red"]
+
+        #act
+
+        results_dict_0 = ResultWidget.calculate_percentage([user_answers[0]])
+        print (results_dict_0)
+        possible_score_0 = results_dict_0.get("possible_score")
+        user_score_0 = results_dict_0.get("user_score")
+        results_dict_1 = ResultWidget.calculate_percentage([user_answers[1]])
+        possible_score_1 = results_dict_1.get("possible_score")
+        user_score_1 = results_dict_1.get("user_score")
+        print (results_dict_1)
+        #assert
+        self.assertEqual(possible_score_0,5)
+        self.assertEqual(user_score_0,5)
+        self.assertEqual(possible_score_1,0)
+        self.assertEqual(user_score_1,0)
+
+
+
+
+#if __name__ == "__main__":
+    #main()
+
 

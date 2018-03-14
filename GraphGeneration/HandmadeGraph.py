@@ -46,6 +46,7 @@ def create_draft_graph_1():
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n14"), draft_graph.get_node_by_serial("n12"))
     draft_graph.connect_nodes(draft_graph.get_node_by_serial("n7"), draft_graph.get_node_by_serial("n15"))
     save_graph_json(draft_graph, "Graph_1.json")
+    return draft_graph
 
 
 def create_draft_graph_2():

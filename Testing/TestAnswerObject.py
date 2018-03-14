@@ -3,13 +3,13 @@ import os
 from GraphGeneration.CreateRandGraph import create_rand_graph
 from KivyFiles.Questions.AnswerObject import AnswerObject
 from KivyFiles.Questions.QuestionObject import QuestionObject
-from KivyFiles.Questions.QuestionWidgets import IntInput
+from KivyFiles.Questions.QuestionWidgets import IntSpinner
 from SupplementaryFiles.Enums import QuestionTypes, Colours
 
 
 def main():
     question_data = QuestionObject("how many {} nodes there are?", QuestionTypes['NUMBER'], 1, Colours.red)
-    question = IntInput(question=question_data)
+    question = IntSpinner(question=question_data)
     question.text = '6'
     graph_user = create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd()))
     graph_real = create_rand_graph("{}\..\GraphsData\config.ini".format(os.getcwd()))
