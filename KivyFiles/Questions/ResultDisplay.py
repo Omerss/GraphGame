@@ -6,7 +6,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.storage.jsonstore import JsonStore
 from KivyFiles.GraphDisplay import GraphDisplay
+g = open('ResultsDisplay.txt', 'w')
+g.write('1\n')
 from kivy.graphics import Color, Rectangle
+g.write('2\n')
+
 from KivyCommunication import *
 # encoding=utf8
 import sys

@@ -1,18 +1,33 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+f = open('main.txt', 'w')
+f.write('1\n')
 from os import path, getcwd, listdir
+f.write('2\n')
 from random import shuffle
+f.write('3\n')
 from kivy.app import App
+f.write('4\n')
 from kivy.uix.screenmanager import ScreenManager
+f.write('5\n')
 from LoginScreen import LoginScreen
+f.write('6\n')
 from QuestionnaireScreen import QuestionnaireScreen
+f.write('7\n')
 from ResultsScreen import ResultScreen
+f.write('8\n')
 from GraphGameScreen import GraphGameScreen
+f.write('9\n')
 from SupplementaryFiles.GraphSaveLoad import load_graph_from_json, save_graph_json
+f.write('10\n')
 from SupplementaryFiles.Utils import Utils
+f.write('11\n')
 from KivyFiles.Questions.QuestionObject import QuestionObject
+f.write('12\n')
 from SupplementaryFiles.GLogger import *
+f.write('13\n')
 from KivyCommunication import *
+f.write('14\n')
 from SupplementaryFiles.Enums import Colours, QuestionTypes
 CONFIG_FILE_PATH = "game_config.txt"
 GRAPH_CONFIG_PATH = "graph_config.txt"
