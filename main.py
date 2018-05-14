@@ -85,18 +85,20 @@ class GraphGameMainApp(App):
                                        button_presses=self.button_presses)
             self.game_screen[-1].add_widget(self.game_screen[-1].graph_game.layout)
             # Step 2 - Questionnaire
-            self.game_screen.append(QuestionnaireScreen(name='game_questionnaire_' + str(i_net)))
-            self.game_screen[-1].setup(number=i_net,
-                                       main_app=self,
-                                       real_user=self.real_user)
-            self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
+            #Goren - run nine graphs with question and then one without
+            if i_net <9:
+                self.game_screen.append(QuestionnaireScreen(name='game_questionnaire_' + str(i_net)))
+                self.game_screen[-1].setup(number=i_net,
+                                           main_app=self,
+                                           real_user=self.real_user)
+                self.game_screen[-1].add_widget(self.game_screen[-1].questionnaire.the_widget)
 
-            # Step 3 - Results
-            self.game_screen.append(ResultScreen(name='game_results_' + str(i_net)))
-            self.game_screen[-1].setup(number=i_net,
-                                       main_app=self,
-                                       real_user=True)
-            self.game_screen[-1].add_widget(self.game_screen[-1].result_app.the_widget)
+                # Step 3 - Results
+                self.game_screen.append(ResultScreen(name='game_results_' + str(i_net)))
+                self.game_screen[-1].setup(number=i_net,
+                                           main_app=self,
+                                           real_user=True)
+                self.game_screen[-1].add_widget(self.game_screen[-1].result_app.the_widget)
 
         for gs in self.game_screen:
             self.sm.add_widget(gs)
@@ -113,7 +115,10 @@ class GraphGameMainApp(App):
 
     def load_graphs_from_folder(self):
         graph_list = []
+        # Goren - notice the path to the graph defined by graphs_folder in the config file. is this where your graphs are?
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
+        #for testing
+        #graph_folder = path.join(getcwd(), self.config['Default']['tester_graphs_folder'])
         for graph_name in [item for item in listdir(graph_folder) if item.endswith(".json")]:
             graph_file_path = path.join(".", graph_folder, str(graph_name))
             if GET_RANDOM_QUESTIONS:
@@ -121,7 +126,7 @@ class GraphGameMainApp(App):
             current_graph = load_graph_from_json(graph_file_path)
             graph_list.append(current_graph)
         #randomize
-        shuffle (graph_list)
+        shuffle(graph_list)
         return graph_list
 
     def add_random_questions (self,number_of_random_questios, graph_file_path):

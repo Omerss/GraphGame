@@ -64,6 +64,11 @@ class GraphGameScreen(Screen):
         if self.game_number == 1:
             SoundLoader.load('Sounds/6.wav').play()
 
+        if self.game_number > 8:
+            pass
+            #Goren - add explantion to the last graph
+            #SoundLoader.load('Sounds/6.wav').play()
+
 
     def end_graph(self):
         KL.log.insert(action=LogAction.data, comment='end graph')
@@ -76,8 +81,16 @@ class GraphGameScreen(Screen):
     def next_game(self):
         log_str = 'end game'
         GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_graph_' + str(self.game_number), comment=log_str)
+
         try:
             self.main_app.sm.current = 'game_questionnaire_' + str(self.game_number)
         except Exception as e:
+            print ("except Exception as e\n")
             GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_graph_', comment='the_end - {}'.format(e), sync=True)
             self.graph_game.is_playing = True
+            self.end_subject()
+    def end_subject(self):
+        #Goren
+        #added exiting here, the shutting down is problematic - should we do something like exit(1)?
+        KL.log.insert(action=LogAction.data, comment='end game')
+        self.main_app.stop()

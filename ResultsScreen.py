@@ -90,7 +90,8 @@ class ResultScreen(Screen):
 
         except Exception as e:
             GLogger.log(logging.INFO,"", action=LogAction.data, obj='game_results_', comment='the_end - {}'.format(e), sync=True)
-            self.end_subject()
+            #Goren - putted the next line in comment
+            #self.end_subject()
 
     def end_subject(self):
         KL.log.insert(action=LogAction.data, comment='end game')

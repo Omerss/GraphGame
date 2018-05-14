@@ -162,35 +162,37 @@ class ResultWidget(GridLayout):
         :return:
         """
         answer_list = user_answers
-        user_answers_percentage = 5 #number of questions in each graph
-        user_graph_answer_percentage = 5 #number of questions in each graph
+        user_answers_percentage = 0 #number of questions in each graph
+        user_graph_answer_percentage = 0 #number of questions in each graph
+        possible_answers = ['red', 'yellow', 'blue']
         for answer in answer_list:
             print ("user_answer {0},user_graph_answer {1},real_answer {2} ".format(answer.user_answer,answer.user_graph_answer,answer.real_answer))
-            ####calculate better
-            #Goren
-            for ans in answer.user_graph_answer:
-                if ans not in answer.user_answer:
-                    user_answers_percentage = user_answers_percentage - 1
+            #Goren - the new grade calculation
+            if answer.question_id == 1:
+                if answer.user_graph_answer == answer.real_answer:
+                    user_graph_answer_percentage = user_graph_answer_percentage + 1
+                if answer.user_answer == answer.user_graph_answer:
+                    user_answers_percentage = user_answers_percentage + 1
+            else:
+                for ans in possible_answers:
+                    if ans in answer.user_graph_answer and ans in answer.real_answer:
+                        user_graph_answer_percentage = user_graph_answer_percentage + 1
 
-            for ans in answer.user_answer:
-                if ans not in answer.user_graph_answer:
-                    user_answers_percentage = user_answers_percentage - 1
+                    if ans not in answer.user_graph_answer and ans not in answer.real_answer:
+                        user_graph_answer_percentage = user_graph_answer_percentage + 1
 
+                for ans in possible_answers:
+                    if ans in answer.user_answer and ans in answer.user_graph_answer:
+                        user_answers_percentage = user_answers_percentage + 1
+                    if ans not in answer.user_answer and ans not in answer.user_graph_answer:
+                        user_answers_percentage = user_answers_percentage + 1
 
-            for ans in answer.user_graph_answer:
-                if ans not in answer.real_answer:
-                    user_graph_answer_percentage = user_graph_answer_percentage - 1
-
-            for ans in answer.real_answer:
-                if ans not in answer.user_graph_answer:
-                    user_graph_answer_percentage = user_graph_answer_percentage - 1
-
-
-
+        print(user_answers_percentage)
+        print (user_graph_answer_percentage)
         num_of_questions = len(answer_list)
         num_of_questions = num_of_questions if num_of_questions != 0 else 1
-        user_possible_success = round(user_answers_percentage * 100 / float(num_of_questions), 2)
-        user_true_success = round(user_graph_answer_percentage * 100 / float(num_of_questions), 2)
+        user_possible_success = round(user_answers_percentage * 100 / (float(num_of_questions)*3), 2)
+        user_true_success = round(user_graph_answer_percentage * 100 / (float(num_of_questions)*3), 2)
         return {'possible_score': user_true_success, 'user_score': user_possible_success}
 
     @staticmethod

@@ -1,4 +1,5 @@
 Default.graphs_folder=GraphsData
+Default.tester_graphs_folder=TesterGraphsData
 Default.image_folder=Images
 Default.max_turns=6
 Default.graph_config_path=192.168.1.254
