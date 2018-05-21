@@ -12,8 +12,7 @@ from GraphObj import GraphObject
 SAVED_GRAPH_PATH = "../GraphsData"
 
 
-def save_graph_json(graph, file_name):
-    file_path = path.join(SAVED_GRAPH_PATH, file_name)
+def save_graph_json(graph, file_name=None):
     file_data = {"center_node": graph.center_node, "size": graph.size, "extra_distance": graph.extra_distance,
                  "max_neighbors": graph.max_neighbors, "node_count": graph.node_count, "line_colour": graph.line_colour,
                  "connections": graph.connections, "question_object_list": {}, "node_list": {}}
@@ -40,8 +39,12 @@ def save_graph_json(graph, file_name):
         file_data["node_list"][serial]["neighbors"] = json.dumps(list(graph.node_list[i].neighbors))
         file_data["node_list"][serial]["possible_neighbors"] = json.dumps(list(graph.node_list[i].possible_neighbors))
 
-    with open(file_path, 'w') as output:
-        output.write(json.dumps(file_data))
+    if file_name is not None:
+        file_path = path.join(SAVED_GRAPH_PATH, file_name)
+        with open(file_path, 'w') as output:
+            output.write(json.dumps(file_data))
+
+    return file_data
 
 
 def load_graph_from_json(file_name):

@@ -119,12 +119,16 @@ class GraphGameMainApp(App):
         graph_folder = path.join(getcwd(), self.config['Default']['graphs_folder'])
         #for testing
         #graph_folder = path.join(getcwd(), self.config['Default']['tester_graphs_folder'])
-        for graph_name in [item for item in listdir(graph_folder) if item.endswith(".json")]:
-            graph_file_path = path.join(".", graph_folder, str(graph_name))
-            if GET_RANDOM_QUESTIONS:
-                self.add_random_questions(5,graph_file_path)
-            current_graph = load_graph_from_json(graph_file_path)
-            graph_list.append(current_graph)
+        file_list = [item for item in listdir(graph_folder) if item.endswith(".json")]
+        for graph_name in file_list:
+            try:
+                graph_file_path = path.join(".", graph_folder, str(graph_name))
+                if GET_RANDOM_QUESTIONS:
+                    self.add_random_questions(5,graph_file_path)
+                current_graph = load_graph_from_json(graph_file_path)
+                graph_list.append(current_graph)
+            except Exception as e:
+                print(e)
         #randomize
         shuffle(graph_list)
         return graph_list

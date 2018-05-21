@@ -55,6 +55,9 @@ class QuestionnaireScreen(Screen):
         log_str = 'end game'
         GLogger.log(logging.INFO,"",action=LogAction.data, obj='game_questionnaire_' + str(self.game_number), comment=log_str)
 
+        # log all the calculated things
+
+
         try:
             self.main_app.sm.current = 'game_results_' + str(self.game_number)
 

@@ -114,6 +114,24 @@ class ResultWidget(GridLayout):
         self.submit_button.bind(on_press=self.stop_me)
         self.add_widget(self.submit_button)
 
+        self.log_answers()
+
+    def log_answers(self):
+        graph_number = self.main_app.sm.screen_names.index(self.main_app.sm.current)
+        game_number = self.main_app.sm.screens[graph_number].game_number
+        for ua in self.main_app.user_answers:
+            ua_str = "question_id=%d;" % ua.question_id
+            ua_str += "real_answer=%s;" % str(ua.real_answer)
+            ua_str += "user_answer=%s;" % str(ua.user_answer)
+            ua_str += "user_graph_answer=%s;" % str(ua.user_graph_answer)
+            KL.log.insert(action=LogAction.data,
+                          obj="game_%d_graph_%d_user_answers" % (game_number, graph_number),
+                          comment=ua_str)
+        percentage_str = str(self.res)
+        KL.log.insert(action=LogAction.data,
+                      obj="game_%d_graph_%d_percentage" % (game_number, graph_number),
+                      comment=percentage_str, sync=True)
+
     def stop_me(self, instance):
         self.parent_app.parent_screen.end_results()
 
